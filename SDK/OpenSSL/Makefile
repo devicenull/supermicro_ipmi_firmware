@@ -19,6 +19,7 @@ all:
 	if [ ! -d $(TC_LOCAL)/lib/pkgconfig ];then mkdir $(TC_LOCAL)/lib/pkgconfig;fi;\
 	cp -f local/lib/pkgconfig/* $(TC_LOCAL)/lib/pkgconfig/ 
 	$(Q)echo "******************** copy OpenSSL ********************"
+	$(Q)rm -f $(PRJ_PATH)/lib/libcrypto.so.0.9.8 $(PRJ_PATH)/lib/libssl.so
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libcrypto.so.0.9.8 $(PRJ_PATH)/lib/
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libssl.so $(PRJ_PATH)/lib/
 	$(Q)ln -s libssl.so libssl.so.0.9.8
