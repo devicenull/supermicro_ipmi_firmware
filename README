@@ -1,5 +1,5 @@
-Extracted from ftp://ftp.supermicro.com/GPL/SMT/SDK_SMT_X9_317.tar.gz
+This is the source code to the SuperMicro IPMI Firmware.  Apparently, not all of this is open source, so some of the files are provided as binaries.
 
-Removed:
+This was originally extracted from ftp://ftp.supermicro.com/GPL/SMT/SDK_SMT_X9_317.tar.gz
 
-./SDK/ToolChain/Host/x86_64 - Over GitHub size requirements (also useless)
+I removed the SDK/ToolChain/Host/x86_64 directory.  This was apparently for building this against an x86_64 target, which doesn't seem to be a useful thing.
