@@ -1,0 +1,1 @@
+#undef CONFIG_OCFS2_FS

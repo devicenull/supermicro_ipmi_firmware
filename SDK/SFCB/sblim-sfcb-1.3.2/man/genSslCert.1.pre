@@ -1,0 +1,56 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH genSslCert 1 "August 2005" "genSslCert Version 1.3.2"
+.SH NAME
+genSslCert \- Generate SSL certificates for Small-Footprint CIM Broker (sfcb)
+.SH SYNOPSIS
+.B genSslCert
+.SH DESCRIPTION
+Script to generate the server.pem and client.pem SSL certificate
+files to enable the Small-Footprint CIM Broker to handle https requests from CIM clients.
+.SH FILES
+.TP
+\fI/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb/genSslCert.sh\fR
+The genSslCert script.
+.TP
+\fI${prefix}/etc/sfcb/server.pem\fR
+The server certificate file.
+.TP
+\fI${prefix}/etc/sfcb/client.pem\fR
+The client certificate file.
+.SH PREREQUISITES
+Requires OpenSSL package to be installed.
+.SH AUTHOR
+Adrian Schuur <schuur@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd (1)
+

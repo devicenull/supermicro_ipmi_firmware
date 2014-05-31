@@ -1,0 +1,45 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIArgs \- CMPIArgs class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl\fP
+.br
+Opaque pointer to class instance data.
+.ti -1c
+.RI "\fBCMPIArgsFT\fP * \fBft\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.in -1c
+.SH METHODS
+.in +1c
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBrelease\fP (\fBCMPIArgs\fP *args)"
+.br
+.ti -1c
+.RI "\fBCMPIArgs\fP * \fBclone\fP (\fBCMPIArgs\fP *args, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBaddArg\fP (\fBCMPIArgs\fP *args, char *name, \fBCMPIValue\fP *value, \fBCMPIType\fP type)"
+.br
+.ti -1c
+.RI "\fBCMPIData\fP \fBgetArg\fP (\fBCMPIArgs\fP *args, char *name, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIData\fP \fBgetArgAt\fP (\fBCMPIArgs\fP *args, unsigned int index, \fBCMPIString\fP **name, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "unsigned int \fBgetArgCount\fP (\fBCMPIArgs\fP *args, \fBCMPIStatus\fP *rc)"
+.br
+.in -1c
+.SH DESCRIPTION
+Native CMPIArgs implementation. 
+
+This is the native CMPIArgs implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIArgs object, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

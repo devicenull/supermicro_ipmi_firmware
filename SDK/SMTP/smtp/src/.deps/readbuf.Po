@@ -1,0 +1,5 @@
+readbuf.o readbuf.o: readbuf.c ../config.h readbuf.h
+
+../config.h:
+
+readbuf.h:

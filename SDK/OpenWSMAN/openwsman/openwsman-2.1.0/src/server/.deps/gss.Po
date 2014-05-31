@@ -1,0 +1,1 @@
+gss.o gss.o: gss.c

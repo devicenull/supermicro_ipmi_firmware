@@ -1,0 +1,3 @@
+refclock_ripencc.o refclock_ripencc.o: refclock_ripencc.c ../config.h
+
+../config.h:

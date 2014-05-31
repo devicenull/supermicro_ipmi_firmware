@@ -1,0 +1,1 @@
+#define CONFIG_ZLIB_DEFLATE 1

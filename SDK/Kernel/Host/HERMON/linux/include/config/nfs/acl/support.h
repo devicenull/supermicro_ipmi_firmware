@@ -1,0 +1,1 @@
+#define CONFIG_NFS_ACL_SUPPORT 1

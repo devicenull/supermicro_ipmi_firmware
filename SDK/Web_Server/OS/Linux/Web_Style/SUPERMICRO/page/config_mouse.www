@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	// Mouse mode: 1 - Absolute, 2 - Relative
+	var mouseMode = 0;
+	var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+	
+	function PageInit()
+	{
+		// Get multi-language string
+		document.title = lang.LANG_MOUSE_TITLE;
+		document.getElementById("saveBtn").value = lang.LANG_MOUSE_SAVE;
+                $(TAG_ALERT)
+	        $(TAG_MAINPAGE)	
+		getMouseMode();
+	}
+	
+	function getMouseMode()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'GET_MOUSE_MODE.XML=(0,0)&time_stamp='+(new Date());
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: getMouseModeHandler}//reigister callback function
+	                 );
+	}
+	
+	function getMouseModeHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}	
+			var IPMIRoot = xmldoc.documentElement; //point to IPMI
+			//do something about IPMI data
+			MOUSE = IPMIRoot.getElementsByTagName('MOUSE');
+	    	STATE = MOUSE[0].getElementsByTagName('STATE');
+	    	var currentMode = parseInt(STATE[0].getAttribute("MODE"), 10);
+			// Mouse mode: 1 - Absolute, 2 - Relative
+	    	if ( currentMode == 1 ){
+				document.getElementById("currentMode").innerHTML = lang.LANG_MOUSE_STATUS_ABS;
+				document.getElementById("currentMode").style.color = '#009900';
+				selAbsMouse(); //interchanged selection on purpose    
+	    	}else if ( currentMode == 2 ) { 
+				document.getElementById("currentMode").innerHTML = lang.LANG_MOUSE_STATUS_REL;
+				document.getElementById("currentMode").style.color = '#009900';
+				selRelMouse(); //interchanged selection on purpose    
+	    	}else if ( currentMode == 3 ){
+	    	document.getElementById("currentMode").innerHTML = lang.LANG_MOUSE_STATUS_SING;
+				document.getElementById("currentMode").style.color = '#009900';
+				selSingMouse(); //interchanged selection on purpose    
+	    	}else {
+				alert(lang.LANG_MOUSE_STATUS_UNKNOWN); 
+			}
+		}
+	
+	}
+	
+	function selAbsMouse()
+	{
+		mouseMode = 1;
+		document.getElementById("absMouse").checked = 1;
+	}
+	
+	function selRelMouse()
+	{
+		mouseMode = 2;
+		document.getElementById("relMouse").checked = 1;
+	}
+	function selSingMouse()
+	{
+		mouseMode = 3;
+		document.getElementById("sigMouse").checked = 1;
+	}
+	
+	function doSaveMouseMode()
+	{
+		if(confirm(lang.LANG_MOUSE_CONFIRM))
+		{
+			Loading(true);
+			var url = '/cgi/config_mouse_mode.cgi';
+			var pars = 'mouse_mode=' + mouseMode ;
+			var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: doSaveMouseModeHandler}//reigister callback function
+	                 ); 
+	    }
+	}
+	
+	function doSaveMouseModeHandler(originalRequest)
+	{
+		Loading(false);
+		getMouseMode();
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td>
+        		<div class="mtitle">
+        			<script>document.writeln(lang.LANG_MOUSE_CAPTION)</script>
+        		</div>
+        	</td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_MOUSE_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        		<table width="100%" border="0">
+					<tr>
+						<td><span class="subHeader" id="currentMode" name="currentMode"></span></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="radio" class="btnStyle" name="mouseMode" id="absMouse" onclick="selAbsMouse()" $(TAG_DISABLE)/><span class="labelhead"><script>document.writeln(lang.LANG_MOUSE_SET_ABSOLUTE)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" class="btnStyle" name="mouseMode" id="relMouse" onclick="selRelMouse()" $(TAG_DISABLE)/><span class="labelhead"><script>document.writeln(lang.LANG_MOUSE_SET_RELATIVE)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" class="btnStyle" name="mouseMode" id="sigMouse" onclick="selSingMouse()" $(TAG_DISABLE)/><span class="labelhead"><script>document.writeln(lang.LANG_MOUSE_SET_SINGLE)</script></span></td>
+					</tr>
+				</table>		
+        		<br>
+        		<input type="button" class="btnStyle" name="saveBtn" id="saveBtn" onclick="doSaveMouseMode()" $(TAG_DISABLE)/>
+        		<!-- end of this area -->
+       	   	</td>
+        </tr>
+    </table>
+</body>
+</html>

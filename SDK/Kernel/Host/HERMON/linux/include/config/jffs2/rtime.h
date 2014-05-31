@@ -1,0 +1,1 @@
+#define CONFIG_JFFS2_RTIME 1

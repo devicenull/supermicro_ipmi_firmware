@@ -1,0 +1,6 @@
+[IPMI_PowerManagementService]   
+   provider: IPMI_PowerManagementServiceProvider
+   location: cmpiIPMI_PowerManagementServiceProvider
+   type: instance method
+   namespace: root/cimv2
+#

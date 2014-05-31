@@ -1,0 +1,13 @@
+SFCUTIL_1.0 {
+    global:
+        newHashTable;
+        newHashTableDefault;
+        newStringBuffer;
+    local:
+        *;
+};
+
+SFCUTIL_1.1 {
+    global:
+	UtilFactory;
+} SFCUTIL_1.0;

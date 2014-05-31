@@ -1,0 +1,3 @@
+Modified History:
+2010/01/29: set video hw bit.
+2010/02/05: open E command

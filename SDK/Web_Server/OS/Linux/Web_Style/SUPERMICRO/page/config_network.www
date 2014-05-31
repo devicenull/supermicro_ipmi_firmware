@@ -1,0 +1,883 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+	<script type="text/javascript">
+
+/*Global Variables*/
+var ip_addr;
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+
+var BID_X9DRT_SG="666";
+var BID;
+
+function PageInit()
+{
+    document.getElementById("dhcp_opt").setAttribute("value", lang.LANG_CONF_NETWORK_DHCP_EXP);
+    document.getElementById("static_opt").setAttribute("value", lang.LANG_CONF_NETWORK_STATIC_EXP);
+    document.getElementById("save_btn").setAttribute("value", lang.LANG_CONF_NETWORK_SAVE);
+
+    var_mac_addr=document.getElementById("mac_addr");
+    hostname=document.getElementById("hostname_field");
+    var_dhcp_opt=document.getElementById("dhcp_opt");
+    var_static_opt=document.getElementById("static_opt");
+    //recoverTime=document.getElementById("_recoverTime");
+    var_ip_address=document.getElementById("ip_address");
+    var_submask=document.getElementById("sub_mask");
+    var_gateway_ip=document.getElementById("gateway_ip");
+    dns=document.getElementById("dns_server");
+    dnsv6 = document.getElementById("dns_serverv6");
+    var_vlan_on_opt=document.getElementById("opt_vlan_on");
+    var_vlan_opt_off=document.getElementById("opt_vlan_off");
+    var_VLAN_id=document.getElementById("vlan_id");
+    lanif=document.getElementById("lan_interface");
+    save=document.getElementById("save_btn");
+    var_ipv6_addr=document.getElementById("ipv6_addr");
+    var_ipv6_add_opt=document.getElementById("ipv6_add_opt");
+    var_ipv6_del_opt=document.getElementById("ipv6_del_opt");
+    var_ipv6_auto=document.getElementById("ipv6_autoconf");
+    var_ipv6_addrlist=document.getElementById("ipv6_addr_list");
+    ipv6DHCPStateful=document.getElementById("ipv6_dhcp_stateful");
+    ipv6DHCPStateless=document.getElementById("ipv6_dhcp_stateless");
+    var_rmcpport=document.getElementById("rmcp_port");
+    ipv6DHCPDUID=document.getElementById("duid");
+    
+    //Linda added GetBID
+	GetBID();
+    
+    lanif.options[0] = new Option('Dedicate',0);
+    lanif.options[1] = new Option('Share',1);
+    lanif.options[2] = new Option('Failover',2);
+
+    var_dhcp_opt.onclick = DHCPEnable;
+    var_static_opt.onclick = StaticEnable;
+    save.onclick = LANConfigSetting;
+}
+
+//--- begin --- Linda added GetBordID
+function GetBID()
+{
+    var url = '/cgi/ipmi.cgi';
+    var pars = 'Get_BoradID_XML.XML=(0,0)&time_stamp='+(new Date()) ; //(0,0) ask for privilege
+    var myAjax = new Ajax.Request(
+    url,
+    {method: 'post',parameters:pars, onComplete: doGetBoardID}//reigister callback function
+    );
+}
+
+function doGetBoardID(originalRequest)
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200){
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+	    var root=xmldoc.documentElement;
+	    var BoardID_elm=root.getElementsByTagName("BoardID");
+	    BID=BoardID_elm[0].getAttribute("ID");
+	}
+    $(TAG_ALERT)
+    $(TAG_MAINPAGE)		
+    NetConfigQuery();
+    IPV6ConfigQuery();	
+}
+//--- end --- Linda added GetBordID
+
+function NetConfigQuery()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_req = new Ajax.Request(
+                  ajax_url,
+                  {method: 'post',parameters:ajax_param, onComplete: NetConfigQueryResp}//reigister callback function
+                  );
+}
+function NetConfigQueryResp(originalRequest)
+{
+    //Loading(false);
+
+    ControlPanelDisable();
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj = GetResponseXML(response);
+    var lan_mode;
+    
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var IPMIRoot=xml_obj.documentElement;
+    var config_elm=IPMIRoot.getElementsByTagName("CONFIG_INFO");
+    var total_num=config_elm[0].getElementsByTagName('TOTAL_NUMBER');
+    var lan=config_elm[0].getElementsByTagName('LAN');
+    lannum = parseInt(total_num[0].getAttribute("LAN"),16);
+
+    ip_addr = lan[0].getAttribute("BMC_IP");
+    recover_time = parseInt(lan[0].getAttribute("DHCP_TOUT"), 10);
+    //recoverTime.value = recover_time.toString(10);
+    var_ip_address.value = lan[0].getAttribute("BMC_IP");
+    var_mac_addr.value = lan[0].getAttribute("BMC_MAC");
+    var_submask.value = lan[0].getAttribute("BMC_NETMASK");
+    var_gateway_ip.value = lan[0].getAttribute("GATEWAY_IP");
+    var_rmcpport.value = parseInt(lan[0].getAttribute("RMCP_PORT"),16);
+    msb = parseInt(lan[0].getAttribute("VLAN_ID").substr(0,2), 16);
+    lsb = parseInt(lan[0].getAttribute("VLAN_ID").substr(2,2), 16);
+    var_VLAN_id.value = (((msb&0x0f)<<8)|lsb);
+    var lan_interface = config_elm[0].getElementsByTagName('LAN_IF');
+    lanif.value = parseInt(lan_interface[0].getAttribute("INTERFACE"), 10); //lan interface
+    
+	if(BID.toUpperCase() == BID_X9DRT_SG)
+	{
+		lanif.value = 1; //fixed as shared lan
+		lanif.disabled = true;
+	}
+        
+    if(msb&0x80)
+    {
+        var_vlan_on_opt.checked = true;
+        var_vlan_opt_off.checked = false;
+    }
+    else
+    {
+        var_vlan_on_opt.checked = false;
+        var_vlan_opt_off.checked = true;
+    }
+    if(lan[0].getAttribute("DHCP_EN") == '1')
+    {
+        DHCPEnable();
+    }
+    else
+    {
+        StaticEnable();
+    }
+
+    var dns_server =config_elm[0].getElementsByTagName('DNS');
+    dns.value = dns_server[0].getAttribute("DNS_SERVER");
+
+    var ipv6_config = config_elm[0].getElementsByTagName('LAN_V6');
+    //var_ipv6_addr.value = ipv6_config[0].getAttribute("BMC_IPV6")
+    }
+
+    var bmchostname = config_elm[0].getElementsByTagName('HOSTNAME');
+    hostname.value = Trim(bmchostname[0].getAttribute("NAME"));
+    
+    var duid_value =  config_elm[0].getElementsByTagName('DHCP6C');
+    ipv6DHCPDUID.value = Trim(duid_value[0].getAttribute("DUID"));
+
+	
+    /* Tony, 09/26/2012 Add information of network link status { */
+	ele_mii_title=document.getElementById("id_mii_title");
+	ele_mii_duplex=document.getElementById("id_mii_duplex");
+	ele_mii_speed=document.getElementById("id_mii_speed");
+	ele_mii_operstate=document.getElementById("id_mii_operstate");
+	ele_ncsi_title=document.getElementById("id_ncsi_title");
+	ele_ncsi_duplex=document.getElementById("id_ncsi_duplex");
+	ele_ncsi_speed=document.getElementById("id_ncsi_speed");
+	ele_ncsi_operstate=document.getElementById("id_ncsi_operstate");
+	ele_bond0_port=document.getElementById("id_bond0_port");
+	ele_link_conf=document.getElementById("id_link_conf");
+
+	ele_mii_title.style.font="bold 12px arial,serif";
+   	ele_mii_title.innerHTML =lang.LANG_CONF_NETWORK_LAN1_TITLE;
+	ele_ncsi_title.style.font="bold 12px arial,serif";
+   	ele_ncsi_title.innerHTML =lang.LANG_CONF_NETWORK_LAN2_TITLE;
+
+	lan_mode = lanif.value;
+	
+    LinkInfoElm=config_elm[0].getElementsByTagName('LINK_INFO');
+	mii_duplex = LinkInfoElm[0].getAttribute("MII_DUPLEX");
+	mii_speed = LinkInfoElm[0].getAttribute("MII_SPEED");
+	mii_operstate = LinkInfoElm[0].getAttribute("MII_OPERSTATE");
+	ncsi_speed_and_duplex = LinkInfoElm[0].getAttribute("NCSI_SPEED_AND_DUPLEX");
+	ncsi_operstate = LinkInfoElm[0].getAttribute("NCSI_OPERSTATE");
+	ele_link_conf.value= parseInt(LinkInfoElm[0].getAttribute("MII_LINK_CONF"), 10);
+	bond0_port = LinkInfoElm[0].getAttribute("BOND0_PORT");
+
+	if( ( lan_mode == 0 || lan_mode == 2 ) && parseInt(mii_operstate, 10) == 1 )
+	{
+	if(parseInt(mii_duplex, 10)==0)
+			str = lang.LANG_CONF_NETWORK_DUPLEX_HALF;
+	else
+			str=lang.LANG_CONF_NETWORK_DUPLEX_FULL;
+   	ele_mii_duplex.innerHTML =str;
+
+	if(parseInt(mii_speed, 10)==0)
+			str=lang.LANG_CONF_NETWORK_SPEED_10M;
+	else
+			str=lang.LANG_CONF_NETWORK_SPEED_100M;
+   	ele_mii_speed.innerHTML =str;
+
+	   	str = lang.LANG_CONF_NETWORK_CONNECTED;
+	}
+	else
+	{
+		ele_mii_speed.innerHTML  	  = lang.LANG_CONF_NETWORK_MSG_UKNOWN;
+		ele_mii_duplex.innerHTML 	  = lang.LANG_CONF_NETWORK_MSG_UKNOWN;
+		
+		if (lan_mode == 1)
+			str					      = lang.LANG_CONF_NETWORK_MSG_DISABLE;
+		else 
+			str						  = lang.LANG_CONF_NETWORK_DISCONNECTED;
+		ele_mii_duplex.style.color    = "grey";
+		ele_mii_speed.style.color	  = "grey";
+		ele_mii_operstate.style.color = "grey";
+	}
+   	ele_mii_operstate.innerHTML =str;
+   	
+	if (lan_mode != 0 ){
+		ele_link_conf.disabled  = true;
+	}
+	else{ 
+		ele_link_conf.disabled  = false;
+   	}
+   	
+	if(( lan_mode == 1 || lan_mode == 2 ) && parseInt(ncsi_operstate, 10)==1)
+	{
+   	switch(parseInt(ncsi_speed_and_duplex, 10))
+   	{
+		case 2://LAN_NCSI_10BASET_FULL_DUPLEX
+		case 4://LAN_NCSI_100BASET4
+		case 5://LAN_NCSI_100BASETX_FULL_DUPLEX
+		case 7://LAN_NCSI_1000BASET_FULL_DUPLEX
+		case 8://LAN_NCSI_10GBASET_SUPPORT
+				str=lang.LANG_CONF_NETWORK_DUPLEX_FULL;
+			break;
+		default:
+				str=lang.LANG_CONF_NETWORK_DUPLEX_HALF;
+			break;
+   	}
+   	ele_ncsi_duplex.innerHTML =str;
+
+   	switch(parseInt(ncsi_speed_and_duplex, 10))
+   	{
+		case 0:
+				str=lang.LANG_CONF_NETWORK_SPEED_10M;
+			break;
+		case 3://LAN_NCSI_100BASETX_HALF_DUPLEX
+		case 4://LAN_NCSI_100BASET4
+		case 5://LAN_NCSI_100BASETX_FULL_DUPLEX
+				str=lang.LANG_CONF_NETWORK_SPEED_100M;
+			break;
+		case 6://LAN_NCSI_1000BASET_HALF_DUPLEX
+		case 7://LAN_NCSI_1000BASET_FULL_DUPLEX
+				str=lang.LANG_CONF_NETWORK_SPEED_1G;
+			break;
+		case 8://LAN_NCSI_10GBASET_SUPPORT	
+				str=lang.LANG_CONF_NETWORK_SPEED_10G;
+			break;
+		default:
+				str=lang.LANG_CONF_NETWORK_SPEED_10M;
+			break;
+   	}
+   	ele_ncsi_speed.innerHTML =str;
+	   	str	= lang.LANG_CONF_NETWORK_CONNECTED;
+	}
+	else
+	{
+		ele_ncsi_duplex.innerHTML 		= lang.LANG_CONF_NETWORK_MSG_UKNOWN;
+		ele_ncsi_speed.innerHTML  		= lang.LANG_CONF_NETWORK_MSG_UKNOWN;
+		ele_ncsi_duplex.style.color		= "grey";
+		ele_ncsi_speed.style.color		= "grey";
+		ele_ncsi_operstate.style.color	= "grey";
+
+		if (lan_mode == 0)
+			str					        = lang.LANG_CONF_NETWORK_MSG_DISABLE;
+	else
+			str = lang.LANG_CONF_NETWORK_DISCONNECTED;
+	}
+   	ele_ncsi_operstate.innerHTML =str;
+   	
+   	switch(parseInt(bond0_port, 10))
+   	{
+		case 0:
+			str=lang.LANG_CONF_NETWORK_LAN1_TITLE;
+			break;
+		case 1:
+			str=lang.LANG_CONF_NETWORK_LAN2_TITLE;
+			break;
+		default:
+			break;
+   	}
+   	ele_bond0_port.innerHTML =str;
+	/* Tony, 09/26/2012 Add information of network link status } */
+}
+function IPV6ConfigQuery()
+{
+     ajax_url = '/cgi/ipmi.cgi';
+     ajax_param = 'CONFIG_IPV6.XML=(0,0)&time_stamp='+(new Date()) ;
+     ajax_req = new Ajax.Request(
+                  ajax_url,
+                  {method: 'post',parameters:ajax_param, onComplete: IPV6ConfigQueryResp}//reigister callback function
+                  );
+}
+function IPV6ConfigQueryResp (originalRequest)
+{
+    //var_ipv6_addrList
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    DisableIPv6();
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var IPMIRoot=xml_obj.documentElement;
+    var ipv6_config=IPMIRoot.getElementsByTagName("LAN_V6");
+    var ipv6addr_config= IPMIRoot.getElementsByTagName("BMC_IPV6");
+    var tmp_ipv6addr;
+    var total_num = ipv6addr_config.length;
+    var index = 1;
+
+    var_ipv6_addrlist.options[0] = new Option("IPv6 Address List - ", "");
+    for(index=0;index<total_num;index++)
+    {
+        tmp_ipv6addr = ipv6addr_config[index].getAttribute("ADDR");
+        var_ipv6_addrlist.options[index+1] = new Option(tmp_ipv6addr, tmp_ipv6addr);
+    }
+
+    var auto_config=IPMIRoot.getElementsByTagName("AUTOCONF");
+    var auto_value = auto_config[0].getAttribute("VALUE");
+
+    if(auto_value == "1")
+        var_ipv6_auto.checked = true;
+    else if(auto_value == "0")
+        var_ipv6_auto.checked = false;
+
+    var dhcpv6_config=IPMIRoot.getElementsByTagName("DHCPV6");
+    var dhcpv6_value=dhcpv6_config[0].getAttribute("MODE");
+    if(dhcpv6_value == "1")
+    {
+        ipv6DHCPStateless.checked = false;
+        ipv6DHCPStateful.checked = true;
+    }
+    else
+    {
+        ipv6DHCPStateless.checked = true;
+        ipv6DHCPStateful.checked = false;
+    }
+
+    var dnsv6_config=IPMIRoot.getElementsByTagName("DNS_SERVER");
+    if(dnsv6_config.length > 0)
+    {
+        var dnsserverv6_value=dnsv6_config[0].getAttribute("IP");
+        dnsv6.value = dnsserverv6_value;
+    }
+    else
+    {
+        dnsv6.value = "";
+    }
+    EnableIPv6();
+    }
+}
+
+function Timeout() {
+    alert(lang.LANG_CONF_NETWORK_ERR1);
+    save.disabled = false;
+}
+
+function LANConfigSetting()
+{
+    alert(lang.LANG_CONF_NETWORK_WARNING1);
+
+    var err = 0;
+    var str = '';
+    /* Disable the button here till the request is served */
+    save.disabled=true;
+    //Check validity of all the fields
+    if (var_dhcp_opt.checked == false) {
+        if (!CheckIP(var_ip_address.value)) {
+            err = 1; str += '\n- '+ lang.LANG_CONF_NETWORK_IP;
+        }
+        if (!CheckIP(var_submask.value)) {
+            err = 1; str += '\n- '+ lang.LANG_CONF_NETWORK_SUBNET;
+        }
+        if (!CheckIP(var_gateway_ip.value)) {
+            err = 1; str += '\n- '+ lang.LANG_CONF_NETWORK_GATEWAY;
+        }
+        if (!CheckIP(dns.value)) {
+            err = 1; str += '\n- '+ lang.LANG_CONF_NETWORK_DNS;
+        }
+        if (err) {
+            alert(lang.LANG_CONF_NETWORK_ERR2 + str);
+            save.disabled = false;
+            return;
+        }
+    }
+    if (((var_ip_address.value != ip_addr)&&(var_dhcp_opt.checked == false))||(var_dhcp_opt.checked == true)) {
+        if (confirm(lang.LANG_CONF_NETWORK_WARNING2)==false) {
+
+            save.disabled = false;
+            return;
+        }
+    }
+
+    if (var_dhcp_opt.checked == false)
+        en_dhcp = 'off';
+    else
+        en_dhcp = 'on';
+
+    if(var_vlan_on_opt.checked == true)
+    {
+        en_vlan = 'on';
+        if( (parseInt(var_VLAN_id.value, 10) < 1) || (parseInt(var_VLAN_id.value, 10) > 4095) )
+        {
+            alert(lang.LANG_CONF_NETWORK_ERR3 + str);
+            save.disabled = false;
+            return;
+        }
+    }
+    else
+    {
+        en_vlan = 'off';
+        var_VLAN_id.value = '0';
+    }
+
+    if(dns.value.length > 0){
+        if (!CheckIP(dns.value)) {
+            err = 1; str += '\n- '+ lang.LANG_CONF_NETWORK_DNS;
+        }
+        if (err) {
+            alert(lang.LANG_CONF_NETWORK_ERR2 + str);
+            save.disabled = false;
+            return;
+        }
+    }
+    else // dns is null
+        dns.value = "000.000.000.000";
+
+    var bmcipv6_opt;
+    var bmcipv6_autoconf;
+    var dhcpv6_mode;
+
+    if(var_ipv6_add_opt.checked == true)
+        bmcipv6_opt = 'add';
+    else if(var_ipv6_del_opt.checked == true)
+        bmcipv6_opt = 'del';
+
+    if(var_ipv6_auto.checked == true)
+        bmcipv6_autoconf = 'on';
+    else
+        bmcipv6_autoconf = 'off';
+
+    if(ipv6DHCPStateful.checked == true)
+        dhcpv6_mode = 'stateful';
+    else
+        dhcpv6_mode = 'stateless';
+
+	if(!port_number_check(var_rmcpport.value)) 
+  {
+    alert(lang.LANG_CONF_NETWORK_ERR5);
+        save.disabled = false;
+        return;
+    }
+
+    var ajax_url = '/cgi/config_lan.cgi';
+    var ajax_param =  'bmcip=' + var_ip_address.value +
+                //'&dhcp_tov=' + recoverTime.value +
+                '&bmcmask=' + var_submask.value +
+                '&gatewayip=' + var_gateway_ip.value +
+                '&en_dhcp=' + en_dhcp +
+                '&en_vlan=' + en_vlan +
+                '&vlanID=' + var_VLAN_id.value +
+                '&rmcpport=' + var_rmcpport.value +
+                '&dns_server=' + dns.value +
+                '&bmcipv6_dns_server=' + dnsv6.value +
+                '&bmcipv6_addr=' + var_ipv6_addr.value +
+                '&bmcipv6_opt=' + bmcipv6_opt +
+                '&bmcipv6_autoconf=' + bmcipv6_autoconf +
+                '&dhcpv6_mode=' + dhcpv6_mode +
+                '&lan_interface=' + lanif.value +
+                '&link_conf=' + ele_link_conf.value +
+                '&hostname=' + Trim(hostname.value);
+
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete: LANConfigSettingResp}//reigister callback function
+                 );
+}
+
+function LANConfigSettingResp(originalRequest)
+{
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+     save.disabled = false;
+    }
+  else{
+    alert(lang.LANG_COMMON_UNSAVE);
+  }
+}
+
+function DHCPEnable()
+{
+    var_dhcp_opt.checked = true;
+    var_static_opt.checked = false;
+    //recoverTime.disabled = false;
+    var_ip_address.disabled = true;
+    var_submask.disabled = true;
+    var_gateway_ip.disabled = true;
+
+    //recoverTime.enabled = true;
+    var_ip_address.enabled = false;
+    var_submask.enabled = false;
+    var_gateway_ip.enabled = false;
+    var_ipv6_addr.disabled = true;
+}
+function StaticEnable()
+{
+    var_dhcp_opt.checked = false;
+    var_static_opt.checked = true;
+
+    //recoverTime.disabled = true;
+    var_ip_address.disabled = false;
+    var_submask.disabled = false;
+    var_gateway_ip.disabled = false;
+
+    //recoverTime.enabled = false;
+    var_ip_address.enabled = true;
+    var_submask.enabled = true;
+    var_gateway_ip.enabled = true;
+    var_ipv6_addr.disabled = false;
+
+    var_ip_address.focus();
+}
+
+function ControlPanelDisable ()
+{
+    var_dhcp_opt.checked = true;
+    var_static_opt.checked = false;
+
+    var_dhcp_opt.disabled = true;
+    var_static_opt.disabled = false;
+    //recoverTime.disabled = true;
+    var_ip_address.disabled = true;
+    var_submask.disabled = true;
+    var_gateway_ip.disabled = true;
+
+    var_dhcp_opt.disabled = false;
+    var_static_opt.disabled = false;
+    //recoverTime.enabled = false;
+    var_ip_address.enabled = false;
+    var_submask.enabled = false;
+    var_gateway_ip.enabled = false;
+}
+
+function DisableIPv6()
+{
+    var_ipv6_addr.disabled = true;
+    var_ipv6_add_opt.disabled = true;
+    var_ipv6_del_opt.disabled = true;
+}
+
+function EnableIPv6()
+{
+    var_ipv6_addr.disabled = false;
+    var_ipv6_add_opt.disabled = false;
+    var_ipv6_del_opt.disabled = false;
+}
+
+function show_IPv6_addr(input_value)
+{
+    if(var_static_opt.checked == true || var_ipv6_del_opt.checked == true)
+        var_ipv6_addr.value = input_value;
+    else
+        var_ipv6_addr.value = "";
+}
+
+	</script>
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_CONF_NETWORK_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td><div class="textA">
+                		<script>document.writeln(lang.LANG_CONF_NETWORK_DESC)</script>
+                	</div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+<div>
+<table cellspacing="0" cellpadding="5" border="0" width="378">
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_MAC_ADDR);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="mac_addr" disabled />
+</td></tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_HOSTNAME);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" maxlength="63" id="hostname_field" $(TAG_DISABLE) onBlur='CheckInputValue(this)'/>
+</td></tr>
+<tr><td colspan="3" class="labelhead">
+<input type="radio" name="opt_ip_mode" id="dhcp_opt" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_DHCP_EXP);</script>
+<br>
+<input type="radio" name="opt_ip_mode" id="static_opt" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_STATIC_EXP);</script>
+ </td></tr>
+</table>
+
+<fieldset style="width: 378px;">
+<legend>IPv4 Setting</legend>
+<table cellspacing="0" cellpadding="5" border="0" width="378">
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IP_ADDR);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="ip_address" maxlength="15" $(TAG_DISABLE) onBlur='CheckIPAddr(this)' />
+</td></tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_MASK);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="sub_mask" maxlength="15"  $(TAG_DISABLE) onBlur='CheckIPAddr(this)'/>
+</td></tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_GATEWAY);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="gateway_ip" maxlength="15"  $(TAG_DISABLE) onBlur='CheckIPAddr(this)' />
+</td></tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_DNS);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="dns_server" maxlength="15" $(TAG_DISABLE) onBlur='CheckIPAddr(this)'/>
+</td></tr>
+</table>
+</fieldset>
+<br>
+
+<fieldset style="width: 378px;">
+<legend>IPv6 Setting</legend>
+<table cellspacing="0" cellpadding="5" border="0" width="378">
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_ADDR);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="ipv6_addr" $(TAG_DISABLE)/>
+</td></tr>
+
+<tr>
+<td colspan="3" class="labelhead">
+<input type="radio" name="opt_ipv6_opmode" id="ipv6_add_opt" checked $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_OPTADD);</script>
+&nbsp;
+<input type="radio" name="opt_ipv6_opmode" id="ipv6_del_opt" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_OPTDEL);</script>
+&nbsp;
+<input type="checkbox" name="ipv6_autoconf" id="ipv6_autoconf" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_AUTOCONFIG);</script>
+</td>
+</tr>
+
+<tr>
+<td colspan="3" class="labelhead">
+<input type="radio" name="opt_ipv6_dhcp" id="ipv6_dhcp_stateless" checked $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_DHCP_STATELESS);</script>
+&nbsp;
+<input type="radio" name="opt_ipv6_dhcp" id="ipv6_dhcp_stateful" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_DHCP_STATEFUL);</script>
+</td>
+</tr>
+<tr>
+<td colspan="3" class="labelhead">
+<script>document.writeln(lang.LANG_CONF_NETWORK_IPV6_ADDRLIST);</script>
+<br>
+<select size="1" name="IPv6_AddrList" id="ipv6_addr_list" onchange="show_IPv6_addr(this.value)"></select>
+<br>
+</td>
+</tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_DNSV6);</script>
+</label>
+</td><td width="253" colspan="2">
+<input type="text" id="dns_serverv6" $(TAG_DISABLE)/>
+</td></tr>
+<tr>
+<td width="105" class="labelhead">
+<lable>DUID</label>
+</td>
+<td width="253" colspan="2">
+<input type="text" id="duid" disabled $(TAG_DISABLE)/>
+</td>
+</table>
+</fieldset>
+
+<table cellspacing="0" cellpadding="5" border="0" width="378">
+
+<tr><td width="105" class="labelhead">
+<label>
+    <script>document.writeln(lang.LANG_CONF_NETWORK_VLAN);</script>
+</label>
+</td>
+<td class="labelhead">
+<input type="radio" name="opt_vlan" id="opt_vlan_on" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_VLAN_ENABLE);</script>
+<input type="radio" name="opt_vlan" id="opt_vlan_off" $(TAG_DISABLE)/>
+<script>document.writeln(lang.LANG_CONF_NETWORK_VLAN_DISABLE);</script>
+</td>
+</tr>
+<tr>
+<td width="105">&nbsp;</td>
+<td class="labelhead">
+<script>document.writeln(lang.LANG_CONF_NETWORK_VLAN_ID);</script>
+<input type="text" id="vlan_id" name="vlan_field" size="20" $(TAG_DISABLE) onblur="CheckValue(this,1,4095)" /></td>
+</tr>
+<tr><td width="105" class="labelhead">
+<label>
+    <script>document.writeln(lang.LANG_CONF_NETWORK_LAN_INTERFACE);</script>
+</label>
+</td>
+<td>
+<select id="lan_interface"> </select>
+</td>
+</tr>
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_RMCP_PORT);</script>
+</label></td>
+<td width="253" colspan="2">
+<input type="text" id="rmcp_port" style="width:75px;" $(TAG_DISABLE) onBlur='CheckPortNumber(this)'/>
+</td></tr>
+</table>
+<br>
+<!-- Tony, 09/26/2012 Add information of network link status { -->
+<fieldset style="width: 378px;">
+<legend>Network Link Status</legend>
+<table cellspacing="0" cellpadding="5" border="0" width="378">
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_ACTIVE_INTERFACE);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_bond0_port" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<span id="id_mii_title" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_LINK_CONF);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<select size="1" name="link_conf" id="id_link_conf">
+	<option value="0">Auto Negotiation</option>
+	<option value="1">10M Half Duplex</option>
+	<option value="2">10M Full Duplex</option>
+	<option value="3">100M Half Duplex</option>
+	<option value="4">100M Full Duplex</option>
+	<!--<option value="5">1G Half Duplex</option>
+	<option value="6">1G Full Duplex</option>-->
+</select>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_STATUS);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_mii_operstate" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_SPEED);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_mii_speed" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_DUPLEX);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_mii_duplex" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<span id="id_ncsi_title" class="labelhead"></span>
+</td></tr>
+
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_STATUS);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_ncsi_operstate" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_SPEED);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_ncsi_speed" class="labelhead"></span>
+</td></tr>
+
+<tr><td width="105" class="labelhead">
+<label>
+<script>document.writeln(lang.LANG_CONF_NETWORK_DUPLEX);</script>
+</label>
+</td><td width="253" colspan="2" align="left">
+<span id="id_ncsi_duplex" class="labelhead"></span>
+</td></tr>
+
+
+</table>
+</fieldset>
+<!-- Tony, 09/26/2012 Add information of network link status } -->
+<div class="btnStyle" style="width: 360px;"><input type="button" class="btnStyle" id="save_btn" $(TAG_DISABLE)/></div>
+</div>
+
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script> 
+	<script type="text/javascript">
+
+	var MaxLogTableRows;
+	var MaxLogTableColumns = 5;
+	var GridTable;
+  var ButtonClearOBJ;
+	var TableArray = new Array();
+	var TableTitles = [
+			["No", "10%", "center"],
+			["Time", "15%", "left"],
+			["IP Address", "15%", "left"],
+			["Description", "15%", "left"]
+		];
+	var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";
+	
+	function PageInit()	
+	{
+		//Grid table Init
+		LOGTable=document.getElementById("HtmlLogTable");
+		GridTable=LWC.getElement('datagrid',document);
+		GridTable.setColumns(TableTitles);
+		GridTable.init('GridTable',LOGTable);
+		LogTableInit();
+
+//		document.getElementById("ButtonSave").value = lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_SAVE;
+//		SysEvtlogSave	=	document.getElementById("ButtonSave");
+		ButtonClearOBJ = document.getElementById("btn_clear");
+		ButtonClearOBJ.setAttribute("value",lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_BTNCLEAR);
+		EnableDisa  = document.getElementById("EnableDisable");
+
+		var ena_dis;
+		EnableDisa.onclick = function()
+		{
+  			saveSysEvnetLogconfig();
+    }
+  
+		ButtonClearOBJ.onclick = function()
+			{
+				if(!this.disabled)
+				{
+					if(confirm(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_CONFIRMCLEAR))
+					{
+						ClearLog();
+					}
+					else
+					{	
+						location.reload();
+					}
+				}
+			}
+
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)		
+			GetLOGS();	
+	}
+	
+	function LogTableInit()
+	{
+		var i = 0, j = 0;
+
+		for( i = 0; i < MaxLogTableRows; i ++)
+		{
+			TableArray[i] = new Array(8);
+			for(j = 0; j < MaxLogTableColumns; j ++)
+			{
+				TableArray[i][j] = "";
+			}	
+		}
+	}
+
+	function ClearLog()
+	{
+		var clearlog = 1;
+		var url = '/cgi/system_event_log.cgi';
+		var pars = 'clearlog=' + clearlog;
+		var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete: CompleteClearLog}//reigister callback function
+                 );
+	}
+
+	function CompleteClearLog(originalRequest)
+	{
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			alert(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_CLEARED); 
+			location.reload();
+		}
+		else
+		{
+			alert(LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_UNCLEARED);
+			location.reload();
+		}
+	}
+	
+	function GetLOGS()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'GET_SYS_ELOG.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+		var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete:ShowLogTable }//reigister callback function
+                 );
+	}
+	
+	function ShowLogTable(originalRequest)
+	{
+		Loading(false);
+		var log_count = 0;
+		var Idx;
+		var TmpStr0;
+		var TmpStr1;
+		var TmpStr2;
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}	
+			var Root=xmldoc.documentElement;
+			var SYSEVENTLOGElement=Root.getElementsByTagName('SYSEVENTLOG');
+      var LOGElement=SYSEVENTLOGElement[0].getElementsByTagName('LOGS'); //Time
+      var LOGElement2=SYSEVENTLOGElement[0].getElementsByTagName('LOGS2'); //User,Action
+      var LOGElement3=SYSEVENTLOGElement[0].getElementsByTagName('LOGS3'); //IP
+			var EnaDisElement=SYSEVENTLOGElement[0].getElementsByTagName('ENABLE');
+			var SyslogEnaDis=EnaDisElement[0].getAttribute("ENADIS");
+		  EnableDisa.value=SyslogEnaDis;
+	  	if (EnableDisa.value == 1)
+	  	{
+		  	EnableDisa.checked = true;
+				if ($(TAG_ADMIN_ACTION))
+				ButtonClearOBJ.disabled = false;
+
+			}
+			else if (EnableDisa.value == 0)
+			{
+				EnableDisa.checked = false;
+				if ($(TAG_ADMIN_ACTION))
+				ButtonClearOBJ.disabled = true;
+
+			}
+						
+			var LogsCount=SYSEVENTLOGElement[0].getElementsByTagName('LOGCOUNT');
+      var LogTableRows=LogsCount[0].getAttribute("LCOUNT");
+      MaxLogTableRows=LogTableRows;
+  		LogTableInit();
+
+  	  var RowData=[];
+			for (j = 0; j < MaxLogTableRows; j++)
+			{
+				TableArray[j][0] = LOGElement[0].getAttribute("Log"+j.toString(16));  
+        TableArray[j][1] = LOGElement3[0].getAttribute("IP"+j.toString(16));   
+        TableArray[j][2] = LOGElement2[0].getAttribute("User"+j.toString(16)); 
+        Idx=j+1;
+				TmpStr0=TableArray[j][0]; 
+				TmpStr1=TableArray[j][1]; 
+				TmpStr2=TableArray[j][2]; 
+
+				RowData.push([Idx, Idx, TmpStr0, TmpStr1, TmpStr2]);
+				//RowData.push([Idx, Idx, TmpStr0]);
+				//RowData.push([Idx,Idx,"abc","abc","abc"]);
+				log_count++;
+			}
+			GridTable.show(RowData);
+			document.getElementById("HtmlLogTableInfo").innerHTML = lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_EXTRATBLINFO + log_count +lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_LOGUNIT;			
+		}
+	}
+	
+	function saveSysEvnetLogconfig()
+	{
+		var ena_dis;
+		if (EnableDisa.checked == true)	
+		{
+			ena_dis = 1;
+		}
+		else
+		{
+			ena_dis = 0;
+		}	
+                Loading(true);
+		var url = '/cgi/system_event_log.cgi';
+		var pars = 'enable=' + ena_dis;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post', parameters:pars, onComplete: saveresult}//reigister callback function
+	                 );    
+	}
+
+	function saveresult(originalRequest)
+	{
+                Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+		  alert(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_SUCCSAVE);
+		  GetLOGS();
+		}
+	  else
+	   	alert(lang.LANG_COMMON_UNSAVE);
+	}
+	</script>
+</head>
+<body onload="PageInit()" style="overflow:hidden;overflow:-moz-hidden-unscrollable;" >
+	<span class="LoadingStyle" id="loading"></span>
+   <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        
+         	  <tr><td></td><td colspan="3" class="labelhead">
+            <br><input type="checkbox" id="EnableDisable" value="1" $(TAG_DISABLE)/>
+            <script>document.writeln(lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG_ENADIS)</script>
+            </td></tr>     
+            
+        <tr><td><br></td><td colspan="3"><br><span class="TableInfo" id="HtmlLogTableInfo"></span></td></tr>
+        <tr><td></td>
+        	  <td colspan="3" >
+        	  <div style="overflow-x:hidden;overflow-y:auto;overflow:-moz-hidden-unscrollable;" id="HtmlLogTable" ></div>
+        	  <!-- below area is needed to modify by yourself -->
+        	  <br>
+        	  	  <input type="button" class="btnStyle" id="btn_clear" $(TAG_DISABLE)/>
+        		</td>
+        	  <!-- end of this area -->        	
+        <tr>
+    </table>
+</body>
+</html>

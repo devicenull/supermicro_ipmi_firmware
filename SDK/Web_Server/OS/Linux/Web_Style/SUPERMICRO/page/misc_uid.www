@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+  	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script> 
+	  <script language="javascript" src="../js/utils.js"></script> 
+	
+<script type="text/javascript">
+var mainPage="../cgi/url_redirect.cgi?url_name=miscellaneous";
+function PageInit()
+{
+	document.getElementById("ButtonSave").value = lang.LANG_MISC_UID_SAVE;
+	uidreading=document.getElementById("uidstatus");
+	uidon=document.getElementById("uid_on");
+	uidoff=document.getElementById("uid_off");
+	uidsave=document.getElementById("ButtonSave");
+	
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)	
+      UIDReading();
+}
+function UIDReading()
+{
+	Loading(true);
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'GET_UID_STATUS.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+	var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete: UIDReadingResult}//reigister callback function
+                 );
+}
+
+function UIDReadingResult(originalRequest)
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	 var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	 var xmldoc=GetResponseXML(response);
+	if(xmldoc == null)
+	{
+		SessionTimeout();
+		return;
+	}
+	var IPMIRoot=xmldoc.documentElement;
+	var uidinfo=IPMIRoot.getElementsByTagName("UID_INFO");  
+	var uidst=uidinfo[0].getAttribute("uid_status");
+	var status_str;	
+
+	if(uidst == "1")
+	{	
+ 		UIDOnFunc();
+ 		status_str = "ON";
+	}		
+	else
+	{		  
+ 		UIDOffFunc();	
+		status_str = "OFF";
+	}				
+	uidreading.innerHTML = status_str;
+	}
+}
+function BtnSave()
+{ 
+		var uid_setting;
+		if(uidon.checked == true)
+		{
+			UIDOnFunc();
+			uid_setting = '1';
+		}
+		else
+		{	
+			UIDOffFunc();	
+			uid_setting = '0';
+		}
+	
+		var url = '/cgi/uid_ctrl.cgi';
+		var pars = 	'uid_setting=' + uid_setting;
+		
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: saveResult}//reigister callback function
+	                 );
+}
+function saveResult(originalRequest)
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	 alert (lang.LANG_MISC_UID_SUCCSAVE);
+	 UIDReading();
+  }
+  else
+   	alert (lang.LANG_COMMON_UNSAVE);
+}
+function UIDOnFunc()
+{
+	uidon.checked = true;
+	uidoff.checked = false;
+}
+
+function UIDOffFunc()
+{
+	uidon.checked = false;
+	uidoff.checked = true;
+}
+
+</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_MISC_UID_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_MISC_UID_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>
+			&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0">
+				<tr><span>
+					<td class="labelhead">&nbsp;<script>document.writeln(lang.LANG_MISC_UID_STATUS)</script></span></td>
+					<td class="labelhead" id="uidstatus" style="font-weight:bold;"></td>
+				</tr>
+			</table>
+			</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0" width="100%" id="table2">
+				<tr>
+					<td>&nbsp;<label><input type="radio" id="uid_on" name="uid" $(TAG_DISABLE)/>
+					<span class="labelhead" ><script>document.writeln(lang.LANG_MISC_UID_ON)</script></label></span></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td>&nbsp;<label><input type="radio" id="uid_off" name="uid" $(TAG_DISABLE)/>
+					<span class="labelhead"><script>document.writeln(lang.LANG_MISC_UID_OFF)</script></label></span></td>
+				</tr>
+			</table>
+			</td></tr>
+	        <tr><td></td><td>
+        	<!-- below area is needed to modify by yourself -->
+        	<br><input type="button" class="btnStyle" id="ButtonSave" onclick="BtnSave()" $(TAG_DISABLE)/>
+        	<!-- end of this area -->
+        	</td></tr>
+        </table>
+</body>
+</html>

@@ -1,0 +1,59 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH sfcbuuid 1 "August 2005" "sfcbuuid Version @PACKAGE_VERSION@"
+.SH NAME
+sfcbuuid \- Script to create a universally unique identifier for
+the installed Small-Footprint CIM Broker (sfcb)
+.SH SYNOPSIS
+.B sfcbuuid
+[\fIoptions\fR]
+.SH DESCRIPTION
+sfcbuuid can be used to create a universally unique identifier (uuid) for
+sfcb. The uuid will be stored in a file (usually @localstatedir@/lib/sfcb/uuid).
+Whenever sfcb needs to return it's uuid to a requestor it will read
+the uuid file from this file.
+.SH OPTIONS
+.TP
+\fB\-u\fR \fIuuidfile
+Full path name of the sfcb uuid file.
+Default is \fI@localstatedir@/lib/sfcb/uuid\fR
+.TP
+\fB\-f
+Remove an existing uuid file without asking for permission.
+.TP
+\fB\-h
+Display usage information and exit.
+.SH AUTHOR
+Viktor Mihajlovski <MIHAJLOV@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd (1),
+

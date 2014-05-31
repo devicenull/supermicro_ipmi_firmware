@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+	function getParameter(parameterName) {  
+ 		var strQuery = location.search.substring(1);  
+  		var paramName = parameterName + "=";  
+  
+  		if (strQuery.length > 0) 
+  		{  
+    		begin = strQuery.indexOf(paramName);    
+  
+    		if (begin != -1) 
+    		{    
+      			begin += paramName.length;    
+      			end = strQuery.indexOf("&" , begin);  
+      			if ( end == -1 ) end = strQuery.length  
+  
+      			return unescape(strQuery.substring(begin, end));  
+    		}  
+   		 	return "null";  
+  		}  
+	}  
+	
+	function PageInit()
+	{
+		Loading(true);
+		var url = '/cgi/BMCReset.cgi';
+		var pars = 'time_stamp='+(new Date());
+	   	var myAjax = new Ajax.Request(
+	        url,
+	        {method: 'post', parameters:pars}//reigister callback function
+	        );
+	        
+	    var PreviousPage = getParameter("prevpage");
+		var PortNum = getParameter("port");
+		
+		if (isIpv6Addr(location.hostname))
+		{
+			var aHostName ="["+ location.hostname+"]";
+		}
+		else 
+		{
+			var aHostName = location.hostname;
+		}
+			
+		if ( PortNum != "null")
+			NewURL = window.location.protocol+"//" + aHostName + ":" + PortNum + "/";
+		else
+	    	NewURL = window.location.protocol+"//" + aHostName+ ":" + window.location.port + "/";
+	    	
+	   	NewString = lang.LANG_FW_RESET_DESC3.replace("NEWURL_PATTERN",NewURL);
+	   	$('reset_string').innerHTML = NewString;
+		if (PreviousPage == "conf_port")
+			$('reset_caption').innerHTML = lang.LANG_CONF_PORT_CAPTION;
+		else 
+			$('reset_caption').innerHTML = lang.LANG_CONFIG_SSL_CAPTION;
+		setTimeout('redirect()',60000);
+	}
+	
+	function redirect(){
+	    	location.href =  NewURL;
+	}
+	</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div id="reset_caption" class="mtitle"></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_FW_RESET_DESC1);</script>
+					<br> 
+					<script>document.writeln(lang.LANG_FW_RESET_DESC2);</script>
+ 					<br> <span id="reset_string">
+					
+                </div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

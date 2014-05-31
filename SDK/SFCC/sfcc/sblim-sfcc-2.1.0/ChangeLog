@@ -1,0 +1,270 @@
+2008-05-01  Chris Buccella <buccella@linux.vnet.ibm.com>
+
+	* backend/cimxml/client.c, backend/cimxml/property.c, 
+	backend/cimxml/qualifier.c, backend/cimxml/string.c:
+	Made changes to quiet some gcc warnings
+
+	* Makfile.am:
+	Additions needed for large volume support feature
+
+	* TEST/Makefile.am:
+	Additions needed for new test_ programs
+
+	* configure.ac:
+	Bumped version number to 2.1.0
+
+2008-04-23  Chris Buccella <buccella@linux.vnet.ibm.com>
+
+	* backend/cimxml/client.c:
+	Fixed 1940546: Memory corruption in AsciiToXmlStr()
+	(patch by Shashi Uli)
+
+2008-04-22 Gary Readler <gdr@us.ibm.com>
+	* README TEST/Makefile.am TEST/v2test_ec.c TEST/v2test_ecn.c
+	TEST/v2test_ei.c TEST/v2test_ein.c TEST/v2test_gc.c
+	updated README and added some v2 interface testcases  
+
+2008-02-05  Sven Schuetz <sven@de.ibm.com>
+
+	* configure.ac, Makefile.am, backend/cimxml/cimXmlResp.y:
+	Fixed 1887125: cleanup due to new parser
+
+2008-01-16  Sven Schuetz <sven@de.ibm.com>
+
+	* configure.ac, Makefile.am, backend/cimxml/grammar.c,
+	backend/cimxml/client.c, backend/cimxml/cimXmlParser.c,
+	backend/cimxml/nativeCimXml.h, backend/cimxml/indicationlistener.c:
+	Implemented 1828588: Indication support (CIMXML)
+
+2008-01-09  Sven Schuetz <sven@de.ibm.com>
+
+	* backend/cimxml/parserUtil.c, backend/cimxml/cimXmlParser.c,
+	backend/cimxml/value.c, backend/cimxml/cimXmlParser.h,
+	backend/cimxml/grammar.c, backend/cimxml/grammar.h:
+	Implemented 1867649: embedded instance support
+
+2008-01-09  Sven Schuetz <sven@de.ibm.com>
+
+	* backend/cimxml/cimXmlResp.y, backend/cimxml/cimXmlParser.h,
+	backend/cimxml/client.c, backend/cimxml/value.c,
+	backend/cimxml/cimXmlParser.c, Makefile.am, backend/cimxml/grammar.h,
+	backend/cimxml/parserUtil.h, backend/cimxml/parserUtil.c, 
+	backend/cimxml/grammar.c:
+	Implemented 1854813: new parser
+
+2008-01-02  Sven Schuetz <sven@de.ibm.com>
+
+	* backend/cimxml/cimXmlResp.y:
+	Fixed 1793132: sfcc reports incorrect namespace for associators operation
+
+2007-10-31  Sven Schuetz <sven@de.ibm.com>
+
+	* cimc/cimcdt.h, cimc/cimcft.h, cimc/cimc.h:
+	Implemented 1820015: prepare for indication support
+
+2007-10-12  Sven Schuetz <sven@de.ibm.com>
+
+	* backend/cimxml/client.c:
+	Fixed 1810017: sfcc generates incorrect XML for complex properties
+
+2007-09-27  Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* TEST/test.c:
+	invokeMethod test now works correctly
+
+2007-06-20  Sven Schuetz <sven@de.ibm.com>
+
+	* backend/cimxml/cimXmlParser.c, backend/cimxml/cimXmlResp.y:
+	Fixed 1777906 issue with the SFCC xml parsing code
+	
+2007-07-04  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* backend/cimxml/client.c: 
+	Fixed 1745279: sfcc does not support complex array types as IN args.
+	Datatypes CMPI_refA and CMPI_instanceA were not handled properly.
+
+2007-06-26  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* backend/cimxml/objectpath.c: 
+	Fixed 1743362: segfault on 64-bit systems
+
+2007-06-20  Sven Schuetz <sven@de.ibm.com>
+
+	* property.c:
+	Fixed 1737254: sfcc can segfault when setting null values
+
+2007-06-20  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* backend/cimxml/client.c: 
+	Fixed 1740368: memory can be corrupted when long string properties are
+	being set, due to static buffer usage.
+
+2007-05-31  Adrian Schuur
+
+	* cimXmlResp.y:
+	Fixed 1726113: Parser not clearing qualifier cache
+
+2007-05-24  Adrian Schuur
+
+	* objectpath.c:
+	Fixed 1722381 sfcc fails on getInstance for associations
+
+2007-03-15  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* frontend/sfcc/sfcclient.c:
+	Fixed 1681555: sfcc backend selection via "scheme" parameter
+
+	* cimc/cimcft.h, TEST/test_gc.c, TEST/test_qualifiers.c: 
+	Fixed 1681487: sfcc cimc constclass definition incompatible with cmci
+	constclass definition, adjusted function table.
+
+	* frontend/sfcc/sfcclient.c: 
+	Fixed 1681489: sfcc connection release function restore leads to 
+	failures.
+
+2007-03-07  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* backend/cimxml/instance.c, backend/cimxml/objectpath.c,
+	backend/cimxml/property.c, backend/cimxml/qualifier.c: 
+	Fixed 1675554: case sensitive comparisons
+
+	* TEST/show.c, TEST/test_ecn_ssl.c, TEST/test_gc.c:
+	Updated test programs, partially related to 1675554.
+
+2007-02-28  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* frontend/sfcc/sfcclient.c: 
+	Fixed 1670019: connection failures on second parallel connection
+	Uninitialized variables and a deadlock situation didn't allow
+	to run more than on connection at a given point in time.
+
+2007-02-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* sfcc.spec.in, configure.ac: 
+	Feature 1663663: add specfile for RPM builds.
+
+2007-02-07  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* configure.ac, Makefile.am: 
+	Feature 1654428: remove libsfcUtil from sfcc
+
+2007-01-18  Sven Schuetz
+
+	* array.c, cimXmlParser.c, client.c, value.c, cimXmlParser.h
+	Fixed 1637057: Arrays not yet supported as function arguments
+
+2007-01-18  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-119.boeblingen.de.ibm.com>
+
+	* cimXmlResp.y: 
+	Fixed 1636714: removed incorrect rquirement for RETURNVALUE tag
+	in method responses.
+
+2006-12-06  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* sfcUtil/hashtable.c, sfcUtil/libsfcUtil.Versions:
+	Fixed 1610514: aligned sfcc/sfcb libsfcUtil.
+
+2006-11-28  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* cimXmlParser.c, cimXmlResp.y, client.c: 
+	Fixed 1604433: memory leaks for instance array properties and out
+	args.
+
+2006-11-14  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* client.c: 
+	Fixed 1596171: don't report timeout after system clock changes.
+
+2006-09-12  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* client.c, configure.ac: 
+	Conditionalized generation of "TE: Trailer" header in support of
+	older curl versions.
+
+2006-09-06  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* client.c: 
+	Removed the inline qualifier for callback functions (again).
+
+	* cimXmlResp:
+	Remove shift/reduce conflict.
+	
+2006-09-05  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* client.c: 
+	Fixed a double memory release error, occuring when a CIMStatus trailer
+	is sent back by the server.
+
+2006-08-22  dhowell1
+
+	* cimXmlParser.c, cimXmlParser.h, cimXmlResp.y, client.c, cmcimacs.h,
+        datetime.c, enumeration.c, instance.c, Makefile.am, objectpath.c,
+        value.c,
+	* libcmpisfcc.Versions, libsfcUtil.Versions, libcimcClient.Versions
+
+        Merged Intel changes with 08/17/06 CVS tip.
+
+2006-07-17	sschuetz
+
+	* hashtable.c, utilFactory.c, utilHashtable.c, utilStringbuffer.c:
+	Moved to sfcUtil, build as shared library now
+
+2006-07-06 sschuetz
+
+	* constclass.c:
+	Bug 1518169: Fixed memory leak in constclass.c
+
+2006-06-28  sschuetz
+
+	* client.c:
+	Bug 1513362: Added setting of status code in function cmciConnect2,
+	checking for NULL in CMSetStatus macros
+		
+2006-06-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* cimXmlResp.y: 
+	Bug 1513278: Segfault in property qualifier processing.
+	Fixed erroneous action in the array property production.
+	Added missing setClassQualifiers function.
+	Removed a few shift/reduce conflicts.
+
+	* client.c:
+	Removed the inline qualifier for callback functions.
+
+	* TEST/Makefile.am, TEST/test_qualifiers2.c:
+	Added test code for class qualifiers.
+
+2006-02-28  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* client.c: 
+	Bug 1439103: Added code to evaluate trailer headers for chunked transfers
+
+2005-11-20  bestorga-oss
+
+	* COPYING, args.c, array.c, cimXmlParser.c, cimXmlParser.h,
+	cimXmlResp.y, client.c, cmci.h, cmcidt.h, cmcift.h, cmcimacs.h,
+	constClass.c, datetime.c, enumeration.c, genericlist.c,
+	genericlist.h, instance.c, native.h, objectpath.c, property.c,
+	qualifier.c, string.c, utilList.h, utilStringBuffer.c,
+	utilStringBuffer.h, value.c, TEST/show.c, TEST/test.c,
+	TEST/test_an.c, TEST/test_an_2.c, TEST/test_as.c, TEST/test_as_2.c,
+	TEST/test_ci.c, TEST/test_di.c, TEST/test_ec.c, TEST/test_ecn.c,
+	TEST/test_ecn_ssl.c, TEST/test_ei.c, TEST/test_ein.c,
+	TEST/test_gc.c, TEST/test_gi.c, TEST/test_gp.c, TEST/test_im.c,
+	TEST/test_leak.c, TEST/test_objectpath.cpp, TEST/test_qualifiers.c,
+	TEST/test_rf.c, TEST/test_rfn.c, TEST/test_si.c, TEST/test_sp.c,
+	TEST/test_xq.c: 
+	Bugs: 1362805. changed all license references to Eclipse Public
+	license
+
+2005-10-11  mihajlov
+
+	* client.c, cmci.h, TEST/Makefile.am, TEST/test_ecn_ssl.c,
+	man/man3/cmciConnect.3: 
+	Bugs: 1315810. Added support for client
+	certificates.
+
+2005-10-01  a3schuur
+
+	* cimXmlParser.c: Inproving user time performance by about 30% as
+	measured with time command.

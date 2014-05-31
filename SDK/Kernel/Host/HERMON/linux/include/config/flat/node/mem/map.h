@@ -1,0 +1,1 @@
+#define CONFIG_FLAT_NODE_MEM_MAP 1

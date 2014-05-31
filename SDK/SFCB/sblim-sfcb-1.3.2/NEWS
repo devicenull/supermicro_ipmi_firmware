@@ -1,0 +1,450 @@
+Changes in 1.3.2
+================
+
+New features:
+
+- 1978218 SFCB support for HTTP over a unix socket
+- 2048878 sfcb does not implement setObjectPath
+- 1945390 Request for SLP service URL hostname override 
+
+Bugs fixed:
+
+- 2101035 classProvider core dumps under slp/CIM client load 
+- 2093273 Fix "cimomConfig" + myGetInstances memory leaks
+- 2023638 SFCB not considering UTC offset in calculating binary time
+- 2039216 Memory leak in getSfcbUuid
+- 2001486 SFCB extrinsic method output parameter problems
+- 1923373 Fixed SFCB GetClass defaults optional IncludeQualifiers=false
+- 1928541 Fixed sfcb binary interface memory leak on CMGetObjectPath
+- 1946202 getPropQualifier function attempts to free non-malloced mem
+- 1928541 sfcb binary interface memory leak on CMGetObjectPath
+- 1970808 sfcb hangs after getinstance requests
+- 1945374 CIM_ObjectManagerCommunicationMechanism.Version not set
+- 1983569 enumerate qualifier call causes qualifier provider to die
+- 1991296 httpAdapter doesn't check content_length correctly
+- 1934753 indCIMXMLExport.c fails to compile on gcc 4.3
+- 1993385 sfcb restarts itself on startup
+- 1914077 MI function signatures missing CMPIStatus * parameter
+- 1999175 CMAddContextEntry doesn't update entries, only adds
+- 2001879 sfcb string compares for qualifier name are case-sensitive
+- 1998030 SFCB core dumps during garbage collection
+- 2002392 Memory leaks in sfcb 1.2.5-35f
+- 2015639 SFCB SLP registration process crashes after 2nd registration
+- 2024019 SFCB can't handle large error messages
+- 2041967 sfcb trace messages have hard-coded size max
+- 2039216 Memory leak in getSfcbUuid
+- 2043672 Tighten SSL security for sfcb
+- 2025214 SFCB XML parser needs to unescape newlines
+- 2048875 sfcb silently crashes when sent certain EmbeddedObjects
+- 2023638 SFCB not considering UTC offset in calculating binary time
+- 2050421 Namespace not set for EmbeddedObjects in an XML value array
+- 1918880 SFCB - Escaped XML sequences in embedded instances
+- 2060748 compile fails when --disable-debug configure flag is set
+- 2062904 small memory leak after exportIndication
+- 2100911 getSchema.sh: line 17: [: =: unary operator expected
+- 2100707 NULL properties in property list returned with value
+- 1877578 sfcb appears to leak memory while handling indications
+- 2138163 sfcb: Wrong PID when running as daemon
+- 2049872 "--- Warning: fd is closed" message from binary intf app
+- 2143315 Remove unnecessary lines in providerDrv & cimcClient
+- 2064360 Internal provider SIGSEGV when calling getProperty
+- 2079099 SFCB should load providers with RTLD_GLOBAL
+
+Changes in 1.3.1
+================
+
+New features:
+- 1953683 allow sfcb to be built to support localconnect only
+
+
+Bugs fixed:
+- 1879319 (partly rolled back to fix local connect issue)
+- 1919970 Fixed Provider process not terminated after idle (w/ LocalConnect)
+- 1951133 Fixed httpAdapter crashes if auth library can't be loaded
+- 1920539 Fixed sfcb crashes in getinstance
+- 1896550 Memory leak in exportIndication
+- 1959063 "accept error" on provider unloading (LocalConnect)
+
+Changes in 1.3.0
+================
+
+New features:
+- Execution time parameters for providers via the "parameters" keyword 
+  in the providerRegister
+- 1560680 property operations supported now
+- 1830770 disallow external http connections
+- 1894061 Allow sfcb to use updated versions of the CIM Schema. 2.17 is default
+- 1875122 sfcb colorized traces
+- 1828500 CMPI 2.0 support
+- 1930758 Profile Registration Support
+- 1828585 Large Volume Data support local connect 
+
+Bugs fixed:
+- 1793223 Fixed cross-built ClProperty size mismatch
+- 1764101 Fixed segfault in constClass::getPropQualifierAt()
+- 1685254 Fixed sfcb does not return REFERENCECLASS in GetClass
+- 1784913 Fixed change filter handling
+- 1816606 Fixed sfcb problem with propertylist in modifyInstance
+- 1850416 Fixed Deadlock in getObjectPath()
+- 1866424 Fixed Indication sending via https does not include client cert
+- 1868692 Fixed embedded inst support broken
+- 1854481 Fixed bzero() is deprecated
+- 1879262 Fixed SFCB does a double free when processing a request
+- 1879330 Fixed Uninitialised memory in spSendMsg() and spSendCtl()
+- 1878340 Fixed sfcb does not complete chunked transfer , sfcb hangs
+- 1725489 Fixed sfcb:Zero sized chunks in response
+- 1879319 Fixed various unused variable warnings
+- 1879334 Fixed Memory leaks in cimXmlRequest.c
+- 1879454 Fixed Memory leaks in brokerUpc.c
+- 1883049 Fixed Memory leak in sfcbdump
+- 1883796 Fixed unused variables in objectpath.c
+- 1883826 Fixed getKeyValueTypePtr() always returns false for boolean values
+- 1888889 Fixed Typo in sfcb's cmpimacs.h for CMSetObjectPath macro
+- 1891702 Fixed various resource leaks
+- 1892621 Fixed Memory leak in associator and associatorNames
+- 1893300 Fixed More memory leaks in associators and associatorNames
+- 1896551 Fixed Memory leak on loadProvider() failure
+- 1914551 Fixed sfcb file descriptor leaks
+- 1928685 Fixed sfcb httpAdapter memory leak while authenticating
+- 1893302 Fixed New CMPI arrays not tracked
+- 1942130 Fixed segfault when array increased by CMSetArrayElementAt
+
+Changes in 1.2.5
+================
+
+- 1809458 Fixed sfcb local connect lib does not pass on principal info
+- 1814455 Fixed sfcb leaks fd's during local connect
+- 1811090 Fixed sfcb memory corruption on property value with quote or apos
+- 1817878 Fixed sfcb might not load indication providers at startup
+- 1818503 Fixed sfcb generates incorrect xml for embedded objects
+- 1818578 Fixed sfcb local leaks memory during associator calls
+- 1823565 Fixed sfcb alignment problem during clone
+- 1826149 Fixed sfcb bad spelling in brokerOs.c
+- 1831794 Fixed unfinished SSL handshake blocks HTTP adapter
+- 1828678 Fixed REFARRAY not supported
+- 1830845 Fixed standards naming issue for _CMPIBrokerFT.enumInstances()
+- 1826571 Fixed wrong type for _CMPIBroker.brokerCapabilities
+
+Changes in 1.2.4
+================
+
+Bugs fixed:
+- 1743692 Fixed sfcb does not return OBJECTPATHEs for associatorNames
+- 1745103 Fixed bad key property when addKey done with type CMPI_chars
+- 1744540 Fixed createClass segfault in classProviderMem
+- 1725493 Fixed 401 send twice
+- 1746771 Fixed Memory leak in classProviderGz.c - in gatherNameSpaces()
+- 1748392 Fixed associations in interop namespace might not work
+- 1759208 Fixed internalProvider segfaults when object not found
+- 1752715 Fixed sfcb does not unescape incoming blanks
+- 1754811 Fixed sfcb misses refences/referenceNames call in certain upcalls
+- 1763178 Fixed GetClass operation failure
+- 1746659 Fixed SFCB segfaults when ai commands are issued simultaneously
+- 1766770 Fixed sfcb segfaults when property list is specified w. references
+- 1780595 Fixed xml special chars are not escaped in error description
+- 1770841 Fixed one provider for multiple associations problem
+- 1769471 Fixed multiple handlers do not work as expected
+- 1791690 Fixed segfault with local call in newCMPIString
+- 1805644 Enhanced HTTP adapter performance
+- 1759083 Fixed sfcb cannot handle the embeddedobject attribute
+- 1807363 Fixed sfcb reports an error for a valid xml declaration
+
+Changes in 1.2.3
+================
+
+Bugs fixed:
+- 1693530 Fixed problem with certain queries
+- 1708568 Fixed providers for multiple classes are invoked only once
+- 1724370 Fixed sfcb can run out of file handles
+- 1693675 Fixed delivery of an indication can lock sfcb
+- 1697772 Fixed provider resolution can fail for associators
+- 1701174 Fixed Bug with ein on classes in interop namespace
+- 1702310 Fixed indProv segfaults while ci with NULL query
+- 1708071 Fixed interopProvider choking on getinstance
+- 1711283 Fixed minor mem problem in qsRelease
+- 1712545 Fixed wrong results in association operations
+- 1712582 Fixed parser does not accept type attribute in KEYVALUE tag
+- 1663641 Fixed parser doesn't accept empty IPARAMVALUE
+- 1717262 Fixed sfcb might not properly return the hostname for some calls
+- 1724719 Fixed constClass leaks memory
+- 1724753 Fixed qualifier creation support for classes
+- 1725608 Fixed default state of subscription state should be enabled
+- 1728904 Fixed problem with dateTime Values
+- 1730553 Fixed createClass fails in standard classProvider
+- 1732080 Fixed sfcb ignores property filter in getInstance upcalls
+- 1732774 Fixed random provider segfaults when using local client interface
+- 1730915 Fixed getInstance fails for associations
+- 1734174 Fixed sfcb behaves different when assocclass & resultclass unknown
+- 1741211 Fixed cleanup compiler warnings
+- 1698462 Fixed upcall with empty parameter list crash
+- 1715519 Fixed missing SLP headers
+- 1741435 Fixed cross-built repository corruption
+
+Changes in 1.2.2
+================
+
+New features:
+- 1672704 Added IPv6 support
+- 1443861 Support for local clients
+
+Bugs fixed:
+- 1668852 Fixed memory leak in interop provider
+- 1654313 Fixed http adapter segfaults on createinstance
+- 1370764 Fixed query parser left unstable by mal-formed statement
+- 1370752 Fixed query parser fails to recogonize single quotations
+- 1674999 Fixed query statement memory problem
+- 1677445 Fixed Problems with instance references as method parameter
+- 1677195 Fixed crash in provider manager trace
+- 1682045 Fixed compile error with gcc 4.1.3
+- 1682388 Relaxed CMPIValue * alignment pickyness of sfcb
+- 1686170 Fixed instance comparision in queries do not work as expected
+- 1686696 Fixed sfcb XML parsing failures not indicated to client
+- 1689953 Fixed slp agent lacks proper signal handling
+- 1690518 Fixed not all indication providers are invoked
+- 1690026 Fixed repository build fails if no "global" MOF found
+- 1690029 Fixed file repository failure on long directory names
+- 1690032 Removed interop provider startup when indications disabled
+- 1686525 Fixed NULL property list filtering
+- 1690034 Finally fixed the principal passing via context
+- 1690525 Fixed instance comparison failure in case of NULL pointer
+
+Changes in 1.2.1
+================
+
+New features:
+- 1217828 added indication SubscriptionState support
+- 1639670 Enabled classSchema2c to support cross-builds
+- 1643934 Incoming http connections can now be handled by a thread
+- 1637947 embedded instances supported as method args and properties
+- 1660634 Added PAM authentication and enhanced default configuration
+
+Bugs fixed:
+- 1620730 Fixed mismatch in C++ wrapper definition in cmpimacs.h
+- 1621417 Fixed associators and references calls fail in SFCB 1.2
+- 1623249 Fixed Incomplete <PROPERTY> xml generation
+- 1624528 Fixed sfcb getclass doesn't return methods
+- 1627910 Fixed basic authentication challenge
+- 1635811 Fixed HTTP adapter memory leaks
+- 1627778 Fixed "default" qualifiers are returned twice
+- 1379327 Fixed lifecycle indication provider registration faulty
+- 1636805 Fixed ain does not work for indication subscriptions
+- 1638073 Fixed missing unescape code in XML parser
+- 1644223 Fixed internalProdiver segfaults with a propertyFilter
+- 1650708 Fixed embeddedObject qualifier in wrong place
+- 1656317 Fixed segfault with non-existing providerRegister
+- 1652255 Restructured broker upcalls
+- 1663390 Fixed problem with where clause in indicationfilter
+- 1664273 Fixed creation of a subscription can fail
+- 1664453 Fixed indications are delivered unfiltered
+- 1666258 Fixed memory corruption during thread cleanup
+- 1653919 Fixed sfcb provider doesn't die if dlopen fails
+- 1665255 Fixed providergrouping may fail, separated InternalProvider and
+InteropProvider
+- 1666311 Fixed missing support for old-style indication providers
+- 1664992 Fixed interopProvider segfaults with provider-grouping
+- 1669192 Fixed new providerregistration causes problems
+
+Changes in 1.2.0
+================
+
+New features:
+- 1296278 Added slp support, integrated slp stuff into build system
+- 1566963 Added qualifier support
+- 1569239 Qualifier support configurable
+- moved some util functions to sfcUtil, build as shared library
+- 1578815 create fileRepository shared library
+- 1587752 libObjectImplSwapI32toP32 now supports instances and qualifiers
+- 1599697 sfcbrepos include default mofs and indication.mof
+- 1414618 Added 64-bit support
+- 1603796 Automatic provider grouping enabled by default
+- 1620151 Use caching class provider by default
+
+Bugs fixed:
+- 1525280 Fixed segfaults when linking with sfcc
+- 1529096 Fixed unusable execution timing traces
+- 1567620 Ensure lower provider process limit
+- 1567754 Fixed segfault on enumerateclasses
+- 1567676 Fixed several memory leaks
+- 1592037 Fixed ClArray creation issues
+- 1592760 Fixed PROPERTY.ARRAY creation fails
+- 1593220 Fixed bug in setQualifier
+- 1598227 Fixed handling of SIGTERM
+- 1193881 Fixed polymorphic enumeration behavior
+- 1601005 Added missing function setHostAndNameSpaceFromObjectPath
+- 1600707 Fixed segfault with NULL string properties
+- 1601219 Fixed bogus enumeration upcall results
+- 1601274 Fixed legacy __Namespace support
+- 1601174 Fixed interopProvider segfault
+- 1601644 Added more timing traces
+- 1605216 Fixed empty propertyList causes parser error
+- 1605234 Fixed parse error when IPARAMVALUE CLASSNAME is missing
+- 1606013 Fixed class provider segfault with deepInheritance=false
+- 1609711 Fixed instance creation crash with undefined class
+- 1610514 Aligned sfcc/sfcb libsfcUtil versions
+- 1613925 Fixed memory loss in providerinfo cache
+- 1613933 Fixed embedded Objects in Indications do not work
+- 1613936 Fixed associator call fails when role parameters are set
+- 1614075 Fixed enabling slp can lead to a segfault
+- 1529134 Fixed internal provider associator operations
+- 1613172 Fixed XML generation for reference and array PARAMVALUEs
+- 1615776 Fixed XML parsing of PARAMVALUEs
+- 1615731 Fixed slp tracing and shutdown
+- 1618216 Fixed method parameter and returnvalue processing
+- 1618258 Fixed slp problems when ssl is enabled
+- 1616130 Fixed bad message during shutdown
+- 1620005 Fixed unnecessary fork when slp is enabled
+- 1620020 Fixed allocation error in interopServerProvider
+- 1620136 Fixed compile warnings
+
+Changes in 1.1.1
+================
+
+New Features:
+- 1529013 Added execution timing traces
+- 1532425 Added in-memory class provider
+
+Bugs fixed:
+- 1420399 Changed getSchema.sh to be more easily customizable for
+	  different CIM Schema versions.
+- 1420604 Fixed CMPI header files for CMPI 1.0 compliance.
+- 1440179 Fixed compile problem with debug disabled.
+- 1440183 Fixed chunking related HTTP problems.
+- 1481081 Fixed garbage CMPIPrincipal in providers
+- 1201656 Fixed missing association problem.
+- 1439399 Fixed datetime key handling
+- 1511261 Fixed credential passing in upcalls
+- 1518696 Fixed segfault in internal provider
+- 1524781 Fixed localinstancepath ref property handling
+- 1528455 Added support for local CIM schema
+- 1528304 Fixed segfault in method invocations with ref parameters
+- 1529021 Added trace options to config file
+- 1548673 Fixed invalid memory access
+- 1519600 Fixed caching/compressing class provider
+- 1549330 Group providers of a provider module in one process
+- 1562801 Fixed segfault on provider process limit 
+- 1564999 Fixed incorrect CimXmlRequest format.
+- 1565105 Fixed compile error with disabled debug.
+- 1185824 Added default instance properties
+- 1578051 Fixed race condition in provider initialization
+- 1532425 Fixed classSchema2c
+
+Changes in 1.1.0
+================
+
+New features:
+- 1408327 Cross-compile support for sfcbmof.
+
+Bugs fixed:
+- 1414767 vpath build failures fixed.
+
+Changes in 1.0.2
+================
+
+Bugs fixed:
+- 1386191 Reduced class provider memory footprint using an alternative
+	  caching class provider.
+- 1387264 Fixed invalid array addressing with array type properties.
+- 1395350 Fixed location dependence in configure script and Makefile.
+- 1404047 Added support for namespaces and includes during registration.
+- 1407244 Fixed memory leak in args structure.
+
+Changes in 1.0.1
+================
+
+Bugs fixed:
+- 1371764 Fixed XML parsing for associator/references calls, when
+	  role and resultRole were specified.
+- 1376955 Fixed invokeMethod upcall.
+- 1376959 Added support for CIM_IndicationHandlerCIMXML class.
+- 1376965 Fixed interop namespace alias processing in internal provider.
+- 1379313 Removed requirement to specify SFCB_TRACE
+- 1379315 Made provider interface CMPI 1.0 compliant
+- 1379327 Enhanced lifecycle indication processing
+- 1380442 Fixed CIM XML parsing issues with qualifiers and null values.
+- 1380471 Allow CQL for indication filters.
+- 1382722 Fixed namespace table reallocation
+- 1382712 Fixed access of released memory problems.
+- 1384612 Added REF property namespace informaton in internal provider.
+- 1381312 Fixed incorrectly constructed object paths.
+- 1382741 Fixed incorrect namespace information in instance names.
+- 1356235 Enhanced HTTP error response processing.
+
+Changes in 1.0.0
+================
+
+Bugs fixed:
+- 1362805 Changed License from CPL to EPL
+- 1358952 Method Array Parameter Support added.
+- 1356303 Incompatibility with SNIA/Pegasus Java client fixed.
+- 1352052 Fixed datetime double offset calculation
+- 1283987 Fixed provider problem caused by freeing a NULL pointer.
+- n/a     SQL/JDBC Enhancements (experimental).
+
+
+Changes in 0.9.3
+================
+
+New Features:
+- 1308252 Support for client certificate based authentication
+
+Bugs fixed:
+- 1313902 Fixed IPC key creation and file mode
+- 1195240 Fixed client hang problem
+
+Changes in 0.9.2
+================
+
+Bugs fixed:
+- 1284983 Fixed compatibility issues with the ash shell.
+- 1284079 Added option to disable interop namespace from config file.
+- 1292955 Allow content-length=0 request bodies.
+- 1296278 Support for CIM Server UUID added.
+- 1298807 Fixed DoS vulnerability (many parallel requests, execessive
+	  header length)
+
+Changes in 0.9.1
+================
+
+New Features:
+- Man pages are now available for all programs/scripts.
+
+Bugs fixed:
+- 1203835 Fixed configure to require bison/byacc for parsers.
+- 1209974 Updated readme's and documentation (now man pages).
+- 1222948 --enable-debug is the default now for configure.
+- 1242514 nc usage has been replaced by "native" perl code.
+- 1242508 fixed typos in SUSE init scripts.
+- 1245096 fixed incorrect mem_state after clone().
+- 1246009 removed i386-specific debug asm code.
+- 1246130 added --disable-indication option to configure.
+- 1246249 fixed code for repository discovery.
+- 1250128 changed compile flag for ppc platform 
+- 1269291 fixed provider driver segfault with no config file
+- 1276160 updated man pages
+- 1276651 fixed gcc 4.0.x compile error.
+
+Changes in 0.9.0
+================
+- many bugfixes
+
+Changes in 0.8.7
+================
+- Open source version of sfcb. Added CPL license headers.
+
+Changes in Beta 3-0.8.6
+=======================
+- Added circular provider invocation support.
+- Added association support in internal provider.
+
+Changes in Beta 3-0.8.5
+=======================
+- Added WQL support.
+- Added ExecQuery (WQL based) and InvokeMethod (Extrinsic methods) support.
+- Added Process Indication support (WQL based).
+- Provider NEVER_UNLOAD/DO_NOT_UNLOAD support.
+- Additional startup options (-tm ? and -I).
+- Added namespace support for all operations.
+- Added SIGHUP support for restarting sfcb.
+- Extended regression the testing environment with wbemcat and catdif scripts.
+  (now deprecated)
+

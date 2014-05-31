@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+    <title></title>
+<!--    <link rel="shortcut icon" href="../images/favicon.ico">	-->
+    <script language="JavaScript" src="../js/utils.js"></script>
+    <script language="JavaScript" type="text/javascript">
+<!--
+    var lang_setting;
+/*
+    EraseCookie("langSetFlag");
+    EraseCookie("language");
+*/
+    EraseCookie("mainpage");
+    EraseCookie("subpage");
+    EraseCookie("RELOAD");
+    lang_setting = ReadCookie("language");
+    if (lang_setting == null)
+    {
+    	CreateCookie("langSetFlag","0");
+    	CreateCookie("language","English");
+    	lang_setting = "English";
+    }
+    document.write("<script type=\"text/javascript\", src = \"../js/lang/" + lang_setting + "/lang_str.js\"><\/script>");
+	onunload = function()
+	{
+		var url = '/cgi/logout.cgi';
+		var pars = '?time_stamp='+(new Date());
+  		var myAjax = new Ajax.Request(
+                url,
+                {method: 'post',parameters:pars }//reigister callback function
+                );
+	}
+-->
+    </script>
+</head>
+<frameset cols="100%,*" border="0" frameborder="no" framespacing="0">
+<frame src="../cgi/url_redirect.cgi?url_name=topmenu" id="TOPMENU" name="topmenu" scrolling="yes" noresize="false" marginheight="0" marginwidth="0">
+</frameset> 
+</html>

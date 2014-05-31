@@ -1,0 +1,13 @@
+.PHONY: SMC_REL Yarkon_REL
+
+
+SMC_REL:
+	chmod +x  PKConfig/Lx_Script/mod_fwinfo.sh ;./PKConfig/Lx_Script/mod_fwinfo.sh
+	$(Q)echo "Project release for SMC ................"
+	$(Q)$(MAKE)  MYMCU=HERMON BOARD=SuperMicro_X7SB3 
+Yarkon_REL:
+	$(Q)echo "Project release for Yarkon ................"
+	$(Q)cp Project_File/OS/Linux/Host/YARKON/Board/YARKON_EVB/Projectfile .config
+	$(Q)./conf -o PKConfig/Lx_Config/Config_all.in >>/dev/null
+	$(Q)cp .tmpconfig.h autoconfig.h
+	$(Q)$(MAKE)

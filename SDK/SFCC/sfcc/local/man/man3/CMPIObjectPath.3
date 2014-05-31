@@ -1,0 +1,110 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIObjectPath \- CMPIObjectPath class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl\fP
+.br
+Opaque pointer to class instance data.
+.ti -1c
+.RI "\fBCMPIObjectPathFT\fP * \fBft\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.in -1c
+.SH METHODS
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBrelease\fP )(\fBCMPIObjectPath\fP *op)"
+.br
+.RI "\fIThe ObjectPath object will not be used any further and may be freed by CMPI run time system. \fP"
+.ti -1c
+.RI "\fBCMPIObjectPath\fP *(* \fBclone\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fICreate an independent copy of this ObjectPath object. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetNameSpace\fP )(\fBCMPIObjectPath\fP *op, const char *ns)"
+.br
+.RI "\fISet/replace the namespace component. \fP"
+.ti -1c
+.RI "\fBCMPIString\fP *(* \fBgetNameSpace\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet the namespace component. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetHostname\fP )(\fBCMPIObjectPath\fP *op, const char *hn)"
+.br
+.RI "\fISet/replace the hostname component. \fP"
+.ti -1c
+.RI "\fBCMPIString\fP *(* \fBgetHostname\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet the hostname component. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetClassName\fP )(\fBCMPIObjectPath\fP *op, const char *cn)"
+.br
+.RI "\fISet/replace the classname component. \fP"
+.ti -1c
+.RI "\fBCMPIString\fP *(* \fBgetClassName\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet the classname component. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBaddKey\fP )(\fBCMPIObjectPath\fP *op, const char *name, \fBCMPIValue\fP *value, \fBCMPIType\fP type)"
+.br
+.RI "\fIAdds/replaces a named key property. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetKey\fP )(\fBCMPIObjectPath\fP *op, const char *name, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets a named key property value. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetKeyAt\fP )(\fBCMPIObjectPath\fP *op, unsigned int index, \fBCMPIString\fP **name, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets a key property value defined by its index. \fP"
+.ti -1c
+.RI "unsigned int(* \fBgetKeyCount\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets the number of key properties contained in this ObjectPath. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetNameSpaceFromObjectPath\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIObjectPath\fP *src)"
+.br
+.RI "\fISet/replace namespace and classname components from <src>. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetHostAndNameSpaceFromObjectPath\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIObjectPath\fP *src)"
+.br
+.RI "\fISet/replace hostname, namespace and classname components from <src>. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetClassQualifier\fP )(\fBCMPIObjectPath\fP *op, const char *qName, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet class qualifier value. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetPropertyQualifier\fP )(\fBCMPIObjectPath\fP *op, const char *pName, const char *qName, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet property qualifier value. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetMethodQualifier\fP )(\fBCMPIObjectPath\fP *op, const char *methodName, const char *qName, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet method qualifier value. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetParameterQualifier\fP )(\fBCMPIObjectPath\fP *op, const char *mName, const char *pName, const char *qName, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet method parameter quailifier value. \fP"
+.ti -1c
+.RI "\fBCMPIString\fP *(* \fBtoString\fP )(\fBCMPIObjectPath\fP *op, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGenerates a well formed string representation of this ObjectPath. \fP"
+.in -1c
+.SH DESCRIPTION
+.PP 
+Native CMPIObjectPath implementation. 
+
+This is the native CMPIObjectPath implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIObjectPath, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH Examples
+.RI "\fBCMPIString * namespace = objpath->ft->getNameSpace(objectpath, NULL);\fP"
+.br
+.RI "\fBCMPIString * classname = objpath->ft->getClassName(objectpath, NULL);\fP"
+.br
+.RI "\fBint numkeys = objectpath->ft->getKeyCount(objectpath, NULL);\fP"
+
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

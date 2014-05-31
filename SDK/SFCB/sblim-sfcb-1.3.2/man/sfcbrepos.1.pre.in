@@ -1,0 +1,119 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH sfcbrepos 1 "August 2005" "sfcbrepos Version @PACKAGE_VERSION@"
+.SH NAME
+sfcbrepos \- Script to rebuild the Small-Footprint CIM Broker (sfcb) class repository
+.SH SYNOPSIS
+.B sfcbrepos
+[\fIoptions\fR]
+.SH DESCRIPTION
+sfcbrepos rebuilds the sfcb class repository from the staging
+files. Rebuilding is done offline and the sfcb CIMOM must be restarted for
+changes to take effect.
+.SH OPTIONS
+Supported command line options are:
+.TP
+\fB\-c\fR \fIschemadir\fR
+Path to obtain the CIM Schema classes.
+Default is \fI@datadir@/sfcb\fR
+.TP
+\fB\-s\fR \fIstagingdir\fR
+Path to sfcb staging area containing class MOFs and registration files
+Default is \fI@localstatedir@/lib/sfcb/stage\fR
+.TP
+\fB\-r\fR \fIregistrationdir\fR
+Path to the sfcb registration directory, containing the root of the class
+repository directory tree. 
+Default is \fI@localstatedir@/lib/sfcb/registration\fR
+.TP
+\fB\-f\fR
+Force option. Without this option you will be prompted to confirm creating a 
+new class repository (and delete the old one). Setting this option will
+rebuild the new sfcb repository without prompting.
+.TP
+\fB\-X\fR \fIplatform\fR
+Build repository for different platform type. Currently only supported on
+ix86 environments. Only valid value is P32 meaning powerpc 32 bit mode. 
+.TP
+\fB\-h\fR
+Display usage information and exit.
+.SH FILES
+.TP
+\fI@datadir@/sfcb/CIM/CIM_Schema.mof\fR
+CIM Schema
+.TP
+\fI@localstatedir@/lib/sfcb/registration/providerRegister\fR
+Contains registration data for all installed providers.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/providerRegister.previous\fR
+Contains registration data for all installed providers from
+previous time sfcbrepos was run. This can be used to restore an
+earlier class repository in case sfcbrepos generates a corrupt one.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/repository\fR
+Contain class repository directory for all supported CIM namespaces.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/repository.previous\fR
+Contain class repository directory for all supported CIM namespaces
+from the previous time sfcbrepos was run. This can be used to restore an
+earlier class repository in case sfcbrepos generates a corrupt one.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/repository/.../classSchemas\fR
+Class data for a namespace.
+.TP
+\fI@localstatedir@/lib/sfcb/stage/default.reg\fR
+Registration data for the default built-in sfcb internal providers.
+.TP
+\fI@localstatedir@/lib/sfcb/stage/mofs/root/interop/interop.mof\fR
+Dummy classes used to added CIM indication support to the
+default interop namespace.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/stage/mofs/.../*.mof\fR
+Class definitions for all installed providers.
+.TP
+\fI@localstatedir@/lib/sfcb/registration/stage/regs/*.reg\fR
+Registration info for all installed providers.
+.SH ENVIRONMENT
+.TP
+.B DESTDIR
+If set, the value of this variable is prepended to the registration directory 
+names. This can be useful to store the repository in a different location, i.e.
+when cross-compiling providers.
+.SH LIBRARIES
+Requires libsfcBrokerCore.a
+.SH AUTHOR
+Adrian Schuur <schuur@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd(1),
+.BR sfcbstage (1),
+.BR sfcbunstage (1),
+.BR getSchema (1)

@@ -1,0 +1,1 @@
+#define CONFIG_IPV6_ROUTE_INFO 1

@@ -1,0 +1,120 @@
+scripts/kconfig/conf -s Config.in
+#
+# using defaults found in .config
+#
+  SPLIT   include/autoconf.h -> include/config/*
+  GEN     include/bbconfigopts.h
+  HOSTCC  applets/usage
+  GEN     include/usage_compressed.h
+  HOSTCC  applets/applet_tables
+  GEN     include/applet_tables.h
+  CC      applets/applets.o
+  LD      applets/built-in.o
+  CC      libbb/appletlib.o
+  AR      libbb/lib.a
+  CC      miscutils/bbconfig.o
+  AR      miscutils/lib.a
+  LINK    busybox_unstripped
+Trying libraries: crypt m
+ Library crypt is needed
+ Library m is not needed
+ Library crypt is needed
+Final link with: crypt
+libbusybox: 0_lib/libbusybox.so.1.12.0
+busybox linked against libbusybox: 0_lib/busybox
+Linking individual applets against libbusybox (see 0_lib/*)
+  ./_install/bin/ash -> busybox
+  ./_install/bin/bbconfig -> busybox
+  ./_install/bin/cat -> busybox
+  ./_install/bin/chmod -> busybox
+  ./_install/bin/chown -> busybox
+  ./_install/bin/cp -> busybox
+  ./_install/bin/dd -> busybox
+  ./_install/bin/df -> busybox
+  ./_install/bin/dmesg -> busybox
+  ./_install/bin/echo -> busybox
+  ./_install/bin/egrep -> busybox
+  ./_install/bin/fgrep -> busybox
+  ./_install/bin/grep -> busybox
+  ./_install/bin/gunzip -> busybox
+  ./_install/bin/gzip -> busybox
+  ./_install/bin/hostname -> busybox
+  ./_install/bin/ip -> busybox
+  ./_install/bin/ipaddr -> busybox
+  ./_install/bin/iplink -> busybox
+  ./_install/bin/iproute -> busybox
+  ./_install/bin/kill -> busybox
+  ./_install/bin/ln -> busybox
+  ./_install/bin/login -> busybox
+  ./_install/bin/ls -> busybox
+  ./_install/bin/mkdir -> busybox
+  ./_install/bin/mknod -> busybox
+  ./_install/bin/mktemp -> busybox
+  ./_install/bin/mount -> busybox
+  ./_install/bin/mountpoint -> busybox
+  ./_install/bin/mt -> busybox
+  ./_install/bin/mv -> busybox
+  ./_install/bin/netstat -> busybox
+  ./_install/bin/nice -> busybox
+  ./_install/bin/ping -> busybox
+  ./_install/bin/ping6 -> busybox
+  ./_install/bin/pipe_progress -> busybox
+  ./_install/bin/ps -> busybox
+  ./_install/bin/pwd -> busybox
+  ./_install/bin/rm -> busybox
+  ./_install/bin/run-parts -> busybox
+  ./_install/bin/sed -> busybox
+  ./_install/bin/sh -> busybox
+  ./_install/bin/sleep -> busybox
+  ./_install/bin/tar -> busybox
+  ./_install/bin/touch -> busybox
+  ./_install/bin/umount -> busybox
+  ./_install/bin/uname -> busybox
+  ./_install/bin/usleep -> busybox
+  ./_install/bin/zcat -> busybox
+  ./_install/linuxrc -> bin/busybox
+  ./_install/sbin/arp -> ../bin/busybox
+  ./_install/sbin/halt -> ../bin/busybox
+  ./_install/sbin/ifconfig -> ../bin/busybox
+  ./_install/sbin/ifdown -> ../bin/busybox
+  ./_install/sbin/ifenslave -> ../bin/busybox
+  ./_install/sbin/ifup -> ../bin/busybox
+  ./_install/sbin/init -> ../bin/busybox
+  ./_install/sbin/insmod -> ../bin/busybox
+  ./_install/sbin/lsmod -> ../bin/busybox
+  ./_install/sbin/pivot_root -> ../bin/busybox
+  ./_install/sbin/poweroff -> ../bin/busybox
+  ./_install/sbin/reboot -> ../bin/busybox
+  ./_install/sbin/rmmod -> ../bin/busybox
+  ./_install/sbin/route -> ../bin/busybox
+  ./_install/sbin/start-stop-daemon -> ../bin/busybox
+  ./_install/sbin/udhcpc -> ../bin/busybox
+  ./_install/sbin/vconfig -> ../bin/busybox
+  ./_install/usr/bin/arping -> ../../bin/busybox
+  ./_install/usr/bin/awk -> ../../bin/busybox
+  ./_install/usr/bin/du -> ../../bin/busybox
+  ./_install/usr/bin/killall -> ../../bin/busybox
+  ./_install/usr/bin/killall5 -> ../../bin/busybox
+  ./_install/usr/bin/mesg -> ../../bin/busybox
+  ./_install/usr/bin/passwd -> ../../bin/busybox
+  ./_install/usr/bin/realpath -> ../../bin/busybox
+  ./_install/usr/bin/reset -> ../../bin/busybox
+  ./_install/usr/bin/rx -> ../../bin/busybox
+  ./_install/usr/bin/script -> ../../bin/busybox
+  ./_install/usr/bin/setsid -> ../../bin/busybox
+  ./_install/usr/bin/tftp -> ../../bin/busybox
+  ./_install/usr/bin/top -> ../../bin/busybox
+  ./_install/usr/bin/traceroute -> ../../bin/busybox
+  ./_install/usr/bin/unzip -> ../../bin/busybox
+  ./_install/usr/bin/wget -> ../../bin/busybox
+  ./_install/usr/bin/which -> ../../bin/busybox
+  ./_install/usr/sbin/sendmail -> ../../bin/busybox
+  ./_install/usr/sbin/telnetd -> ../../bin/busybox
+
+
+--------------------------------------------------
+You will probably need to make your busybox binary
+setuid root to ensure all configured applets will
+work properly.
+--------------------------------------------------
+

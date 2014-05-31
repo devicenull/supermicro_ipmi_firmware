@@ -1,0 +1,1 @@
+#define CONFIG_CPU_ARM926T 1

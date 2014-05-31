@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+	  <link rel="stylesheet" href="../css/basic.css" type="text/css">
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script> 
+    <script language="javascript" src="../js/utils.js"></script> 
+  
+  
+
+<!-- power javascript start -->
+<script type="text/javascript">
+	
+var mainPage = "../cgi/url_redirect.cgi?url_name=health";
+	
+function PageInit()
+{
+	  //SaveOBJ = document.getElementById("ButtonRef");
+	  //SaveOBJ.value = lang.LANG_MISC_POWER_REF;	  
+	
+	  OutputPower=document.getElementById("output_power");
+	  InputCurrent=document.getElementById("input_current");
+	  // InputPower=document.getElementById("input_power");
+
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'UID_SUPPORT.XML=(0,0)&time_stamp='+(new Date());
+	var myAjax = new Ajax.Request(
+			     url,
+			     {method: 'post',parameters:pars, onComplete: PageInit2}//reigister callback function
+			      );
+}
+
+function PageInit2(originalRequest)
+{	
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var IPMIRoot=xmldoc.documentElement;//point to IPMI
+			
+		UID=IPMIRoot.getElementsByTagName('UID');//point to SENSOR_INFO
+		isUID = UID[0].getAttribute("EN");
+			
+		$(TAG_MAINPAGE)	
+		powerRef();	
+	}
+	else 
+	{
+			Alert ("Oops! Please reconnect due to the network problem!");			
+	}
+}
+
+function powerRef() 
+{
+	//linda???
+	Loading(true);
+	var url = '/cgi/ipmi.cgi';
+	var pars = '?Get_PowerSnrReading.XML=(0,0)&time_stamp='+(new Date());
+   	var myAjax = new Ajax.Request(
+                url,
+                {method: 'post',parameters:pars, onComplete: powerRefResult}//reigister callback function
+                );
+	setTimeout(powerRef,3000);
+}
+
+function powerRefResult(originalRequest) 
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	var xmldoc=GetResponseXML(response);
+	if(xmldoc == null)
+	{
+		SessionTimeout();
+		return;
+	}
+	var IPMIRoot=xmldoc.documentElement;//point to IPMI
+		var PowerSnrObj = IPMIRoot.getElementsByTagName("PowerSnr");
+		PWR_Consumption = PowerSnrObj[0].getAttribute("PWR_Consumption");
+		PWR_Current = PowerSnrObj[0].getAttribute("PWR_Current");
+		//PWR_Power = PowerSnrObj[0].getAttribute("PWR_Power");
+		
+	 	OutputPower.innerHTML = parseInt(PWR_Consumption, 16);
+	 	InputCurrent.innerHTML = parseInt(PWR_Current, 16) / 10;
+	 	// InputPower.innerHTML = parseInt(PWR_Power, 16);
+	}
+}
+</script>
+  	<!-- power javascript start -->
+</head>
+
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_MISC_POWER_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_MISC_POWER_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>
+			&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0" width="100%" id="table1">
+				<tr><span>
+					<td class="labelhead" width="200">&nbsp;<script>document.writeln(lang.LANG_MISC_POWER_OUTPUT)</script></td>
+					<td class="labelhead" id="output_power" style="font-weight:bold;"></td></span>
+					<td class="labelhead">(Watts)</td></span> <!-- [Linda] add unit-->
+				</tr>
+				<tr><span>
+					<td class="labelhead" width="200">&nbsp;<script>document.writeln(lang.LANG_MISC_POWER_INPUT_CURRENT)</script></td>
+					<td class="labelhead" id="input_current" style="font-weight:bold;"></td></span>
+					<td class="labelhead">(Amps)</td></span> <!-- [Linda] add unit-->
+				</tr>
+				<!--
+				<tr><span>
+					<td class="labelhead" width="200">&nbsp;<script>document.writeln(lang.LANG_MISC_POWER_INPUT_POWER)</script></td>
+					<td class="labelhead" id="input_power" style="font-weight:bold;"></td></span>
+				</tr>
+				-->
+			</table>
+			</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+
+        	 
+        	  <!--<input type="button" class="btnStyle" id="ButtonRef" onclick="powerRef()"/>-->
+        	  <!-- end of this area -->
+        	  </td>
+        </table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIStatus \- CMPIStatus class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "\fBCMPIrc\fP \fBrc;\fP"
+.br
+.RI "\fIstatus code for operation. \fP"
+.br
+.ti -1c
+.RI "\fBCMPIString\fP * \fBmsg;\fP"
+.br
+.RI "\fIString description for status code, when errors occur. \fP"
+.in +1c
+.SH METHODS
+.br
+.SH DESCRIPTION
+Native CMPIStatus implementation. 
+
+This is the native CMPIStatus implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIStatus object, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

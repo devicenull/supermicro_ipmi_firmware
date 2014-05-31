@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	var mainPage = "../cgi/url_redirect.cgi?url_name=config_ad";
+	
+	function PageInit()
+	{
+		// Get multi-language string
+		document.title = lang.LANG_ADDAD_CAPTION;
+		document.getElementById("addBtn").value = lang.LANG_ADDAD_ADD;
+		document.getElementById("cancelBtn").value = lang.LANG_ADDAD_CANCEL;
+		
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)		
+	}
+	
+	function addGroupCfg()
+	{
+		// check adGroupName field
+		if(Trim(document.getElementById("adGroupName").value).length == 0){
+			alert(lang.LANG_AD_CHK_DOMAIN);
+			return;
+		}
+		else if (!CheckSpeficChar(document.getElementById("adGroupName").value))		
+		{
+			alert(lang.LANG_AD_ERR_INPUT);
+			return;
+		}		
+		// check adGroupDomain field
+		if(Trim(document.getElementById("adGroupDomain").value).length == 0){
+			alert(lang.LANG_AD_CHK_DOMAIN);
+			return;
+		}
+		else if (!CheckSpeficChar(document.getElementById("adGroupDomain").value))		
+		{
+			alert(lang.LANG_AD_ERR_INPUT);
+			return;
+		}		
+		var group_index = GetVars("groupindex") - 1;
+		group_name = Trim(document.getElementById("adGroupName").value);
+		group_domain = Trim(document.getElementById("adGroupDomain").value);
+		Loading(true);
+		var url = '/cgi/config_ad_group.cgi';
+		var pars = 	'groupname=' + escape(group_name) +
+					'&groupidx=' + group_index +
+					'&groupdomain=' + escape(group_domain) +
+					'&new_privilege=' + document.getElementById("adGroupPriv").value;
+					
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: addGroupCfgHandler}//reigister callback function
+	                 ); 	
+	}
+	
+	function addGroupCfgHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			alert(lang.LANG_ADDAD_ADD_SUCCESS);
+			location.href = mainPage;
+		}
+	  	else{
+	   		alert(lang.LANG_ADDAD_ADD_UNCOMPLETE);
+	  	}
+	}
+	
+	function cancelGroupCfg()
+	{
+		location.href = mainPage;
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0"  style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td>
+        		<div class="mtitle">
+        			<script>document.writeln(lang.LANG_ADDAD_CAPTION)</script>
+        		</div>
+        	</td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_ADDAD_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+            	<table border="0">
+  					<tr>
+    					<td><span class="labelhead"><script>document.writeln(lang.LANG_ADDAD_NAME);</script></span></td>
+    					<td><input type="text" id="adGroupName"  maxlength="61" name="adGroupName" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+  					</tr>
+  					<tr>
+    					<td><span class="labelhead"><script>document.writeln(lang.LANG_ADDAD_DOMAIN);</script></span></td>
+    					<td><input type="text" id="adGroupDomain" maxlength="127" name="adGroupDomain" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+  					</tr>
+  					<tr>
+    					<td><span class="labelhead"><script>document.writeln(lang.LANG_ADDAD_PRIV);</script></span></td>
+    					<td>
+    						<select id="adGroupPriv" name="adGroupPriv">
+    							<option value="4">Administrator</option>       
+								<option value="3">Operator</option>    
+								<option value="2">User</option>        
+								<option value="0xf">No Access</option>
+    						</select>
+    					</td>
+  					</tr>
+				</table>
+            	<br>
+            	<input type="button" class="btnStyle" id="addBtn" name="addBtn" onclick="addGroupCfg()" $(TAG_DISABLE)/>
+            	<input type="button" class="btnStyle" id="cancelBtn" name="cancelBtn" onclick="cancelGroupCfg()" $(TAG_DISABLE)/>
+        		<!-- end of this area -->
+       	  	</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,93 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH xmltest 1 "August 2005" "xmltest Version @PACKAGE_VERSION@"
+.SH NAME
+xmltest \- Test script to send CIM-XML (via wbemcat) to CIMOM and compare to known results
+.SH SYNOPSIS
+.B xmltest
+[\fIFILE\fB]
+.SH DESCRIPTION
+.PP
+xmltest is a script that is used to send a raw CIM-XML test file to the sfcb CIMOM 
+(using wbemcat) and then compares the returned CIM-XML results against a previously 
+determined 'OK' result file to check whether the returned results match the expected
+results. If there does not yet exist an 'OK' corresponding to the XML file then xmltest 
+will save the returned results as the new OK file for later use. If the
+returned CIM-XML results don't match the existing 'OK' file a new 'result' file will be
+generated containing the erroneous results.
+.PP
+If no \fIFILE\fB is specified xmltest will use all files with a .xml extension
+in the current directory path.
+.SH EXAMPLE
+.PP
+If there is no 'OK' file to compare returned CIM-XML results against xmltest will generate one.
+.IP
+.TS
+l l.
+# xmltest test/getclass.Linux_OperatingSystem.xml
+
+Running test test/getclass.Linux_OperatingSystem.xml ... OK
+Saving response as test/getclass.Linux_OperatingSystem.OK
+.TE
+.PP
+If the returned CIM-XML results match the existing 'OK' file xmltest will
+signal that the test passed.
+.IP
+.TS
+l l.
+# xmltest test/getclass.Linux_OperatingSystem.xml
+
+Running test test/getclass.Linux_OperatingSystem.xml ... Passed
+.TE
+.PP
+If the returned CIM-XML results don't match the existing 'OK' file xmltest
+will signal that the tes failed and generate a 'result' file containing the
+erroneous results.
+.IP
+.TS
+l l.
+# xmltest test/getclass.Linux_OperatingSystem.xml
+
+Running test test/getclass.Linux_OperatingSystem.xml ... FAILED
+Check test/getclass.Linux_OperatingSystem.result for errors
+.TE
+.SH PREREQUISITES
+Requires wbemcat on search path.
+.SH AUTHOR
+Dr. Gareth S. Bestor <bestor@us.ibm.com>
+.SH CONTRIBUTORS
+Adrian Schuur <schuur@de.ibm.com>
+.SH BUGS
+Does not adequately deal with additional http headers/footers caused by
+chunking responses, which will result in false failures when comparing results
+to existing "x.OK" files.
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR wbemcat (1)

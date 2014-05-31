@@ -1,0 +1,4 @@
+export CROSS_COMPILE=arm-aspeed-linux-gnu-
+./config no-asm no-camellia no-gmp no-krb5 no-mdc2 no-rc5 no-rfc3779 no-seed shared no-tlsext no-zlib --prefix=$PWD/../local/ --openssldir=$PWD/../local/ssl
+
+

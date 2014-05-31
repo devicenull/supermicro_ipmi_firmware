@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+	var CONFPAGE_RESET="../cgi/url_redirect.cgi?url_name=config_ssl_fw_reset&prevpage=conf_port"
+	
+	function PageInit()
+	{
+		// Get multi-language string
+		SaveOBJ = document.getElementById("saveBtn");
+		SaveOBJ.value = lang.LANG_CONF_PORT_SAVE;
+		HttpPortOBJ = document.getElementById("WebSrvPort");
+		HttpsPortOBJ = document.getElementById("WebSrvSSLPort");
+		IKvmPortOBJ = document.getElementById("IKVMPort");
+		VMPortOBJ = document.getElementById("VMPort");
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)	
+		GetPortConfig();
+	}
+	
+	function GetPortConfig()
+	{	
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'GETPORTSINFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: GetPortConfigHandler}//reigister callback function
+	                 );
+	}
+	
+	function CheckPortValue(PortObject)
+	{
+		var Value = PortObject.value;
+		if ( PortObject != HttpPortOBJ && HttpPortOBJ.value == Value )
+		{
+			alert(lang.LANG_CONF_PORTUSE_WARNING);
+			return -1;
+		}
+		if ( PortObject != HttpsPortOBJ && HttpsPortOBJ.value == Value )
+		{
+			alert(lang.LANG_CONF_PORTUSE_WARNING);
+			return -1;
+		}
+		if ( PortObject != IKvmPortOBJ && IKvmPortOBJ.value == Value )
+		{
+			alert(lang.LANG_CONF_PORTUSE_WARNING);
+			return -1;
+		}
+		if ( PortObject != VMPortOBJ && VMPortOBJ.value == Value )
+		{
+			alert(lang.LANG_CONF_PORTUSE_WARNING);
+			return -1;
+		}
+		if( !parseInt(Value) || parseInt(Value) <= 0 || parseInt(Value) > 65535 || isNaN(Value))
+		{
+		    alert(lang.LANG_CONF_PORTERR_WARNING);
+        	return -1;
+    	}
+		
+		return 0;
+	}
+	
+	function GetPortConfigHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+	
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var IPMIRoot = xmldoc.documentElement;
+			var PortInfo = IPMIRoot.getElementsByTagName("PORT_INFO");
+			HttpPortValue = PortInfo[0].getAttribute("HTTP_PORT");
+			HttpsPortValue = PortInfo[0].getAttribute("HTTPS_PORT");
+			IKvmPortValue = PortInfo[0].getAttribute("IKVM_PORT");
+			VMPortValue  = PortInfo[0].getAttribute("VM_PORT");
+			
+			HttpPortOBJ.value = HttpPortValue;
+			HttpsPortOBJ.value = HttpsPortValue;
+			IKvmPortOBJ.value = IKvmPortValue;
+			VMPortOBJ.value  = VMPortValue;
+			
+			
+			HttpPortOBJ.onblur = function()
+			{
+    			if ( CheckPortValue(this) == -1)
+    			{
+    			 	this.focus();
+    			 	return;
+    			}
+			}
+			
+			HttpsPortOBJ.onblur = function()
+			{
+				if ( CheckPortValue(this) == -1)
+    			{
+    			 	this.focus();
+    			 	return;
+    			}
+			}
+			IKvmPortOBJ.onblur = function()
+			{
+				if ( CheckPortValue(this) == -1)
+    			{
+    			 	this.focus();
+    			 	return;
+    			}
+			}
+			VMPortOBJ.onblur = function()
+			{
+				if ( CheckPortValue(this) == -1)
+    			{
+    			 	this.focus();
+    			 	return;
+    			}
+			}
+			
+		}
+	}
+	
+	function SavePortConfig()
+	{
+		
+		Loading(true);
+	    var url = '/cgi/config_port.cgi';
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post', parameters: $('form').serialize(true), onComplete: SavePortConfigHandler}//reigister callback function
+	                 );
+	}
+	
+	function SavePortConfigHandler(originalRequest)
+	{
+		Loading(false);
+		
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var IPMIRoot = xmldoc.documentElement;
+			var PortStatus = IPMIRoot.getElementsByTagName("PORTCONF_STATUS");
+			if (PortStatus[0].getAttribute("HTTP_PORT_STATUS") == "1")
+			{
+				alert(lang.LANG_CONF_PORTUSE_WARNING);
+        		HttpPortOBJ.focus();
+        		return;	
+			}
+			if ( PortStatus[0].getAttribute("HTTPS_PORT_STATUS") == "1")
+			{
+				alert(lang.LANG_CONF_PORTUSE_WARNING);
+        		HttpsPortOBJ.focus();
+        		return;
+			}
+			if ( PortStatus[0].getAttribute("IKVM_PORT_STATUS") == "1")
+			{
+				alert(lang.LANG_CONF_PORTUSE_WARNING);
+        		IKvmPortOBJ.focus();
+        		return;
+			}
+			if ( PortStatus[0].getAttribute("VM_PORT_STATUS") == "1")
+			{
+				alert(lang.LANG_CONF_PORTUSE_WARNING);
+        		VMPortOBJ.focus();
+        		return;
+			}
+			// the port number of all services is not changed.
+			if ( HttpPortValue == HttpPortOBJ.value && HttpsPortOBJ.value == HttpsPortValue &&
+				IKvmPortOBJ.value == IKvmPortValue && VMPortOBJ.value  == VMPortValue)
+			{
+				return;	
+			}
+
+			if(confirm(lang.LANG_CONF_PORT_SUCCSAVE) == true)
+			{
+				if (window.location.protocol == "http:")
+					location.href = CONFPAGE_RESET + "&port=" + HttpPortOBJ.value;
+				else 
+					location.href = CONFPAGE_RESET + "&port=" + HttpsPortOBJ.value
+			}
+
+		}
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td>
+        		<div class="mtitle">
+        			<script>document.writeln(lang.LANG_CONF_PORT_CAPTION)</script>
+        		</div>
+        	</td>
+        	<td><div class="LoadingStyle" id="loading"></div></td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_CONF_PORT_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        	  	<form id="form">
+        	  	<table border="0">
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_CONF_PORT_WEB)</script></div></td>
+						<td><input type="text" name="WebSrvPort" id="WebSrvPort" $(TAG_DISABLE)/></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_CONF_PORT_WEBSSL)</script></div></td>
+						<td><input type="text" name="WebSrvSSLPort" id="WebSrvSSLPort" $(TAG_DISABLE)/></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_CONF_PORT_IKVM)</script></div></td>
+						<td><input type="text" name="IKVMPort" id="IKVMPort" $(TAG_DISABLE)/></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_CONF_PORT_VM)</script></div></td>
+						<td><input type="text" name="VMPort" id="VMPort" $(TAG_DISABLE)/></td>
+					</tr>
+				</table>
+				</form>
+        	 	<br>
+        	 	<input type="button" class="btnStyle" id="saveBtn" name="saveBtn" onclick="SavePortConfig()" $(TAG_DISABLE)/>
+        	  	<!-- end of this area -->
+        	  </td>
+        </tr>
+    </table>
+</body>
+</html>

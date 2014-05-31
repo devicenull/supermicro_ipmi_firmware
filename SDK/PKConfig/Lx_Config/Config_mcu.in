@@ -1,0 +1,11 @@
+menu "MyMCU Configuration"
+
+choice
+	prompt "CPU Choice"
+	default CONFIG_CPU_ASPEED_2050
+	help
+	chose a CPU for IPMI
+
+source PKConfig/Lx_Config/MCU_Config/Config_mcu_HERMON.in
+endchoice
+endmenu

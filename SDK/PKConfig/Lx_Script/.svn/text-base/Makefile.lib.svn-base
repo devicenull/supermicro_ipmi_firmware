@@ -1,0 +1,67 @@
+FIND_PATH = $(shell grep -s ".*-y.*=.*" $(1) |sed -e "s/.*=//")
+ECHO = $(if $(shell echo -e "\n"),echo ,echo -e)
+ECHO_CMD = echo
+FIND_CMD = find
+GREP_CMD = grep
+CP_CMD = cp
+RM_CMD = rm
+MKDIR_CMD = mkdir
+SED_CMD = sed
+PRINTF_CMD = printf 
+SDKPATH_FILE = $(PRJ_PATH)/.SDKPath
+
+define SDKPATH_CMD
+	@if [ ! -f .SDKPath ] ;then touch .SDKPath;else rm .SDKPath ;fi
+	@grep -s 'CONFIG_EXTRACT_PATH=' $(PRJ_PATH)/.config  | sed -e 's/CONFIG_EXTRACT_PATH=\"\(.*\)\"/EXTRPATH_tmp=\1/' >> $(PRJ_PATH)/.SDKPath
+	@$(ECHO) "EXTRPATH =\$$(strip \$$(shell cd \$$(PRJ_PATH);if [ ! -d \$$(PRJ_PATH)/\$$(EXTRPATH_tmp) ];then mkdir -p \$$(PRJ_PATH)/\$$(EXTRPATH_tmp); fi\
+	;cd \$$(PRJ_PATH);pwd ))" >> $(PRJ_PATH)/.SDKPath
+	@$(ECHO) "DTKPATH=\$$(shell cd \$$(EXTRPATH)/\$$(EXTRPATH_tmp);pwd)" >>$(PRJ_PATH)/.SDKPath
+	@$(ECHO) "SDKPATH=\$$(shell cd \$$(EXTRPATH)/\$$(EXTRPATH_tmp);pwd)" >>$(PRJ_PATH)/.SDKPath
+endef
+
+define STRIPOBJS_INFOLDER 
+	$(Q)for i in $(shell ls -d $(1)); do if [ -f $$i ] ;then $(STRIP) -s $$i ;fi; done; 
+endef
+
+#parameter 1: search default pattern-list : $(DEFAULT_PATTERN)
+#parameter 2: folder name
+#parameter 3: exclude files
+#parameter 4: swarch other pattern-list : $(OTHER_PATTERN)
+define GEN_SEARCH_LIST
+    $(filter-out $(3), $(sort $(shell for i in $(1);do $(call SEARCH_FILES,$$i,$(2),$(3)) ;done) \
+    $(shell if [ -n $(4) ];then for i in $(4);do $(FIND_CMD) . -name $$i;done fi)\
+    ))
+endef
+
+#parameter 1: search pattern
+#parameter 2: folder name
+#parameter 3: exclude files
+define SEARCH_FILES
+    $(FIND_CMD) $(2)  -iname "$(1)" |$(GREP_CMD) -vw "Host";
+    $(FIND_CMD) $(2)  -iname "$(1)" |$(GREP_CMD) -s "Host/$(MYMCU)" | $(GREP_CMD) -vw "Board";
+    $(FIND_CMD) $(2)  -iname "$(1)" |$(GREP_CMD) -s "Host/$(MYMCU)/Board/$(BOARD)"
+endef
+
+#paramter 1: the folders which you want to remove
+define RM_TASK
+	$(Q)for i in $(sort  $(1));do \
+	if [ -d $$i ] || [ -f $$i ] || [ -L $$i ];then \
+	$(RM_CMD) -rf $$i && $(ECHO_CMD) "CLEAN " $$i; \
+	fi;done
+endef
+
+#parameter 1: C source file list
+define OBJECT_FILE
+	$(sort  $(foreach n,$(if $(wildcard $(1)),$(wildcard $(1)),$(wildcard $(patsubst %.c,%.o, $(1))) ),$(patsubst %.c,%.o, $(n))))
+endef
+
+#parameter 1: C source file list 
+define DEPENDENCY_FILE
+	$(filter %.d ,$(patsubst %.c,%.d,$(wildcard $(1))))
+endef
+define SHOW_FSSIZE
+	$(Q)$(ECHO_CMD) "===================Filesystem [$(3)]============================="
+	$(Q)$(ECHO_CMD) " Total size : $(1) Mbytes "
+	$(Q)$(PRINTF_CMD) " In used : %s Kbytes\n"  `du -sk $(2) | awk '{ print $$1}'`
+	$(Q)$(ECHO_CMD) "==============================================================="
+endef

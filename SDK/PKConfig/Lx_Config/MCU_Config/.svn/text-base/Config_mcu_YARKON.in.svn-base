@@ -1,0 +1,2 @@
+config CONFIG_CPU_NUVOTON_YARKON
+    bool "YARKON"

@@ -1,0 +1,99 @@
+Small Footprint CIM Client Library NEWS
+
+Changes in 2.1
+==============
+New features:
+- 1820015 sfcc: prepare for indication support
+- 1854813 sfcc: new parser
+- 1867649 sfcc: embedded instance support (receiving side)
+- 1828588 sfcc: Indication support (CIMXML)
+- 1828584 sfcc: large volume data support (CIMXML)
+
+Bugs:
+- 1887125 sfcc: cleanup due to new parser
+- 1940546: Memory corruption in AsciiToXmlStr()
+
+Changes in 2.0.3:
+=================
+
+Bugs:
+- 1810017 Fixed sfcc generates incorrect XML for complex properties
+- 1793132 sfcc reports incorrect namespace for associators operation
+
+Changes in 2.0.2:
+=================
+Bugs:
+- 1745279 Fixed handling of complex array IN arguments
+- 1777906 Fixed issue with the SFCC xml parsing code
+- 1803867 invokeMethod test now works correctly
+
+Changes in 2.0.1:
+=================
+Bugs:
+- 1740368 Fixed memory corruption on long string properties
+- 1722381 sfcc fails on getInstance for associations
+- 1726113 Parser not clearing qualifier cache
+- 1737254 sfcc can segfault when setting null values
+- 1743362 Fixed segfaults on 64-bit systems
+
+Changes in 2.0.0:
+=================
+Major restructuring in order to support alternative
+backend implementations and to facilitate the
+development of additional language frontends (bindings).
+
+New Features
+- 1654163: Restructure for pluggable backends
+- 1654428: Removed obsolete libsfcUtil
+- 1663663: Supplied spec file for RPM build
+- 1681555: Add backend selection via scheme parameter
+
+Bugs:
+- 1670019: Fixed connection failures on second parallel connection
+- 1675554: Fixed case sensitive comparisons
+- 1681489: Fixed connection release failures
+- 1681487: Fixed incompatible constclass function table
+
+Changes in 1.1.1:
+=================
+Bugs:
+- 1596171: Fixed incorrect timeout assertion when system clock changes
+- 1604433: Fixed memory leaks
+- 1610514: Aligned sfcc/sfcb libsfcUtil
+- 1636714: Fixed parser rule for method responses
+- 1637057: Fixed Arrays not yet supported as function arguments
+- 1653388: Fixed misaligned CMPIValue usage in test programs
+
+Changes in 1.1.0:
+=================
+Merged in Changes from David Howell
+
+New features:
+- use version scripts
+- new implementation of datetime
+- conditional TE: Trailer 
+
+Bugs:
+- xxxxxxx: Fixed memory error with CIMStatus trailer
+
+Changes in 1.0.1:
+=================
+New features:
+- moved some util functions to sfcUtil, build as shared library
+
+Bugs:
+- 1518169: Fixed memory leak in constclass.c
+- 1513362: Added setting of status code in function cmciConnect2,
+           checking for NULL in CMSetStatus macros
+- 1513278: Fixed segfault in property qualifier processing
+
+Changes in 1.0.0:
+=================
+Bugs:
+- 1439103: Evaluation of trailer headers for chunked transfers added.
+
+Changes in 0.7.0:
+=================
+Bugs:
+- 1315810: Support for Client Certificates Added.
+- 1362805: Relicenced from CPL to EPL.

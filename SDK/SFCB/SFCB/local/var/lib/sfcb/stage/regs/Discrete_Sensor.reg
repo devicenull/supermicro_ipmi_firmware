@@ -1,0 +1,6 @@
+[Discrete_Sensor]   
+   provider: Discrete_SensorProvider
+   location: cmpiDiscrete_SensorProvider
+   type: instance
+   namespace: root/cimv2
+#

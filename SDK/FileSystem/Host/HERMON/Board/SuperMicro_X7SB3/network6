@@ -1,0 +1,137 @@
+#!/bin/sh
+
+INTERFACENUM=1
+IPV6_LIST=`ifconfig | grep inet6 | sed -e '/::1\/128/d' | awk '{print $3}'`
+ADDRLIST_SYNBOL=IPV6ADDRLIST
+PROC_NET_CONF="/proc/sys/net/ipv6/conf"
+
+case "$1" in
+eth0)
+	[ -f /etc/network/netconfig0 ] && . /etc/network/netconfig0
+	tmp_interface=$INTERFACE0
+	tmp_autoconf=$AUTOCONF0
+	tmp_ipaddr="$IPV6ADDRLIST0"
+	tmp_dhcpen=$DHCPv6EN0
+	tmp_device=$DEVICE0
+	i=0
+;;
+eth1)
+	[ -f /etc/network/netconfig1 ] && . /etc/network/netconfig1
+    tmp_interface=$INTERFACE1
+    tmp_autoconf=$AUTOCONF1
+    tmp_ipaddr=$IPV6ADDRLIST1
+    tmp_dhcpen=$DHCPv6EN1
+    tmp_device=$DEVICE1
+	i=1
+;;
+bond0)
+    [ -f /etc/network/netconfig2 ] && . /etc/network/netconfig2
+    tmp_interface=$INTERFACE2
+    tmp_autoconf=$AUTOCONF2
+    tmp_ipaddr=$IPV6ADDRLIST2
+    tmp_dhcpen=$DHCPv6EN2
+    tmp_device=$DEVICE2
+    i=2
+;;
+esac
+
+case "$2" in 
+test)
+	echo "ipaddr = $tmp_ipaddr"
+	echo "autoconf = $tmp_autoconf"
+	echo "device = $tmp_device"
+;;
+start)
+    echo "Configure IPv6 Network........"
+
+	tmp_device2=`echo $tmp_device | awk -F. '{print $1}'`
+	autoconf_state=`cat $PROC_NET_CONF/default/autoconf`
+
+	if [ ! $tmp_autoconf = $autoconf_state ];then
+		#eval echo "autoconf var : different."
+
+		if [ $tmp_autoconf = "1" ];then
+		    echo "1" > $PROC_NET_CONF/default/autoconf
+			echo "1" > $PROC_NET_CONF/default/accept_ra
+	        echo "1" > $PROC_NET_CONF/default/accept_redirects	    
+
+			if [ -d $PROC_NET_CONF/$tmp_device ];then
+				echo "1" > $PROC_NET_CONF/$tmp_device/autoconf
+				echo "1" > $PROC_NET_CONF/$tmp_device/accept_ra
+				echo "1" > $PROC_NET_CONF/$tmp_device/accept_redirects
+			fi
+		else
+		    echo "0" > $PROC_NET_CONF/default/autoconf
+			echo "0" > $PROC_NET_CONF/default/accept_ra
+	        echo "0" > $PROC_NET_CONF/default/accept_redirects
+
+		    if [ -d $PROC_NET_CONF/$tmp_device ];then
+				echo "0" > $PROC_NET_CONF/$tmp_device/autoconf
+				echo "0" > $PROC_NET_CONF/$tmp_device/accept_ra
+	        	echo "0" > $PROC_NET_CONF/$tmp_device/accept_redirects	
+			fi
+		fi
+
+        eval ip link set $tmp_device down
+        eval ip link set $tmp_device up	
+
+	    if [ $1 = "bond0" ];then
+		    eval ifenslave $tmp_device2 eth0 eth1
+		fi
+#	else
+		#eval echo "autoconf var : the same one."
+
+#UPnP
+		if [ -f /bin/upnp_dev ]; then						
+			/sbin/route add -net 239.0.0.0 netmask 255.0.0.0 $tmp_device;			
+		fi
+
+	fi
+
+	if [ $1 = "bond0" ];then
+		eval echo "==== Channel bonding task for IPv6 ====="
+		IPV6_LIST_TMP=`ifconfig eth0 | grep inet6 | awk '{print $3}'`
+		for k in $IPV6_LIST_TMP;do
+			eval echo "eth0 : delete IPv6 address : "$k
+		    eval ip -6 addr del "$k" dev eth0
+		done
+
+        IPV6_LIST_TMP=`ifconfig eth1 | grep inet6 | awk '{print $3}'`
+        for k in $IPV6_LIST_TMP;do
+            eval echo "eth1 : delete IPv6 address : "$k
+            eval ip -6 addr del "$k" dev eth1
+        done
+		eval echo "============ Done ============="
+	fi
+
+    if [ $tmp_device != $tmp_device2 ];then #VLAN enabled
+        IPV6_LIST_TMP=`ifconfig $tmp_device2 | grep inet6 | awk '{print $3}'`
+        for k in $IPV6_LIST_TMP;do
+            eval echo $tmp_device2" : delete IPv6 address : "$k
+            eval ip -6 addr del "$k" dev $tmp_device2
+        done
+	fi
+
+	for j in $tmp_ipaddr;do
+		eval echo $tmp_device" : add IPv6 address : "$j
+		eval ip -6 addr add "$j" dev $tmp_device
+	done
+;;
+stop2)
+    echo "Deconfigure IPv6 Network........"
+	for j in $IPV6_LIST;do
+	    eval echo $tmp_device" : delete IPv6 address : "$j
+	    eval ip -6 addr del "$j" dev $tmp_device
+	done
+;;
+stop)
+	#echo "Deconfigure IPv6 Network........"
+	tmp_device2=`echo $tmp_device | awk -F. '{print $1}'`
+
+	for j in $IPV6_LIST;do
+		#eval echo $tmp_device2" : delete IPv6 address : "$j
+		eval ip -6 addr del "$j" dev $tmp_device2 &>> /dev/null
+	done
+;;
+esac
+

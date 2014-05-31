@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script> 
+	<script type="text/javascript">
+	/*global variable*/
+	var usr_id;
+	var isUID1;
+	var usrPage = "../cgi/url_redirect.cgi?url_name=config_usr"
+	function PageInit()	
+	{
+		modify_btn=document.getElementById("btn_modify");
+		cancel_btn=document.getElementById("btn_cancel");
+		modify_btn.value = lang.LANG_CONFUSER_MOD_MODIFY;
+		cancel_btn.value = lang.LANG_CONFUSER_MOD_CANCEL;
+		
+		isChangePWD = document.getElementById("checkbox_changepwd");
+		usr_name=document.getElementById("text_name");
+		usr_pwd=document.getElementById("password_pwd");
+		usr_pwd_check=document.getElementById("password_pwd_check");
+		usr_priv=document.getElementById("select_priv");
+		usr_pwd.disabled = true;
+		usr_pwd_check.disabled = true;
+		
+		usr_id = GetVars("usr_id");
+		if(usr_id == 1)
+		{
+			usr_name.disabled = true;
+			usr_priv.disabled = true;
+			usr_pwd.disabled = true;
+			usr_pwd_check.disabled = true;
+			isChangePWD.disabled = true;
+			modify_btn.disabled = true;
+			cancel_btn.disabled = true;
+			isUID1 = 1;
+		}
+		if(usr_id == 2)
+		{
+/*			usr_name.disabled = true;	Joe --- allow user to change the ADMIN*/ 
+			usr_priv.disabled = true;
+		}
+	 
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)	
+
+		modify_btn.onclick = PreModifyUser;	
+		cancel_btn.onclick = function()
+		{	
+			location.href = usrPage;
+		}
+
+		fillUI();	
+	}
+
+	function fillUI()
+	{
+		usr_name.value = GetVars('usr_name');
+		isChangePWD.onclick = function()
+	 	{
+			usr_pwd.disabled = !(this.checked);
+			usr_pwd_check.disabled = !(this.checked);
+	 	}
+	 	var tmp_priv   = GetVars("usr_priv");
+	 	usr_priv.value = ( tmp_priv == 15) ? "0xf" : tmp_priv;
+
+		 if(usr_name.value == 'root')
+		 {
+		 	usr_pwd.disabled = true;
+		 	usr_pwd.disabled = true;
+		 }
+	}
+	function PreModifyUser()
+	{
+		if (isChangePWD.checked)
+		{
+			if ( usr_pwd.value!= usr_pwd_check.value)
+			{
+				alert(lang.LANG_CONFUSER_COMMON_ERR2);
+				return;
+			}
+		
+			if (CheckPassword(usr_pwd.value) == false)
+			{
+				alert(lang.LANG_CONFUSER_MOD_ERR1);
+				return;
+			}
+		}
+		
+		Loading(true);
+		getUsrInfo();
+	}
+	function getUsrInfo()
+	{
+		/** The user name cannot be duplicate in PS.
+			Check to prevent it.
+			Get all user data from server, and compare one by one.
+		**/	
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: showUsrInfo}//reigister callback function
+	                 );
+	}
+	function showUsrInfo(originalRequest)
+	{
+		if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var root=xmldoc.documentElement;
+			var config_elm=root.getElementsByTagName("CONFIG_INFO");
+			var total_num=config_elm[0].getElementsByTagName('TOTAL_NUMBER'); 
+			var user=config_elm[0].getElementsByTagName('USER');
+			var usernum = parseInt(total_num[0].getAttribute("USER"),16);
+			/** The user name cannot be duplicate in PS.
+				Check to prevent it.
+			**/	
+			u_id = usr_id - 1;
+
+			for(i=1; i < usernum; i++)
+			{
+				if(i != u_id){
+					if(Trim(usr_name.value) == Trim(user[i].getAttribute("NAME")))
+					{ 					
+						Loading(false);
+						alert(lang.LANG_CONFUSER_COMMON_ERR4);
+						return;
+					}
+				}
+			}
+			ModifyUser();	
+		}
+	}
+	function ModifyUser()
+	{
+		if(isUID1 == 1)
+			u_name = "";
+		else
+			u_name = Trim(usr_name.value);
+
+		u_pwd = Trim(usr_pwd.value);		
+		u_id = usr_id - 1;
+		url = '/cgi/config_user.cgi';
+		if(isChangePWD.checked)
+			pars = 	'username=' + escape(u_name) +
+					'&original_username=' + u_id +
+					'&password=' + escape(u_pwd) +
+					'&new_privilege=' + usr_priv.value;
+		else
+			pars = 	'username=' + escape(u_name) +
+					'&original_username=' + u_id +
+					'&new_privilege=' + usr_priv.value;
+									
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: ModifyUserIsDone}//reigister callback function
+	                 ); 
+
+	}
+	function ModifyUserIsDone()
+	{	
+		Loading(false);
+		alert(lang.LANG_CONFUSER_MOD_SUCC);
+		location.href = usrPage;
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_CONFUSER_MOD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td>
+                	<div class="textA"><script>document.writeln(lang.LANG_CONFUSER_MOD_DESC)</script></div>
+                	</td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	 <td>
+        	 <!-- below area is needed to modify by yourself -->
+        	 <table>
+        	 <tr>
+        	 <td><label class="labelhead">
+        	 	  <strong><script>document.writeln(lang.LANG_CONFUSER_MOD_NAME);</script></strong></label></td>
+	         <td><input type="text" maxlength="15" id="text_name"  $(TAG_DISABLE) onBlur='CheckInputValue(this)'></td>
+	         </tr>
+	         <tr>
+	         <td><label class="labelhead">
+	         	  <strong><script>document.writeln(lang.LANG_CONFUSER_MOD_CHANGE_PWD);</script></strong></label></td>
+	         <td><input type="checkbox" id="checkbox_changepwd"></td>
+			 </tr>
+	         <tr>
+	         <td><label class="labelhead">
+	         	  <strong><script>document.writeln(lang.LANG_CONFUSER_MOD_PWD);</script></strong></label></td>
+	         <td><input type="password" maxlength="19" id="password_pwd" $(TAG_DISABLE) onBlur='CheckInputValue(this)'></td>
+			 </tr>
+	         <tr>
+			 <td><label class="labelhead">
+			 	  <strong><script>document.writeln(lang.LANG_CONFUSER_MOD_CONF_PWD);</script></strong></label></td>
+	         <td><input type="password" maxlength="19" id="password_pwd_check" $(TAG_DISABLE) onBlur='CheckInputValue(this)'></td>
+			 </tr>
+	         <tr>
+			 <td><label class="labelhead">
+			 	 <strong><script>document.writeln(lang.LANG_CONFUSER_MOD_PRIV);</script></strong></label>
+			 </td>
+	         <td>
+				<select id="select_priv">
+					<option value="4"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_ADMIN);</script></option>       
+					<option value="3"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_OPERATOR);</script></option>    
+					<option value="2"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_USER);</script></option>        
+					<option value="0xf"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_NOACCESS);</script></option>  
+				</select>
+	         </td>
+        	 </tr>
+        	 </table>
+        	 <br>
+        	 <input type="button" class="btnStyle" id="btn_modify" $(TAG_DISABLE)/>
+        	 <input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)/>
+        	 <!-- end of this area -->
+        	 </td>
+        <tr>
+    </table>
+</body>
+</html>

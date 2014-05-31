@@ -1,0 +1,17 @@
+CLEANOBJS = $(sort $(OBJS) $(OBJS:.o=.d))
+clean:
+ifneq ($(SOURCES-y),)
+	@echo CLEAN $(notdir $(CLEANOBJS)) 
+	@for i in $(CLEANOBJS); do if [ -f $$i ];then rm $$i ;fi ; done
+endif
+ifneq ($(obj-m),)
+	@echo [DRV] CLEAN $(notdir $(obj-m)) 
+	@rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions
+endif 
+%.o:%.c
+	@echo " CC "$@ 
+	$(Q)$(CC) $(CFLAGS) -c $< -o $@ 
+%.d:%.c
+	@$(CC) -M $(CFLAGS) $< > $@.$$$$;\
+	sed 's,\($*\).o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@;\
+	rm -f   $@.$$$$

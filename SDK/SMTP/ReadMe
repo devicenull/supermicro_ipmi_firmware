@@ -1,0 +1,10 @@
+
+msmtp-1.4.16.tar.gz
+1. When authentication is used, user needs to send the command like  
+   "./msmtp -d --host=192.168.58.99 --user=Doris --auth=login -f=192.168.0.102 doris@192.168.58.99 < mail.txt"
+   After this command is excuted, user will be asked to type the password later.
+   However, this is not suitable for our firmware use.
+   We modified msmtp.c to resolve this, and the msmtp AP can read the password from the command line now.
+   The command may like " ./msmtp -d --host=192.168.58.99 --user=Doris:dorispwd --auth=login -f=192.168.0.102 doris@192.168.58.99 < conf.c",
+   where "dorispwd" is the password of the user Doris.
+ 

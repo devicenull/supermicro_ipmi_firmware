@@ -1,0 +1,59 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIInstance \- CMPIInstance class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl\fP
+.br
+Opaque pointer to class instance data.
+.ti -1c
+.RI "\fBCMPIInstanceFT\fP * \fBft\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.in -1c
+.SH METHODS
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBrelease\fP )(\fBCMPIInstance\fP *inst)"
+.br
+.RI "\fIThe Instance object will not be used any further and may be freed by CMPI run time system. \fP"
+.ti -1c
+.RI "\fBCMPIInstance\fP *(* \fBclone\fP )(\fBCMPIInstance\fP *inst, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fICreate an independent copy of this Instance object. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetProperty\fP )(\fBCMPIInstance\fP *inst, const char *name, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets a named property value. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetPropertyAt\fP )(\fBCMPIInstance\fP *inst, unsigned int index, \fBCMPIString\fP **name, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets a Property value defined by its index. \fP"
+.ti -1c
+.RI "unsigned int(* \fBgetPropertyCount\fP )(\fBCMPIInstance\fP *inst, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGets the number of properties contained in this Instance. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetProperty\fP )(\fBCMPIInstance\fP *inst, const char *name, \fBCMPIValue\fP *value, \fBCMPIType\fP type)"
+.br
+.RI "\fIAdds/replaces a named Property. \fP"
+.ti -1c
+.RI "\fBCMPIObjectPath\fP *(* \fBgetObjectPath\fP )(\fBCMPIInstance\fP *inst, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGenerates an ObjectPath out of the namespace, classname and key propeties of this Instance. \fP"
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBsetPropertyFilter\fP )(\fBCMPIInstance\fP *inst, char **propertyList, char **keys)"
+.br
+.RI "\fIDirects CMPI to ignore any setProperty operations for this instance for any properties not in this list. \fP"
+.in -1c
+.SH DESCRIPTION
+.PP 
+Native CMPIInstance implementation. 
+
+This is the native CMPIInstance implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIInstance, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

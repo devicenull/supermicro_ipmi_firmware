@@ -1,0 +1,102 @@
+MOFC Mof Compiler for SFCB (and other purposes)
+===============================================
+MOFC is a standalone Compiler for the DMTF MOF Syntax. Please
+visit http://www.dmtf.org to learn more about DMTF, CIM, MOF, etc.
+
+Last update: 11/09/2004
+
+Building:
+---------
+Build and Install is pretty straightforward: unpack the tarball,
+do a configure, make and make install.
+This will create a (really) standalone MOF Compiler. You can test it
+by invoking ./runtest.sh. In response it should say something like
+
+MOF Compiler Version 0.6.5 (C) Copyright IBM Corp. 2004 with Default Backend
+Parsing tests/test1.mof tests/test2.mof
+  MOF include path=tests/include
+  extra MOF file=test3.mof
+  + including file tests/include/test3.mof
+  + including file tests/include/test2.mof
+
+and produce an output file named mofc.out resembling more or less the
+structure of the processed MOF files. While this is neat, it is fairly
+useless. Therefore you should be
+
+Building for Real (SFCB):
+-------------------------
+You must have the SFCB package (built and preferably also installed) on
+your system. Unpack this packages tarball in the SFCB source directory,
+i.e. ~/sfcb/sfcb-0.6.1 . This will create a sub-directory named mofc-0.6.5 or
+similar.
+
+Go to the mofc subdirectory and do a ./configure --with-sfcb, make and
+make install.
+
+Executing ./runtest.sh should now produce 
+
+MOF Compiler Version 0.6.5 (C) Copyright IBM Corp. 2004 with SFCB Backend
+Parsing tests/test1.mof tests/test2.mof
+  MOF include path=tests/include
+  extra MOF file=test3.mof
+  + including file tests/include/test3.mof
+  + including file tests/include/test2.mof
+  adding class test_a
+  adding qualifier description for class test_a
+  adding property charlie for class test_a
+  adding property hugo for class test_a
+  adding qualifier description for property hugo in class test_a
+  adding class test_b
+  adding qualifier association for class test_b
+  adding property refvar for class test_b
+  adding property defvar for class test_b
+  adding class test_d
+  adding property gollum for class test_d
+  adding class test_e
+  adding property gollum for class test_e
+  adding class test_f
+  adding property gollum for class test_f
+  adding property fvar for class test_f
+
+Except for being slightly more verbose the difference is that
+mofc.out is now a binary file that can be used as classSchemas file
+of the SFCB.
+
+NOTE: Upon installation the executable will be renamed from mofc to sfcbmof.
+
+Building Embedded in SFCB
+-------------------------
+There's also another possibility to build an SFCB version of MOFC. In case
+you have received it bundled with SFCB, the SFCB configure and build will
+take care for bulding MOFC. You can disregard this document in this case.
+
+Using MOFC in an SFCB Environment
+---------------------------------
+One thing you have to know, is that MOFC generates class information only
+for the class definitions in the MOF file it is compiling and the ancestor 
+classes. So compiling CIM_Schemaxx.mof will actually result in an empty
+output. This is a feature not a bug :-).
+
+Another thing to observe, is that MOFC is truly stand alone: that means it
+must be fed with information about parent classes, qualifiers and so on.
+This basically means that the only meaningful invocation will look like this:
+
+  sfcbmof -I <CIM Schema Directory> -i CIM_Schemaxx.mof your.mof [other.mof ...]
+
+You can download the CIM Schema files from http://www.dmtf.org.
+
+Once you have created an output file (like mofc.out) rename it to classSchemas
+and copy it over to the SFCB home directory, restart sfcBroker and (hopefully)
+enjoy.
+
+BTW: If you find that you don't need bulky property qualifiers like
+Description, ValueMap and Values you can use the -bq option to omit them
+from the output file.
+
+Documentation:
+--------------
+None yet, except for sfcbmof/mofc -h (Exercise left to the reader).
+
+CVS Instructions:
+-----------------
+If you checkout from CVS run autoconfiscate.sh to prepare for building.

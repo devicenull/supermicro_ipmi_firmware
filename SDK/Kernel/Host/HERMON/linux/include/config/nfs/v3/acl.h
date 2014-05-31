@@ -1,0 +1,1 @@
+#define CONFIG_NFS_V3_ACL 1

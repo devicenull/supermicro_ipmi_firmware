@@ -1,0 +1,61 @@
+-include .ProjectName
+-include .config
+SDKROOT=$(PWD)
+DTKROOT=$(SDKROOT)/$(subst ",,$(CONFIG_DTK_PATH))
+-include Makefile.in
+CC=$(CROSS_COMPILE)gcc
+CXX=$(CROSS_COMPILE)g++
+LD=$(CROSS_COMPILE)ld
+AR=$(CROSS_COMPILE)ar
+NM=$(CROSS_COMPILE)nm
+STRIP=$(CROSS_COMPILE)strip
+RANLIB=$(CROSS_COMPILE)ranlib
+OBJCOPY=$(CROSS_COMPILE)objcopy
+OBJDUMP=$(CROSS_COMPILE)objdump 
+LIBOBJS=$(wildcard LIB/*.o)
+KERNELDIR = $(DTKROOT)/Kernel
+Q=@
+
+MAKEFLAGS += --no-print-directory
+BINPATH = SDKFILES/$(PRJNAME)/bin
+LIBPATH = SDKFILES/$(PRJNAME)/lib
+IMAGEPATH = SDKFILES/$(PRJNAME)/image
+MODULEPATH = SDKFILES/$(PRJNAME)/bin/module
+LDFLAGS += -L$(SDKROOT)/$(LIBPATH) -lcore -lpthread -lmqueue -lrt
+export NM OBJDUMP OBJCOPY CC LD AR RANLIB LDFLAGS ARFLAGS CFLAGS KERNELDIR CROSS_COMPILE ARCH MAKEFLAGS Q ARCH
+export SDKROOT BINPATH LIBPATH IMAGEPATH MODULEPATH DTKROOT
+MODULES-y += SDK/$(subst ",,$(CONFIG_DTK_PATH))/FileSystem
+MODULES-y += SDK/$(subst ",,$(CONFIG_DTK_PATH))/Kernel
+MODULES-y += SDK/SDKFILES
+#IPMI Modules
+
+#iKVM module
+
+#USB module
+
+
+SYSTEMMOD = $(addprefix _MOD_,$(MODULES-y))
+
+all: Prebuild $(SYSTEMMOD) Strip
+Prebuild:
+	@cd LIB;$(AR) x liblxall.a;cd $(SDKROOT)
+$(SYSTEMMOD):
+	$(MAKE) CC="$(CC)" CXX="$(CXX)"  LD="$(LD)" AR="$(AR)" NM="$(NM)" OBJCOPY="$(OBJCOPY)" OBJDUMP="$(OBJDUMP)" RANLIB="$(RANLIB)" -C "../$(patsubst _MOD_%,%,$@)"
+Strip:
+	@for i in `ls $(BINPATH)`; do if [ -f $(BINPATH)/$$i ]; then $(STRIP) $(BINPATH)/$$i; fi;done
+install:
+	make -C $(KERNELDIR) install
+	make -C $(DTKROOT)/FileSystem install
+clean:
+	@rm -rf $(BINPATH) $(LIBPATH) $(LIBOBJS)
+	@for i in $(MODULES-y); do make CC=$(CC) -C "../$$i" clean; done
+
+define PRJNAME_CMD
+	@if [ ! -f .ProjectName ] ;then touch .ProjectName;else rm .ProjectName ;fi
+	@grep -s "CONFIG_PRJNAME=" $(SDKROOT)/.config  |sed -e "s/CONFIG_PRJNAME=\"/PRJNAME=/" -e "s/\"//" >>$(SDKROOT)/.ProjectName
+endef
+wizard:
+	@if [ -f mconf ];then if [ ! -x mconf ];then chmod 755 mconf;fi;else echo "Lose mconf file";exit 1;fi
+	@if [ -f Config.in ];then ./mconf Config.in;else echo "Lose Config file";fi
+	$(call PRJNAME_CMD)
+	@$(MAKE) wizard -C "SDKFILES/"

@@ -1,0 +1,20 @@
+-include $(PRJ_PATH)/.config
+override CFLAGS =
+override LDFLAGS =
+override LIBS =
+
+FEATURE_NAME=
+FEATURE_VERSION=
+PACK_NAME=
+OTHER_LIB=
+
+all:
+
+install:
+	@echo "=============== INSTALL $(FEATURE_NAME) ==============="
+	@cp $(PACK_NAME) $(WEBFS_PATH)/$(FEATURE_NAME)__V$(FEATURE_VERSION).jar.pack.gz
+ifneq ($(OTHER_LIB),)
+	@cp $(OTHER_LIB) $(WEBFS_PATH)/
+endif
+
+clean:

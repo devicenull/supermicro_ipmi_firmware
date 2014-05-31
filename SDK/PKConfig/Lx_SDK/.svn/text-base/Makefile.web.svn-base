@@ -1,0 +1,35 @@
+include $(SDKROOT)/.config
+OBJS = $(OBJS-y)
+
+CGILIBS=session_link.o template.o var.o HTTPCMDTable.o
+LDFLAGS += -lldap_client -L$(DTKROOT)/OpenSSL/openssl/local/lib/ -lssl -lcrypto
+
+all: $(OBJS)
+	@echo " LD "login.cgi
+	$(Q)${CC} login.o $(CGILIBS) -o login.cgi $(LDFLAGS)   
+	@echo " LD "logout.cgi
+	$(Q)${CC} logout.o $(CGILIBS) -o logout.cgi $(LDFLAGS)  	
+	@echo " LD "ipmi.cgi
+	$(Q)${CC} ipmi.o $(CGILIBS)  -o ipmi.cgi $(LDFLAGS)   
+	@echo " LD "switchpage.cgi
+	$(Q)${CC} switchpage.o $(CGILIBS) -o switchpage.cgi $(LDFLAGS)   
+	@echo " LD "Userconfig.cgi
+	$(Q)${CC} Userconfig.o $(CGILIBS)  -o Userconfig.cgi $(LDFLAGS) 
+	@echo " LD "config.cgi
+	$(Q)${CC} config.o $(CGILIBS)  -o config.cgi $(LDFLAGS)  	  	
+	@echo " LD "DrawBarG.cgi
+	$(Q)${CC} DrawBarG.o $(CGILIBS)  -o DrawBarG.cgi $(LDFLAGS)  	  	
+	@echo " LD "DrawBarB.cgi
+	$(Q)${CC} DrawBarB.o $(CGILIBS)  -o DrawBarB.cgi $(LDFLAGS)  	  
+	@echo " LD "Build_jnlp.cgi
+	$(Q)${CC} Build_jnlp.o $(CGILIBS)  -o Build_jnlp.cgi $(LDFLAGS)  	  				
+	@echo " LD "firmware_upload.cgi
+	$(Q)${CC} firmware_upload.o $(CGILIBS) -o firmware_upload.cgi $(LDFLAGS)   
+	@echo " LD "upgrade_process.cgi
+	$(Q)${CC} upgrade_process.o $(CGILIBS) -o upgrade_process.cgi $(LDFLAGS)
+	@echo " LD "config_process.cgi
+	$(Q)${CC} config_process.o $(CGILIBS) -o config_process.cgi $(LDFLAGS)   	
+
+
+include $(SDKROOT)/rule.mk
+

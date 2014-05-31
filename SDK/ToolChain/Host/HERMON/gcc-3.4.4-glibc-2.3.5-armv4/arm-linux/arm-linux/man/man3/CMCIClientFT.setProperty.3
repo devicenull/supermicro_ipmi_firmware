@@ -1,0 +1,45 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.setProperty() \- Set a named property value of an instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIStatus
+.BI CMCIClientFT.setProperty (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				const char* name,
+.br
+.BI				CMPIValue* value,
+.br
+.BI				CMPIType type);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Set the named property value of an instance identified by reference \fIop\fP.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the namespace and classname to identify the instance,
+a pointer to a string with the property name to set in \fIname\fP,
+a pointer to the CMPIValue with the value to set in \fIvalue\fP,
+and \fIrc\fP which returns the operation status (suppressed when NULL).
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.setProperty()\fP function returns
+a CMPIStatus object with a successful operation status code set.
+When unsuccessful it returns the CMPIStatus object with the error code 
+and corresponding error string set.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIStatus(3), CMPIObjectPath(3), CMPIValue(3),
+CMPIType(3)

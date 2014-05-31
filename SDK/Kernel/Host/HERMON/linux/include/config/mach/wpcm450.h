@@ -1,0 +1,1 @@
+#define CONFIG_MACH_WPCM450 1

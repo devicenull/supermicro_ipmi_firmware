@@ -1,0 +1,3 @@
+refclock_oncore.o refclock_oncore.o: refclock_oncore.c ../config.h
+
+../config.h:

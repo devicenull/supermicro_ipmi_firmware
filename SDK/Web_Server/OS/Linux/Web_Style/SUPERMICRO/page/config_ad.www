@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	var arygroupname = new Array();
+	var arygroupdomain = new Array();
+	var aryGroupAccess = new Array();
+	var GridTable;
+	var mainPage="../cgi/url_redirect.cgi?url_name=configuration";
+	var modAdPage = "../cgi/url_redirect.cgi?url_name=config_ad_modgroup";
+	var addAdPage = "../cgi/url_redirect.cgi?url_name=config_ad_addgroup";
+	var cfgAdPage = "../cgi/url_redirect.cgi?url_name=config_ad";
+	
+	
+	var ButtonAddGroupObj;
+	var ButtonModGroupObj;
+	var ButtonDelGroupObj;
+	function PageInit()
+	{
+		
+		ButtonAddGroupObj = document.getElementById("addGroupBtn");
+		ButtonModGroupObj = document.getElementById("modGroupBtn");
+		ButtonDelGroupObj = document.getElementById("delGroupBtn");
+		// Get multi-language string
+		document.title = lang.LANG_AD_TITLE;
+		ButtonAddGroupObj.value = lang.LANG_AD_ADD;
+		ButtonModGroupObj.value = lang.LANG_AD_MOD;
+		ButtonDelGroupObj.value = lang.LANG_AD_DEL;
+
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)
+		initAdGroupList();
+		getAdGroupList();
+	}
+	
+	function initAdGroupList()
+	{
+		var TableTitleColumns = [
+			["Role Group ID", "15%", "center"],
+			["Group Name", "20%", "center"],
+			["Group Domain","35%","center"],
+			["Network Privilege", "30%", "center"]
+		];
+		AdGroupListTable = document.getElementById("adGroupListTbl");
+		rowSelEnable = 1;
+		GridTable = LWC.getElement('datagrid',document);
+	    GridTable.setColumns(TableTitleColumns);
+	    GridTable.init('GridTable', AdGroupListTable);
+	}
+	
+	function InterpretPrivileges(privbyte)
+	{	
+		return eval('lang.LANG_USER_PRIVILEG_' + IntegerToHexString(privbyte));
+	}
+	
+	function getAdGroupList()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'ACTIVE_DIRECTORY_GROUP.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: getAdGroupListHandler}//reigister callback function
+	                 ); 
+	}
+	
+	function getAdGroupListHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+
+			var IPMIRoot = xmldoc.documentElement;
+			var config_group = IPMIRoot.getElementsByTagName("AD_GROUP_EN_NUM");
+			var config_group_num = parseInt(config_group[0].getAttribute("TOTLE_NUM"),10);
+			var config_group_en_num = parseInt(config_group[0].getAttribute("EN_NUM"),10);
+			var group_info = IPMIRoot.getElementsByTagName("AD_GROUP");
+	
+			for(i = 0; i < config_group_num; i++)
+			{
+				if(group_info[i].getAttribute("NAME") == "" )
+					arygroupname[i] = "<NULL>" ;
+				else
+					arygroupname[i] = group_info[i].getAttribute("NAME");
+					
+				if(group_info[i].getAttribute("DN") == "" )
+					arygroupdomain[i] = "<NULL>" ;
+				else
+					arygroupdomain[i] = group_info[i].getAttribute("DN");	
+				aryGroupAccess[i] = parseInt(group_info[i].getAttribute("PRIVILEGE"), 10);
+			}
+			
+			var group_count = 0;
+			var myData = [];
+			for (i = 0; i < config_group_num; i++) 
+			{
+				group_name = (arygroupname[i] == "<NULL>")?"~":arygroupname[i];
+				group_domain = (arygroupdomain[i] == "<NULL>")?"~":arygroupdomain[i];
+				if(group_name != '~') group_count++;
+				myData.push([i+1,
+							i+1,
+							group_name,
+							group_domain,
+							InterpretPrivileges(aryGroupAccess[i])]
+							);
+			}
+		
+			GridTable.show(myData);
+			document.getElementById("adGroupListInfo").innerHTML = lang.LANG_AD_GROUP_COUNT + group_count + lang.LANG_COMMON_SPACE;	
+		}
+	}
+	
+	function addAdGroup()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_AD_SEL_EMPTY);
+		}
+		else {
+			idx = parseInt(rowSel.cells[0].innerHTML); 
+			name = rowSel.cells[1].innerHTML; 
+			if(name == '~')
+				name = '';
+			domain = rowSel.cells[2].innerHTML;
+			if(domain == '~')
+				domain = '';
+			nwpriv = GetSubString(aryGroupAccess[idx-1],3,0);
+			serial_priv = GetSubString(aryGroupAccess[idx-1],3,0);
+			if (arygroupname[idx-1] != "<NULL>") {
+				if (confirm(lang.LANG_AD_ADD_CONFIRM)) {
+					nwpriv = GetSubString(aryGroupAccess[idx-1],3,0);
+					serial_priv = GetSubString(aryGroupAccess[idx-1],3,0);
+					parameter = "&groupindex=" + idx +"&name=" + name + 
+					              "&domain=" + domain + "&nwpriv=" + nwpriv + 
+					              "&serialpriv=" + serial_priv;
+					location.href = modAdPage + parameter;
+				}
+			} else {
+				parameter = "&groupindex=" + idx;
+				location.href = addAdPage + parameter;
+			}
+		}
+		
+	}
+	
+	function modAdGroup()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_AD_SEL_GROUP);
+			return;
+		} else {
+			idx = parseInt(rowSel.cells[0].innerHTML);
+			name = rowSel.cells[1].innerHTML;
+			if(name == '~')
+				name = '';
+			domain = rowSel.cells[2].innerHTML;
+			if(domain == '~')
+				domain = '';
+				
+			nwpriv = GetSubString(aryGroupAccess[idx-1],3,0);
+			serial_priv = GetSubString(aryGroupAccess[idx-1],3,0);
+			
+			if (arygroupname[idx-1] == "<NULL>") {
+				if (confirm(lang.LANG_COMMON_ADD_USER)) {
+					parameter = "&groupindex=" + idx;
+					location.href = addAdPage + parameter;
+				}
+			} else {
+				parameter = "&groupindex=" + idx +"&name=" + name + "&domain=" + 
+				              domain + "&nwpriv=" + nwpriv + 
+				              "&serialpriv=" + serial_priv;
+				location.href = modAdPage + parameter;
+			}
+		}
+		
+	}
+	
+	function delAdGroup()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_AD_DEL_PROMPT);
+		} else {
+			idx = parseInt(rowSel.cells[0].innerHTML);
+			name = rowSel.cells[1].innerHTML;
+			if (arygroupname[idx-1] == "<NULL>") {
+				alert(lang.LANG_AD_DEL_EMPTY);
+			} else {
+				if (confirm(lang.LANG_AD_DEL_CONFIRM)) {
+					Loading(true);
+					var url = '/cgi/config_ad_group.cgi';
+					var pars = 'groupidx=' + (idx-1);
+								
+					var myAjax = new Ajax.Request(
+				                 url,
+				                 {method: 'post',parameters:pars, onComplete: delAdGroupActHandler}//reigister callback function
+				                 ); 
+				}
+			}
+		}
+	}
+	
+	function delAdGroupActHandler(originalRequest)
+	{
+		Loading(false);
+		alert(lang.LANG_COMMON_DEL_USER);
+		location.href = cfgAdPage;
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+		<td>
+			<div class="mtitle">
+				<script>document.writeln(lang.LANG_AD_CAPTION)</script>
+			</div>
+		</td>
+         </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_PROMPT);</script><a href="../cgi/url_redirect.cgi?url_name=config_ad_advanced">here</a></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_AD_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td>
+        		<table border="0" cellpadding="0" cellspacing="0" style="width: 98%;">
+        		<tr><td>
+        		<br><span class="TableInfo" id="adGroupListInfo"></span>
+        		</td></tr>
+        		</table>
+        	</td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        		<table border="0" cellpadding="0" cellspacing="0" style="width: 98%;">
+        		<tr><td>
+            	<div id="adGroupListTbl"></div>
+            	<br>
+            	<input type="button" class="btnStyle" id="addGroupBtn" name="addGroupBtn" value="" onclick="addAdGroup()" $(TAG_DISABLE)/>
+            	<input type="button" class="btnStyle" id="modGroupBtn" name="modGroupBtn" value="" onclick="modAdGroup()" $(TAG_DISABLE)/>
+            	<input type="button" class="btnStyle" id="delGroupBtn" name="delGroupBtn" value="" onclick="delAdGroup()" $(TAG_DISABLE)/>
+        		</td></tr>
+        		</table>
+        		<!-- end of this area -->
+        	</td>
+        </tr>
+    </table>
+</body>
+</html>

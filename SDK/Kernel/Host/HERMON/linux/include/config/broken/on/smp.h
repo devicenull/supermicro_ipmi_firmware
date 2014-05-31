@@ -1,0 +1,1 @@
+#define CONFIG_BROKEN_ON_SMP 1

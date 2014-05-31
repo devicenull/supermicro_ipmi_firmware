@@ -1,0 +1,7 @@
+CROSS_COMPILE=$(shell pwd)/ToolChain/Host/$(MYMCU)/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-
+ARCH=arm
+CROSS_COMPILE_BIN_DIR=$(shell pwd)/ToolChain/Host/$(MYMCU)/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin
+TC_LOCAL=$(shell pwd)/ToolChain/Host/$(MYMCU)/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/arm-linux
+override PATH:=$(CROSS_COMPILE_BIN_DIR):$(subst /winbond/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin:,,$(PATH))
+export TC_LOCAL
+

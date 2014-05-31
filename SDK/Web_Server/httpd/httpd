@@ -1,0 +1,87 @@
+#!/bin/sh
+CONF=/nv/lighttpd.conf
+EXEC=lighttpd
+SEDCMD="sed -i"
+WEBPATH=/usr/local/httpd
+DEFCONF=$WEBPATH/lighttpd.conf
+SERVERCMD="./sbin/lighttpd -f $CONF -m lib/"
+RESULT_FILE=/tmp/httpd.st
+TMPPATH=/tmp/httpd
+CERT_FILE=/nv/server.pem
+
+create_cert()
+{
+	/etc/ssl/CA.sh -newca 
+}
+test_cert(){
+	if [ -f $CERT_FILE ];then 
+		openssl verify $CERT_FILE > /tmp/cert.st 2>&1;
+		if [ -z "`cat /tmp/cert.st | grep OK`" ];then 
+			if [ -z "`cat /tmp/cert.st | grep 'certificate is not yet valid'`" ];then 
+			    create_cert;
+			else
+	                    echo "SSL Certificate is not yet valid. Time maybe lost."  
+			fi
+                else
+	            echo "SSL certificate verified OK."                    
+		fi
+		rm /tmp/cert.st
+	else 
+		create_cert;
+	fi
+}
+
+test_config()
+{
+	cd $WEBPATH;./sbin/lighttpd -t -f $CONF > $RESULT_FILE 2>&1
+    if [ -z "`cat  $RESULT_FILE | grep  OK`" ];then  
+cp $DEFCONF /nv && echo "the web conifg file is cortupted;load default web configuration file.......";
+fi
+	rm  $RESULT_FILE
+}
+start_webserver()
+{
+    if [ ! -f $CONF ];then cp $DEFCONF /nv && echo "load default web configuration file.......";fi
+    if [ ! -d $TMPPATH ]; then mkdir $TMPPATH; fi;rm -f $TMPPATH/*
+    test_config
+	test_cert
+    #cd $WEBPATH;if [ ! -f /nv/server.pem ]; then cp ./server.pem /nv &&echo "load default ssl certificate ........."; fi
+    cd $WEBPATH;$SERVERCMD
+}
+stop_webserver()
+{
+    killall -9 lighttpd;
+
+}
+changeport()
+{
+    if [ ! -f $CONF ];then cp $DEFCONF /nv && echo "load default web configuration file.......";fi
+    $SEDCMD "s/#*server.port *=.*/server.port = $1/g" $CONF
+    if [ -n "$2" ]; then
+	echo "New web SSL port:$2 .............."
+	$SEDCMD "s/\$SERVER\[\"socket\"\] == .*/\$SERVER\[\"socket\"\] == \":$2\" \{/g" $CONF;
+    fi
+}
+
+
+case $1 in 
+    start)
+	start_webserver && echo "start Web server ............."
+    ;;
+    stop)
+	stop_webserver && echo "Stop web server .............."
+    ;;
+    restart)
+	stop_webserver
+	start_webserver
+    ;;
+    chgport)
+	echo "New web port: $2.........."
+	changeport $2  $3 || echo "change port fail"
+    ;;
+	cert)
+	test_cert
+	;;
+    *)
+    ;;
+esac

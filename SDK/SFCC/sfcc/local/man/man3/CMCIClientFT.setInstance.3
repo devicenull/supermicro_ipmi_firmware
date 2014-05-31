@@ -1,0 +1,55 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.setInstance() \- Replace class instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIStatus *
+.BI CMCIClientFT.setInstance (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIFlags flags,
+.br
+.BI				char** properties,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Replace a class instance with \fIinst\fP using \fIop\fP as reference. 
+The content of the returned class instance structure can be controled
+using the \fIflags\fP parameter.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components,
+\fIflags\fP to affect the returned class instance structure content,
+ \fIproperties\fP array, and \fIrc\fP which returns the operation status 
+(suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contain 
+the following flag - \fICMPI_FLAG_IncludeQualifiers\fP.
+.PP
+The \fIproperties\fP array defines what properties should be returned 
+for the class.
+If this argument is not NULL, only the class properties in the list are 
+returned.
+If it's NULL all class properties are returned.
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.setInstance()\fP function returns a
+CMPIStatus object with a successful operation status code.
+When unsuccessful it returns the operation error code and 
+corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIStatus(3), CMPIObjectPath(3), CMPIFlags(3)

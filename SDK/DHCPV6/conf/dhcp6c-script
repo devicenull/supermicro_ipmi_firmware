@@ -1,0 +1,27 @@
+#!/bin/sh
+
+new_resolv_conf=/etc/resolv.conf
+En_Domain=`eval grep -s $new_domain_name /etc/resolv.conf`
+if [ -n "$new_domain_name" -o -n "$new_domain_name_servers" ]; then
+    rm -f $new_resolv_conf
+    if [ -n "$new_domain_name" ] ; then
+	if [ -z "${En_Domain}" ] ;then
+	    echo search $new_domain_name >> $new_resolv_conf  
+	fi
+    fi
+
+    echo "IPV6 DNS $new_domain_name_servers" >/tmp/v6dns
+    if [ -n "$new_domain_name_servers" ]; then
+        for nameserver in $new_domain_name_servers; do
+	    if [ -z "`eval grep -s $nameserver /etc/resolv.conf`" ];then 
+		echo nameserver $nameserver >> $new_resolv_conf 
+	    fi
+        done
+    fi
+
+    # To preserve IPv4 informations...
+#    cat /etc/resolv.conf >> $new_resolv_conf
+#    mv -f $new_resolv_conf /nv/resolv.conf
+fi
+
+exit 0

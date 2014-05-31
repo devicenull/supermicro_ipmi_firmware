@@ -1,0 +1,16 @@
+include $(PRJ_PATH)/.config
+OBJS = $(OBJS-y)
+
+
+all :
+	@echo $(OBJS)
+	@echo " LD "$(EXECUTABLE)
+	@if [ ! -d $(BINPATH) ]; then mkdir $(BINPATH); fi
+	$(CXX) -o $(BINPATH)/$(EXECUTABLE) $(OBJS) $(LDFLAGS)
+
+install:
+
+clean:
+
+
+#include $(PRJ_PATH)/rule.mk

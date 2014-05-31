@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+	  <link rel="stylesheet" href="../css/basic.css" type="text/css">
+	  <script language="javascript" src="../js/utils.js"></script> 
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<!-- LDAP javascript start -->
+<script type="text/javascript">		
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+function PageInit()
+{
+	document.getElementById("ButtonSave").value = lang.LANG_CONFIG_LDAP_SAVE;
+  	LDSw=document.getElementById("SwitchLDAP");
+  	LDSSL=document.getElementById("enLDAPSSL");
+	LDPort=document.getElementById("LDAPPORT");
+	LDIP=document.getElementById("LDAPIP");
+	LDBinPW=document.getElementById("LDAPBINDPW");
+	LDBinDN=document.getElementById("LDAPBINDWN");
+	LDBase=document.getElementById("LDAPBASE");
+	LDSave=document.getElementById("ButtonSave");
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)	
+	LDAPReading();
+
+}
+function LDAPReading()
+{
+	Loading(true);
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+	var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete: LDAPReadingResult}//reigister callback function
+                 ); 
+}
+function LDAPReadingResult(originalRequest)
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	 	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	 	var xmldoc=GetResponseXML(response);
+	  	var root=xmldoc.documentElement;
+	  	var getLDAPconf=root.getElementsByTagName("CONFIG_INFO");
+	  	var LDAPinfo=getLDAPconf[0].getElementsByTagName('LDAP');
+		if(parseInt(LDAPinfo[0].getAttribute("LDAP_EN"), 10))
+		{
+			LDSw.checked = true;
+			LDSwOn();
+		}
+		else
+		{
+			LDSw.checked = false;
+			LDSwOff();
+		}
+
+		if(parseInt(LDAPinfo[0].getAttribute("LDAP_SSL"), 10))
+			LDSSL.checked = true;
+		else
+			LDSSL.checked = false;
+
+		LDPort.value = parseInt(LDAPinfo[0].getAttribute("LDAP_PORT"),10);	
+		LDIP.value = LDAPinfo[0].getAttribute("LDAP_IP");	
+		LDBinPW.value = "";	
+		LDBinDN.value = LDAPinfo[0].getAttribute("BINDDN");	
+		LDBase.value = LDAPinfo[0].getAttribute("BASE_DN");
+	}	
+}
+function saveLDAPconfig()
+{
+  	var LDAPswitch;
+  	ldap_port = parseInt(Trim(LDPort.value),10);
+  	
+  	if(LDSSL.checked == true) 
+		enLDSSL = 1;
+	else
+		enLDSSL = 0;
+		
+	if(LDSw.checked == true) 
+	{		
+		if(ldap_port.length == 0 || (enLDSSL == 1 && (ldap_port != 636 && ldap_port != 3269)) ||
+		(enLDSSL == 0 && (ldap_port != 389 && ldap_port != 3268)))
+		{
+			alert(lang.LANG_CONFIG_LDAP_ERRPORT);
+			return;
+		}
+		if (!CheckIP(LDIP.value)) 
+		{
+			alert(lang.LANG_CONFIG_LDAP_ERRIP);
+			return;
+		}
+		if(LDBinDN.value.length == 0)
+		{
+			alert(lang.LANG_CONFIG_LDAP_ERRPORT);
+			return;
+		}
+		if(LDBase.value.length == 0)
+		{
+			alert(lang.LANG_CONFIG_LDAP_ERRSB);
+			return;
+		}
+		LDAPswitch='on';
+	}
+	else
+		LDAPswitch='off';
+		
+	var LD_value_tmp;
+	var LDBasestr;
+	var LDBinDNstr;
+	var LD_value = LDBase.value;
+	
+	for(var i=0; i < LDBase.value.length; i++)
+	{
+		if(LD_value.substr(i, 1) == '=')
+			LD_value_tmp='%3D';
+		else if(LD_value.substr(i, 1) == ',')
+			LD_value_tmp='%2C';
+		else
+			LD_value_tmp=LD_value.substr(i, 1);
+		
+		if(i==0)
+			LDBasestr=LD_value_tmp;
+		else
+			LDBasestr=LDBasestr+LD_value_tmp;
+	}		
+
+	LD_value = LDBinDN.value;
+	for(var i=0; i<LDBinDN.value.length; i++)
+	{
+		if(LD_value.substr(i, 1) == '=')
+			LD_value_tmp='%3D';
+		else if(LD_value.substr(i, 1) == ',')
+			LD_value_tmp='%2C';
+		else
+			LD_value_tmp=LD_value.substr(i, 1);
+		
+		if(i==0)
+			LDBinDNstr=LD_value_tmp;
+		else
+			LDBinDNstr=LDBinDNstr+LD_value_tmp;
+	}		
+
+	var url = '/cgi/Ldapconfig.cgi';
+	var pars = 'en_ldap=' + LDAPswitch  + 
+			'&enSSL=' + enLDSSL +
+			'&ldapip=' + LDIP.value +
+			'&basedn=' + LDBasestr +  
+			'&ldapport=' + ldap_port + 
+			'&bind_dn=' + LDBinDNstr +
+			'&bind_pwd=' + LDBinPW.value ;   
+			
+	var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post', parameters:pars, onComplete: saveresult}//reigister callback function
+                 );    
+
+}
+function saveresult(originalRequest)
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	  alert(lang.LANG_CONFIG_LDAP_SUCCSAVE);
+	  LDAPReading();
+	}
+  else
+   	alert(lang.LANG_COMMON_UNSAVE);
+}
+function checkSSL()
+{
+	if(LDSSL.checked == true) 
+		LDPort.value = '636';
+	else
+		LDPort.value = '389';
+}
+function LDSwclick()
+{
+	if(LDSw.checked == true)
+	{
+		RadiusReading();
+		ActiveReading();
+	}
+	else
+	 LDSwOff();
+}
+function ActiveReading()
+{
+	Loading(true);
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'ACTIVE_DIRECTORY.XML=(0,0)&time_stamp='+(new Date()) ;
+	var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete:ActiveReadingResult}//reigister callback function
+                 ); 
+}
+function RadiusReading()
+{
+	Loading(true);
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'RADIUS_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+	var myAjax = new Ajax.Request(
+             url,
+             {method: 'post',parameters:pars, onComplete:RadiusReadingResult}//reigister callback function
+             );                                     
+}
+function RadiusReadingResult(originalRequest)
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	 var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	 var xmldoc=GetResponseXML(response);
+	if(xmldoc == null)
+	{
+			SessionTimeout();
+			return;
+	}
+	var root=xmldoc.documentElement;
+	var RadEn=root.getElementsByTagName("RADIUS");
+	if(parseInt(RadEn[0].getAttribute("enable"), 10))
+	{
+		LDSw.checked = false;
+		alert(lang.LANG_CONFIG_LDAP_RADIUS_EN);
+		LDSwOff();  
+	}
+	else
+   LDSwOn(); 
+  }
+}
+function ActiveReadingResult(originalRequest)
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	 var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	 var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var root=xmldoc.documentElement;	
+		var activeEN=root.getElementsByTagName("AD_INFO");
+		if(parseInt(activeEN[0].getAttribute("EN"), 10))
+		{
+			LDSw.checked = false;
+			alert(lang.LANG_CONFIG_LDAP_ACTIVE_EN);
+			LDSwOff();
+		}
+		else
+			LDSwOn();		  			
+	}
+}
+function LDSwOff()
+{
+	LDSSL.disabled   = true;
+  	LDPort.disabled  = true;
+	LDIP.disabled    = true;
+  	LDBinPW.disabled = true;
+  	LDBinDN.disabled = true;
+  	LDBase.disabled  = true;
+}
+function LDSwOn()
+{
+	LDSSL.disabled	 = false;
+  	LDPort.disabled  = false;
+	LDIP.disabled    = false;
+  	LDBinPW.disabled = false;
+  	LDBinDN.disabled = false;
+  	LDBase.disabled  = false;
+}
+</script>
+  <!-- LDAP javascript end -->
+</head>
+
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_CONFIG_LDAP_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_CONFIG_LDAP_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td><br></td><td>
+			<table border="0" width="100%" id="table1">
+				<tr>
+					<td>&nbsp;<label><input type="checkbox" onclick="LDSwclick()" id="SwitchLDAP" $(TAG_DISABLE)/>
+					<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_EN)</script></label></span></td>
+				</tr>
+			</table>
+			</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0" id="table2">
+				<tr>
+					<td>&nbsp;<label><input type="checkbox" id="enLDAPSSL" onclick="checkSSL()" $(TAG_DISABLE)/>
+					<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_SSL)</script></label></span></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_PORT)</script></span></td>
+					<td width="393">&nbsp;<input type="text" id="LDAPPORT" $(TAG_DISABLE) onBlur='CheckPortNumber(this)'/></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_IP)</script></span></td>
+					<td width="393">&nbsp;<input type="text" id="LDAPIP" $(TAG_DISABLE) maxlength="15" /></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_PWD)</script></span></td>
+					<td width="393">&nbsp;<input type="password" maxlength="254" id="LDAPBINDPW" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_DN)</script></span></td>
+					<td width="393">&nbsp;<input type="text" maxlength="254" id="LDAPBINDWN" $(TAG_DISABLE) onBlur="CheckInputValue(this)" /></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<span class="labelhead"><script>document.writeln(lang.LANG_CONFIG_LDAP_SB)</script></span></td>
+					<td width="393">&nbsp;<input type="text" maxlength="254" id="LDAPBASE" $(TAG_DISABLE) onBlur="CheckInputValue(this)" /></td>
+				</tr>
+			</table>
+			</td></tr>
+        <tr><td height="53"></td>
+        	  <td height="53">
+        	  <!-- below area is needed to modify by yourself -->
+        	  
+        	  <br>
+        	  <input type="button" class="btnStyle" onclick="saveLDAPconfig()" id="ButtonSave" $(TAG_DISABLE)/>
+        	  <!-- end of this area -->
+        	  </td>
+        </table>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/	
+	var pwr_Action;
+	var currentPwrStatus;
+	var expectStatus = 0xf;
+	var retryCount = 5;
+	var externalBMC = 0;
+	var cableChkBMC = lang.LANG_CHASSIS_CHECK1;
+	var cableChkFeature = lang.LANG_CHASSIS_CHECK2;
+	var mainPage = "../cgi/url_redirect.cgi?url_name=remote";
+	var disable  = 0;
+	
+	function PageInit()
+	{
+		// Get multi-language string
+		document.title = lang.LANG_CHASSIS_TITLE;
+		document.getElementById("actionBtn").value = lang.LANG_CHASSIS_ACTION;	
+
+		if (document.getElementById("actionBtn").disabled == true){
+			disable = 1;
+	}
+	
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE1)
+		getPwrStatus();
+	}
+	
+	
+	function getPwrStatus()
+	{
+
+		Loading(true);
+		var url = '../cgi/ipmi.cgi';
+	    var pars = '?POWER_INFO.XML=(0,0)&time_stamp='+(new Date());
+	   	var myAjax = new Ajax.Request(
+	                url,
+	                {method: 'post', parameters: pars, onComplete: getPwrStatusHandler}//reigister callback function
+	                );
+	}
+	
+	function getPwrStatusHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+	   		var IPMIRoot = xmldoc.documentElement;//point to IPMI
+	   		var POWER_INFO = IPMIRoot.getElementsByTagName('POWER_INFO');//point to SENSOR_INFO
+	   		var POWER = POWER_INFO[0].getElementsByTagName('POWER');
+	   		var pwrStatus = POWER[0].getAttribute("STATUS"); 
+	    	currentPwrStatus = (pwrStatus == "OFF") ? 0 : 1;
+	    	
+			if(expectStatus != 0xf)
+			{		
+				if(currentPwrStatus != expectStatus)
+				{
+					retryCount--;
+					Loading(true);
+					if(retryCount == 0)
+					{
+						Loading(false);
+						var cableStr = externalBMC ? cableChkBMC:cableChkFeature;
+						if(pwr_Action == 5)
+						{	
+							alert(lang.LANG_CHASSIS_SOFTOFF_FAIL + cableStr);
+						}
+						else
+						{
+							alert(lang.LANG_CHASSIS_ACTION_FAIL + cableStr);
+						}
+						return;
+					}
+				
+	                setTimeout("getPwrStatus()",10000);
+				
+					return;
+				}else
+				{
+					if(pwr_Action == 2 && expectStatus == 0)
+					{
+						document.getElementById("currentStatus").innerHTML = lang.LANG_CHASSIS_STATUS_OFF;
+						document.getElementById("currentStatus").style.color = '#009900';
+						document.getElementById("pwrReset").checked = false;
+						document.getElementById("pwrReset").disabled = true;
+						
+						document.getElementById("pwrImmOff").checked = false;
+						document.getElementById("pwrImmOff").disabled = true;
+	    	    		
+						document.getElementById("pwrOrdOff").checked = false;
+						document.getElementById("pwrOrdOff").disabled = true;
+						
+						document.getElementById("pwrCycle").checked = true;
+						document.getElementById("pwrCycle").disabled = true;
+						
+						document.getElementById("pwrOn").checked = false;
+						document.getElementById("pwrOn").disabled = true;
+						expectStatus = 1;
+						setTimeout("getPwrStatus()",10000);
+						return;
+					}
+				}
+				
+
+			}
+		
+			if(currentPwrStatus == 0)
+			{
+				document.getElementById("currentStatus").innerHTML = lang.LANG_CHASSIS_STATUS_OFF;
+				document.getElementById("currentStatus").style.color = '#009900';
+				
+				if (!disable){
+				    document.getElementById("pwrReset").checked = false;
+				    document.getElementById("pwrReset").disabled = true;
+				
+				    document.getElementById("pwrImmOff").checked = false;
+				    document.getElementById("pwrImmOff").disabled = true;
+	    	    
+				    document.getElementById("pwrOrdOff").checked = false;
+				    document.getElementById("pwrOrdOff").disabled = true;
+				
+				    document.getElementById("pwrCycle").checked = false;
+				    document.getElementById("pwrCycle").disabled = true;
+				
+				    //power on == >power off
+				    document.getElementById("pwrOn").checked = true;
+				    document.getElementById("pwrOn").disabled = false;
+				
+				}
+				pwr_Action = 1;
+				retryCount = 5;
+			}
+			else
+			{
+				document.getElementById("currentStatus").innerHTML = lang.LANG_CHASSIS_STATUS_ON;
+				document.getElementById("currentStatus").style.color = '#009900';
+				//power off --> power on	
+				if (!disable){
+				    document.getElementById("pwrReset").checked = true;
+			   	    document.getElementById("pwrReset").disabled = false;
+				
+				    document.getElementById("pwrImmOff").checked = false;
+				    document.getElementById("pwrImmOff").disabled = false;
+	    	            
+	    	                    document.getElementById("pwrOrdOff").checked = false;
+				    document.getElementById("pwrOrdOff").disabled = false;
+				
+				    document.getElementById("pwrCycle").checked = false;
+				    document.getElementById("pwrCycle").disabled = false;
+				
+				    document.getElementById("pwrOn").checked = false;
+				    document.getElementById("pwrOn").disabled = true;
+				}
+				
+				pwr_Action = 3;
+				retryCount = 5;
+			}
+		}
+	}
+	
+	function selPwrReset()
+	{
+		pwr_Action = 3;
+	}
+	
+	function selPwrImmOff()
+	{
+		pwr_Action = 0;
+	}
+	
+	function selPwrOrdOff()
+	{
+	    pwr_Action = 5;
+	}
+	
+	function selPwrOn()
+	{
+		pwr_Action = 1;
+	}
+	
+	function selPwrCycle()
+	{
+		pwr_Action = 2;
+	}
+	
+	function doPwrActionHandler()
+	{
+		if(pwr_Action == 5)
+		{
+			setTimeout("getPwrStatus()",15000);
+		}
+		else
+			getPwrStatus();	
+	}
+	
+	function doPwrAction()
+	{
+		var url;
+		var pars;
+		var myAjax;
+	
+		switch(pwr_Action)
+		{
+			case 0:
+				expectStatus = 0;
+				Loading(true);
+				url = '../cgi/ipmi.cgi';
+	       		pars = '?POWER_INFO.XML=(1,0)&time_stamp='+(new Date());
+	      		myAjax = new Ajax.Request(
+	                   url,
+	                   {method: 'post', parameters: pars, onComplete: doPwrActionHandler}//reigister callback function
+	                   );
+				break;
+			case 1:
+				expectStatus = 1;
+				Loading(true);
+				url = '../cgi/ipmi.cgi';
+	       		pars = '?POWER_INFO.XML=(1,1)&time_stamp='+(new Date());
+	      		myAjax = new Ajax.Request(
+	                   url,
+	                   {method: 'post', parameters: pars, onComplete: doPwrActionHandler}//reigister callback function
+	                   );
+				break;
+			case 2:
+				expectStatus = 0; //power on after some time I suppose
+				Loading(true);
+				url = '../cgi/ipmi.cgi';
+	       		pars = '?POWER_INFO.XML=(1,2)&time_stamp='+(new Date());
+	      		myAjax = new Ajax.Request(
+	                   url,
+	                   {method: 'post', parameters: pars, onComplete: doPwrActionHandler}//reigister callback function
+	                   );
+				break;
+			case 3:
+				expectStatus = 1;
+				Loading(true);
+				url = '../cgi/ipmi.cgi';
+	       		pars = '?POWER_INFO.XML=(1,3)&time_stamp='+(new Date());
+	      		myAjax = new Ajax.Request(
+	                   url,
+	                   {method: 'post', parameters: pars, onComplete: doPwrActionHandler}//reigister callback function
+	                   );
+				break;
+	        case 5:
+	            expectStatus = 0;
+	            Loading(true);
+	            url = '../cgi/ipmi.cgi';
+	       		pars = '?POWER_INFO.XML=(1,5)&time_stamp='+(new Date());
+	      		myAjax = new Ajax.Request(
+	                   url,
+	                   {method: 'post', parameters: pars, onComplete: doPwrActionHandler}//reigister callback function
+	                   );
+	            break;
+		}
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0"  style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+			<td>
+				<div class="mtitle">
+					<script>document.writeln(lang.LANG_CHASSIS_CAPTION)</script>
+				</div>
+			</td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	<td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_CHASSIS_DESC)</script></div></td><tr>
+				</table>
+            </td>
+        </tr>
+		<tr>
+			<td><br></td>
+			<td><br></td>
+		</tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        		<table width="100%" border="0">
+					<tr>
+						<td><span class="subHeader" id="currentStatus" name="currentStatus"></span></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="pwrControl" id="pwrReset" onClick="selPwrReset()" $(TAG_DISABLE)><span class="labelhead"><script>document.writeln(lang.LANG_CHASSIS_RESET)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="pwrControl" id="pwrImmOff" onClick="selPwrImmOff()" $(TAG_DISABLE)><span class="labelhead"><script>document.writeln(lang.LANG_CHASSIS_IMMOFF)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="pwrControl" id="pwrOrdOff" onClick="selPwrOrdOff()" $(TAG_DISABLE)><span class="labelhead"><script>document.writeln(lang.LANG_CHASSIS_ORDOFF)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="pwrControl" id="pwrOn" onClick="selPwrOn()" $(TAG_DISABLE)><span class="labelhead"><script>document.writeln(lang.LANG_CHASSIS_ON)</script></span></td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="pwrControl" id="pwrCycle" onClick="selPwrCycle()" $(TAG_DISABLE)><span class="labelhead"><script>document.writeln(lang.LANG_CHASSIS_CYCLE)</script></span></td>
+					</tr>
+				</table>
+        		<br>
+				<input type="button" class="btnStyle" name="actionBtn" id="actionBtn" onClick="doPwrAction()" $(TAG_DISABLE)>
+        		<!-- end of this area -->
+        	</td>
+        </tr>
+	</table>
+</body>
+</html>

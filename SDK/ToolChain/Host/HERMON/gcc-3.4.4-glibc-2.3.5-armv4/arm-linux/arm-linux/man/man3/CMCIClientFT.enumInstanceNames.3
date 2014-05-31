@@ -1,0 +1,57 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.enumInstanceNames() \- Enumerate instance names of a class
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.enumInstanceNames (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Enumerate Instance Names of the class (and subclasses) defined by \fIop\fP.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the reference that contains namespace and classname
+components, and \fIrc\fP which returns the operation status (suppressed 
+when NULL).
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.enumInstanceNames()\fP function returns
+a pointer to a CMPIEnumeration object that contains strings for each instance
+name found for the class and sets a successful operation status code 
+in \fIrc\fR.
+When unsuccessful it returns a NULL pointer and sets the operation 
+status error code and corresponding error string in \fIrc\fP.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+   CMCIClient *cc;
+   CMPIObjectPath * objectpath;
+   CMPIInstance * instance;
+   CMPIEnumeration * enumeration;
+   CMPIStatus status;
+
+   /* Setup a conncetion to the CIMOM */   
+   cc = cmciConnect("localhost", NULL, NULL, NULL, NULL, NULL);
+
+   objectpath = newCMPIObjectPath("root/cimv2", NULL, NULL);
+   enumeration = cc->ft->enumInstanceNames(cc, objectpath, &status);
+
+   if (!status.rc) {
+	fprintf(stderr, "operation error code %d description %s\n",
+			status.rc, status.msg->hdl);
+	abort();
+   }
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIStatus(3)

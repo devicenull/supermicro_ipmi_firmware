@@ -1,0 +1,71 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCICLientFT.associatorNames() \- Enumerate ObjectPaths associated with an Instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.associatorNames (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				const char *assocClass,
+.br
+.BI				const char *resultClass,
+.br
+.BI				const char *role,
+.br
+.BI				const char *resultRole,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Enumerate ObjectPath references associated with the Instance defined 
+by \fIop\fP reference.
+.PP
+Arguments are the client object pointer \fIcl\fP,
+an ObjectPath object pointer \fIop\fP with the reference that contains
+namespace and classname components,
+\fIassocClass\fP, where if it's not NULL is an association class name that 
+is used to filter the returned set of ObjectPath objects by eliminating 
+objects that aren't associated to the source object by an instance of 
+this class or one of its subclasses,
+\fIresultClass\fP, where if it's not NULL is a valid class name that 
+is used to filter the returned set of Objects by eliminating objects that
+aren't an Instance of this Class or one of its subclasses,
+\fIrole\fP, where if it's not NULL is a valid property name that 
+is used to filter the returned set of ObjectPath objects by eliminating
+objects that aren't associated to the source object by an association 
+where the source object plays the specified role, i.e. the name of the 
+property in the association class that refers to the source object 
+has to match the value of this parameter,
+\fIresultRole\fP, where if it's not NULL is a valid property name that 
+is used to filter the returned set of ObjectPath objects by eliminating 
+objects that aren't associated to the source object by an association
+where the returned object plays the specified role, i.e. the name of 
+the property in the association class that refers to the returned object
+has to match the value of this parameter,
+\fIrc\fP which returns the operation status (suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contains the following flags - 
+\fICMPI_FLAG_IncludeQualifiers\fP and \fICMPI_FLAG_IncludeClassOrigin\fP.
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.associatorNames()\fP function returns
+a pointer to a CMPIEnumeration object that contains the ObjectPath objects
+found for the class that match the association criteria and sets a 
+successful operation status code in \fIrc\fR.
+When unsuccessful it returns a NULL pointer and sets the operation 
+status error code and corresponding error string in \fIrc\fP.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIStatus(3)

@@ -1,0 +1,25 @@
+-include  $(SDKROOT)/.ProjectName
+-include  $(SDKROOT)/.config
+SOURCES := $(wildcard $(PRJNAME)/*.c)
+TOBJS := $(wildcard $(SDKROOT)/LIB/*.o)
+OBJS := $(patsubst %.c,%.o,$(SOURCES))
+LIBNAME := libcore.a
+
+all: ${OBJS:.o=.d} ${OBJS}
+#	@echo $(SOURCES)
+#	@echo $(OBJS)
+#ifeq ($(strip $(BUILD_OPTION)),0)
+#	@echo " AR "$(LIBNAME)
+#	$(AR) $(ARFLAGS) $(PRJNAME)/$(LIBNAME) $(SDKROOT)/LIB/liblxall.a $(OBJS)
+#else
+	@if [ ! -d $(PRJNAME)/lib ]; then mkdir -p $(PRJNAME)/lib; fi
+	@echo " LD "$(LIBNAME:.a=.so)
+	$(CC)  -Wl -shared -o   $(PRJNAME)/lib/$(LIBNAME:.a=.so) $(OBJS) $(TOBJS)
+#endif
+
+wizard:
+	@if [ ! -d $(PRJNAME)/ ] ;then mkdir $(PRJNAME);\
+	cp -r DEFAULT/* $(PRJNAME) ;\
+	fi
+
+include $(SDKROOT)/rule.mk

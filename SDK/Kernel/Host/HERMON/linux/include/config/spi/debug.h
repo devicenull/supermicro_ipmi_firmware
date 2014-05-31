@@ -1,0 +1,1 @@
+#undef CONFIG_SPI_DEBUG

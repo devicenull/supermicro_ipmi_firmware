@@ -1,0 +1,3 @@
+source PKConfig/Lx_Config/Config_Main.in 
+source PKConfig/Lx_Config/Config_build_opt.in
+source PKConfig/Lx_Config/Config_fun.in  

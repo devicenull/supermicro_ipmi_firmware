@@ -1,0 +1,3 @@
+snprintf.o snprintf.o: snprintf.c ../config.h
+
+../config.h:

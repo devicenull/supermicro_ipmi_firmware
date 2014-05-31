@@ -1,0 +1,5 @@
+Extracted from ftp://ftp.supermicro.com/GPL/SMT/SDK_SMT_X9_317.tar.gz
+
+Removed:
+
+./SDK/ToolChain/Host/x86_64 - Over GitHub size requirements (also useless)

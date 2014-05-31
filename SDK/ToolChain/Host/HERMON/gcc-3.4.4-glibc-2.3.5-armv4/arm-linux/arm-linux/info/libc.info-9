@@ -1,0 +1,4107 @@
+This is libc.info, produced by makeinfo version 4.8 from libc.texinfo.
+
+INFO-DIR-SECTION GNU libraries
+START-INFO-DIR-ENTRY
+* Libc: (libc).                 C library.
+END-INFO-DIR-ENTRY
+
+INFO-DIR-SECTION GNU C library functions and macros
+START-INFO-DIR-ENTRY
+* a64l: (libc)Encode Binary Data.
+* abort: (libc)Aborting a Program.
+* abs: (libc)Absolute Value.
+* accept: (libc)Accepting Connections.
+* access: (libc)Testing File Access.
+* acosf: (libc)Inverse Trig Functions.
+* acoshf: (libc)Hyperbolic Functions.
+* acosh: (libc)Hyperbolic Functions.
+* acoshl: (libc)Hyperbolic Functions.
+* acos: (libc)Inverse Trig Functions.
+* acosl: (libc)Inverse Trig Functions.
+* addmntent: (libc)mtab.
+* addseverity: (libc)Adding Severity Classes.
+* adjtime: (libc)High-Resolution Calendar.
+* adjtimex: (libc)High-Resolution Calendar.
+* aio_cancel64: (libc)Cancel AIO Operations.
+* aio_cancel: (libc)Cancel AIO Operations.
+* aio_error64: (libc)Status of AIO Operations.
+* aio_error: (libc)Status of AIO Operations.
+* aio_fsync64: (libc)Synchronizing AIO Operations.
+* aio_fsync: (libc)Synchronizing AIO Operations.
+* aio_init: (libc)Configuration of AIO.
+* aio_read64: (libc)Asynchronous Reads/Writes.
+* aio_read: (libc)Asynchronous Reads/Writes.
+* aio_return64: (libc)Status of AIO Operations.
+* aio_return: (libc)Status of AIO Operations.
+* aio_suspend64: (libc)Synchronizing AIO Operations.
+* aio_suspend: (libc)Synchronizing AIO Operations.
+* aio_write64: (libc)Asynchronous Reads/Writes.
+* aio_write: (libc)Asynchronous Reads/Writes.
+* alarm: (libc)Setting an Alarm.
+* alloca: (libc)Variable Size Automatic.
+* alphasort64: (libc)Scanning Directory Content.
+* alphasort: (libc)Scanning Directory Content.
+* ALTWERASE: (libc)Local Modes.
+* ARG_MAX: (libc)General Limits.
+* argp_error: (libc)Argp Helper Functions.
+* ARGP_ERR_UNKNOWN: (libc)Argp Parser Functions.
+* argp_failure: (libc)Argp Helper Functions.
+* argp_help: (libc)Argp Help.
+* argp_parse: (libc)Argp.
+* argp_state_help: (libc)Argp Helper Functions.
+* argp_usage: (libc)Argp Helper Functions.
+* argz_add: (libc)Argz Functions.
+* argz_add_sep: (libc)Argz Functions.
+* argz_append: (libc)Argz Functions.
+* argz_count: (libc)Argz Functions.
+* argz_create: (libc)Argz Functions.
+* argz_create_sep: (libc)Argz Functions.
+* argz_delete: (libc)Argz Functions.
+* argz_extract: (libc)Argz Functions.
+* argz_insert: (libc)Argz Functions.
+* argz_next: (libc)Argz Functions.
+* argz_replace: (libc)Argz Functions.
+* argz_stringify: (libc)Argz Functions.
+* asctime: (libc)Formatting Calendar Time.
+* asctime_r: (libc)Formatting Calendar Time.
+* asinf: (libc)Inverse Trig Functions.
+* asinhf: (libc)Hyperbolic Functions.
+* asinh: (libc)Hyperbolic Functions.
+* asinhl: (libc)Hyperbolic Functions.
+* asin: (libc)Inverse Trig Functions.
+* asinl: (libc)Inverse Trig Functions.
+* asprintf: (libc)Dynamic Output.
+* assert: (libc)Consistency Checking.
+* assert_perror: (libc)Consistency Checking.
+* atan2f: (libc)Inverse Trig Functions.
+* atan2: (libc)Inverse Trig Functions.
+* atan2l: (libc)Inverse Trig Functions.
+* atanf: (libc)Inverse Trig Functions.
+* atanhf: (libc)Hyperbolic Functions.
+* atanh: (libc)Hyperbolic Functions.
+* atanhl: (libc)Hyperbolic Functions.
+* atan: (libc)Inverse Trig Functions.
+* atanl: (libc)Inverse Trig Functions.
+* atexit: (libc)Cleanups on Exit.
+* atof: (libc)Parsing of Floats.
+* atoi: (libc)Parsing of Integers.
+* atol: (libc)Parsing of Integers.
+* atoll: (libc)Parsing of Integers.
+* backtrace: (libc)Backtraces.
+* backtrace_symbols_fd: (libc)Backtraces.
+* backtrace_symbols: (libc)Backtraces.
+* basename: (libc)Finding Tokens in a String.
+* basename: (libc)Finding Tokens in a String.
+* BC_BASE_MAX: (libc)Utility Limits.
+* BC_DIM_MAX: (libc)Utility Limits.
+* bcmp: (libc)String/Array Comparison.
+* bcopy: (libc)Copying and Concatenation.
+* BC_SCALE_MAX: (libc)Utility Limits.
+* BC_STRING_MAX: (libc)Utility Limits.
+* bind: (libc)Setting Address.
+* bind_textdomain_codeset: (libc)Charset conversion in gettext.
+* bindtextdomain: (libc)Locating gettext catalog.
+* BRKINT: (libc)Input Modes.
+* brk: (libc)Resizing the Data Segment.
+* bsearch: (libc)Array Search Function.
+* btowc: (libc)Converting a Character.
+* BUFSIZ: (libc)Controlling Buffering.
+* bzero: (libc)Copying and Concatenation.
+* cabsf: (libc)Absolute Value.
+* cabs: (libc)Absolute Value.
+* cabsl: (libc)Absolute Value.
+* cacosf: (libc)Inverse Trig Functions.
+* cacoshf: (libc)Hyperbolic Functions.
+* cacosh: (libc)Hyperbolic Functions.
+* cacoshl: (libc)Hyperbolic Functions.
+* cacos: (libc)Inverse Trig Functions.
+* cacosl: (libc)Inverse Trig Functions.
+* calloc: (libc)Allocating Cleared Space.
+* canonicalize_file_name: (libc)Symbolic Links.
+* cargf: (libc)Operations on Complex.
+* carg: (libc)Operations on Complex.
+* cargl: (libc)Operations on Complex.
+* casinf: (libc)Inverse Trig Functions.
+* casinhf: (libc)Hyperbolic Functions.
+* casinh: (libc)Hyperbolic Functions.
+* casinhl: (libc)Hyperbolic Functions.
+* casin: (libc)Inverse Trig Functions.
+* casinl: (libc)Inverse Trig Functions.
+* catanf: (libc)Inverse Trig Functions.
+* catanhf: (libc)Hyperbolic Functions.
+* catanh: (libc)Hyperbolic Functions.
+* catanhl: (libc)Hyperbolic Functions.
+* catan: (libc)Inverse Trig Functions.
+* catanl: (libc)Inverse Trig Functions.
+* catclose: (libc)The catgets Functions.
+* catgets: (libc)The catgets Functions.
+* catopen: (libc)The catgets Functions.
+* cbc_crypt: (libc)DES Encryption.
+* cbrtf: (libc)Exponents and Logarithms.
+* cbrt: (libc)Exponents and Logarithms.
+* cbrtl: (libc)Exponents and Logarithms.
+* ccosf: (libc)Trig Functions.
+* ccoshf: (libc)Hyperbolic Functions.
+* ccosh: (libc)Hyperbolic Functions.
+* ccoshl: (libc)Hyperbolic Functions.
+* ccos: (libc)Trig Functions.
+* ccosl: (libc)Trig Functions.
+* CCTS_OFLOW: (libc)Control Modes.
+* ceilf: (libc)Rounding Functions.
+* ceil: (libc)Rounding Functions.
+* ceill: (libc)Rounding Functions.
+* cexpf: (libc)Exponents and Logarithms.
+* cexp: (libc)Exponents and Logarithms.
+* cexpl: (libc)Exponents and Logarithms.
+* cfgetispeed: (libc)Line Speed.
+* cfgetospeed: (libc)Line Speed.
+* cfmakeraw: (libc)Noncanonical Input.
+* cfree: (libc)Freeing after Malloc.
+* cfsetispeed: (libc)Line Speed.
+* cfsetospeed: (libc)Line Speed.
+* cfsetspeed: (libc)Line Speed.
+* chdir: (libc)Working Directory.
+* CHILD_MAX: (libc)General Limits.
+* chmod: (libc)Setting Permissions.
+* chown: (libc)File Owner.
+* CIGNORE: (libc)Control Modes.
+* cimagf: (libc)Operations on Complex.
+* cimag: (libc)Operations on Complex.
+* cimagl: (libc)Operations on Complex.
+* clearenv: (libc)Environment Access.
+* clearerr: (libc)Error Recovery.
+* clearerr_unlocked: (libc)Error Recovery.
+* CLK_TCK: (libc)CPU Time.
+* CLOCAL: (libc)Control Modes.
+* clock: (libc)CPU Time.
+* CLOCKS_PER_SEC: (libc)CPU Time.
+* clog10f: (libc)Exponents and Logarithms.
+* clog10: (libc)Exponents and Logarithms.
+* clog10l: (libc)Exponents and Logarithms.
+* clogf: (libc)Exponents and Logarithms.
+* clog: (libc)Exponents and Logarithms.
+* clogl: (libc)Exponents and Logarithms.
+* closedir: (libc)Reading/Closing Directory.
+* close: (libc)Opening and Closing Files.
+* closelog: (libc)closelog.
+* COLL_WEIGHTS_MAX: (libc)Utility Limits.
+* _Complex_I: (libc)Complex Numbers.
+* confstr: (libc)String Parameters.
+* conjf: (libc)Operations on Complex.
+* conj: (libc)Operations on Complex.
+* conjl: (libc)Operations on Complex.
+* connect: (libc)Connecting.
+* copysignf: (libc)FP Bit Twiddling.
+* copysign: (libc)FP Bit Twiddling.
+* copysignl: (libc)FP Bit Twiddling.
+* cosf: (libc)Trig Functions.
+* coshf: (libc)Hyperbolic Functions.
+* cosh: (libc)Hyperbolic Functions.
+* coshl: (libc)Hyperbolic Functions.
+* cos: (libc)Trig Functions.
+* cosl: (libc)Trig Functions.
+* cpowf: (libc)Exponents and Logarithms.
+* cpow: (libc)Exponents and Logarithms.
+* cpowl: (libc)Exponents and Logarithms.
+* cprojf: (libc)Operations on Complex.
+* cproj: (libc)Operations on Complex.
+* cprojl: (libc)Operations on Complex.
+* CPU_CLR: (libc)CPU Affinity.
+* CPU_ISSET: (libc)CPU Affinity.
+* CPU_SET: (libc)CPU Affinity.
+* CPU_SETSIZE: (libc)CPU Affinity.
+* CPU_ZERO: (libc)CPU Affinity.
+* CREAD: (libc)Control Modes.
+* crealf: (libc)Operations on Complex.
+* creal: (libc)Operations on Complex.
+* creall: (libc)Operations on Complex.
+* creat64: (libc)Opening and Closing Files.
+* creat: (libc)Opening and Closing Files.
+* CRTS_IFLOW: (libc)Control Modes.
+* crypt: (libc)crypt.
+* crypt_r: (libc)crypt.
+* CS5: (libc)Control Modes.
+* CS6: (libc)Control Modes.
+* CS7: (libc)Control Modes.
+* CS8: (libc)Control Modes.
+* csinf: (libc)Trig Functions.
+* csinhf: (libc)Hyperbolic Functions.
+* csinh: (libc)Hyperbolic Functions.
+* csinhl: (libc)Hyperbolic Functions.
+* csin: (libc)Trig Functions.
+* csinl: (libc)Trig Functions.
+* CSIZE: (libc)Control Modes.
+* csqrtf: (libc)Exponents and Logarithms.
+* csqrt: (libc)Exponents and Logarithms.
+* csqrtl: (libc)Exponents and Logarithms.
+* CSTOPB: (libc)Control Modes.
+* ctanf: (libc)Trig Functions.
+* ctanhf: (libc)Hyperbolic Functions.
+* ctanh: (libc)Hyperbolic Functions.
+* ctanhl: (libc)Hyperbolic Functions.
+* ctan: (libc)Trig Functions.
+* ctanl: (libc)Trig Functions.
+* ctermid: (libc)Identifying the Terminal.
+* ctime: (libc)Formatting Calendar Time.
+* ctime_r: (libc)Formatting Calendar Time.
+* cuserid: (libc)Who Logged In.
+* dcgettext: (libc)Translation with gettext.
+* dcngettext: (libc)Advanced gettext functions.
+* DES_FAILED: (libc)DES Encryption.
+* des_setparity: (libc)DES Encryption.
+* dgettext: (libc)Translation with gettext.
+* difftime: (libc)Elapsed Time.
+* dirfd: (libc)Opening a Directory.
+* dirname: (libc)Finding Tokens in a String.
+* div: (libc)Integer Division.
+* dngettext: (libc)Advanced gettext functions.
+* drand48: (libc)SVID Random.
+* drand48_r: (libc)SVID Random.
+* dremf: (libc)Remainder Functions.
+* drem: (libc)Remainder Functions.
+* dreml: (libc)Remainder Functions.
+* DTTOIF: (libc)Directory Entries.
+* dup2: (libc)Duplicating Descriptors.
+* dup: (libc)Duplicating Descriptors.
+* E2BIG: (libc)Error Codes.
+* EACCES: (libc)Error Codes.
+* EADDRINUSE: (libc)Error Codes.
+* EADDRNOTAVAIL: (libc)Error Codes.
+* EADV: (libc)Error Codes.
+* EAFNOSUPPORT: (libc)Error Codes.
+* EAGAIN: (libc)Error Codes.
+* EALREADY: (libc)Error Codes.
+* EAUTH: (libc)Error Codes.
+* EBACKGROUND: (libc)Error Codes.
+* EBADE: (libc)Error Codes.
+* EBADFD: (libc)Error Codes.
+* EBADF: (libc)Error Codes.
+* EBADMSG: (libc)Error Codes.
+* EBADR: (libc)Error Codes.
+* EBADRPC: (libc)Error Codes.
+* EBADRQC: (libc)Error Codes.
+* EBADSLT: (libc)Error Codes.
+* EBFONT: (libc)Error Codes.
+* EBUSY: (libc)Error Codes.
+* ECANCELED: (libc)Error Codes.
+* ecb_crypt: (libc)DES Encryption.
+* ECHILD: (libc)Error Codes.
+* ECHOCTL: (libc)Local Modes.
+* ECHOE: (libc)Local Modes.
+* ECHOKE: (libc)Local Modes.
+* ECHOK: (libc)Local Modes.
+* ECHO: (libc)Local Modes.
+* ECHONL: (libc)Local Modes.
+* ECHOPRT: (libc)Local Modes.
+* ECHRNG: (libc)Error Codes.
+* ECOMM: (libc)Error Codes.
+* ECONNABORTED: (libc)Error Codes.
+* ECONNREFUSED: (libc)Error Codes.
+* ECONNRESET: (libc)Error Codes.
+* ecvt: (libc)System V Number Conversion.
+* ecvt_r: (libc)System V Number Conversion.
+* EDEADLK: (libc)Error Codes.
+* EDEADLOCK: (libc)Error Codes.
+* EDESTADDRREQ: (libc)Error Codes.
+* EDIED: (libc)Error Codes.
+* ED: (libc)Error Codes.
+* EDOM: (libc)Error Codes.
+* EDOTDOT: (libc)Error Codes.
+* EDQUOT: (libc)Error Codes.
+* EEXIST: (libc)Error Codes.
+* EFAULT: (libc)Error Codes.
+* EFBIG: (libc)Error Codes.
+* EFTYPE: (libc)Error Codes.
+* EGRATUITOUS: (libc)Error Codes.
+* EGREGIOUS: (libc)Error Codes.
+* EHOSTDOWN: (libc)Error Codes.
+* EHOSTUNREACH: (libc)Error Codes.
+* EIDRM: (libc)Error Codes.
+* EIEIO: (libc)Error Codes.
+* EILSEQ: (libc)Error Codes.
+* EINPROGRESS: (libc)Error Codes.
+* EINTR: (libc)Error Codes.
+* EINVAL: (libc)Error Codes.
+* EIO: (libc)Error Codes.
+* EISCONN: (libc)Error Codes.
+* EISDIR: (libc)Error Codes.
+* EISNAM: (libc)Error Codes.
+* EL2HLT: (libc)Error Codes.
+* EL2NSYNC: (libc)Error Codes.
+* EL3HLT: (libc)Error Codes.
+* EL3RST: (libc)Error Codes.
+* ELIBACC: (libc)Error Codes.
+* ELIBBAD: (libc)Error Codes.
+* ELIBEXEC: (libc)Error Codes.
+* ELIBMAX: (libc)Error Codes.
+* ELIBSCN: (libc)Error Codes.
+* ELNRNG: (libc)Error Codes.
+* ELOOP: (libc)Error Codes.
+* EMEDIUMTYPE: (libc)Error Codes.
+* EMFILE: (libc)Error Codes.
+* EMLINK: (libc)Error Codes.
+* EMSGSIZE: (libc)Error Codes.
+* EMULTIHOP: (libc)Error Codes.
+* ENAMETOOLONG: (libc)Error Codes.
+* ENAVAIL: (libc)Error Codes.
+* encrypt: (libc)DES Encryption.
+* encrypt_r: (libc)DES Encryption.
+* endfsent: (libc)fstab.
+* endgrent: (libc)Scanning All Groups.
+* endhostent: (libc)Host Names.
+* endmntent: (libc)mtab.
+* endnetent: (libc)Networks Database.
+* endnetgrent: (libc)Lookup Netgroup.
+* endprotoent: (libc)Protocols Database.
+* endpwent: (libc)Scanning All Users.
+* endservent: (libc)Services Database.
+* endutent: (libc)Manipulating the Database.
+* endutxent: (libc)XPG Functions.
+* ENEEDAUTH: (libc)Error Codes.
+* ENETDOWN: (libc)Error Codes.
+* ENETRESET: (libc)Error Codes.
+* ENETUNREACH: (libc)Error Codes.
+* ENFILE: (libc)Error Codes.
+* ENOANO: (libc)Error Codes.
+* ENOBUFS: (libc)Error Codes.
+* ENOCSI: (libc)Error Codes.
+* ENODATA: (libc)Error Codes.
+* ENODEV: (libc)Error Codes.
+* ENOENT: (libc)Error Codes.
+* ENOEXEC: (libc)Error Codes.
+* ENOLCK: (libc)Error Codes.
+* ENOLINK: (libc)Error Codes.
+* ENOMEDIUM: (libc)Error Codes.
+* ENOMEM: (libc)Error Codes.
+* ENOMSG: (libc)Error Codes.
+* ENONET: (libc)Error Codes.
+* ENOPKG: (libc)Error Codes.
+* ENOPROTOOPT: (libc)Error Codes.
+* ENOSPC: (libc)Error Codes.
+* ENOSR: (libc)Error Codes.
+* ENOSTR: (libc)Error Codes.
+* ENOSYS: (libc)Error Codes.
+* ENOTBLK: (libc)Error Codes.
+* ENOTCONN: (libc)Error Codes.
+* ENOTDIR: (libc)Error Codes.
+* ENOTEMPTY: (libc)Error Codes.
+* ENOTNAM: (libc)Error Codes.
+* ENOTSOCK: (libc)Error Codes.
+* ENOTSUP: (libc)Error Codes.
+* ENOTTY: (libc)Error Codes.
+* ENOTUNIQ: (libc)Error Codes.
+* envz_add: (libc)Envz Functions.
+* envz_entry: (libc)Envz Functions.
+* envz_get: (libc)Envz Functions.
+* envz_merge: (libc)Envz Functions.
+* envz_strip: (libc)Envz Functions.
+* ENXIO: (libc)Error Codes.
+* EOF: (libc)EOF and Errors.
+* EOPNOTSUPP: (libc)Error Codes.
+* EOVERFLOW: (libc)Error Codes.
+* EPERM: (libc)Error Codes.
+* EPFNOSUPPORT: (libc)Error Codes.
+* EPIPE: (libc)Error Codes.
+* EPROCLIM: (libc)Error Codes.
+* EPROCUNAVAIL: (libc)Error Codes.
+* EPROGMISMATCH: (libc)Error Codes.
+* EPROGUNAVAIL: (libc)Error Codes.
+* EPROTO: (libc)Error Codes.
+* EPROTONOSUPPORT: (libc)Error Codes.
+* EPROTOTYPE: (libc)Error Codes.
+* EQUIV_CLASS_MAX: (libc)Utility Limits.
+* erand48: (libc)SVID Random.
+* erand48_r: (libc)SVID Random.
+* ERANGE: (libc)Error Codes.
+* EREMCHG: (libc)Error Codes.
+* EREMOTEIO: (libc)Error Codes.
+* EREMOTE: (libc)Error Codes.
+* ERESTART: (libc)Error Codes.
+* erfcf: (libc)Special Functions.
+* erfc: (libc)Special Functions.
+* erfcl: (libc)Special Functions.
+* erff: (libc)Special Functions.
+* erf: (libc)Special Functions.
+* erfl: (libc)Special Functions.
+* EROFS: (libc)Error Codes.
+* ERPCMISMATCH: (libc)Error Codes.
+* err: (libc)Error Messages.
+* errno: (libc)Checking for Errors.
+* error_at_line: (libc)Error Messages.
+* error: (libc)Error Messages.
+* errx: (libc)Error Messages.
+* ESHUTDOWN: (libc)Error Codes.
+* ESOCKTNOSUPPORT: (libc)Error Codes.
+* ESPIPE: (libc)Error Codes.
+* ESRCH: (libc)Error Codes.
+* ESRMNT: (libc)Error Codes.
+* ESTALE: (libc)Error Codes.
+* ESTRPIPE: (libc)Error Codes.
+* ETIMEDOUT: (libc)Error Codes.
+* ETIME: (libc)Error Codes.
+* ETOOMANYREFS: (libc)Error Codes.
+* ETXTBSY: (libc)Error Codes.
+* EUCLEAN: (libc)Error Codes.
+* EUNATCH: (libc)Error Codes.
+* EUSERS: (libc)Error Codes.
+* EWOULDBLOCK: (libc)Error Codes.
+* EXDEV: (libc)Error Codes.
+* execle: (libc)Executing a File.
+* execl: (libc)Executing a File.
+* execlp: (libc)Executing a File.
+* execve: (libc)Executing a File.
+* execv: (libc)Executing a File.
+* execvp: (libc)Executing a File.
+* EXFULL: (libc)Error Codes.
+* EXIT_FAILURE: (libc)Exit Status.
+* exit: (libc)Normal Termination.
+* _exit: (libc)Termination Internals.
+* _Exit: (libc)Termination Internals.
+* EXIT_SUCCESS: (libc)Exit Status.
+* exp10f: (libc)Exponents and Logarithms.
+* exp10: (libc)Exponents and Logarithms.
+* exp10l: (libc)Exponents and Logarithms.
+* exp2f: (libc)Exponents and Logarithms.
+* exp2: (libc)Exponents and Logarithms.
+* exp2l: (libc)Exponents and Logarithms.
+* expf: (libc)Exponents and Logarithms.
+* exp: (libc)Exponents and Logarithms.
+* expl: (libc)Exponents and Logarithms.
+* expm1f: (libc)Exponents and Logarithms.
+* expm1: (libc)Exponents and Logarithms.
+* expm1l: (libc)Exponents and Logarithms.
+* EXPR_NEST_MAX: (libc)Utility Limits.
+* fabsf: (libc)Absolute Value.
+* fabs: (libc)Absolute Value.
+* fabsl: (libc)Absolute Value.
+* __fbufsize: (libc)Controlling Buffering.
+* fchdir: (libc)Working Directory.
+* fchmod: (libc)Setting Permissions.
+* fchown: (libc)File Owner.
+* fclean: (libc)Cleaning Streams.
+* fcloseall: (libc)Closing Streams.
+* fclose: (libc)Closing Streams.
+* fcntl: (libc)Control Operations.
+* fcvt: (libc)System V Number Conversion.
+* fcvt_r: (libc)System V Number Conversion.
+* fdatasync: (libc)Synchronizing I/O.
+* FD_CLOEXEC: (libc)Descriptor Flags.
+* FD_CLR: (libc)Waiting for I/O.
+* fdimf: (libc)Misc FP Arithmetic.
+* fdim: (libc)Misc FP Arithmetic.
+* fdiml: (libc)Misc FP Arithmetic.
+* FD_ISSET: (libc)Waiting for I/O.
+* fdopen: (libc)Descriptors and Streams.
+* FD_SET: (libc)Waiting for I/O.
+* FD_SETSIZE: (libc)Waiting for I/O.
+* F_DUPFD: (libc)Duplicating Descriptors.
+* FD_ZERO: (libc)Waiting for I/O.
+* feclearexcept: (libc)Status bit operations.
+* fedisableexcept: (libc)Control Functions.
+* feenableexcept: (libc)Control Functions.
+* fegetenv: (libc)Control Functions.
+* fegetexceptflag: (libc)Status bit operations.
+* fegetexcept: (libc)Control Functions.
+* fegetround: (libc)Rounding.
+* feholdexcept: (libc)Control Functions.
+* feof: (libc)EOF and Errors.
+* feof_unlocked: (libc)EOF and Errors.
+* feraiseexcept: (libc)Status bit operations.
+* ferror: (libc)EOF and Errors.
+* ferror_unlocked: (libc)EOF and Errors.
+* fesetenv: (libc)Control Functions.
+* fesetexceptflag: (libc)Status bit operations.
+* fesetround: (libc)Rounding.
+* fetestexcept: (libc)Status bit operations.
+* feupdateenv: (libc)Control Functions.
+* fflush: (libc)Flushing Buffers.
+* fflush_unlocked: (libc)Flushing Buffers.
+* fgetc: (libc)Character Input.
+* fgetc_unlocked: (libc)Character Input.
+* F_GETFD: (libc)Descriptor Flags.
+* F_GETFL: (libc)Getting File Status Flags.
+* fgetgrent: (libc)Scanning All Groups.
+* fgetgrent_r: (libc)Scanning All Groups.
+* F_GETLK: (libc)File Locks.
+* F_GETOWN: (libc)Interrupt Input.
+* fgetpos64: (libc)Portable Positioning.
+* fgetpos: (libc)Portable Positioning.
+* fgetpwent: (libc)Scanning All Users.
+* fgetpwent_r: (libc)Scanning All Users.
+* fgets: (libc)Line Input.
+* fgets_unlocked: (libc)Line Input.
+* fgetwc: (libc)Character Input.
+* fgetwc_unlocked: (libc)Character Input.
+* fgetws: (libc)Line Input.
+* fgetws_unlocked: (libc)Line Input.
+* FILENAME_MAX: (libc)Limits for Files.
+* fileno: (libc)Descriptors and Streams.
+* fileno_unlocked: (libc)Descriptors and Streams.
+* finitef: (libc)Floating Point Classes.
+* finite: (libc)Floating Point Classes.
+* finitel: (libc)Floating Point Classes.
+* __flbf: (libc)Controlling Buffering.
+* flockfile: (libc)Streams and Threads.
+* floorf: (libc)Rounding Functions.
+* floor: (libc)Rounding Functions.
+* floorl: (libc)Rounding Functions.
+* _flushlbf: (libc)Flushing Buffers.
+* FLUSHO: (libc)Local Modes.
+* fmaf: (libc)Misc FP Arithmetic.
+* fma: (libc)Misc FP Arithmetic.
+* fmal: (libc)Misc FP Arithmetic.
+* fmaxf: (libc)Misc FP Arithmetic.
+* fmax: (libc)Misc FP Arithmetic.
+* fmaxl: (libc)Misc FP Arithmetic.
+* fmemopen: (libc)String Streams.
+* fminf: (libc)Misc FP Arithmetic.
+* fmin: (libc)Misc FP Arithmetic.
+* fminl: (libc)Misc FP Arithmetic.
+* fmodf: (libc)Remainder Functions.
+* fmod: (libc)Remainder Functions.
+* fmodl: (libc)Remainder Functions.
+* fmtmsg: (libc)Printing Formatted Messages.
+* fnmatch: (libc)Wildcard Matching.
+* F_OK: (libc)Testing File Access.
+* fopen64: (libc)Opening Streams.
+* fopencookie: (libc)Streams and Cookies.
+* fopen: (libc)Opening Streams.
+* FOPEN_MAX: (libc)Opening Streams.
+* fork: (libc)Creating a Process.
+* forkpty: (libc)Pseudo-Terminal Pairs.
+* fpathconf: (libc)Pathconf.
+* fpclassify: (libc)Floating Point Classes.
+* __fpending: (libc)Controlling Buffering.
+* FP_ILOGB0: (libc)Exponents and Logarithms.
+* FP_ILOGBNAN: (libc)Exponents and Logarithms.
+* fprintf: (libc)Formatted Output Functions.
+* __fpurge: (libc)Flushing Buffers.
+* fputc: (libc)Simple Output.
+* fputc_unlocked: (libc)Simple Output.
+* fputs: (libc)Simple Output.
+* fputs_unlocked: (libc)Simple Output.
+* fputwc: (libc)Simple Output.
+* fputwc_unlocked: (libc)Simple Output.
+* fputws: (libc)Simple Output.
+* fputws_unlocked: (libc)Simple Output.
+* __freadable: (libc)Opening Streams.
+* __freading: (libc)Opening Streams.
+* fread: (libc)Block Input/Output.
+* fread_unlocked: (libc)Block Input/Output.
+* free: (libc)Freeing after Malloc.
+* freopen64: (libc)Opening Streams.
+* freopen: (libc)Opening Streams.
+* frexpf: (libc)Normalization Functions.
+* frexp: (libc)Normalization Functions.
+* frexpl: (libc)Normalization Functions.
+* fscanf: (libc)Formatted Input Functions.
+* fseek: (libc)File Positioning.
+* fseeko64: (libc)File Positioning.
+* fseeko: (libc)File Positioning.
+* F_SETFD: (libc)Descriptor Flags.
+* F_SETFL: (libc)Getting File Status Flags.
+* F_SETLK: (libc)File Locks.
+* F_SETLKW: (libc)File Locks.
+* __fsetlocking: (libc)Streams and Threads.
+* F_SETOWN: (libc)Interrupt Input.
+* fsetpos64: (libc)Portable Positioning.
+* fsetpos: (libc)Portable Positioning.
+* fstat64: (libc)Reading Attributes.
+* fstat: (libc)Reading Attributes.
+* fsync: (libc)Synchronizing I/O.
+* ftell: (libc)File Positioning.
+* ftello64: (libc)File Positioning.
+* ftello: (libc)File Positioning.
+* ftruncate64: (libc)File Size.
+* ftruncate: (libc)File Size.
+* ftrylockfile: (libc)Streams and Threads.
+* ftw64: (libc)Working with Directory Trees.
+* ftw: (libc)Working with Directory Trees.
+* funlockfile: (libc)Streams and Threads.
+* futimes: (libc)File Times.
+* fwide: (libc)Streams and I18N.
+* fwprintf: (libc)Formatted Output Functions.
+* __fwritable: (libc)Opening Streams.
+* fwrite: (libc)Block Input/Output.
+* fwrite_unlocked: (libc)Block Input/Output.
+* __fwriting: (libc)Opening Streams.
+* fwscanf: (libc)Formatted Input Functions.
+* gammaf: (libc)Special Functions.
+* gamma: (libc)Special Functions.
+* gammal: (libc)Special Functions.
+* __gconv_end_fct: (libc)glibc iconv Implementation.
+* __gconv_fct: (libc)glibc iconv Implementation.
+* __gconv_init_fct: (libc)glibc iconv Implementation.
+* gcvt: (libc)System V Number Conversion.
+* get_avphys_pages: (libc)Query Memory Parameters.
+* getchar: (libc)Character Input.
+* getchar_unlocked: (libc)Character Input.
+* getc: (libc)Character Input.
+* getcontext: (libc)System V contexts.
+* getc_unlocked: (libc)Character Input.
+* get_current_dir_name: (libc)Working Directory.
+* getcwd: (libc)Working Directory.
+* getdate: (libc)General Time String Parsing.
+* getdate_r: (libc)General Time String Parsing.
+* getdelim: (libc)Line Input.
+* getdomainnname: (libc)Host Identification.
+* getegid: (libc)Reading Persona.
+* getenv: (libc)Environment Access.
+* geteuid: (libc)Reading Persona.
+* getfsent: (libc)fstab.
+* getfsfile: (libc)fstab.
+* getfsspec: (libc)fstab.
+* getgid: (libc)Reading Persona.
+* getgrent: (libc)Scanning All Groups.
+* getgrent_r: (libc)Scanning All Groups.
+* getgrgid: (libc)Lookup Group.
+* getgrgid_r: (libc)Lookup Group.
+* getgrnam: (libc)Lookup Group.
+* getgrnam_r: (libc)Lookup Group.
+* getgrouplist: (libc)Setting Groups.
+* getgroups: (libc)Reading Persona.
+* gethostbyaddr: (libc)Host Names.
+* gethostbyaddr_r: (libc)Host Names.
+* gethostbyname2: (libc)Host Names.
+* gethostbyname2_r: (libc)Host Names.
+* gethostbyname: (libc)Host Names.
+* gethostbyname_r: (libc)Host Names.
+* gethostent: (libc)Host Names.
+* gethostid: (libc)Host Identification.
+* gethostname: (libc)Host Identification.
+* getitimer: (libc)Setting an Alarm.
+* getline: (libc)Line Input.
+* getloadavg: (libc)Processor Resources.
+* getlogin: (libc)Who Logged In.
+* getmntent: (libc)mtab.
+* getmntent_r: (libc)mtab.
+* getnetbyaddr: (libc)Networks Database.
+* getnetbyname: (libc)Networks Database.
+* getnetent: (libc)Networks Database.
+* getnetgrent: (libc)Lookup Netgroup.
+* getnetgrent_r: (libc)Lookup Netgroup.
+* get_nprocs_conf: (libc)Processor Resources.
+* get_nprocs: (libc)Processor Resources.
+* getopt: (libc)Using Getopt.
+* getopt_long: (libc)Getopt Long Options.
+* getopt_long_only: (libc)Getopt Long Options.
+* getpagesize: (libc)Query Memory Parameters.
+* getpass: (libc)getpass.
+* getpeername: (libc)Who is Connected.
+* getpgid: (libc)Process Group Functions.
+* getpgrp: (libc)Process Group Functions.
+* getpgrp: (libc)Process Group Functions.
+* get_phys_pages: (libc)Query Memory Parameters.
+* getpid: (libc)Process Identification.
+* getppid: (libc)Process Identification.
+* getpriority: (libc)Traditional Scheduling Functions.
+* getprotobyname: (libc)Protocols Database.
+* getprotobynumber: (libc)Protocols Database.
+* getprotoent: (libc)Protocols Database.
+* getpt: (libc)Allocation.
+* getpwent: (libc)Scanning All Users.
+* getpwent_r: (libc)Scanning All Users.
+* getpwnam: (libc)Lookup User.
+* getpwnam_r: (libc)Lookup User.
+* getpwuid: (libc)Lookup User.
+* getpwuid_r: (libc)Lookup User.
+* getrlimit64: (libc)Limits on Resources.
+* getrlimit: (libc)Limits on Resources.
+* getrusage: (libc)Resource Usage.
+* getservbyname: (libc)Services Database.
+* getservbyport: (libc)Services Database.
+* getservent: (libc)Services Database.
+* getsid: (libc)Process Group Functions.
+* gets: (libc)Line Input.
+* getsockname: (libc)Reading Address.
+* getsockopt: (libc)Socket Option Functions.
+* getsubopt: (libc)Suboptions.
+* gettext: (libc)Translation with gettext.
+* gettimeofday: (libc)High-Resolution Calendar.
+* getuid: (libc)Reading Persona.
+* getumask: (libc)Setting Permissions.
+* getutent: (libc)Manipulating the Database.
+* getutent_r: (libc)Manipulating the Database.
+* getutid: (libc)Manipulating the Database.
+* getutid_r: (libc)Manipulating the Database.
+* getutline: (libc)Manipulating the Database.
+* getutline_r: (libc)Manipulating the Database.
+* getutmp: (libc)XPG Functions.
+* getutmpx: (libc)XPG Functions.
+* getutxent: (libc)XPG Functions.
+* getutxid: (libc)XPG Functions.
+* getutxline: (libc)XPG Functions.
+* getwchar: (libc)Character Input.
+* getwchar_unlocked: (libc)Character Input.
+* getwc: (libc)Character Input.
+* getwc_unlocked: (libc)Character Input.
+* getwd: (libc)Working Directory.
+* getw: (libc)Character Input.
+* glob64: (libc)Calling Glob.
+* globfree64: (libc)More Flags for Globbing.
+* globfree: (libc)More Flags for Globbing.
+* glob: (libc)Calling Glob.
+* gmtime: (libc)Broken-down Time.
+* gmtime_r: (libc)Broken-down Time.
+* grantpt: (libc)Allocation.
+* gsignal: (libc)Signaling Yourself.
+* gtty: (libc)BSD Terminal Modes.
+* hasmntopt: (libc)mtab.
+* hcreate: (libc)Hash Search Function.
+* hcreate_r: (libc)Hash Search Function.
+* hdestroy: (libc)Hash Search Function.
+* hdestroy_r: (libc)Hash Search Function.
+* hsearch: (libc)Hash Search Function.
+* hsearch_r: (libc)Hash Search Function.
+* htonl: (libc)Byte Order.
+* htons: (libc)Byte Order.
+* HUGE_VALF: (libc)Math Error Reporting.
+* HUGE_VAL: (libc)Math Error Reporting.
+* HUGE_VALL: (libc)Math Error Reporting.
+* HUPCL: (libc)Control Modes.
+* hypotf: (libc)Exponents and Logarithms.
+* hypot: (libc)Exponents and Logarithms.
+* hypotl: (libc)Exponents and Logarithms.
+* ICANON: (libc)Local Modes.
+* iconv_close: (libc)Generic Conversion Interface.
+* iconv: (libc)Generic Conversion Interface.
+* iconv_open: (libc)Generic Conversion Interface.
+* ICRNL: (libc)Input Modes.
+* IEXTEN: (libc)Local Modes.
+* if_freenameindex: (libc)Interface Naming.
+* if_indextoname: (libc)Interface Naming.
+* if_nameindex: (libc)Interface Naming.
+* if_nametoindex: (libc)Interface Naming.
+* IFNAMSIZ: (libc)Interface Naming.
+* IFTODT: (libc)Directory Entries.
+* IGNBRK: (libc)Input Modes.
+* IGNCR: (libc)Input Modes.
+* IGNPAR: (libc)Input Modes.
+* I: (libc)Complex Numbers.
+* ilogbf: (libc)Exponents and Logarithms.
+* ilogb: (libc)Exponents and Logarithms.
+* ilogbl: (libc)Exponents and Logarithms.
+* _Imaginary_I: (libc)Complex Numbers.
+* imaxabs: (libc)Absolute Value.
+* IMAXBEL: (libc)Input Modes.
+* imaxdiv: (libc)Integer Division.
+* in6addr_any: (libc)Host Address Data Type.
+* in6addr_loopback: (libc)Host Address Data Type.
+* INADDR_ANY: (libc)Host Address Data Type.
+* INADDR_BROADCAST: (libc)Host Address Data Type.
+* INADDR_LOOPBACK: (libc)Host Address Data Type.
+* INADDR_NONE: (libc)Host Address Data Type.
+* index: (libc)Search Functions.
+* inet_addr: (libc)Host Address Functions.
+* inet_aton: (libc)Host Address Functions.
+* inet_lnaof: (libc)Host Address Functions.
+* inet_makeaddr: (libc)Host Address Functions.
+* inet_netof: (libc)Host Address Functions.
+* inet_network: (libc)Host Address Functions.
+* inet_ntoa: (libc)Host Address Functions.
+* inet_ntop: (libc)Host Address Functions.
+* inet_pton: (libc)Host Address Functions.
+* INFINITY: (libc)Infinity and NaN.
+* initgroups: (libc)Setting Groups.
+* initstate: (libc)BSD Random.
+* initstate_r: (libc)BSD Random.
+* INLCR: (libc)Input Modes.
+* innetgr: (libc)Netgroup Membership.
+* INPCK: (libc)Input Modes.
+* ioctl: (libc)IOCTLs.
+* _IOFBF: (libc)Controlling Buffering.
+* _IOLBF: (libc)Controlling Buffering.
+* _IONBF: (libc)Controlling Buffering.
+* IPPORT_RESERVED: (libc)Ports.
+* IPPORT_USERRESERVED: (libc)Ports.
+* isalnum: (libc)Classification of Characters.
+* isalpha: (libc)Classification of Characters.
+* isascii: (libc)Classification of Characters.
+* isatty: (libc)Is It a Terminal.
+* isblank: (libc)Classification of Characters.
+* iscntrl: (libc)Classification of Characters.
+* isdigit: (libc)Classification of Characters.
+* isfinite: (libc)Floating Point Classes.
+* isgraph: (libc)Classification of Characters.
+* isgreaterequal: (libc)FP Comparison Functions.
+* isgreater: (libc)FP Comparison Functions.
+* ISIG: (libc)Local Modes.
+* isinff: (libc)Floating Point Classes.
+* isinf: (libc)Floating Point Classes.
+* isinfl: (libc)Floating Point Classes.
+* islessequal: (libc)FP Comparison Functions.
+* islessgreater: (libc)FP Comparison Functions.
+* isless: (libc)FP Comparison Functions.
+* islower: (libc)Classification of Characters.
+* isnanf: (libc)Floating Point Classes.
+* isnan: (libc)Floating Point Classes.
+* isnan: (libc)Floating Point Classes.
+* isnanl: (libc)Floating Point Classes.
+* isnormal: (libc)Floating Point Classes.
+* isprint: (libc)Classification of Characters.
+* ispunct: (libc)Classification of Characters.
+* isspace: (libc)Classification of Characters.
+* ISTRIP: (libc)Input Modes.
+* isunordered: (libc)FP Comparison Functions.
+* isupper: (libc)Classification of Characters.
+* iswalnum: (libc)Classification of Wide Characters.
+* iswalpha: (libc)Classification of Wide Characters.
+* iswblank: (libc)Classification of Wide Characters.
+* iswcntrl: (libc)Classification of Wide Characters.
+* iswctype: (libc)Classification of Wide Characters.
+* iswdigit: (libc)Classification of Wide Characters.
+* iswgraph: (libc)Classification of Wide Characters.
+* iswlower: (libc)Classification of Wide Characters.
+* iswprint: (libc)Classification of Wide Characters.
+* iswpunct: (libc)Classification of Wide Characters.
+* iswspace: (libc)Classification of Wide Characters.
+* iswupper: (libc)Classification of Wide Characters.
+* iswxdigit: (libc)Classification of Wide Characters.
+* isxdigit: (libc)Classification of Characters.
+* IXANY: (libc)Input Modes.
+* IXOFF: (libc)Input Modes.
+* IXON: (libc)Input Modes.
+* j0f: (libc)Special Functions.
+* j0: (libc)Special Functions.
+* j0l: (libc)Special Functions.
+* j1f: (libc)Special Functions.
+* j1: (libc)Special Functions.
+* j1l: (libc)Special Functions.
+* jnf: (libc)Special Functions.
+* jn: (libc)Special Functions.
+* jnl: (libc)Special Functions.
+* jrand48: (libc)SVID Random.
+* jrand48_r: (libc)SVID Random.
+* kill: (libc)Signaling Another Process.
+* killpg: (libc)Signaling Another Process.
+* l64a: (libc)Encode Binary Data.
+* labs: (libc)Absolute Value.
+* lcong48: (libc)SVID Random.
+* lcong48_r: (libc)SVID Random.
+* L_ctermid: (libc)Identifying the Terminal.
+* L_cuserid: (libc)Who Logged In.
+* ldexpf: (libc)Normalization Functions.
+* ldexp: (libc)Normalization Functions.
+* ldexpl: (libc)Normalization Functions.
+* ldiv: (libc)Integer Division.
+* lfind: (libc)Array Search Function.
+* lgammaf: (libc)Special Functions.
+* lgammaf_r: (libc)Special Functions.
+* lgamma: (libc)Special Functions.
+* lgammal: (libc)Special Functions.
+* lgammal_r: (libc)Special Functions.
+* lgamma_r: (libc)Special Functions.
+* LINE_MAX: (libc)Utility Limits.
+* link: (libc)Hard Links.
+* LINK_MAX: (libc)Limits for Files.
+* lio_listio64: (libc)Asynchronous Reads/Writes.
+* lio_listio: (libc)Asynchronous Reads/Writes.
+* listen: (libc)Listening.
+* llabs: (libc)Absolute Value.
+* lldiv: (libc)Integer Division.
+* llrintf: (libc)Rounding Functions.
+* llrint: (libc)Rounding Functions.
+* llrintl: (libc)Rounding Functions.
+* llroundf: (libc)Rounding Functions.
+* llround: (libc)Rounding Functions.
+* llroundl: (libc)Rounding Functions.
+* localeconv: (libc)The Lame Way to Locale Data.
+* localtime: (libc)Broken-down Time.
+* localtime_r: (libc)Broken-down Time.
+* log10f: (libc)Exponents and Logarithms.
+* log10: (libc)Exponents and Logarithms.
+* log10l: (libc)Exponents and Logarithms.
+* log1pf: (libc)Exponents and Logarithms.
+* log1p: (libc)Exponents and Logarithms.
+* log1pl: (libc)Exponents and Logarithms.
+* log2f: (libc)Exponents and Logarithms.
+* log2: (libc)Exponents and Logarithms.
+* log2l: (libc)Exponents and Logarithms.
+* logbf: (libc)Exponents and Logarithms.
+* logb: (libc)Exponents and Logarithms.
+* logbl: (libc)Exponents and Logarithms.
+* logf: (libc)Exponents and Logarithms.
+* login: (libc)Logging In and Out.
+* login_tty: (libc)Logging In and Out.
+* log: (libc)Exponents and Logarithms.
+* logl: (libc)Exponents and Logarithms.
+* logout: (libc)Logging In and Out.
+* logwtmp: (libc)Logging In and Out.
+* longjmp: (libc)Non-Local Details.
+* lrand48: (libc)SVID Random.
+* lrand48_r: (libc)SVID Random.
+* lrintf: (libc)Rounding Functions.
+* lrint: (libc)Rounding Functions.
+* lrintl: (libc)Rounding Functions.
+* lroundf: (libc)Rounding Functions.
+* lround: (libc)Rounding Functions.
+* lroundl: (libc)Rounding Functions.
+* lsearch: (libc)Array Search Function.
+* lseek64: (libc)File Position Primitive.
+* lseek: (libc)File Position Primitive.
+* lstat64: (libc)Reading Attributes.
+* lstat: (libc)Reading Attributes.
+* L_tmpnam: (libc)Temporary Files.
+* lutimes: (libc)File Times.
+* madvise: (libc)Memory-mapped I/O.
+* makecontext: (libc)System V contexts.
+* mallinfo: (libc)Statistics of Malloc.
+* malloc: (libc)Basic Allocation.
+* mallopt: (libc)Malloc Tunable Parameters.
+* MAX_CANON: (libc)Limits for Files.
+* MAX_INPUT: (libc)Limits for Files.
+* MAXNAMLEN: (libc)Limits for Files.
+* MAXSYMLINKS: (libc)Symbolic Links.
+* MB_CUR_MAX: (libc)Selecting the Conversion.
+* mblen: (libc)Non-reentrant Character Conversion.
+* MB_LEN_MAX: (libc)Selecting the Conversion.
+* mbrlen: (libc)Converting a Character.
+* mbrtowc: (libc)Converting a Character.
+* mbsinit: (libc)Keeping the state.
+* mbsnrtowcs: (libc)Converting Strings.
+* mbsrtowcs: (libc)Converting Strings.
+* mbstowcs: (libc)Non-reentrant String Conversion.
+* mbtowc: (libc)Non-reentrant Character Conversion.
+* mcheck: (libc)Heap Consistency Checking.
+* MDMBUF: (libc)Control Modes.
+* memalign: (libc)Aligned Memory Blocks.
+* memccpy: (libc)Copying and Concatenation.
+* memchr: (libc)Search Functions.
+* memcmp: (libc)String/Array Comparison.
+* memcpy: (libc)Copying and Concatenation.
+* memfrob: (libc)Trivial Encryption.
+* memmem: (libc)Search Functions.
+* memmove: (libc)Copying and Concatenation.
+* mempcpy: (libc)Copying and Concatenation.
+* memrchr: (libc)Search Functions.
+* memset: (libc)Copying and Concatenation.
+* mkdir: (libc)Creating Directories.
+* mkdtemp: (libc)Temporary Files.
+* mkfifo: (libc)FIFO Special Files.
+* mknod: (libc)Making Special Files.
+* mkstemp: (libc)Temporary Files.
+* mktemp: (libc)Temporary Files.
+* mktime: (libc)Broken-down Time.
+* mlockall: (libc)Page Lock Functions.
+* mlock: (libc)Page Lock Functions.
+* mmap64: (libc)Memory-mapped I/O.
+* mmap: (libc)Memory-mapped I/O.
+* modff: (libc)Rounding Functions.
+* modf: (libc)Rounding Functions.
+* modfl: (libc)Rounding Functions.
+* mount: (libc)Mount-Unmount-Remount.
+* mprobe: (libc)Heap Consistency Checking.
+* mrand48: (libc)SVID Random.
+* mrand48_r: (libc)SVID Random.
+* mremap: (libc)Memory-mapped I/O.
+* MSG_DONTROUTE: (libc)Socket Data Options.
+* MSG_OOB: (libc)Socket Data Options.
+* MSG_PEEK: (libc)Socket Data Options.
+* msync: (libc)Memory-mapped I/O.
+* mtrace: (libc)Tracing malloc.
+* munlockall: (libc)Page Lock Functions.
+* munlock: (libc)Page Lock Functions.
+* munmap: (libc)Memory-mapped I/O.
+* muntrace: (libc)Tracing malloc.
+* NAME_MAX: (libc)Limits for Files.
+* nanf: (libc)FP Bit Twiddling.
+* nan: (libc)FP Bit Twiddling.
+* NAN: (libc)Infinity and NaN.
+* nanl: (libc)FP Bit Twiddling.
+* nanosleep: (libc)Sleeping.
+* NCCS: (libc)Mode Data Types.
+* nearbyintf: (libc)Rounding Functions.
+* nearbyint: (libc)Rounding Functions.
+* nearbyintl: (libc)Rounding Functions.
+* nextafterf: (libc)FP Bit Twiddling.
+* nextafter: (libc)FP Bit Twiddling.
+* nextafterl: (libc)FP Bit Twiddling.
+* nexttowardf: (libc)FP Bit Twiddling.
+* nexttoward: (libc)FP Bit Twiddling.
+* nexttowardl: (libc)FP Bit Twiddling.
+* nftw64: (libc)Working with Directory Trees.
+* nftw: (libc)Working with Directory Trees.
+* ngettext: (libc)Advanced gettext functions.
+* NGROUPS_MAX: (libc)General Limits.
+* nice: (libc)Traditional Scheduling Functions.
+* nl_langinfo: (libc)The Elegant and Fast Way.
+* NOFLSH: (libc)Local Modes.
+* NOKERNINFO: (libc)Local Modes.
+* nrand48: (libc)SVID Random.
+* nrand48_r: (libc)SVID Random.
+* NSIG: (libc)Standard Signals.
+* ntohl: (libc)Byte Order.
+* ntohs: (libc)Byte Order.
+* ntp_adjtime: (libc)High Accuracy Clock.
+* ntp_gettime: (libc)High Accuracy Clock.
+* NULL: (libc)Null Pointer Constant.
+* O_ACCMODE: (libc)Access Modes.
+* O_APPEND: (libc)Operating Modes.
+* O_ASYNC: (libc)Operating Modes.
+* obstack_1grow_fast: (libc)Extra Fast Growing.
+* obstack_1grow: (libc)Growing Objects.
+* obstack_alignment_mask: (libc)Obstacks Data Alignment.
+* obstack_alloc: (libc)Allocation in an Obstack.
+* obstack_base: (libc)Status of an Obstack.
+* obstack_blank_fast: (libc)Extra Fast Growing.
+* obstack_blank: (libc)Growing Objects.
+* obstack_chunk_size: (libc)Obstack Chunks.
+* obstack_copy0: (libc)Allocation in an Obstack.
+* obstack_copy: (libc)Allocation in an Obstack.
+* obstack_finish: (libc)Growing Objects.
+* obstack_free: (libc)Freeing Obstack Objects.
+* obstack_grow0: (libc)Growing Objects.
+* obstack_grow: (libc)Growing Objects.
+* obstack_init: (libc)Preparing for Obstacks.
+* obstack_int_grow_fast: (libc)Extra Fast Growing.
+* obstack_int_grow: (libc)Growing Objects.
+* obstack_next_free: (libc)Status of an Obstack.
+* obstack_object_size: (libc)Growing Objects.
+* obstack_object_size: (libc)Status of an Obstack.
+* obstack_printf: (libc)Dynamic Output.
+* obstack_ptr_grow_fast: (libc)Extra Fast Growing.
+* obstack_ptr_grow: (libc)Growing Objects.
+* obstack_room: (libc)Extra Fast Growing.
+* obstack_vprintf: (libc)Variable Arguments Output.
+* O_CREAT: (libc)Open-time Flags.
+* O_EXCL: (libc)Open-time Flags.
+* O_EXEC: (libc)Access Modes.
+* O_EXLOCK: (libc)Open-time Flags.
+* offsetof: (libc)Structure Measurement.
+* O_FSYNC: (libc)Operating Modes.
+* O_IGNORE_CTTY: (libc)Open-time Flags.
+* O_NDELAY: (libc)Operating Modes.
+* on_exit: (libc)Cleanups on Exit.
+* ONLCR: (libc)Output Modes.
+* O_NOATIME: (libc)Operating Modes.
+* O_NOCTTY: (libc)Open-time Flags.
+* ONOEOT: (libc)Output Modes.
+* O_NOLINK: (libc)Open-time Flags.
+* O_NONBLOCK: (libc)Open-time Flags.
+* O_NONBLOCK: (libc)Operating Modes.
+* O_NOTRANS: (libc)Open-time Flags.
+* open64: (libc)Opening and Closing Files.
+* opendir: (libc)Opening a Directory.
+* open: (libc)Opening and Closing Files.
+* openlog: (libc)openlog.
+* OPEN_MAX: (libc)General Limits.
+* open_memstream: (libc)String Streams.
+* open_obstack_stream: (libc)Obstack Streams.
+* openpty: (libc)Pseudo-Terminal Pairs.
+* OPOST: (libc)Output Modes.
+* O_RDONLY: (libc)Access Modes.
+* O_RDWR: (libc)Access Modes.
+* O_READ: (libc)Access Modes.
+* O_SHLOCK: (libc)Open-time Flags.
+* O_SYNC: (libc)Operating Modes.
+* O_TRUNC: (libc)Open-time Flags.
+* O_WRITE: (libc)Access Modes.
+* O_WRONLY: (libc)Access Modes.
+* OXTABS: (libc)Output Modes.
+* PA_FLAG_MASK: (libc)Parsing a Template String.
+* PARENB: (libc)Control Modes.
+* PARMRK: (libc)Input Modes.
+* PARODD: (libc)Control Modes.
+* parse_printf_format: (libc)Parsing a Template String.
+* pathconf: (libc)Pathconf.
+* PATH_MAX: (libc)Limits for Files.
+* _PATH_UTMP: (libc)Manipulating the Database.
+* _PATH_WTMP: (libc)Manipulating the Database.
+* pause: (libc)Using Pause.
+* pclose: (libc)Pipe to a Subprocess.
+* PENDIN: (libc)Local Modes.
+* perror: (libc)Error Messages.
+* PF_FILE: (libc)Local Namespace Details.
+* PF_INET6: (libc)Internet Namespace.
+* PF_INET: (libc)Internet Namespace.
+* PF_LOCAL: (libc)Local Namespace Details.
+* PF_UNIX: (libc)Local Namespace Details.
+* PIPE_BUF: (libc)Limits for Files.
+* pipe: (libc)Creating a Pipe.
+* popen: (libc)Pipe to a Subprocess.
+* _POSIX2_C_DEV: (libc)System Options.
+* _POSIX2_C_VERSION: (libc)Version Supported.
+* _POSIX2_FORT_DEV: (libc)System Options.
+* _POSIX2_FORT_RUN: (libc)System Options.
+* _POSIX2_LOCALEDEF: (libc)System Options.
+* _POSIX2_SW_DEV: (libc)System Options.
+* _POSIX_CHOWN_RESTRICTED: (libc)Options for Files.
+* _POSIX_JOB_CONTROL: (libc)System Options.
+* posix_memalign: (libc)Aligned Memory Blocks.
+* _POSIX_NO_TRUNC: (libc)Options for Files.
+* _POSIX_SAVED_IDS: (libc)System Options.
+* _POSIX_VDISABLE: (libc)Options for Files.
+* _POSIX_VERSION: (libc)Version Supported.
+* pow10f: (libc)Exponents and Logarithms.
+* pow10: (libc)Exponents and Logarithms.
+* pow10l: (libc)Exponents and Logarithms.
+* powf: (libc)Exponents and Logarithms.
+* pow: (libc)Exponents and Logarithms.
+* powl: (libc)Exponents and Logarithms.
+* pread64: (libc)I/O Primitives.
+* pread: (libc)I/O Primitives.
+* printf: (libc)Formatted Output Functions.
+* printf_size_info: (libc)Predefined Printf Handlers.
+* printf_size: (libc)Predefined Printf Handlers.
+* psignal: (libc)Signal Messages.
+* P_tmpdir: (libc)Temporary Files.
+* ptsname: (libc)Allocation.
+* ptsname_r: (libc)Allocation.
+* putchar: (libc)Simple Output.
+* putchar_unlocked: (libc)Simple Output.
+* putc: (libc)Simple Output.
+* putc_unlocked: (libc)Simple Output.
+* putenv: (libc)Environment Access.
+* putpwent: (libc)Writing a User Entry.
+* puts: (libc)Simple Output.
+* pututline: (libc)Manipulating the Database.
+* pututxline: (libc)XPG Functions.
+* putwchar: (libc)Simple Output.
+* putwchar_unlocked: (libc)Simple Output.
+* putwc: (libc)Simple Output.
+* putwc_unlocked: (libc)Simple Output.
+* putw: (libc)Simple Output.
+* pwrite64: (libc)I/O Primitives.
+* pwrite: (libc)I/O Primitives.
+* qecvt: (libc)System V Number Conversion.
+* qecvt_r: (libc)System V Number Conversion.
+* qfcvt: (libc)System V Number Conversion.
+* qfcvt_r: (libc)System V Number Conversion.
+* qgcvt: (libc)System V Number Conversion.
+* qsort: (libc)Array Sort Function.
+* raise: (libc)Signaling Yourself.
+* rand: (libc)ISO Random.
+* RAND_MAX: (libc)ISO Random.
+* random: (libc)BSD Random.
+* random_r: (libc)BSD Random.
+* rand_r: (libc)ISO Random.
+* rawmemchr: (libc)Search Functions.
+* readdir64: (libc)Reading/Closing Directory.
+* readdir64_r: (libc)Reading/Closing Directory.
+* readdir: (libc)Reading/Closing Directory.
+* readdir_r: (libc)Reading/Closing Directory.
+* read: (libc)I/O Primitives.
+* readlink: (libc)Symbolic Links.
+* readv: (libc)Scatter-Gather.
+* realloc: (libc)Changing Block Size.
+* realpath: (libc)Symbolic Links.
+* recvfrom: (libc)Receiving Datagrams.
+* recv: (libc)Receiving Data.
+* recvmsg: (libc)Receiving Datagrams.
+* RE_DUP_MAX: (libc)General Limits.
+* regcomp: (libc)POSIX Regexp Compilation.
+* regerror: (libc)Regexp Cleanup.
+* regexec: (libc)Matching POSIX Regexps.
+* regfree: (libc)Regexp Cleanup.
+* register_printf_function: (libc)Registering New Conversions.
+* remainderf: (libc)Remainder Functions.
+* remainder: (libc)Remainder Functions.
+* remainderl: (libc)Remainder Functions.
+* remove: (libc)Deleting Files.
+* rename: (libc)Renaming Files.
+* rewinddir: (libc)Random Access Directory.
+* rewind: (libc)File Positioning.
+* rindex: (libc)Search Functions.
+* rintf: (libc)Rounding Functions.
+* rint: (libc)Rounding Functions.
+* rintl: (libc)Rounding Functions.
+* RLIM_INFINITY: (libc)Limits on Resources.
+* rmdir: (libc)Deleting Files.
+* R_OK: (libc)Testing File Access.
+* roundf: (libc)Rounding Functions.
+* round: (libc)Rounding Functions.
+* roundl: (libc)Rounding Functions.
+* rpmatch: (libc)Yes-or-No Questions.
+* SA_NOCLDSTOP: (libc)Flags for Sigaction.
+* SA_ONSTACK: (libc)Flags for Sigaction.
+* SA_RESTART: (libc)Flags for Sigaction.
+* sbrk: (libc)Resizing the Data Segment.
+* scalbf: (libc)Normalization Functions.
+* scalb: (libc)Normalization Functions.
+* scalbl: (libc)Normalization Functions.
+* scalblnf: (libc)Normalization Functions.
+* scalbln: (libc)Normalization Functions.
+* scalblnl: (libc)Normalization Functions.
+* scalbnf: (libc)Normalization Functions.
+* scalbn: (libc)Normalization Functions.
+* scalbnl: (libc)Normalization Functions.
+* scandir64: (libc)Scanning Directory Content.
+* scandir: (libc)Scanning Directory Content.
+* scanf: (libc)Formatted Input Functions.
+* sched_getaffinity: (libc)CPU Affinity.
+* sched_getparam: (libc)Basic Scheduling Functions.
+* sched_get_priority_max: (libc)Basic Scheduling Functions.
+* sched_get_priority_min: (libc)Basic Scheduling Functions.
+* sched_getscheduler: (libc)Basic Scheduling Functions.
+* sched_rr_get_interval: (libc)Basic Scheduling Functions.
+* sched_setaffinity: (libc)CPU Affinity.
+* sched_setparam: (libc)Basic Scheduling Functions.
+* sched_setscheduler: (libc)Basic Scheduling Functions.
+* sched_yield: (libc)Basic Scheduling Functions.
+* seed48: (libc)SVID Random.
+* seed48_r: (libc)SVID Random.
+* SEEK_CUR: (libc)File Positioning.
+* seekdir: (libc)Random Access Directory.
+* SEEK_END: (libc)File Positioning.
+* SEEK_SET: (libc)File Positioning.
+* select: (libc)Waiting for I/O.
+* send: (libc)Sending Data.
+* sendmsg: (libc)Receiving Datagrams.
+* sendto: (libc)Sending Datagrams.
+* setbuffer: (libc)Controlling Buffering.
+* setbuf: (libc)Controlling Buffering.
+* setcontext: (libc)System V contexts.
+* setdomainname: (libc)Host Identification.
+* setegid: (libc)Setting Groups.
+* setenv: (libc)Environment Access.
+* seteuid: (libc)Setting User ID.
+* setfsent: (libc)fstab.
+* setgid: (libc)Setting Groups.
+* setgrent: (libc)Scanning All Groups.
+* setgroups: (libc)Setting Groups.
+* sethostent: (libc)Host Names.
+* sethostid: (libc)Host Identification.
+* sethostname: (libc)Host Identification.
+* setitimer: (libc)Setting an Alarm.
+* setjmp: (libc)Non-Local Details.
+* setkey: (libc)DES Encryption.
+* setkey_r: (libc)DES Encryption.
+* setlinebuf: (libc)Controlling Buffering.
+* setlocale: (libc)Setting the Locale.
+* setlogmask: (libc)setlogmask.
+* setmntent: (libc)mtab.
+* setnetent: (libc)Networks Database.
+* setnetgrent: (libc)Lookup Netgroup.
+* setpgid: (libc)Process Group Functions.
+* setpgrp: (libc)Process Group Functions.
+* setpriority: (libc)Traditional Scheduling Functions.
+* setprotoent: (libc)Protocols Database.
+* setpwent: (libc)Scanning All Users.
+* setregid: (libc)Setting Groups.
+* setreuid: (libc)Setting User ID.
+* setrlimit64: (libc)Limits on Resources.
+* setrlimit: (libc)Limits on Resources.
+* setservent: (libc)Services Database.
+* setsid: (libc)Process Group Functions.
+* setsockopt: (libc)Socket Option Functions.
+* setstate: (libc)BSD Random.
+* setstate_r: (libc)BSD Random.
+* settimeofday: (libc)High-Resolution Calendar.
+* setuid: (libc)Setting User ID.
+* setutent: (libc)Manipulating the Database.
+* setutxent: (libc)XPG Functions.
+* setvbuf: (libc)Controlling Buffering.
+* shutdown: (libc)Closing a Socket.
+* S_IFMT: (libc)Testing File Type.
+* SIGABRT: (libc)Program Error Signals.
+* sigaction: (libc)Advanced Signal Handling.
+* sigaddset: (libc)Signal Sets.
+* SIGALRM: (libc)Alarm Signals.
+* sigaltstack: (libc)Signal Stack.
+* sigblock: (libc)Blocking in BSD.
+* SIGBUS: (libc)Program Error Signals.
+* SIGCHLD: (libc)Job Control Signals.
+* SIGCLD: (libc)Job Control Signals.
+* SIGCONT: (libc)Job Control Signals.
+* sigdelset: (libc)Signal Sets.
+* sigemptyset: (libc)Signal Sets.
+* SIGEMT: (libc)Program Error Signals.
+* SIG_ERR: (libc)Basic Signal Handling.
+* sigfillset: (libc)Signal Sets.
+* SIGFPE: (libc)Program Error Signals.
+* SIGHUP: (libc)Termination Signals.
+* SIGILL: (libc)Program Error Signals.
+* SIGINFO: (libc)Miscellaneous Signals.
+* siginterrupt: (libc)BSD Handler.
+* SIGINT: (libc)Termination Signals.
+* SIGIO: (libc)Asynchronous I/O Signals.
+* SIGIOT: (libc)Program Error Signals.
+* sigismember: (libc)Signal Sets.
+* SIGKILL: (libc)Termination Signals.
+* siglongjmp: (libc)Non-Local Exits and Signals.
+* SIGLOST: (libc)Operation Error Signals.
+* sigmask: (libc)Blocking in BSD.
+* signal: (libc)Basic Signal Handling.
+* signbit: (libc)FP Bit Twiddling.
+* significandf: (libc)Normalization Functions.
+* significand: (libc)Normalization Functions.
+* significandl: (libc)Normalization Functions.
+* sigpause: (libc)Blocking in BSD.
+* sigpending: (libc)Checking for Pending Signals.
+* SIGPIPE: (libc)Operation Error Signals.
+* SIGPOLL: (libc)Asynchronous I/O Signals.
+* sigprocmask: (libc)Process Signal Mask.
+* SIGPROF: (libc)Alarm Signals.
+* SIGQUIT: (libc)Termination Signals.
+* SIGSEGV: (libc)Program Error Signals.
+* sigsetjmp: (libc)Non-Local Exits and Signals.
+* sigsetmask: (libc)Blocking in BSD.
+* sigstack: (libc)Signal Stack.
+* SIGSTOP: (libc)Job Control Signals.
+* sigsuspend: (libc)Sigsuspend.
+* SIGSYS: (libc)Program Error Signals.
+* SIGTERM: (libc)Termination Signals.
+* SIGTRAP: (libc)Program Error Signals.
+* SIGTSTP: (libc)Job Control Signals.
+* SIGTTIN: (libc)Job Control Signals.
+* SIGTTOU: (libc)Job Control Signals.
+* SIGURG: (libc)Asynchronous I/O Signals.
+* SIGUSR1: (libc)Miscellaneous Signals.
+* SIGUSR2: (libc)Miscellaneous Signals.
+* sigvec: (libc)BSD Handler.
+* SIGVTALRM: (libc)Alarm Signals.
+* SIGWINCH: (libc)Miscellaneous Signals.
+* SIGXCPU: (libc)Operation Error Signals.
+* SIGXFSZ: (libc)Operation Error Signals.
+* sincosf: (libc)Trig Functions.
+* sincos: (libc)Trig Functions.
+* sincosl: (libc)Trig Functions.
+* sinf: (libc)Trig Functions.
+* sinhf: (libc)Hyperbolic Functions.
+* sinh: (libc)Hyperbolic Functions.
+* sinhl: (libc)Hyperbolic Functions.
+* sin: (libc)Trig Functions.
+* sinl: (libc)Trig Functions.
+* S_ISBLK: (libc)Testing File Type.
+* S_ISCHR: (libc)Testing File Type.
+* S_ISDIR: (libc)Testing File Type.
+* S_ISFIFO: (libc)Testing File Type.
+* S_ISLNK: (libc)Testing File Type.
+* S_ISREG: (libc)Testing File Type.
+* S_ISSOCK: (libc)Testing File Type.
+* sleep: (libc)Sleeping.
+* snprintf: (libc)Formatted Output Functions.
+* SOCK_DGRAM: (libc)Communication Styles.
+* socket: (libc)Creating a Socket.
+* socketpair: (libc)Socket Pairs.
+* SOCK_RAW: (libc)Communication Styles.
+* SOCK_RDM: (libc)Communication Styles.
+* SOCK_SEQPACKET: (libc)Communication Styles.
+* SOCK_STREAM: (libc)Communication Styles.
+* SOL_SOCKET: (libc)Socket-Level Options.
+* sprintf: (libc)Formatted Output Functions.
+* sqrtf: (libc)Exponents and Logarithms.
+* sqrt: (libc)Exponents and Logarithms.
+* sqrtl: (libc)Exponents and Logarithms.
+* srand48: (libc)SVID Random.
+* srand48_r: (libc)SVID Random.
+* srand: (libc)ISO Random.
+* srandom: (libc)BSD Random.
+* srandom_r: (libc)BSD Random.
+* sscanf: (libc)Formatted Input Functions.
+* ssignal: (libc)Basic Signal Handling.
+* SSIZE_MAX: (libc)General Limits.
+* stat64: (libc)Reading Attributes.
+* stat: (libc)Reading Attributes.
+* stime: (libc)Simple Calendar Time.
+* stpcpy: (libc)Copying and Concatenation.
+* stpncpy: (libc)Copying and Concatenation.
+* strcasecmp: (libc)String/Array Comparison.
+* strcasestr: (libc)Search Functions.
+* strcat: (libc)Copying and Concatenation.
+* strchr: (libc)Search Functions.
+* strchrnul: (libc)Search Functions.
+* strcmp: (libc)String/Array Comparison.
+* strcoll: (libc)Collation Functions.
+* strcpy: (libc)Copying and Concatenation.
+* strcspn: (libc)Search Functions.
+* strdupa: (libc)Copying and Concatenation.
+* strdup: (libc)Copying and Concatenation.
+* STREAM_MAX: (libc)General Limits.
+* strerror: (libc)Error Messages.
+* strerror_r: (libc)Error Messages.
+* strfmon: (libc)Formatting Numbers.
+* strfry: (libc)strfry.
+* strftime: (libc)Formatting Calendar Time.
+* strlen: (libc)String Length.
+* strncasecmp: (libc)String/Array Comparison.
+* strncat: (libc)Copying and Concatenation.
+* strncmp: (libc)String/Array Comparison.
+* strncpy: (libc)Copying and Concatenation.
+* strndupa: (libc)Copying and Concatenation.
+* strndup: (libc)Copying and Concatenation.
+* strnlen: (libc)String Length.
+* strpbrk: (libc)Search Functions.
+* strptime: (libc)Low-Level Time String Parsing.
+* strrchr: (libc)Search Functions.
+* strsep: (libc)Finding Tokens in a String.
+* strsignal: (libc)Signal Messages.
+* strspn: (libc)Search Functions.
+* strstr: (libc)Search Functions.
+* strtod: (libc)Parsing of Floats.
+* strtof: (libc)Parsing of Floats.
+* strtoimax: (libc)Parsing of Integers.
+* strtok: (libc)Finding Tokens in a String.
+* strtok_r: (libc)Finding Tokens in a String.
+* strtold: (libc)Parsing of Floats.
+* strtol: (libc)Parsing of Integers.
+* strtoll: (libc)Parsing of Integers.
+* strtoq: (libc)Parsing of Integers.
+* strtoul: (libc)Parsing of Integers.
+* strtoull: (libc)Parsing of Integers.
+* strtoumax: (libc)Parsing of Integers.
+* strtouq: (libc)Parsing of Integers.
+* strverscmp: (libc)String/Array Comparison.
+* strxfrm: (libc)Collation Functions.
+* stty: (libc)BSD Terminal Modes.
+* S_TYPEISMQ: (libc)Testing File Type.
+* S_TYPEISSEM: (libc)Testing File Type.
+* S_TYPEISSHM: (libc)Testing File Type.
+* SUN_LEN: (libc)Local Namespace Details.
+* SV_INTERRUPT: (libc)BSD Handler.
+* SV_ONSTACK: (libc)BSD Handler.
+* SV_RESETHAND: (libc)BSD Handler.
+* swapcontext: (libc)System V contexts.
+* swprintf: (libc)Formatted Output Functions.
+* swscanf: (libc)Formatted Input Functions.
+* symlink: (libc)Symbolic Links.
+* sync: (libc)Synchronizing I/O.
+* syscall: (libc)System Calls.
+* sysconf: (libc)Sysconf Definition.
+* sysctl: (libc)System Parameters.
+* syslog: (libc)syslog; vsyslog.
+* system: (libc)Running a Command.
+* sysv_signal: (libc)Basic Signal Handling.
+* tanf: (libc)Trig Functions.
+* tanhf: (libc)Hyperbolic Functions.
+* tanh: (libc)Hyperbolic Functions.
+* tanhl: (libc)Hyperbolic Functions.
+* tan: (libc)Trig Functions.
+* tanl: (libc)Trig Functions.
+* tcdrain: (libc)Line Control.
+* tcflow: (libc)Line Control.
+* tcflush: (libc)Line Control.
+* tcgetattr: (libc)Mode Functions.
+* tcgetpgrp: (libc)Terminal Access Functions.
+* tcgetsid: (libc)Terminal Access Functions.
+* tcsendbreak: (libc)Line Control.
+* tcsetattr: (libc)Mode Functions.
+* tcsetpgrp: (libc)Terminal Access Functions.
+* tdelete: (libc)Tree Search Function.
+* tdestroy: (libc)Tree Search Function.
+* telldir: (libc)Random Access Directory.
+* tempnam: (libc)Temporary Files.
+* textdomain: (libc)Locating gettext catalog.
+* tfind: (libc)Tree Search Function.
+* tgammaf: (libc)Special Functions.
+* tgamma: (libc)Special Functions.
+* tgammal: (libc)Special Functions.
+* timegm: (libc)Broken-down Time.
+* time: (libc)Simple Calendar Time.
+* timelocal: (libc)Broken-down Time.
+* times: (libc)Processor Time.
+* tmpfile64: (libc)Temporary Files.
+* tmpfile: (libc)Temporary Files.
+* TMP_MAX: (libc)Temporary Files.
+* tmpnam: (libc)Temporary Files.
+* tmpnam_r: (libc)Temporary Files.
+* toascii: (libc)Case Conversion.
+* _tolower: (libc)Case Conversion.
+* tolower: (libc)Case Conversion.
+* TOSTOP: (libc)Local Modes.
+* _toupper: (libc)Case Conversion.
+* toupper: (libc)Case Conversion.
+* towctrans: (libc)Wide Character Case Conversion.
+* towlower: (libc)Wide Character Case Conversion.
+* towupper: (libc)Wide Character Case Conversion.
+* truncate64: (libc)File Size.
+* truncate: (libc)File Size.
+* truncf: (libc)Rounding Functions.
+* trunc: (libc)Rounding Functions.
+* truncl: (libc)Rounding Functions.
+* tsearch: (libc)Tree Search Function.
+* ttyname: (libc)Is It a Terminal.
+* ttyname_r: (libc)Is It a Terminal.
+* twalk: (libc)Tree Search Function.
+* TZNAME_MAX: (libc)General Limits.
+* tzset: (libc)Time Zone Functions.
+* ulimit: (libc)Limits on Resources.
+* umask: (libc)Setting Permissions.
+* umount2: (libc)Mount-Unmount-Remount.
+* umount: (libc)Mount-Unmount-Remount.
+* uname: (libc)Platform Type.
+* ungetc: (libc)How Unread.
+* ungetwc: (libc)How Unread.
+* unlink: (libc)Deleting Files.
+* unlockpt: (libc)Allocation.
+* unsetenv: (libc)Environment Access.
+* updwtmp: (libc)Manipulating the Database.
+* utime: (libc)File Times.
+* utimes: (libc)File Times.
+* utmpname: (libc)Manipulating the Database.
+* utmpxname: (libc)XPG Functions.
+* va_arg: (libc)Argument Macros.
+* __va_copy: (libc)Argument Macros.
+* va_end: (libc)Argument Macros.
+* valloc: (libc)Aligned Memory Blocks.
+* vasprintf: (libc)Variable Arguments Output.
+* va_start: (libc)Argument Macros.
+* va_start: (libc)Old Varargs.
+* VDISCARD: (libc)Other Special.
+* VDSUSP: (libc)Signal Characters.
+* VEOF: (libc)Editing Characters.
+* VEOL2: (libc)Editing Characters.
+* VEOL: (libc)Editing Characters.
+* VERASE: (libc)Editing Characters.
+* verr: (libc)Error Messages.
+* verrx: (libc)Error Messages.
+* versionsort64: (libc)Scanning Directory Content.
+* versionsort: (libc)Scanning Directory Content.
+* vfork: (libc)Creating a Process.
+* vfprintf: (libc)Variable Arguments Output.
+* vfscanf: (libc)Variable Arguments Input.
+* vfwprintf: (libc)Variable Arguments Output.
+* vfwscanf: (libc)Variable Arguments Input.
+* VINTR: (libc)Signal Characters.
+* VKILL: (libc)Editing Characters.
+* vlimit: (libc)Limits on Resources.
+* VLNEXT: (libc)Other Special.
+* VMIN: (libc)Noncanonical Input.
+* vprintf: (libc)Variable Arguments Output.
+* VQUIT: (libc)Signal Characters.
+* VREPRINT: (libc)Editing Characters.
+* vscanf: (libc)Variable Arguments Input.
+* vsnprintf: (libc)Variable Arguments Output.
+* vsprintf: (libc)Variable Arguments Output.
+* vsscanf: (libc)Variable Arguments Input.
+* VSTART: (libc)Start/Stop Characters.
+* VSTATUS: (libc)Other Special.
+* VSTOP: (libc)Start/Stop Characters.
+* VSUSP: (libc)Signal Characters.
+* vswprintf: (libc)Variable Arguments Output.
+* vswscanf: (libc)Variable Arguments Input.
+* vsyslog: (libc)syslog; vsyslog.
+* VTIME: (libc)Noncanonical Input.
+* vtimes: (libc)Resource Usage.
+* vwarn: (libc)Error Messages.
+* vwarnx: (libc)Error Messages.
+* VWERASE: (libc)Editing Characters.
+* vwprintf: (libc)Variable Arguments Output.
+* vwscanf: (libc)Variable Arguments Input.
+* wait3: (libc)BSD Wait Functions.
+* wait4: (libc)Process Completion.
+* wait: (libc)Process Completion.
+* waitpid: (libc)Process Completion.
+* warn: (libc)Error Messages.
+* warnx: (libc)Error Messages.
+* WCHAR_MAX: (libc)Extended Char Intro.
+* WCHAR_MIN: (libc)Extended Char Intro.
+* WCOREDUMP: (libc)Process Completion Status.
+* wcpcpy: (libc)Copying and Concatenation.
+* wcpncpy: (libc)Copying and Concatenation.
+* wcrtomb: (libc)Converting a Character.
+* wcscasecmp: (libc)String/Array Comparison.
+* wcscat: (libc)Copying and Concatenation.
+* wcschr: (libc)Search Functions.
+* wcschrnul: (libc)Search Functions.
+* wcscmp: (libc)String/Array Comparison.
+* wcscoll: (libc)Collation Functions.
+* wcscpy: (libc)Copying and Concatenation.
+* wcscspn: (libc)Search Functions.
+* wcsdup: (libc)Copying and Concatenation.
+* wcsftime: (libc)Formatting Calendar Time.
+* wcslen: (libc)String Length.
+* wcsncasecmp: (libc)String/Array Comparison.
+* wcsncat: (libc)Copying and Concatenation.
+* wcsncmp: (libc)String/Array Comparison.
+* wcsncpy: (libc)Copying and Concatenation.
+* wcsnlen: (libc)String Length.
+* wcsnrtombs: (libc)Converting Strings.
+* wcspbrk: (libc)Search Functions.
+* wcsrchr: (libc)Search Functions.
+* wcsrtombs: (libc)Converting Strings.
+* wcsspn: (libc)Search Functions.
+* wcsstr: (libc)Search Functions.
+* wcstod: (libc)Parsing of Floats.
+* wcstof: (libc)Parsing of Floats.
+* wcstoimax: (libc)Parsing of Integers.
+* wcstok: (libc)Finding Tokens in a String.
+* wcstold: (libc)Parsing of Floats.
+* wcstol: (libc)Parsing of Integers.
+* wcstoll: (libc)Parsing of Integers.
+* wcstombs: (libc)Non-reentrant String Conversion.
+* wcstoq: (libc)Parsing of Integers.
+* wcstoul: (libc)Parsing of Integers.
+* wcstoull: (libc)Parsing of Integers.
+* wcstoumax: (libc)Parsing of Integers.
+* wcstouq: (libc)Parsing of Integers.
+* wcswcs: (libc)Search Functions.
+* wcsxfrm: (libc)Collation Functions.
+* wctob: (libc)Converting a Character.
+* wctomb: (libc)Non-reentrant Character Conversion.
+* wctrans: (libc)Wide Character Case Conversion.
+* wctype: (libc)Classification of Wide Characters.
+* WEOF: (libc)EOF and Errors.
+* WEOF: (libc)Extended Char Intro.
+* WEXITSTATUS: (libc)Process Completion Status.
+* WIFEXITED: (libc)Process Completion Status.
+* WIFSIGNALED: (libc)Process Completion Status.
+* WIFSTOPPED: (libc)Process Completion Status.
+* wmemchr: (libc)Search Functions.
+* wmemcmp: (libc)String/Array Comparison.
+* wmemcpy: (libc)Copying and Concatenation.
+* wmemmove: (libc)Copying and Concatenation.
+* wmempcpy: (libc)Copying and Concatenation.
+* wmemset: (libc)Copying and Concatenation.
+* W_OK: (libc)Testing File Access.
+* wordexp: (libc)Calling Wordexp.
+* wordfree: (libc)Calling Wordexp.
+* wprintf: (libc)Formatted Output Functions.
+* write: (libc)I/O Primitives.
+* writev: (libc)Scatter-Gather.
+* wscanf: (libc)Formatted Input Functions.
+* WSTOPSIG: (libc)Process Completion Status.
+* WTERMSIG: (libc)Process Completion Status.
+* X_OK: (libc)Testing File Access.
+* y0f: (libc)Special Functions.
+* y0: (libc)Special Functions.
+* y0l: (libc)Special Functions.
+* y1f: (libc)Special Functions.
+* y1: (libc)Special Functions.
+* y1l: (libc)Special Functions.
+* ynf: (libc)Special Functions.
+* yn: (libc)Special Functions.
+* ynl: (libc)Special Functions.
+END-INFO-DIR-ENTRY
+
+   This file documents the GNU C library.
+
+   This is Edition 0.10, last updated 2001-07-06, of `The GNU C Library
+Reference Manual', for Version 2.3.x.
+
+   Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2002,
+2003 Free Software Foundation, Inc.
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "Free Software Needs Free Documentation" and
+"GNU Lesser General Public License", the Front-Cover texts being (a)
+(see below), and with the Back-Cover Texts being (b) (see below).  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License".
+
+   (a) The FSF's Front-Cover Text is:
+
+   A GNU Manual
+
+   (b) The FSF's Back-Cover Text is:
+
+   You have freedom to copy and modify this GNU Manual, like GNU
+software.  Copies published by the Free Software Foundation raise
+funds for GNU development.
+
+
+File: libc.info,  Node: Thread Attributes,  Next: Cancellation,  Prev: Basic Thread Operations,  Up: POSIX Threads
+
+34.2 Thread Attributes
+======================
+
+Threads have a number of attributes that may be set at creation time.
+This is done by filling a thread attribute object ATTR of type
+`pthread_attr_t', then passing it as second argument to
+`pthread_create'. Passing `NULL' is equivalent to passing a thread
+attribute object with all attributes set to their default values.
+
+   Attribute objects are consulted only when creating a new thread.  The
+same attribute object can be used for creating several threads.
+Modifying an attribute object after a call to `pthread_create' does not
+change the attributes of the thread previously created.
+
+ -- Function: int pthread_attr_init (pthread_attr_t *ATTR)
+     `pthread_attr_init' initializes the thread attribute object ATTR
+     and fills it with default values for the attributes. (The default
+     values are listed below for each attribute.)
+
+     Each attribute ATTRNAME (see below for a list of all attributes)
+     can be individually set using the function
+     `pthread_attr_setATTRNAME' and retrieved using the function
+     `pthread_attr_getATTRNAME'.
+
+ -- Function: int pthread_attr_destroy (pthread_attr_t *ATTR)
+     `pthread_attr_destroy' destroys the attribute object pointed to by
+     ATTR releasing any resources associated with it.  ATTR is left in
+     an undefined state, and you must not use it again in a call to any
+     pthreads function until it has been reinitialized.
+
+ -- Function: int pthread_attr_setattr (pthread_attr_t *OBJ, int VALUE)
+     Set attribute ATTR to VALUE in the attribute object pointed to by
+     OBJ.  See below for a list of possible attributes and the values
+     they can take.
+
+     On success, these functions return 0.  If VALUE is not meaningful
+     for the ATTR being modified, they will return the error code
+     `EINVAL'.  Some of the functions have other failure modes; see
+     below.
+
+ -- Function: int pthread_attr_getattr (const pthread_attr_t *OBJ, int
+          *VALUE)
+     Store the current setting of ATTR in OBJ into the variable pointed
+     to by VALUE.
+
+     These functions always return 0.
+
+   The following thread attributes are supported:
+`detachstate'
+     Choose whether the thread is created in the joinable state (value
+     `PTHREAD_CREATE_JOINABLE') or in the detached state
+     (`PTHREAD_CREATE_DETACHED').  The default is
+     `PTHREAD_CREATE_JOINABLE'.
+
+     In the joinable state, another thread can synchronize on the thread
+     termination and recover its termination code using `pthread_join',
+     but some of the thread resources are kept allocated after the
+     thread terminates, and reclaimed only when another thread performs
+     `pthread_join' on that thread.
+
+     In the detached state, the thread resources are immediately freed
+     when it terminates, but `pthread_join' cannot be used to
+     synchronize on the thread termination.
+
+     A thread created in the joinable state can later be put in the
+     detached thread using `pthread_detach'.
+
+`schedpolicy'
+     Select the scheduling policy for the thread: one of `SCHED_OTHER'
+     (regular, non-realtime scheduling), `SCHED_RR' (realtime,
+     round-robin) or `SCHED_FIFO' (realtime, first-in first-out).  The
+     default is `SCHED_OTHER'.
+
+     The realtime scheduling policies `SCHED_RR' and `SCHED_FIFO' are
+     available only to processes with superuser privileges.
+     `pthread_attr_setschedparam' will fail and return `ENOTSUP' if you
+     try to set a realtime policy when you are unprivileged.
+
+     The scheduling policy of a thread can be changed after creation
+     with `pthread_setschedparam'.
+
+`schedparam'
+     Change the scheduling parameter (the scheduling priority) for the
+     thread.  The default is 0.
+
+     This attribute is not significant if the scheduling policy is
+     `SCHED_OTHER'; it only matters for the realtime policies
+     `SCHED_RR' and `SCHED_FIFO'.
+
+     The scheduling priority of a thread can be changed after creation
+     with `pthread_setschedparam'.
+
+`inheritsched'
+     Choose whether the scheduling policy and scheduling parameter for
+     the newly created thread are determined by the values of the
+     SCHEDPOLICY and SCHEDPARAM attributes (value
+     `PTHREAD_EXPLICIT_SCHED') or are inherited from the parent thread
+     (value `PTHREAD_INHERIT_SCHED').  The default is
+     `PTHREAD_EXPLICIT_SCHED'.
+
+`scope'
+     Choose the scheduling contention scope for the created thread.  The
+     default is `PTHREAD_SCOPE_SYSTEM', meaning that the threads contend
+     for CPU time with all processes running on the machine. In
+     particular, thread priorities are interpreted relative to the
+     priorities of all other processes on the machine. The other
+     possibility, `PTHREAD_SCOPE_PROCESS', means that scheduling
+     contention occurs only between the threads of the running process:
+     thread priorities are interpreted relative to the priorities of
+     the other threads of the process, regardless of the priorities of
+     other processes.
+
+     `PTHREAD_SCOPE_PROCESS' is not supported in LinuxThreads.  If you
+     try to set the scope to this value, `pthread_attr_setscope' will
+     fail and return `ENOTSUP'.
+
+`stackaddr'
+     Provide an address for an application managed stack.  The size of
+     the stack must be at least `PTHREAD_STACK_MIN'.
+
+`stacksize'
+     Change the size of the stack created for the thread.  The value
+     defines the minimum stack size, in bytes.
+
+     If the value exceeds the system's maximum stack size, or is smaller
+     than `PTHREAD_STACK_MIN', `pthread_attr_setstacksize' will fail
+     and return `EINVAL'.
+
+`stack'
+     Provide both the address and size of an application managed stack
+     to use for the new thread.  The base of the memory area is
+     STACKADDR with the size of the memory area, STACKSIZE, measured in
+     bytes.
+
+     If the value of STACKSIZE is less than `PTHREAD_STACK_MIN', or
+     greater than the system's maximum stack size, or if the value of
+     STACKADDR lacks the proper alignment, `pthread_attr_setstack' will
+     fail and return `EINVAL'.
+
+`guardsize'
+     Change the minimum size in bytes of the guard area for the thread's
+     stack.  The default size is a single page.  If this value is set,
+     it will be rounded up to the nearest page size.  If the value is
+     set to 0, a guard area will not be created for this thread.  The
+     space allocated for the guard area is used to catch stack
+     overflow.  Therefore, when allocating large structures on the
+     stack, a larger guard area may be required to catch a stack
+     overflow.
+
+     If the caller is managing their own stacks (if the `stackaddr'
+     attribute has been set), then the `guardsize' attribute is ignored.
+
+     If the value exceeds the `stacksize', `pthread_atrr_setguardsize'
+     will fail and return `EINVAL'.
+
+
+File: libc.info,  Node: Cancellation,  Next: Cleanup Handlers,  Prev: Thread Attributes,  Up: POSIX Threads
+
+34.3 Cancellation
+=================
+
+Cancellation is the mechanism by which a thread can terminate the
+execution of another thread. More precisely, a thread can send a
+cancellation request to another thread. Depending on its settings, the
+target thread can then either ignore the request, honor it immediately,
+or defer it till it reaches a cancellation point.  When threads are
+first created by `pthread_create', they always defer cancellation
+requests.
+
+   When a thread eventually honors a cancellation request, it behaves
+as if `pthread_exit(PTHREAD_CANCELED)' was called.  All cleanup handlers
+are executed in reverse order, finalization functions for
+thread-specific data are called, and finally the thread stops executing.
+If the canceled thread was joinable, the return value
+`PTHREAD_CANCELED' is provided to whichever thread calls PTHREAD_JOIN
+on it. See `pthread_exit' for more information.
+
+   Cancellation points are the points where the thread checks for
+pending cancellation requests and performs them.  The POSIX threads
+functions `pthread_join', `pthread_cond_wait',
+`pthread_cond_timedwait', `pthread_testcancel', `sem_wait', and
+`sigwait' are cancellation points.  In addition, these system calls are
+cancellation points:
+
+accept                   open                     sendmsg
+close                    pause                    sendto
+connect                  read                     system
+fcntl                    recv                     tcdrain
+fsync                    recvfrom                 wait
+lseek                    recvmsg                  waitpid
+msync                    send                     write
+nanosleep                                         
+
+All library functions that call these functions (such as `printf') are
+also cancellation points.
+
+ -- Function: int pthread_setcancelstate (int STATE, int *OLDSTATE)
+     `pthread_setcancelstate' changes the cancellation state for the
+     calling thread - that is, whether cancellation requests are
+     ignored or not. The STATE argument is the new cancellation state:
+     either `PTHREAD_CANCEL_ENABLE' to enable cancellation, or
+     `PTHREAD_CANCEL_DISABLE' to disable cancellation (cancellation
+     requests are ignored).
+
+     If OLDSTATE is not `NULL', the previous cancellation state is
+     stored in the location pointed to by OLDSTATE, and can thus be
+     restored later by another call to `pthread_setcancelstate'.
+
+     If the STATE argument is not `PTHREAD_CANCEL_ENABLE' or
+     `PTHREAD_CANCEL_DISABLE', `pthread_setcancelstate' fails and
+     returns `EINVAL'.  Otherwise it returns 0.
+
+ -- Function: int pthread_setcanceltype (int TYPE, int *OLDTYPE)
+     `pthread_setcanceltype' changes the type of responses to
+     cancellation requests for the calling thread: asynchronous
+     (immediate) or deferred.  The TYPE argument is the new
+     cancellation type: either `PTHREAD_CANCEL_ASYNCHRONOUS' to cancel
+     the calling thread as soon as the cancellation request is
+     received, or `PTHREAD_CANCEL_DEFERRED' to keep the cancellation
+     request pending until the next cancellation point. If OLDTYPE is
+     not `NULL', the previous cancellation state is stored in the
+     location pointed to by OLDTYPE, and can thus be restored later by
+     another call to `pthread_setcanceltype'.
+
+     If the TYPE argument is not `PTHREAD_CANCEL_DEFERRED' or
+     `PTHREAD_CANCEL_ASYNCHRONOUS', `pthread_setcanceltype' fails and
+     returns `EINVAL'.  Otherwise it returns 0.
+
+ -- Function: void pthread_testcancel (VOID)
+     `pthread_testcancel' does nothing except testing for pending
+     cancellation and executing it. Its purpose is to introduce explicit
+     checks for cancellation in long sequences of code that do not call
+     cancellation point functions otherwise.
+
+
+File: libc.info,  Node: Cleanup Handlers,  Next: Mutexes,  Prev: Cancellation,  Up: POSIX Threads
+
+34.4 Cleanup Handlers
+=====================
+
+Cleanup handlers are functions that get called when a thread terminates,
+either by calling `pthread_exit' or because of cancellation. Cleanup
+handlers are installed and removed following a stack-like discipline.
+
+   The purpose of cleanup handlers is to free the resources that a
+thread may hold at the time it terminates. In particular, if a thread
+exits or is canceled while it owns a locked mutex, the mutex will
+remain locked forever and prevent other threads from executing
+normally. The best way to avoid this is, just before locking the mutex,
+to install a cleanup handler whose effect is to unlock the mutex.
+Cleanup handlers can be used similarly to free blocks allocated with
+`malloc' or close file descriptors on thread termination.
+
+   Here is how to lock a mutex MUT in such a way that it will be
+unlocked if the thread is canceled while MUT is locked:
+
+     pthread_cleanup_push(pthread_mutex_unlock, (void *) &mut);
+     pthread_mutex_lock(&mut);
+     /* do some work */
+     pthread_mutex_unlock(&mut);
+     pthread_cleanup_pop(0);
+
+   Equivalently, the last two lines can be replaced by
+
+     pthread_cleanup_pop(1);
+
+   Notice that the code above is safe only in deferred cancellation mode
+(see `pthread_setcanceltype'). In asynchronous cancellation mode, a
+cancellation can occur between `pthread_cleanup_push' and
+`pthread_mutex_lock', or between `pthread_mutex_unlock' and
+`pthread_cleanup_pop', resulting in both cases in the thread trying to
+unlock a mutex not locked by the current thread. This is the main
+reason why asynchronous cancellation is difficult to use.
+
+   If the code above must also work in asynchronous cancellation mode,
+then it must switch to deferred mode for locking and unlocking the
+mutex:
+
+     pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+     pthread_cleanup_push(pthread_mutex_unlock, (void *) &mut);
+     pthread_mutex_lock(&mut);
+     /* do some work */
+     pthread_cleanup_pop(1);
+     pthread_setcanceltype(oldtype, NULL);
+
+   The code above can be rewritten in a more compact and efficient way,
+using the non-portable functions `pthread_cleanup_push_defer_np' and
+`pthread_cleanup_pop_restore_np':
+
+     pthread_cleanup_push_defer_np(pthread_mutex_unlock, (void *) &mut);
+     pthread_mutex_lock(&mut);
+     /* do some work */
+     pthread_cleanup_pop_restore_np(1);
+
+ -- Function: void pthread_cleanup_push (void (*ROUTINE) (void *), void
+          *ARG)
+     `pthread_cleanup_push' installs the ROUTINE function with argument
+     ARG as a cleanup handler. From this point on to the matching
+     `pthread_cleanup_pop', the function ROUTINE will be called with
+     arguments ARG when the thread terminates, either through
+     `pthread_exit' or by cancellation. If several cleanup handlers are
+     active at that point, they are called in LIFO order: the most
+     recently installed handler is called first.
+
+ -- Function: void pthread_cleanup_pop (int EXECUTE)
+     `pthread_cleanup_pop' removes the most recently installed cleanup
+     handler. If the EXECUTE argument is not 0, it also executes the
+     handler, by calling the ROUTINE function with arguments ARG. If
+     the EXECUTE argument is 0, the handler is only removed but not
+     executed.
+
+   Matching pairs of `pthread_cleanup_push' and `pthread_cleanup_pop'
+must occur in the same function, at the same level of block nesting.
+Actually, `pthread_cleanup_push' and `pthread_cleanup_pop' are macros,
+and the expansion of `pthread_cleanup_push' introduces an open brace
+`{' with the matching closing brace `}' being introduced by the
+expansion of the matching `pthread_cleanup_pop'.
+
+ -- Function: void pthread_cleanup_push_defer_np (void (*ROUTINE) (void
+          *), void *ARG)
+     `pthread_cleanup_push_defer_np' is a non-portable extension that
+     combines `pthread_cleanup_push' and `pthread_setcanceltype'.  It
+     pushes a cleanup handler just as `pthread_cleanup_push' does, but
+     also saves the current cancellation type and sets it to deferred
+     cancellation. This ensures that the cleanup mechanism is effective
+     even if the thread was initially in asynchronous cancellation mode.
+
+ -- Function: void pthread_cleanup_pop_restore_np (int EXECUTE)
+     `pthread_cleanup_pop_restore_np' pops a cleanup handler introduced
+     by `pthread_cleanup_push_defer_np', and restores the cancellation
+     type to its value at the time `pthread_cleanup_push_defer_np' was
+     called.
+
+   `pthread_cleanup_push_defer_np' and `pthread_cleanup_pop_restore_np'
+must occur in matching pairs, at the same level of block nesting.
+
+   The sequence
+
+     pthread_cleanup_push_defer_np(routine, arg);
+     ...
+     pthread_cleanup_pop_restore_np(execute);
+
+is functionally equivalent to (but more compact and efficient than)
+
+     {
+       int oldtype;
+       pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+       pthread_cleanup_push(routine, arg);
+       ...
+       pthread_cleanup_pop(execute);
+       pthread_setcanceltype(oldtype, NULL);
+     }
+
+
+File: libc.info,  Node: Mutexes,  Next: Condition Variables,  Prev: Cleanup Handlers,  Up: POSIX Threads
+
+34.5 Mutexes
+============
+
+A mutex is a MUTual EXclusion device, and is useful for protecting
+shared data structures from concurrent modifications, and implementing
+critical sections and monitors.
+
+   A mutex has two possible states: unlocked (not owned by any thread),
+and locked (owned by one thread). A mutex can never be owned by two
+different threads simultaneously. A thread attempting to lock a mutex
+that is already locked by another thread is suspended until the owning
+thread unlocks the mutex first.
+
+   None of the mutex functions is a cancellation point, not even
+`pthread_mutex_lock', in spite of the fact that it can suspend a thread
+for arbitrary durations. This way, the status of mutexes at
+cancellation points is predictable, allowing cancellation handlers to
+unlock precisely those mutexes that need to be unlocked before the
+thread stops executing. Consequently, threads using deferred
+cancellation should never hold a mutex for extended periods of time.
+
+   It is not safe to call mutex functions from a signal handler.  In
+particular, calling `pthread_mutex_lock' or `pthread_mutex_unlock' from
+a signal handler may deadlock the calling thread.
+
+ -- Function: int pthread_mutex_init (pthread_mutex_t *MUTEX, const
+          pthread_mutexattr_t *MUTEXATTR)
+     `pthread_mutex_init' initializes the mutex object pointed to by
+     MUTEX according to the mutex attributes specified in MUTEXATTR.
+     If MUTEXATTR is `NULL', default attributes are used instead.
+
+     The LinuxThreads implementation supports only one mutex attribute,
+     the MUTEX TYPE, which is either "fast", "recursive", or "error
+     checking". The type of a mutex determines whether it can be locked
+     again by a thread that already owns it.  The default type is
+     "fast".
+
+     Variables of type `pthread_mutex_t' can also be initialized
+     statically, using the constants `PTHREAD_MUTEX_INITIALIZER' (for
+     timed mutexes), `PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP' (for
+     recursive mutexes), `PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP' (for
+     fast mutexes(, and `PTHREAD_ERRORCHECK_MUTEX_INITIALIZER_NP' (for
+     error checking mutexes).
+
+     `pthread_mutex_init' always returns 0.
+
+ -- Function: int pthread_mutex_lock (pthread_mutex_t *mutex))
+     `pthread_mutex_lock' locks the given mutex. If the mutex is
+     currently unlocked, it becomes locked and owned by the calling
+     thread, and `pthread_mutex_lock' returns immediately. If the mutex
+     is already locked by another thread, `pthread_mutex_lock' suspends
+     the calling thread until the mutex is unlocked.
+
+     If the mutex is already locked by the calling thread, the behavior
+     of `pthread_mutex_lock' depends on the type of the mutex. If the
+     mutex is of the "fast" type, the calling thread is suspended.  It
+     will remain suspended forever, because no other thread can unlock
+     the mutex.  If  the mutex is of the "error checking" type,
+     `pthread_mutex_lock' returns immediately with the error code
+     `EDEADLK'.  If the mutex is of the "recursive" type,
+     `pthread_mutex_lock' succeeds and returns immediately, recording
+     the number of times the calling thread has locked the mutex. An
+     equal number of `pthread_mutex_unlock' operations must be
+     performed before the mutex returns to the unlocked state.
+
+ -- Function: int pthread_mutex_trylock (pthread_mutex_t *MUTEX)
+     `pthread_mutex_trylock' behaves identically to
+     `pthread_mutex_lock', except that it does not block the calling
+     thread if the mutex is already locked by another thread (or by the
+     calling thread in the case of a "fast" mutex). Instead,
+     `pthread_mutex_trylock' returns immediately with the error code
+     `EBUSY'.
+
+ -- Function: int pthread_mutex_timedlock (pthread_mutex_t *MUTEX,
+          const struct timespec *ABSTIME)
+     The `pthread_mutex_timedlock' is similar to the
+     `pthread_mutex_lock' function but instead of blocking for in
+     indefinite time if the mutex is locked by another thread, it
+     returns when the time specified in ABSTIME is reached.
+
+     This function can only be used on standard ("timed") and "error
+     checking" mutexes.  It behaves just like `pthread_mutex_lock' for
+     all other types.
+
+     If the mutex is successfully locked, the function returns zero.
+     If the time specified in ABSTIME is reached without the mutex
+     being locked, `ETIMEDOUT' is returned.
+
+     This function was introduced in the POSIX.1d revision of the POSIX
+     standard.
+
+ -- Function: int pthread_mutex_unlock (pthread_mutex_t *MUTEX)
+     `pthread_mutex_unlock' unlocks the given mutex. The mutex is
+     assumed to be locked and owned by the calling thread on entrance to
+     `pthread_mutex_unlock'. If the mutex is of the "fast" type,
+     `pthread_mutex_unlock' always returns it to the unlocked state. If
+     it is of the "recursive" type, it decrements the locking count of
+     the mutex (number of `pthread_mutex_lock' operations performed on
+     it by the calling thread), and only when this count reaches zero
+     is the mutex actually unlocked.
+
+     On "error checking" mutexes, `pthread_mutex_unlock' actually
+     checks at run-time that the mutex is locked on entrance, and that
+     it was locked by the same thread that is now calling
+     `pthread_mutex_unlock'.  If these conditions are not met,
+     `pthread_mutex_unlock' returns `EPERM', and the mutex remains
+     unchanged.  "Fast" and "recursive" mutexes perform no such checks,
+     thus allowing a locked mutex to be unlocked by a thread other than
+     its owner. This is non-portable behavior and must not be relied
+     upon.
+
+ -- Function: int pthread_mutex_destroy (pthread_mutex_t *MUTEX)
+     `pthread_mutex_destroy' destroys a mutex object, freeing the
+     resources it might hold. The mutex must be unlocked on entrance.
+     In the LinuxThreads implementation, no resources are associated
+     with mutex objects, thus `pthread_mutex_destroy' actually does
+     nothing except checking that the mutex is unlocked.
+
+     If the mutex is locked by some thread, `pthread_mutex_destroy'
+     returns `EBUSY'.  Otherwise it returns 0.
+
+   If any of the above functions (except `pthread_mutex_init') is
+applied to an uninitialized mutex, they will simply return `EINVAL' and
+do nothing.
+
+   A shared global variable X can be protected by a mutex as follows:
+
+     int x;
+     pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
+
+   All accesses and modifications to X should be bracketed by calls to
+`pthread_mutex_lock' and `pthread_mutex_unlock' as follows:
+
+     pthread_mutex_lock(&mut);
+     /* operate on x */
+     pthread_mutex_unlock(&mut);
+
+   Mutex attributes can be specified at mutex creation time, by passing
+a mutex attribute object as second argument to `pthread_mutex_init'.
+Passing `NULL' is equivalent to passing a mutex attribute object with
+all attributes set to their default values.
+
+ -- Function: int pthread_mutexattr_init (pthread_mutexattr_t *ATTR)
+     `pthread_mutexattr_init' initializes the mutex attribute object
+     ATTR and fills it with default values for the attributes.
+
+     This function always returns 0.
+
+ -- Function: int pthread_mutexattr_destroy (pthread_mutexattr_t *ATTR)
+     `pthread_mutexattr_destroy' destroys a mutex attribute object,
+     which must not be reused until it is reinitialized.
+     `pthread_mutexattr_destroy' does nothing in the LinuxThreads
+     implementation.
+
+     This function always returns 0.
+
+   LinuxThreads supports only one mutex attribute: the mutex type,
+which is either `PTHREAD_MUTEX_ADAPTIVE_NP' for "fast" mutexes,
+`PTHREAD_MUTEX_RECURSIVE_NP' for "recursive" mutexes,
+`PTHREAD_MUTEX_TIMED_NP' for "timed" mutexes, or
+`PTHREAD_MUTEX_ERRORCHECK_NP' for "error checking" mutexes.  As the
+`NP' suffix indicates, this is a non-portable extension to the POSIX
+standard and should not be employed in portable programs.
+
+   The mutex type determines what happens if a thread attempts to lock a
+mutex it already owns with `pthread_mutex_lock'. If the mutex is of the
+"fast" type, `pthread_mutex_lock' simply suspends the calling thread
+forever.  If the mutex is of the "error checking" type,
+`pthread_mutex_lock' returns immediately with the error code `EDEADLK'.
+If the mutex is of the "recursive" type, the call to
+`pthread_mutex_lock' returns immediately with a success return code.
+The number of times the thread owning the mutex has locked it is
+recorded in the mutex. The owning thread must call
+`pthread_mutex_unlock' the same number of times before the mutex
+returns to the unlocked state.
+
+   The default mutex type is "timed", that is, `PTHREAD_MUTEX_TIMED_NP'.
+
+ -- Function: int pthread_mutexattr_settype (pthread_mutexattr_t *ATTR,
+          int TYPE)
+     `pthread_mutexattr_settype' sets the mutex type attribute in ATTR
+     to the value specified by TYPE.
+
+     If TYPE is not `PTHREAD_MUTEX_ADAPTIVE_NP',
+     `PTHREAD_MUTEX_RECURSIVE_NP', `PTHREAD_MUTEX_TIMED_NP', or
+     `PTHREAD_MUTEX_ERRORCHECK_NP', this function will return `EINVAL'
+     and leave ATTR unchanged.
+
+     The standard Unix98 identifiers `PTHREAD_MUTEX_DEFAULT',
+     `PTHREAD_MUTEX_NORMAL', `PTHREAD_MUTEX_RECURSIVE', and
+     `PTHREAD_MUTEX_ERRORCHECK' are also permitted.
+
+
+ -- Function: int pthread_mutexattr_gettype (const pthread_mutexattr_t
+          *ATTR, int *TYPE)
+     `pthread_mutexattr_gettype' retrieves the current value of the
+     mutex type attribute in ATTR and stores it in the location pointed
+     to by TYPE.
+
+     This function always returns 0.
+
+
+File: libc.info,  Node: Condition Variables,  Next: POSIX Semaphores,  Prev: Mutexes,  Up: POSIX Threads
+
+34.6 Condition Variables
+========================
+
+A condition (short for "condition variable") is a synchronization
+device that allows threads to suspend execution until some predicate on
+shared data is satisfied. The basic operations on conditions are: signal
+the condition (when the predicate becomes true), and wait for the
+condition, suspending the thread execution until another thread signals
+the condition.
+
+   A condition variable must always be associated with a mutex, to avoid
+the race condition where a thread prepares to wait on a condition
+variable and another thread signals the condition just before the first
+thread actually waits on it.
+
+ -- Function: int pthread_cond_init (pthread_cond_t *COND,
+          pthread_condattr_t *cond_ATTR)
+     `pthread_cond_init' initializes the condition variable COND, using
+     the condition attributes specified in COND_ATTR, or default
+     attributes if COND_ATTR is `NULL'. The LinuxThreads implementation
+     supports no attributes for conditions, hence the COND_ATTR
+     parameter is actually ignored.
+
+     Variables of type `pthread_cond_t' can also be initialized
+     statically, using the constant `PTHREAD_COND_INITIALIZER'.
+
+     This function always returns 0.
+
+ -- Function: int pthread_cond_signal (pthread_cond_t *COND)
+     `pthread_cond_signal' restarts one of the threads that are waiting
+     on the condition variable COND. If no threads are waiting on COND,
+     nothing happens. If several threads are waiting on COND, exactly
+     one is restarted, but it is not specified which.
+
+     This function always returns 0.
+
+ -- Function: int pthread_cond_broadcast (pthread_cond_t *COND)
+     `pthread_cond_broadcast' restarts all the threads that are waiting
+     on the condition variable COND. Nothing happens if no threads are
+     waiting on COND.
+
+     This function always returns 0.
+
+ -- Function: int pthread_cond_wait (pthread_cond_t *COND,
+          pthread_mutex_t *MUTEX)
+     `pthread_cond_wait' atomically unlocks the MUTEX (as per
+     `pthread_unlock_mutex') and waits for the condition variable COND
+     to be signaled. The thread execution is suspended and does not
+     consume any CPU time until the condition variable is signaled. The
+     MUTEX must be locked by the calling thread on entrance to
+     `pthread_cond_wait'. Before returning to the calling thread,
+     `pthread_cond_wait' re-acquires MUTEX (as per
+     `pthread_lock_mutex').
+
+     Unlocking the mutex and suspending on the condition variable is
+     done atomically. Thus, if all threads always acquire the mutex
+     before signaling the condition, this guarantees that the condition
+     cannot be signaled (and thus ignored) between the time a thread
+     locks the mutex and the time it waits on the condition variable.
+
+     This function always returns 0.
+
+ -- Function: int pthread_cond_timedwait (pthread_cond_t *COND,
+          pthread_mutex_t *MUTEX, const struct timespec *ABSTIME)
+     `pthread_cond_timedwait' atomically unlocks MUTEX and waits on
+     COND, as `pthread_cond_wait' does, but it also bounds the duration
+     of the wait. If COND has not been signaled before time ABSTIME,
+     the mutex MUTEX is re-acquired and `pthread_cond_timedwait'
+     returns the error code `ETIMEDOUT'.  The wait can also be
+     interrupted by a signal; in that case `pthread_cond_timedwait'
+     returns `EINTR'.
+
+     The ABSTIME parameter specifies an absolute time, with the same
+     origin as `time' and `gettimeofday': an ABSTIME of 0 corresponds
+     to 00:00:00 GMT, January 1, 1970.
+
+ -- Function: int pthread_cond_destroy (pthread_cond_t *COND)
+     `pthread_cond_destroy' destroys the condition variable COND,
+     freeing the resources it might hold.  If any threads are waiting
+     on the condition variable, `pthread_cond_destroy' leaves COND
+     untouched and returns `EBUSY'.  Otherwise it returns 0, and COND
+     must not be used again until it is reinitialized.
+
+     In the LinuxThreads implementation, no resources are associated
+     with condition variables, so `pthread_cond_destroy' actually does
+     nothing.
+
+   `pthread_cond_wait' and `pthread_cond_timedwait' are cancellation
+points. If a thread is canceled while suspended in one of these
+functions, the thread immediately resumes execution, relocks the mutex
+specified by  MUTEX, and finally executes the cancellation.
+Consequently, cleanup handlers are assured that MUTEX is locked when
+they are called.
+
+   It is not safe to call the condition variable functions from a signal
+handler. In particular, calling `pthread_cond_signal' or
+`pthread_cond_broadcast' from a signal handler may deadlock the calling
+thread.
+
+   Consider two shared variables X and Y, protected by the mutex MUT,
+and a condition variable COND that is to be signaled whenever X becomes
+greater than Y.
+
+     int x,y;
+     pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
+     pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+
+   Waiting until X is greater than Y is performed as follows:
+
+     pthread_mutex_lock(&mut);
+     while (x <= y) {
+             pthread_cond_wait(&cond, &mut);
+     }
+     /* operate on x and y */
+     pthread_mutex_unlock(&mut);
+
+   Modifications on X and Y that may cause X to become greater than Y
+should signal the condition if needed:
+
+     pthread_mutex_lock(&mut);
+     /* modify x and y */
+     if (x > y) pthread_cond_broadcast(&cond);
+     pthread_mutex_unlock(&mut);
+
+   If it can be proved that at most one waiting thread needs to be waken
+up (for instance, if there are only two threads communicating through X
+and Y), `pthread_cond_signal' can be used as a slightly more efficient
+alternative to `pthread_cond_broadcast'. In doubt, use
+`pthread_cond_broadcast'.
+
+   To wait for X to becomes greater than Y with a timeout of 5 seconds,
+do:
+
+     struct timeval now;
+     struct timespec timeout;
+     int retcode;
+
+     pthread_mutex_lock(&mut);
+     gettimeofday(&now);
+     timeout.tv_sec = now.tv_sec + 5;
+     timeout.tv_nsec = now.tv_usec * 1000;
+     retcode = 0;
+     while (x <= y && retcode != ETIMEDOUT) {
+             retcode = pthread_cond_timedwait(&cond, &mut, &timeout);
+     }
+     if (retcode == ETIMEDOUT) {
+             /* timeout occurred */
+     } else {
+             /* operate on x and y */
+     }
+     pthread_mutex_unlock(&mut);
+
+   Condition attributes can be specified at condition creation time, by
+passing a condition attribute object as second argument to
+`pthread_cond_init'.  Passing `NULL' is equivalent to passing a
+condition attribute object with all attributes set to their default
+values.
+
+   The LinuxThreads implementation supports no attributes for
+conditions. The functions on condition attributes are included only for
+compliance with the POSIX standard.
+
+ -- Function: int pthread_condattr_init (pthread_condattr_t *ATTR)
+ -- Function: int pthread_condattr_destroy (pthread_condattr_t *ATTR)
+     `pthread_condattr_init' initializes the condition attribute object
+     ATTR and fills it with default values for the attributes.
+     `pthread_condattr_destroy' destroys the condition attribute object
+     ATTR.
+
+     Both functions do nothing in the LinuxThreads implementation.
+
+     `pthread_condattr_init' and `pthread_condattr_destroy' always
+     return 0.
+
+
+File: libc.info,  Node: POSIX Semaphores,  Next: Thread-Specific Data,  Prev: Condition Variables,  Up: POSIX Threads
+
+34.7 POSIX Semaphores
+=====================
+
+Semaphores are counters for resources shared between threads. The basic
+operations on semaphores are: increment the counter atomically, and
+wait until the counter is non-null and decrement it atomically.
+
+   Semaphores have a maximum value past which they cannot be
+incremented.  The macro `SEM_VALUE_MAX' is defined to be this maximum
+value.  In the GNU C library, `SEM_VALUE_MAX' is equal to `INT_MAX'
+(*note Range of Type::), but it may be much smaller on other systems.
+
+   The pthreads library implements POSIX 1003.1b semaphores.  These
+should not be confused with System V semaphores (`ipc', `semctl' and
+`semop').
+
+   All the semaphore functions and macros are defined in `semaphore.h'.
+
+ -- Function: int sem_init (sem_t *SEM, int PSHARED, unsigned int VALUE)
+     `sem_init' initializes the semaphore object pointed to by SEM. The
+     count associated with the semaphore is set initially to VALUE. The
+     PSHARED argument indicates whether the semaphore is local to the
+     current process (PSHARED is zero) or is to be shared between
+     several processes (PSHARED is not zero).
+
+     On success `sem_init' returns 0.  On failure it returns -1 and sets
+     ERRNO to one of the following values:
+
+    `EINVAL'
+          VALUE exceeds the maximal counter value `SEM_VALUE_MAX'
+
+    `ENOSYS'
+          PSHARED is not zero.  LinuxThreads currently does not support
+          process-shared semaphores.  (This will eventually change.)
+
+ -- Function: int sem_destroy (sem_t * SEM)
+     `sem_destroy' destroys a semaphore object, freeing the resources it
+     might hold.  If any threads are waiting on the semaphore when
+     `sem_destroy' is called, it fails and sets ERRNO to `EBUSY'.
+
+     In the LinuxThreads implementation, no resources are associated
+     with semaphore objects, thus `sem_destroy' actually does nothing
+     except checking that no thread is waiting on the semaphore.  This
+     will change when process-shared semaphores are implemented.
+
+ -- Function: int sem_wait (sem_t * SEM)
+     `sem_wait' suspends the calling thread until the semaphore pointed
+     to by SEM has non-zero count. It then atomically decreases the
+     semaphore count.
+
+     `sem_wait' is a cancellation point.  It always returns 0.
+
+ -- Function: int sem_trywait (sem_t * SEM)
+     `sem_trywait' is a non-blocking variant of `sem_wait'. If the
+     semaphore pointed to by SEM has non-zero count, the count is
+     atomically decreased and `sem_trywait' immediately returns 0.  If
+     the semaphore count is zero, `sem_trywait' immediately returns -1
+     and sets errno to `EAGAIN'.
+
+ -- Function: int sem_post (sem_t * SEM)
+     `sem_post' atomically increases the count of the semaphore pointed
+     to by SEM. This function never blocks.
+
+     On processors supporting atomic compare-and-swap (Intel 486,
+     Pentium and later, Alpha, PowerPC, MIPS II, Motorola 68k,
+     Ultrasparc), the `sem_post' function is can safely be called from
+     signal handlers.  This is the only thread synchronization function
+     provided by POSIX threads that is async-signal safe.  On the Intel
+     386 and earlier Sparc chips, the current LinuxThreads
+     implementation of `sem_post' is not async-signal safe, because the
+     hardware does not support the required atomic operations.
+
+     `sem_post' always succeeds and returns 0, unless the semaphore
+     count would exceed `SEM_VALUE_MAX' after being incremented.  In
+     that case `sem_post' returns -1 and sets ERRNO to `EINVAL'.  The
+     semaphore count is left unchanged.
+
+ -- Function: int sem_getvalue (sem_t * SEM, int * SVAL)
+     `sem_getvalue' stores in the location pointed to by SVAL the
+     current count of the semaphore SEM.  It always returns 0.
+
+
+File: libc.info,  Node: Thread-Specific Data,  Next: Threads and Signal Handling,  Prev: POSIX Semaphores,  Up: POSIX Threads
+
+34.8 Thread-Specific Data
+=========================
+
+Programs often need global or static variables that have different
+values in different threads. Since threads share one memory space, this
+cannot be achieved with regular variables. Thread-specific data is the
+POSIX threads answer to this need.
+
+   Each thread possesses a private memory block, the thread-specific
+data area, or TSD area for short. This area is indexed by TSD keys. The
+TSD area associates values of type `void *' to TSD keys. TSD keys are
+common to all threads, but the value associated with a given TSD key can
+be different in each thread.
+
+   For concreteness, the TSD areas can be viewed as arrays of `void *'
+pointers, TSD keys as integer indices into these arrays, and the value
+of a TSD key as the value of the corresponding array element in the
+calling thread.
+
+   When a thread is created, its TSD area initially associates `NULL'
+with all keys.
+
+ -- Function: int pthread_key_create (pthread_key_t *KEY, void
+          (*destr_function) (void *))
+     `pthread_key_create' allocates a new TSD key. The key is stored in
+     the location pointed to by KEY. There is a limit of
+     `PTHREAD_KEYS_MAX' on the number of keys allocated at a given
+     time. The value initially associated with the returned key is
+     `NULL' in all currently executing threads.
+
+     The DESTR_FUNCTION argument, if not `NULL', specifies a destructor
+     function associated with the key. When a thread terminates via
+     `pthread_exit' or by cancellation, DESTR_FUNCTION is called on the
+     value associated with the key in that thread. The DESTR_FUNCTION
+     is not called if a key is deleted with `pthread_key_delete' or a
+     value is changed with `pthread_setspecific'.  The order in which
+     destructor functions are called at thread termination time is
+     unspecified.
+
+     Before the destructor function is called, the `NULL' value is
+     associated with the key in the current thread.  A destructor
+     function might, however, re-associate non-`NULL' values to that
+     key or some other key.  To deal with this, if after all the
+     destructors have been called for all non-`NULL' values, there are
+     still some non-`NULL' values with associated destructors, then the
+     process is repeated.  The LinuxThreads implementation stops the
+     process after `PTHREAD_DESTRUCTOR_ITERATIONS' iterations, even if
+     some non-`NULL' values with associated descriptors remain.  Other
+     implementations may loop indefinitely.
+
+     `pthread_key_create' returns 0 unless `PTHREAD_KEYS_MAX' keys have
+     already been allocated, in which case it fails and returns
+     `EAGAIN'.
+
+ -- Function: int pthread_key_delete (pthread_key_t KEY)
+     `pthread_key_delete' deallocates a TSD key. It does not check
+     whether non-`NULL' values are associated with that key in the
+     currently executing threads, nor call the destructor function
+     associated with the key.
+
+     If there is no such key KEY, it returns `EINVAL'.  Otherwise it
+     returns 0.
+
+ -- Function: int pthread_setspecific (pthread_key_t KEY, const void
+          *POINTER)
+     `pthread_setspecific' changes the value associated with KEY in the
+     calling thread, storing the given POINTER instead.
+
+     If there is no such key KEY, it returns `EINVAL'.  Otherwise it
+     returns 0.
+
+ -- Function: void * pthread_getspecific (pthread_key_t KEY)
+     `pthread_getspecific' returns the value currently associated with
+     KEY in the calling thread.
+
+     If there is no such key KEY, it returns `NULL'.
+
+   The following code fragment allocates a thread-specific array of 100
+characters, with automatic reclaimation at thread exit:
+
+     /* Key for the thread-specific buffer */
+     static pthread_key_t buffer_key;
+
+     /* Once-only initialisation of the key */
+     static pthread_once_t buffer_key_once = PTHREAD_ONCE_INIT;
+
+     /* Allocate the thread-specific buffer */
+     void buffer_alloc(void)
+     {
+       pthread_once(&buffer_key_once, buffer_key_alloc);
+       pthread_setspecific(buffer_key, malloc(100));
+     }
+
+     /* Return the thread-specific buffer */
+     char * get_buffer(void)
+     {
+       return (char *) pthread_getspecific(buffer_key);
+     }
+
+     /* Allocate the key */
+     static void buffer_key_alloc()
+     {
+       pthread_key_create(&buffer_key, buffer_destroy);
+     }
+
+     /* Free the thread-specific buffer */
+     static void buffer_destroy(void * buf)
+     {
+       free(buf);
+     }
+
+
+File: libc.info,  Node: Threads and Signal Handling,  Next: Threads and Fork,  Prev: Thread-Specific Data,  Up: POSIX Threads
+
+34.9 Threads and Signal Handling
+================================
+
+ -- Function: int pthread_sigmask (int HOW, const sigset_t *NEWMASK,
+          sigset_t *OLDMASK)
+     `pthread_sigmask' changes the signal mask for the calling thread as
+     described by the HOW and NEWMASK arguments. If OLDMASK is not
+     `NULL', the previous signal mask is stored in the location pointed
+     to by OLDMASK.
+
+     The meaning of the HOW and NEWMASK arguments is the same as for
+     `sigprocmask'. If HOW is `SIG_SETMASK', the signal mask is set to
+     NEWMASK. If HOW is `SIG_BLOCK', the signals specified to NEWMASK
+     are added to the current signal mask.  If HOW is `SIG_UNBLOCK',
+     the signals specified to NEWMASK are removed from the current
+     signal mask.
+
+     Recall that signal masks are set on a per-thread basis, but signal
+     actions and signal handlers, as set with `sigaction', are shared
+     between all threads.
+
+     The `pthread_sigmask' function returns 0 on success, and one of the
+     following error codes on error:
+    `EINVAL'
+          HOW is not one of `SIG_SETMASK', `SIG_BLOCK', or `SIG_UNBLOCK'
+
+    `EFAULT'
+          NEWMASK or OLDMASK point to invalid addresses
+
+ -- Function: int pthread_kill (pthread_t THREAD, int SIGNO)
+     `pthread_kill' sends signal number SIGNO to the thread THREAD.
+     The signal is delivered and handled as described in *Note Signal
+     Handling::.
+
+     `pthread_kill' returns 0 on success, one of the following error
+     codes on error:
+    `EINVAL'
+          SIGNO is not a valid signal number
+
+    `ESRCH'
+          The thread THREAD does not exist (e.g. it has already
+          terminated)
+
+ -- Function: int sigwait (const sigset_t *SET, int *SIG)
+     `sigwait' suspends the calling thread until one of the signals in
+     SET is delivered to the calling thread. It then stores the number
+     of the signal received in the location pointed to by SIG and
+     returns. The signals in SET must be blocked and not ignored on
+     entrance to `sigwait'. If the delivered signal has a signal handler
+     function attached, that function is _not_ called.
+
+     `sigwait' is a cancellation point.  It always returns 0.
+
+   For `sigwait' to work reliably, the signals being waited for must be
+blocked in all threads, not only in the calling thread, since otherwise
+the POSIX semantics for signal delivery do not guarantee that it's the
+thread doing the `sigwait' that will receive the signal.  The best way
+to achieve this is block those signals before any threads are created,
+and never unblock them in the program other than by calling `sigwait'.
+
+   Signal handling in LinuxThreads departs significantly from the POSIX
+standard. According to the standard, "asynchronous" (external) signals
+are addressed to the whole process (the collection of all threads),
+which then delivers them to one particular thread. The thread that
+actually receives the signal is any thread that does not currently block
+the signal.
+
+   In LinuxThreads, each thread is actually a kernel process with its
+own PID, so external signals are always directed to one particular
+thread.  If, for instance, another thread is blocked in `sigwait' on
+that signal, it will not be restarted.
+
+   The LinuxThreads implementation of `sigwait' installs dummy signal
+handlers for the signals in SET for the duration of the wait. Since
+signal handlers are shared between all threads, other threads must not
+attach their own signal handlers to these signals, or alternatively
+they should all block these signals (which is recommended anyway).
+
+
+File: libc.info,  Node: Threads and Fork,  Next: Streams and Fork,  Prev: Threads and Signal Handling,  Up: POSIX Threads
+
+34.10 Threads and Fork
+======================
+
+It's not intuitively obvious what should happen when a multi-threaded
+POSIX process calls `fork'. Not only are the semantics tricky, but you
+may need to write code that does the right thing at fork time even if
+that code doesn't use the `fork' function. Moreover, you need to be
+aware of interaction between `fork' and some library features like
+`pthread_once' and stdio streams.
+
+   When `fork' is called by one of the threads of a process, it creates
+a new process which is copy of the  calling process. Effectively, in
+addition to copying certain system objects, the function takes a
+snapshot of the memory areas of the parent process, and creates
+identical areas in the child.  To make matters more complicated, with
+threads it's possible for two or more threads to concurrently call fork
+to create two or more child processes.
+
+   The child process has a copy of the address space of the parent, but
+it does not inherit any of its threads. Execution of the child process
+is carried out by a new thread which returns from `fork' function with
+a return value of zero; it is the only thread in the child process.
+Because threads are not inherited across fork, issues arise. At the
+time of the call to `fork', threads in the parent process other than
+the one calling `fork' may have been executing critical regions of
+code.  As a result, the child process may get a copy of objects that
+are not in a well-defined state.  This potential problem affects all
+components of the program.
+
+   Any program component which will continue being used in a child
+process must correctly handle its state during `fork'. For this
+purpose, the POSIX interface provides the special function
+`pthread_atfork' for installing pointers to handler functions which are
+called from within `fork'.
+
+ -- Function: int pthread_atfork (void (*PREPARE)(void), void
+          (*PARENT)(void), void (*CHILD)(void))
+     `pthread_atfork' registers handler functions to be called just
+     before and just after a new process is created with `fork'. The
+     PREPARE handler will be called from the parent process, just
+     before the new process is created. The PARENT handler will be
+     called from the parent process, just before `fork' returns. The
+     CHILD handler will be called from the child process, just before
+     `fork' returns.
+
+     `pthread_atfork' returns 0 on success and a non-zero error code on
+     error.
+
+     One or more of the three handlers PREPARE, PARENT and CHILD can be
+     given as `NULL', meaning that no handler needs to be called at the
+     corresponding point.
+
+     `pthread_atfork' can be called several times to install several
+     sets of handlers. At `fork' time, the PREPARE handlers are called
+     in LIFO order (last added with `pthread_atfork', first called
+     before `fork'), while the PARENT and CHILD handlers are called in
+     FIFO order (first added, first called).
+
+     If there is insufficient memory available to register the handlers,
+     `pthread_atfork' fails and returns `ENOMEM'.  Otherwise it returns
+     0.
+
+     The functions `fork' and `pthread_atfork' must not be regarded as
+     reentrant from the context of the handlers.  That is to say, if a
+     `pthread_atfork' handler invoked from within `fork' calls
+     `pthread_atfork' or `fork', the behavior is undefined.
+
+     Registering a triplet of handlers is an atomic operation with
+     respect to fork.  If new handlers are registered at about the same
+     time as a fork occurs, either all three handlers will be called,
+     or none of them will be called.
+
+     The handlers are inherited by the child process, and there is no
+     way to remove them, short of using `exec' to load a new pocess
+     image.
+
+
+   To understand the purpose of `pthread_atfork', recall that `fork'
+duplicates the whole memory space, including mutexes in their current
+locking state, but only the calling thread: other threads are not
+running in the child process.  The mutexes are not usable after the
+`fork' and must be initialized with `pthread_mutex_init' in the child
+process.  This is a limitation of the current implementation and might
+or might not be present in future versions.
+
+   To avoid this, install handlers with `pthread_atfork' as follows:
+have the PREPARE handler lock the mutexes (in locking order), and the
+PARENT handler unlock the mutexes. The CHILD handler should reset the
+mutexes using `pthread_mutex_init', as well as any other
+synchronization objects such as condition variables.
+
+   Locking the global mutexes before the fork ensures that all other
+threads are locked out of the critical regions of code protected by
+those mutexes.  Thus when `fork' takes a snapshot of the parent's
+address space, that snapshot will copy valid, stable data.  Resetting
+the synchronization objects in the child process will ensure they are
+properly cleansed of any artifacts from the threading subsystem of the
+parent process. For example, a mutex may inherit a wait queue of
+threads waiting for the lock; this wait queue makes no sense in the
+child process. Initializing the mutex takes care of this.
+
+
+File: libc.info,  Node: Streams and Fork,  Next: Miscellaneous Thread Functions,  Prev: Threads and Fork,  Up: POSIX Threads
+
+34.11 Streams and Fork
+======================
+
+The GNU standard I/O library has an internal mutex which guards the
+internal linked list of all standard C FILE objects. This mutex is
+properly taken care of during `fork' so that the child receives an
+intact copy of the list.  This allows the `fopen' function, and related
+stream-creating functions, to work correctly in the child process,
+since these functions need to insert into the list.
+
+   However, the individual stream locks are not completely taken care
+of.  Thus unless the multithreaded application takes special
+precautions in its use of `fork', the child process might not be able
+to safely use the streams that it inherited from the parent.   In
+general, for any given open stream in the parent that is to be used by
+the child process, the application must ensure that that stream is not
+in use by another thread when `fork' is called.  Otherwise an
+inconsistent copy of the stream object be produced. An easy way to
+ensure this is to use `flockfile' to lock the stream prior to calling
+`fork' and then unlock it with `funlockfile' inside the parent process,
+provided that the parent's threads properly honor these locks.  Nothing
+special needs to be done in the child process, since the library
+internally resets all stream locks.
+
+   Note that the stream locks are not shared between the parent and
+child.  For example, even if you ensure that, say, the stream `stdout'
+is properly treated and can be safely used in the child, the stream
+locks do not provide an exclusion mechanism between the parent and
+child. If both processes write to `stdout', strangely interleaved
+output may result regardless of the explicit use of `flockfile' or
+implicit locks.
+
+   Also note that these provisions are a GNU extension; other systems
+might not provide any way for streams to be used in the child of a
+multithreaded process.  POSIX requires that such a child process
+confines itself to calling only asynchronous safe functions, which
+excludes much of the library, including standard I/O.
+
+
+File: libc.info,  Node: Miscellaneous Thread Functions,  Prev: Streams and Fork,  Up: POSIX Threads
+
+34.12 Miscellaneous Thread Functions
+====================================
+
+ -- Function: pthread_t pthread_self (VOID)
+     `pthread_self' returns the thread identifier for the calling
+     thread.
+
+ -- Function: int pthread_equal (pthread_t thread1, pthread_t thread2)
+     `pthread_equal' determines if two thread identifiers refer to the
+     same thread.
+
+     A non-zero value is returned if THREAD1 and THREAD2 refer to the
+     same thread. Otherwise, 0 is returned.
+
+ -- Function: int pthread_detach (pthread_t TH)
+     `pthread_detach' puts the thread TH in the detached state. This
+     guarantees that the memory resources consumed by TH will be freed
+     immediately when TH terminates. However, this prevents other
+     threads from synchronizing on the termination of TH using
+     `pthread_join'.
+
+     A thread can be created initially in the detached state, using the
+     `detachstate' attribute to `pthread_create'. In contrast,
+     `pthread_detach' applies to threads created in the joinable state,
+     and which need to be put in the detached state later.
+
+     After `pthread_detach' completes, subsequent attempts to perform
+     `pthread_join' on TH will fail. If another thread is already
+     joining the thread TH at the time `pthread_detach' is called,
+     `pthread_detach' does nothing and leaves TH in the joinable state.
+
+     On success, 0 is returned. On error, one of the following codes is
+     returned:
+    `ESRCH'
+          No thread could be found corresponding to that specified by TH
+
+    `EINVAL'
+          The thread TH is already in the detached state
+
+ -- Function: void pthread_kill_other_threads_np (VOID)
+     `pthread_kill_other_threads_np' is a non-portable LinuxThreads
+     extension.  It causes all threads in the program to terminate
+     immediately, except the calling thread which proceeds normally. It
+     is intended to be called just before a thread calls one of the
+     `exec' functions, e.g. `execve'.
+
+     Termination of the other threads is not performed through
+     `pthread_cancel' and completely bypasses the cancellation
+     mechanism. Hence, the current settings for cancellation state and
+     cancellation type are ignored, and the cleanup handlers are not
+     executed in the terminated threads.
+
+     According to POSIX 1003.1c, a successful `exec*' in one of the
+     threads should automatically terminate all other threads in the
+     program.  This behavior is not yet implemented in LinuxThreads.
+     Calling `pthread_kill_other_threads_np' before `exec*' achieves
+     much of the same behavior, except that if `exec*' ultimately
+     fails, then all other threads are already killed.
+
+ -- Function: int pthread_once (pthread_once_t *once_CONTROL, void
+          (*INIT_ROUTINE) (void))
+     The purpose of `pthread_once' is to ensure that a piece of
+     initialization code is executed at most once. The ONCE_CONTROL
+     argument points to a static or extern variable statically
+     initialized to `PTHREAD_ONCE_INIT'.
+
+     The first time `pthread_once' is called with a given ONCE_CONTROL
+     argument, it calls INIT_ROUTINE with no argument and changes the
+     value of the ONCE_CONTROL variable to record that initialization
+     has been performed. Subsequent calls to `pthread_once' with the
+     same `once_control' argument do nothing.
+
+     If a thread is cancelled while executing INIT_ROUTINE the state of
+     the ONCE_CONTROL variable is reset so that a future call to
+     `pthread_once' will call the routine again.
+
+     If the process forks while one or more threads are executing
+     `pthread_once' initialization routines, the states of their
+     respective ONCE_CONTROL variables will appear to be reset in the
+     child process so that if the child calls `pthread_once', the
+     routines will be executed.
+
+     `pthread_once' always returns 0.
+
+ -- Function: int pthread_setschedparam (pthread_t target_THREAD, int
+          POLICY, const struct sched_param *PARAM)
+     `pthread_setschedparam' sets the scheduling parameters for the
+     thread TARGET_THREAD as indicated by POLICY and PARAM. POLICY can
+     be either `SCHED_OTHER' (regular, non-realtime scheduling),
+     `SCHED_RR' (realtime, round-robin) or `SCHED_FIFO' (realtime,
+     first-in first-out). PARAM specifies the scheduling priority for
+     the two realtime policies.  See `sched_setpolicy' for more
+     information on scheduling policies.
+
+     The realtime scheduling policies `SCHED_RR' and `SCHED_FIFO' are
+     available only to processes with superuser privileges.
+
+     On success, `pthread_setschedparam' returns 0.  On error it returns
+     one of the following codes:
+    `EINVAL'
+          POLICY is not one of `SCHED_OTHER', `SCHED_RR', `SCHED_FIFO',
+          or the priority value specified by PARAM is not valid for the
+          specified policy
+
+    `EPERM'
+          Realtime scheduling was requested but the calling process
+          does not have sufficient privileges.
+
+    `ESRCH'
+          The TARGET_THREAD is invalid or has already terminated
+
+    `EFAULT'
+          PARAM points outside the process memory space
+
+ -- Function: int pthread_getschedparam (pthread_t target_THREAD, int
+          *POLICY, struct sched_param *PARAM)
+     `pthread_getschedparam' retrieves the scheduling policy and
+     scheduling parameters for the thread TARGET_THREAD and stores them
+     in the locations pointed to by POLICY and PARAM, respectively.
+
+     `pthread_getschedparam' returns 0 on success, or one of the
+     following error codes on failure:
+    `ESRCH'
+          The TARGET_THREAD is invalid or has already terminated.
+
+    `EFAULT'
+          POLICY or PARAM point outside the process memory space.
+
+
+ -- Function: int pthread_setconcurrency (int LEVEL)
+     `pthread_setconcurrency' is unused in LinuxThreads due to the lack
+     of a mapping of user threads to kernel threads.  It exists for
+     source compatibility.  It does store the value LEVEL so that it
+     can be returned by a subsequent call to `pthread_getconcurrency'.
+     It takes no other action however.
+
+ -- Function: int pthread_getconcurrency ()
+     `pthread_getconcurrency' is unused in LinuxThreads due to the lack
+     of a mapping of user threads to kernel threads.  It exists for
+     source compatibility.  However, it will return the value that was
+     set by the last call to `pthread_setconcurrency'.
+
+
+File: libc.info,  Node: Language Features,  Next: Library Summary,  Prev: POSIX Threads,  Up: Top
+
+Appendix A C Language Facilities in the Library
+***********************************************
+
+Some of the facilities implemented by the C library really should be
+thought of as parts of the C language itself.  These facilities ought to
+be documented in the C Language Manual, not in the library manual; but
+since we don't have the language manual yet, and documentation for these
+features has been written, we are publishing it here.
+
+* Menu:
+
+* Consistency Checking::        Using `assert' to abort if
+				 something ``impossible'' happens.
+* Variadic Functions::          Defining functions with varying numbers
+                                 of args.
+* Null Pointer Constant::       The macro `NULL'.
+* Important Data Types::        Data types for object sizes.
+* Data Type Measurements::      Parameters of data type representations.
+
+
+File: libc.info,  Node: Consistency Checking,  Next: Variadic Functions,  Up: Language Features
+
+A.1 Explicitly Checking Internal Consistency
+============================================
+
+When you're writing a program, it's often a good idea to put in checks
+at strategic places for "impossible" errors or violations of basic
+assumptions.  These kinds of checks are helpful in debugging problems
+with the interfaces between different parts of the program, for example.
+
+   The `assert' macro, defined in the header file `assert.h', provides
+a convenient way to abort the program while printing a message about
+where in the program the error was detected.
+
+   Once you think your program is debugged, you can disable the error
+checks performed by the `assert' macro by recompiling with the macro
+`NDEBUG' defined.  This means you don't actually have to change the
+program source code to disable these checks.
+
+   But disabling these consistency checks is undesirable unless they
+make the program significantly slower.  All else being equal, more error
+checking is good no matter who is running the program.  A wise user
+would rather have a program crash, visibly, than have it return nonsense
+without indicating anything might be wrong.
+
+ -- Macro: void assert (int EXPRESSION)
+     Verify the programmer's belief that EXPRESSION is nonzero at this
+     point in the program.
+
+     If `NDEBUG' is not defined, `assert' tests the value of
+     EXPRESSION.  If it is false (zero), `assert' aborts the program
+     (*note Aborting a Program::) after printing a message of the form:
+
+          `FILE':LINENUM: FUNCTION: Assertion `EXPRESSION' failed.
+
+     on the standard error stream `stderr' (*note Standard Streams::).
+     The filename and line number are taken from the C preprocessor
+     macros `__FILE__' and `__LINE__' and specify where the call to
+     `assert' was made.  When using the GNU C compiler, the name of the
+     function which calls `assert' is taken from the built-in variable
+     `__PRETTY_FUNCTION__'; with older compilers, the function name and
+     following colon are omitted.
+
+     If the preprocessor macro `NDEBUG' is defined before `assert.h' is
+     included, the `assert' macro is defined to do absolutely nothing.
+
+     *Warning:* Even the argument expression EXPRESSION is not
+     evaluated if `NDEBUG' is in effect.  So never use `assert' with
+     arguments that involve side effects.  For example, `assert (++i >
+     0);' is a bad idea, because `i' will not be incremented if
+     `NDEBUG' is defined.
+
+   Sometimes the "impossible" condition you want to check for is an
+error return from an operating system function.  Then it is useful to
+display not only where the program crashes, but also what error was
+returned.  The `assert_perror' macro makes this easy.
+
+ -- Macro: void assert_perror (int ERRNUM)
+     Similar to `assert', but verifies that ERRNUM is zero.
+
+     If `NDEBUG' is not defined, `assert_perror' tests the value of
+     ERRNUM.  If it is nonzero, `assert_perror' aborts the program
+     after printing a message of the form:
+
+          `FILE':LINENUM: FUNCTION: ERROR TEXT
+
+     on the standard error stream.  The file name, line number, and
+     function name are as for `assert'.  The error text is the result of
+     `strerror (ERRNUM)'.  *Note Error Messages::.
+
+     Like `assert', if `NDEBUG' is defined before `assert.h' is
+     included, the `assert_perror' macro does absolutely nothing.  It
+     does not evaluate the argument, so ERRNUM should not have any side
+     effects.  It is best for ERRNUM to be just a simple variable
+     reference; often it will be `errno'.
+
+     This macro is a GNU extension.
+
+   *Usage note:* The `assert' facility is designed for detecting
+_internal inconsistency_; it is not suitable for reporting invalid
+input or improper usage by the _user_ of the program.
+
+   The information in the diagnostic messages printed by the `assert'
+and `assert_perror' macro is intended to help you, the programmer,
+track down the cause of a bug, but is not really useful for telling a
+user of your program why his or her input was invalid or why a command
+could not be carried out.  What's more, your program should not abort
+when given invalid input, as `assert' would do--it should exit with
+nonzero status (*note Exit Status::) after printing its error messages,
+or perhaps read another command or move on to the next input file.
+
+   *Note Error Messages::, for information on printing error messages
+for problems that _do not_ represent bugs in the program.
+
+
+File: libc.info,  Node: Variadic Functions,  Next: Null Pointer Constant,  Prev: Consistency Checking,  Up: Language Features
+
+A.2 Variadic Functions
+======================
+
+ISO C defines a syntax for declaring a function to take a variable
+number or type of arguments.  (Such functions are referred to as
+"varargs functions" or "variadic functions".)  However, the language
+itself provides no mechanism for such functions to access their
+non-required arguments; instead, you use the variable arguments macros
+defined in `stdarg.h'.
+
+   This section describes how to declare variadic functions, how to
+write them, and how to call them properly.
+
+   *Compatibility Note:* Many older C dialects provide a similar, but
+incompatible, mechanism for defining functions with variable numbers of
+arguments, using `varargs.h'.
+
+* Menu:
+
+* Why Variadic::                Reasons for making functions take
+                                 variable arguments.
+* How Variadic::                How to define and call variadic functions.
+* Variadic Example::            A complete example.
+
+
+File: libc.info,  Node: Why Variadic,  Next: How Variadic,  Up: Variadic Functions
+
+A.2.1 Why Variadic Functions are Used
+-------------------------------------
+
+Ordinary C functions take a fixed number of arguments.  When you define
+a function, you specify the data type for each argument.  Every call to
+the function should supply the expected number of arguments, with types
+that can be converted to the specified ones.  Thus, if the function
+`foo' is declared with `int foo (int, char *);' then you must call it
+with two arguments, a number (any kind will do) and a string pointer.
+
+   But some functions perform operations that can meaningfully accept an
+unlimited number of arguments.
+
+   In some cases a function can handle any number of values by
+operating on all of them as a block.  For example, consider a function
+that allocates a one-dimensional array with `malloc' to hold a
+specified set of values.  This operation makes sense for any number of
+values, as long as the length of the array corresponds to that number.
+Without facilities for variable arguments, you would have to define a
+separate function for each possible array size.
+
+   The library function `printf' (*note Formatted Output::) is an
+example of another class of function where variable arguments are
+useful.  This function prints its arguments (which can vary in type as
+well as number) under the control of a format template string.
+
+   These are good reasons to define a "variadic" function which can
+handle as many arguments as the caller chooses to pass.
+
+   Some functions such as `open' take a fixed set of arguments, but
+occasionally ignore the last few.  Strict adherence to ISO C requires
+these functions to be defined as variadic; in practice, however, the GNU
+C compiler and most other C compilers let you define such a function to
+take a fixed set of arguments--the most it can ever use--and then only
+_declare_ the function as variadic (or not declare its arguments at
+all!).
+
+
+File: libc.info,  Node: How Variadic,  Next: Variadic Example,  Prev: Why Variadic,  Up: Variadic Functions
+
+A.2.2 How Variadic Functions are Defined and Used
+-------------------------------------------------
+
+Defining and using a variadic function involves three steps:
+
+   * _Define_ the function as variadic, using an ellipsis (`...') in
+     the argument list, and using special macros to access the variable
+     arguments.  *Note Receiving Arguments::.
+
+   * _Declare_ the function as variadic, using a prototype with an
+     ellipsis (`...'), in all the files which call it.  *Note Variadic
+     Prototypes::.
+
+   * _Call_ the function by writing the fixed arguments followed by the
+     additional variable arguments.  *Note Calling Variadics::.
+
+* Menu:
+
+* Variadic Prototypes::  How to make a prototype for a function
+			  with variable arguments.
+* Receiving Arguments::  Steps you must follow to access the
+			  optional argument values.
+* How Many Arguments::   How to decide whether there are more arguments.
+* Calling Variadics::    Things you need to know about calling
+			  variable arguments functions.
+* Argument Macros::      Detailed specification of the macros
+        		  for accessing variable arguments.
+* Old Varargs::		 The pre-ISO way of defining variadic functions.
+
+
+File: libc.info,  Node: Variadic Prototypes,  Next: Receiving Arguments,  Up: How Variadic
+
+A.2.2.1 Syntax for Variable Arguments
+.....................................
+
+A function that accepts a variable number of arguments must be declared
+with a prototype that says so.   You write the fixed arguments as usual,
+and then tack on `...' to indicate the possibility of additional
+arguments.  The syntax of ISO C requires at least one fixed argument
+before the `...'.  For example,
+
+     int
+     func (const char *a, int b, ...)
+     {
+       ...
+     }
+
+defines a function `func' which returns an `int' and takes two required
+arguments, a `const char *' and an `int'.  These are followed by any
+number of anonymous arguments.
+
+   *Portability note:* For some C compilers, the last required argument
+must not be declared `register' in the function definition.
+Furthermore, this argument's type must be "self-promoting": that is,
+the default promotions must not change its type.  This rules out array
+and function types, as well as `float', `char' (whether signed or not)
+and `short int' (whether signed or not).  This is actually an ISO C
+requirement.
+
+
+File: libc.info,  Node: Receiving Arguments,  Next: How Many Arguments,  Prev: Variadic Prototypes,  Up: How Variadic
+
+A.2.2.2 Receiving the Argument Values
+.....................................
+
+Ordinary fixed arguments have individual names, and you can use these
+names to access their values.  But optional arguments have no
+names--nothing but `...'.  How can you access them?
+
+   The only way to access them is sequentially, in the order they were
+written, and you must use special macros from `stdarg.h' in the
+following three step process:
+
+  1. You initialize an argument pointer variable of type `va_list' using
+     `va_start'.  The argument pointer when initialized points to the
+     first optional argument.
+
+  2. You access the optional arguments by successive calls to `va_arg'.
+     The first call to `va_arg' gives you the first optional argument,
+     the next call gives you the second, and so on.
+
+     You can stop at any time if you wish to ignore any remaining
+     optional arguments.  It is perfectly all right for a function to
+     access fewer arguments than were supplied in the call, but you
+     will get garbage values if you try to access too many arguments.
+
+  3. You indicate that you are finished with the argument pointer
+     variable by calling `va_end'.
+
+     (In practice, with most C compilers, calling `va_end' does nothing.
+     This is always true in the GNU C compiler.  But you might as well
+     call `va_end' just in case your program is someday compiled with a
+     peculiar compiler.)
+
+   *Note Argument Macros::, for the full definitions of `va_start',
+`va_arg' and `va_end'.
+
+   Steps 1 and 3 must be performed in the function that accepts the
+optional arguments.  However, you can pass the `va_list' variable as an
+argument to another function and perform all or part of step 2 there.
+
+   You can perform the entire sequence of three steps multiple times
+within a single function invocation.  If you want to ignore the optional
+arguments, you can do these steps zero times.
+
+   You can have more than one argument pointer variable if you like.
+You can initialize each variable with `va_start' when you wish, and
+then you can fetch arguments with each argument pointer as you wish.
+Each argument pointer variable will sequence through the same set of
+argument values, but at its own pace.
+
+   *Portability note:* With some compilers, once you pass an argument
+pointer value to a subroutine, you must not keep using the same
+argument pointer value after that subroutine returns.  For full
+portability, you should just pass it to `va_end'.  This is actually an
+ISO C requirement, but most ANSI C compilers work happily regardless.
+
+
+File: libc.info,  Node: How Many Arguments,  Next: Calling Variadics,  Prev: Receiving Arguments,  Up: How Variadic
+
+A.2.2.3 How Many Arguments Were Supplied
+........................................
+
+There is no general way for a function to determine the number and type
+of the optional arguments it was called with.  So whoever designs the
+function typically designs a convention for the caller to specify the
+number and type of arguments.  It is up to you to define an appropriate
+calling convention for each variadic function, and write all calls
+accordingly.
+
+   One kind of calling convention is to pass the number of optional
+arguments as one of the fixed arguments.  This convention works provided
+all of the optional arguments are of the same type.
+
+   A similar alternative is to have one of the required arguments be a
+bit mask, with a bit for each possible purpose for which an optional
+argument might be supplied.  You would test the bits in a predefined
+sequence; if the bit is set, fetch the value of the next argument,
+otherwise use a default value.
+
+   A required argument can be used as a pattern to specify both the
+number and types of the optional arguments.  The format string argument
+to `printf' is one example of this (*note Formatted Output Functions::).
+
+   Another possibility is to pass an "end marker" value as the last
+optional argument.  For example, for a function that manipulates an
+arbitrary number of pointer arguments, a null pointer might indicate the
+end of the argument list.  (This assumes that a null pointer isn't
+otherwise meaningful to the function.)  The `execl' function works in
+just this way; see *Note Executing a File::.
+
+
+File: libc.info,  Node: Calling Variadics,  Next: Argument Macros,  Prev: How Many Arguments,  Up: How Variadic
+
+A.2.2.4 Calling Variadic Functions
+..................................
+
+You don't have to do anything special to call a variadic function.
+Just put the arguments (required arguments, followed by optional ones)
+inside parentheses, separated by commas, as usual.  But you must declare
+the function with a prototype and know how the argument values are
+converted.
+
+   In principle, functions that are _defined_ to be variadic must also
+be _declared_ to be variadic using a function prototype whenever you
+call them.  (*Note Variadic Prototypes::, for how.)  This is because
+some C compilers use a different calling convention to pass the same set
+of argument values to a function depending on whether that function
+takes variable arguments or fixed arguments.
+
+   In practice, the GNU C compiler always passes a given set of argument
+types in the same way regardless of whether they are optional or
+required.  So, as long as the argument types are self-promoting, you can
+safely omit declaring them.  Usually it is a good idea to declare the
+argument types for variadic functions, and indeed for all functions.
+But there are a few functions which it is extremely convenient not to
+have to declare as variadic--for example, `open' and `printf'.
+
+   Since the prototype doesn't specify types for optional arguments, in
+a call to a variadic function the "default argument promotions" are
+performed on the optional argument values.  This means the objects of
+type `char' or `short int' (whether signed or not) are promoted to
+either `int' or `unsigned int', as appropriate; and that objects of
+type `float' are promoted to type `double'.  So, if the caller passes a
+`char' as an optional argument, it is promoted to an `int', and the
+function can access it with `va_arg (AP, int)'.
+
+   Conversion of the required arguments is controlled by the function
+prototype in the usual way: the argument expression is converted to the
+declared argument type as if it were being assigned to a variable of
+that type.
+
+
+File: libc.info,  Node: Argument Macros,  Next: Old Varargs,  Prev: Calling Variadics,  Up: How Variadic
+
+A.2.2.5 Argument Access Macros
+..............................
+
+Here are descriptions of the macros used to retrieve variable arguments.
+These macros are defined in the header file `stdarg.h'.  
+
+ -- Data Type: va_list
+     The type `va_list' is used for argument pointer variables.
+
+ -- Macro: void va_start (va_list AP, LAST-REQUIRED)
+     This macro initializes the argument pointer variable AP to point
+     to the first of the optional arguments of the current function;
+     LAST-REQUIRED must be the last required argument to the function.
+
+     *Note Old Varargs::, for an alternate definition of `va_start'
+     found in the header file `varargs.h'.
+
+ -- Macro: TYPE va_arg (va_list AP, TYPE)
+     The `va_arg' macro returns the value of the next optional argument,
+     and modifies the value of AP to point to the subsequent argument.
+     Thus, successive uses of `va_arg' return successive optional
+     arguments.
+
+     The type of the value returned by `va_arg' is TYPE as specified in
+     the call.  TYPE must be a self-promoting type (not `char' or
+     `short int' or `float') that matches the type of the actual
+     argument.
+
+ -- Macro: void va_end (va_list AP)
+     This ends the use of AP.  After a `va_end' call, further `va_arg'
+     calls with the same AP may not work.  You should invoke `va_end'
+     before returning from the function in which `va_start' was invoked
+     with the same AP argument.
+
+     In the GNU C library, `va_end' does nothing, and you need not ever
+     use it except for reasons of portability.
+
+
+   Sometimes it is necessary to parse the list of parameters more than
+once or one wants to remember a certain position in the parameter list.
+To do this, one will have to make a copy of the current value of the
+argument.  But `va_list' is an opaque type and one cannot necessarily
+assign the value of one variable of type `va_list' to another variable
+of the same type.
+
+ -- Macro: void __va_copy (va_list DEST, va_list SRC)
+     The `__va_copy' macro allows copying of objects of type `va_list'
+     even if this is not an integral type.  The argument pointer in
+     DEST is initialized to point to the same argument as the pointer
+     in SRC.
+
+     This macro is a GNU extension but it will hopefully also be
+     available in the next update of the ISO C standard.
+
+   If you want to use `__va_copy' you should always be prepared for the
+possibility that this macro will not be available.  On architectures
+where a simple assignment is invalid, hopefully `__va_copy' _will_ be
+available, so one should always write something like this:
+
+     {
+       va_list ap, save;
+       ...
+     #ifdef __va_copy
+       __va_copy (save, ap);
+     #else
+       save = ap;
+     #endif
+       ...
+     }
+
+
+File: libc.info,  Node: Variadic Example,  Prev: How Variadic,  Up: Variadic Functions
+
+A.2.3 Example of a Variadic Function
+------------------------------------
+
+Here is a complete sample function that accepts a variable number of
+arguments.  The first argument to the function is the count of remaining
+arguments, which are added up and the result returned.  While trivial,
+this function is sufficient to illustrate how to use the variable
+arguments facility.
+
+     #include <stdarg.h>
+     #include <stdio.h>
+
+     int
+     add_em_up (int count,...)
+     {
+       va_list ap;
+       int i, sum;
+
+       va_start (ap, count);         /* Initialize the argument list. */
+
+       sum = 0;
+       for (i = 0; i < count; i++)
+         sum += va_arg (ap, int);    /* Get the next argument value. */
+
+       va_end (ap);                  /* Clean up. */
+       return sum;
+     }
+
+     int
+     main (void)
+     {
+       /* This call prints 16. */
+       printf ("%d\n", add_em_up (3, 5, 5, 6));
+
+       /* This call prints 55. */
+       printf ("%d\n", add_em_up (10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+
+       return 0;
+     }
+
+
+File: libc.info,  Node: Old Varargs,  Prev: Argument Macros,  Up: How Variadic
+
+A.2.3.1 Old-Style Variadic Functions
+....................................
+
+Before ISO C, programmers used a slightly different facility for
+writing variadic functions.  The GNU C compiler still supports it;
+currently, it is more portable than the ISO C facility, since support
+for ISO C is still not universal.  The header file which defines the
+old-fashioned variadic facility is called `varargs.h'.
+
+   Using `varargs.h' is almost the same as using `stdarg.h'.  There is
+no difference in how you call a variadic function; see *Note Calling
+Variadics::.  The only difference is in how you define them.  First of
+all, you must use old-style non-prototype syntax, like this:
+
+     tree
+     build (va_alist)
+          va_dcl
+     {
+
+   Secondly, you must give `va_start' only one argument, like this:
+
+       va_list p;
+       va_start (p);
+
+   These are the special macros used for defining old-style variadic
+functions:
+
+ -- Macro: va_alist
+     This macro stands for the argument name list required in a variadic
+     function.
+
+ -- Macro: va_dcl
+     This macro declares the implicit argument or arguments for a
+     variadic function.
+
+ -- Macro: void va_start (va_list AP)
+     This macro, as defined in `varargs.h', initializes the argument
+     pointer variable AP to point to the first argument of the current
+     function.
+
+   The other argument macros, `va_arg' and `va_end', are the same in
+`varargs.h' as in `stdarg.h'; see *Note Argument Macros::, for details.
+
+   It does not work to include both `varargs.h' and `stdarg.h' in the
+same compilation; they define `va_start' in conflicting ways.
+
+
+File: libc.info,  Node: Null Pointer Constant,  Next: Important Data Types,  Prev: Variadic Functions,  Up: Language Features
+
+A.3 Null Pointer Constant
+=========================
+
+The null pointer constant is guaranteed not to point to any real object.
+You can assign it to any pointer variable since it has type `void *'.
+The preferred way to write a null pointer constant is with `NULL'.
+
+ -- Macro: void * NULL
+     This is a null pointer constant.
+
+   You can also use `0' or `(void *)0' as a null pointer constant, but
+using `NULL' is cleaner because it makes the purpose of the constant
+more evident.
+
+   If you use the null pointer constant as a function argument, then for
+complete portability you should make sure that the function has a
+prototype declaration.  Otherwise, if the target machine has two
+different pointer representations, the compiler won't know which
+representation to use for that argument.  You can avoid the problem by
+explicitly casting the constant to the proper pointer type, but we
+recommend instead adding a prototype for the function you are calling.
+
+
+File: libc.info,  Node: Important Data Types,  Next: Data Type Measurements,  Prev: Null Pointer Constant,  Up: Language Features
+
+A.4 Important Data Types
+========================
+
+The result of subtracting two pointers in C is always an integer, but
+the precise data type varies from C compiler to C compiler.  Likewise,
+the data type of the result of `sizeof' also varies between compilers.
+ISO defines standard aliases for these two types, so you can refer to
+them in a portable fashion.  They are defined in the header file
+`stddef.h'.  
+
+ -- Data Type: ptrdiff_t
+     This is the signed integer type of the result of subtracting two
+     pointers.  For example, with the declaration `char *p1, *p2;', the
+     expression `p2 - p1' is of type `ptrdiff_t'.  This will probably
+     be one of the standard signed integer types (`short int', `int' or
+     `long int'), but might be a nonstandard type that exists only for
+     this purpose.
+
+ -- Data Type: size_t
+     This is an unsigned integer type used to represent the sizes of
+     objects.  The result of the `sizeof' operator is of this type, and
+     functions such as `malloc' (*note Unconstrained Allocation::) and
+     `memcpy' (*note Copying and Concatenation::) accept arguments of
+     this type to specify object sizes.
+
+     *Usage Note:* `size_t' is the preferred way to declare any
+     arguments or variables that hold the size of an object.
+
+   In the GNU system `size_t' is equivalent to either `unsigned int' or
+`unsigned long int'.  These types have identical properties on the GNU
+system and, for most purposes, you can use them interchangeably.
+However, they are distinct as data types, which makes a difference in
+certain contexts.
+
+   For example, when you specify the type of a function argument in a
+function prototype, it makes a difference which one you use.  If the
+system header files declare `malloc' with an argument of type `size_t'
+and you declare `malloc' with an argument of type `unsigned int', you
+will get a compilation error if `size_t' happens to be `unsigned long
+int' on your system.  To avoid any possibility of error, when a
+function argument or value is supposed to have type `size_t', never
+declare its type in any other way.
+
+   *Compatibility Note:* Implementations of C before the advent of
+ISO C generally used `unsigned int' for representing object sizes and
+`int' for pointer subtraction results.  They did not necessarily define
+either `size_t' or `ptrdiff_t'.  Unix systems did define `size_t', in
+`sys/types.h', but the definition was usually a signed type.
+
+
+File: libc.info,  Node: Data Type Measurements,  Prev: Important Data Types,  Up: Language Features
+
+A.5 Data Type Measurements
+==========================
+
+Most of the time, if you choose the proper C data type for each object
+in your program, you need not be concerned with just how it is
+represented or how many bits it uses.  When you do need such
+information, the C language itself does not provide a way to get it.
+The header files `limits.h' and `float.h' contain macros which give you
+this information in full detail.
+
+* Menu:
+
+* Width of Type::           How many bits does an integer type hold?
+* Range of Type::           What are the largest and smallest values
+			     that an integer type can hold?
+* Floating Type Macros::    Parameters that measure the floating point types.
+* Structure Measurement::   Getting measurements on structure types.
+
+
+File: libc.info,  Node: Width of Type,  Next: Range of Type,  Up: Data Type Measurements
+
+A.5.1 Computing the Width of an Integer Data Type
+-------------------------------------------------
+
+The most common reason that a program needs to know how many bits are in
+an integer type is for using an array of `long int' as a bit vector.
+You can access the bit at index N with
+
+     vector[N / LONGBITS] & (1 << (N % LONGBITS))
+
+provided you define `LONGBITS' as the number of bits in a `long int'.
+
+   There is no operator in the C language that can give you the number
+of bits in an integer data type.  But you can compute it from the macro
+`CHAR_BIT', defined in the header file `limits.h'.
+
+`CHAR_BIT'
+     This is the number of bits in a `char'--eight, on most systems.
+     The value has type `int'.
+
+     You can compute the number of bits in any data type TYPE like this:
+
+          sizeof (TYPE) * CHAR_BIT
+
+
+File: libc.info,  Node: Range of Type,  Next: Floating Type Macros,  Prev: Width of Type,  Up: Data Type Measurements
+
+A.5.2 Range of an Integer Type
+------------------------------
+
+Suppose you need to store an integer value which can range from zero to
+one million.  Which is the smallest type you can use?  There is no
+general rule; it depends on the C compiler and target machine.  You can
+use the `MIN' and `MAX' macros in `limits.h' to determine which type
+will work.
+
+   Each signed integer type has a pair of macros which give the smallest
+and largest values that it can hold.  Each unsigned integer type has one
+such macro, for the maximum value; the minimum value is, of course,
+zero.
+
+   The values of these macros are all integer constant expressions.  The
+`MAX' and `MIN' macros for `char' and `short int' types have values of
+type `int'.  The `MAX' and `MIN' macros for the other types have values
+of the same type described by the macro--thus, `ULONG_MAX' has type
+`unsigned long int'.
+
+`SCHAR_MIN'
+     This is the minimum value that can be represented by a
+     `signed char'.
+
+`SCHAR_MAX'
+`UCHAR_MAX'
+     These are the maximum values that can be represented by a
+     `signed char' and `unsigned char', respectively.
+
+`CHAR_MIN'
+     This is the minimum value that can be represented by a `char'.
+     It's equal to `SCHAR_MIN' if `char' is signed, or zero otherwise.
+
+`CHAR_MAX'
+     This is the maximum value that can be represented by a `char'.
+     It's equal to `SCHAR_MAX' if `char' is signed, or `UCHAR_MAX'
+     otherwise.
+
+`SHRT_MIN'
+     This is the minimum value that can be represented by a
+     `signed short int'.  On most machines that the GNU C library runs
+     on, `short' integers are 16-bit quantities.
+
+`SHRT_MAX'
+`USHRT_MAX'
+     These are the maximum values that can be represented by a
+     `signed short int' and `unsigned short int', respectively.
+
+`INT_MIN'
+     This is the minimum value that can be represented by a
+     `signed int'.  On most machines that the GNU C system runs on, an
+     `int' is a 32-bit quantity.
+
+`INT_MAX'
+`UINT_MAX'
+     These are the maximum values that can be represented by,
+     respectively, the type `signed int' and the type `unsigned int'.
+
+`LONG_MIN'
+     This is the minimum value that can be represented by a
+     `signed long int'.  On most machines that the GNU C system runs
+     on, `long' integers are 32-bit quantities, the same size as `int'.
+
+`LONG_MAX'
+`ULONG_MAX'
+     These are the maximum values that can be represented by a
+     `signed long int' and `unsigned long int', respectively.
+
+`LONG_LONG_MIN'
+     This is the minimum value that can be represented by a
+     `signed long long int'.  On most machines that the GNU C system
+     runs on, `long long' integers are 64-bit quantities.
+
+`LONG_LONG_MAX'
+`ULONG_LONG_MAX'
+     These are the maximum values that can be represented by a `signed
+     long long int' and `unsigned long long int', respectively.
+
+`WCHAR_MAX'
+     This is the maximum value that can be represented by a `wchar_t'.
+     *Note Extended Char Intro::.
+
+   The header file `limits.h' also defines some additional constants
+that parameterize various operating system and file system limits.
+These constants are described in *Note System Configuration::.
+
+
+File: libc.info,  Node: Floating Type Macros,  Next: Structure Measurement,  Prev: Range of Type,  Up: Data Type Measurements
+
+A.5.3 Floating Type Macros
+--------------------------
+
+The specific representation of floating point numbers varies from
+machine to machine.  Because floating point numbers are represented
+internally as approximate quantities, algorithms for manipulating
+floating point data often need to take account of the precise details of
+the machine's floating point representation.
+
+   Some of the functions in the C library itself need this information;
+for example, the algorithms for printing and reading floating point
+numbers (*note I/O on Streams::) and for calculating trigonometric and
+irrational functions (*note Mathematics::) use it to avoid round-off
+error and loss of accuracy.  User programs that implement numerical
+analysis techniques also often need this information in order to
+minimize or compute error bounds.
+
+   The header file `float.h' describes the format used by your machine.
+
+* Menu:
+
+* Floating Point Concepts::     Definitions of terminology.
+* Floating Point Parameters::   Details of specific macros.
+* IEEE Floating Point::         The measurements for one common
+                                 representation.
+
+
+File: libc.info,  Node: Floating Point Concepts,  Next: Floating Point Parameters,  Up: Floating Type Macros
+
+A.5.3.1 Floating Point Representation Concepts
+..............................................
+
+This section introduces the terminology for describing floating point
+representations.
+
+   You are probably already familiar with most of these concepts in
+terms of scientific or exponential notation for floating point numbers.
+For example, the number `123456.0' could be expressed in exponential
+notation as `1.23456e+05', a shorthand notation indicating that the
+mantissa `1.23456' is multiplied by the base `10' raised to power `5'.
+
+   More formally, the internal representation of a floating point number
+can be characterized in terms of the following parameters:
+
+   * The "sign" is either `-1' or `1'.
+
+   * The "base" or "radix" for exponentiation, an integer greater than
+     `1'.  This is a constant for a particular representation.
+
+   * The "exponent" to which the base is raised.  The upper and lower
+     bounds of the exponent value are constants for a particular
+     representation.
+
+     Sometimes, in the actual bits representing the floating point
+     number, the exponent is "biased" by adding a constant to it, to
+     make it always be represented as an unsigned quantity.  This is
+     only important if you have some reason to pick apart the bit
+     fields making up the floating point number by hand, which is
+     something for which the GNU library provides no support.  So this
+     is ignored in the discussion that follows.
+
+   * The "mantissa" or "significand" is an unsigned integer which is a
+     part of each floating point number.
+
+   * The "precision" of the mantissa.  If the base of the representation
+     is B, then the precision is the number of base-B digits in the
+     mantissa.  This is a constant for a particular representation.
+
+     Many floating point representations have an implicit "hidden bit"
+     in the mantissa.  This is a bit which is present virtually in the
+     mantissa, but not stored in memory because its value is always 1
+     in a normalized number.  The precision figure (see above) includes
+     any hidden bits.
+
+     Again, the GNU library provides no facilities for dealing with such
+     low-level aspects of the representation.
+
+   The mantissa of a floating point number represents an implicit
+fraction whose denominator is the base raised to the power of the
+precision.  Since the largest representable mantissa is one less than
+this denominator, the value of the fraction is always strictly less
+than `1'.  The mathematical value of a floating point number is then
+the product of this fraction, the sign, and the base raised to the
+exponent.
+
+   We say that the floating point number is "normalized" if the
+fraction is at least `1/B', where B is the base.  In other words, the
+mantissa would be too large to fit if it were multiplied by the base.
+Non-normalized numbers are sometimes called "denormal"; they contain
+less precision than the representation normally can hold.
+
+   If the number is not normalized, then you can subtract `1' from the
+exponent while multiplying the mantissa by the base, and get another
+floating point number with the same value.  "Normalization" consists of
+doing this repeatedly until the number is normalized.  Two distinct
+normalized floating point numbers cannot be equal in value.
+
+   (There is an exception to this rule: if the mantissa is zero, it is
+considered normalized.  Another exception happens on certain machines
+where the exponent is as small as the representation can hold.  Then it
+is impossible to subtract `1' from the exponent, so a number may be
+normalized even if its fraction is less than `1/B'.)
+
+
+File: libc.info,  Node: Floating Point Parameters,  Next: IEEE Floating Point,  Prev: Floating Point Concepts,  Up: Floating Type Macros
+
+A.5.3.2 Floating Point Parameters
+.................................
+
+These macro definitions can be accessed by including the header file
+`float.h' in your program.
+
+   Macro names starting with `FLT_' refer to the `float' type, while
+names beginning with `DBL_' refer to the `double' type and names
+beginning with `LDBL_' refer to the `long double' type.  (If GCC does
+not support `long double' as a distinct data type on a target machine
+then the values for the `LDBL_' constants are equal to the
+corresponding constants for the `double' type.)
+
+   Of these macros, only `FLT_RADIX' is guaranteed to be a constant
+expression.  The other macros listed here cannot be reliably used in
+places that require constant expressions, such as `#if' preprocessing
+directives or in the dimensions of static arrays.
+
+   Although the ISO C standard specifies minimum and maximum values for
+most of these parameters, the GNU C implementation uses whatever values
+describe the floating point representation of the target machine.  So in
+principle GNU C actually satisfies the ISO C requirements only if the
+target machine is suitable.  In practice, all the machines currently
+supported are suitable.
+
+`FLT_ROUNDS'
+     This value characterizes the rounding mode for floating point
+     addition.  The following values indicate standard rounding modes:
+
+    `-1'
+          The mode is indeterminable.
+
+    `0'
+          Rounding is towards zero.
+
+    `1'
+          Rounding is to the nearest number.
+
+    `2'
+          Rounding is towards positive infinity.
+
+    `3'
+          Rounding is towards negative infinity.
+
+     Any other value represents a machine-dependent nonstandard rounding
+     mode.
+
+     On most machines, the value is `1', in accordance with the IEEE
+     standard for floating point.
+
+     Here is a table showing how certain values round for each possible
+     value of `FLT_ROUNDS', if the other aspects of the representation
+     match the IEEE single-precision standard.
+
+                          0      1             2             3
+           1.00000003    1.0    1.0           1.00000012    1.0
+           1.00000007    1.0    1.00000012    1.00000012    1.0
+          -1.00000003   -1.0   -1.0          -1.0          -1.00000012
+          -1.00000007   -1.0   -1.00000012   -1.0          -1.00000012
+
+`FLT_RADIX'
+     This is the value of the base, or radix, of the exponent
+     representation.  This is guaranteed to be a constant expression,
+     unlike the other macros described in this section.  The value is 2
+     on all machines we know of except the IBM 360 and derivatives.
+
+`FLT_MANT_DIG'
+     This is the number of base-`FLT_RADIX' digits in the floating point
+     mantissa for the `float' data type.  The following expression
+     yields `1.0' (even though mathematically it should not) due to the
+     limited number of mantissa digits:
+
+          float radix = FLT_RADIX;
+
+          1.0f + 1.0f / radix / radix / ... / radix
+
+     where `radix' appears `FLT_MANT_DIG' times.
+
+`DBL_MANT_DIG'
+`LDBL_MANT_DIG'
+     This is the number of base-`FLT_RADIX' digits in the floating point
+     mantissa for the data types `double' and `long double',
+     respectively.
+
+`FLT_DIG'
+     This is the number of decimal digits of precision for the `float'
+     data type.  Technically, if P and B are the precision and base
+     (respectively) for the representation, then the decimal precision
+     Q is the maximum number of decimal digits such that any floating
+     point number with Q base 10 digits can be rounded to a floating
+     point number with P base B digits and back again, without change
+     to the Q decimal digits.
+
+     The value of this macro is supposed to be at least `6', to satisfy
+     ISO C.
+
+`DBL_DIG'
+`LDBL_DIG'
+     These are similar to `FLT_DIG', but for the data types `double'
+     and `long double', respectively.  The values of these macros are
+     supposed to be at least `10'.
+
+`FLT_MIN_EXP'
+     This is the smallest possible exponent value for type `float'.
+     More precisely, is the minimum negative integer such that the value
+     `FLT_RADIX' raised to this power minus 1 can be represented as a
+     normalized floating point number of type `float'.
+
+`DBL_MIN_EXP'
+`LDBL_MIN_EXP'
+     These are similar to `FLT_MIN_EXP', but for the data types
+     `double' and `long double', respectively.
+
+`FLT_MIN_10_EXP'
+     This is the minimum negative integer such that `10' raised to this
+     power minus 1 can be represented as a normalized floating point
+     number of type `float'.  This is supposed to be `-37' or even less.
+
+`DBL_MIN_10_EXP'
+`LDBL_MIN_10_EXP'
+     These are similar to `FLT_MIN_10_EXP', but for the data types
+     `double' and `long double', respectively.
+
+`FLT_MAX_EXP'
+     This is the largest possible exponent value for type `float'.  More
+     precisely, this is the maximum positive integer such that value
+     `FLT_RADIX' raised to this power minus 1 can be represented as a
+     floating point number of type `float'.
+
+`DBL_MAX_EXP'
+`LDBL_MAX_EXP'
+     These are similar to `FLT_MAX_EXP', but for the data types
+     `double' and `long double', respectively.
+
+`FLT_MAX_10_EXP'
+     This is the maximum positive integer such that `10' raised to this
+     power minus 1 can be represented as a normalized floating point
+     number of type `float'.  This is supposed to be at least `37'.
+
+`DBL_MAX_10_EXP'
+`LDBL_MAX_10_EXP'
+     These are similar to `FLT_MAX_10_EXP', but for the data types
+     `double' and `long double', respectively.
+
+`FLT_MAX'
+     The value of this macro is the maximum number representable in type
+     `float'.  It is supposed to be at least `1E+37'.  The value has
+     type `float'.
+
+     The smallest representable number is `- FLT_MAX'.
+
+`DBL_MAX'
+`LDBL_MAX'
+     These are similar to `FLT_MAX', but for the data types `double'
+     and `long double', respectively.  The type of the macro's value is
+     the same as the type it describes.
+
+`FLT_MIN'
+     The value of this macro is the minimum normalized positive floating
+     point number that is representable in type `float'.  It is supposed
+     to be no more than `1E-37'.
+
+`DBL_MIN'
+`LDBL_MIN'
+     These are similar to `FLT_MIN', but for the data types `double'
+     and `long double', respectively.  The type of the macro's value is
+     the same as the type it describes.
+
+`FLT_EPSILON'
+     This is the minimum positive floating point number of type `float'
+     such that `1.0 + FLT_EPSILON != 1.0' is true.  It's supposed to be
+     no greater than `1E-5'.
+
+`DBL_EPSILON'
+`LDBL_EPSILON'
+     These are similar to `FLT_EPSILON', but for the data types
+     `double' and `long double', respectively.  The type of the macro's
+     value is the same as the type it describes.  The values are not
+     supposed to be greater than `1E-9'.
+
+
+File: libc.info,  Node: IEEE Floating Point,  Prev: Floating Point Parameters,  Up: Floating Type Macros
+
+A.5.3.3 IEEE Floating Point
+...........................
+
+Here is an example showing how the floating type measurements come out
+for the most common floating point representation, specified by the
+`IEEE Standard for Binary Floating Point Arithmetic (ANSI/IEEE Std
+754-1985)'.  Nearly all computers designed since the 1980s use this
+format.
+
+   The IEEE single-precision float representation uses a base of 2.
+There is a sign bit, a mantissa with 23 bits plus one hidden bit (so
+the total precision is 24 base-2 digits), and an 8-bit exponent that
+can represent values in the range -125 to 128, inclusive.
+
+   So, for an implementation that uses this representation for the
+`float' data type, appropriate values for the corresponding parameters
+are:
+
+     FLT_RADIX                             2
+     FLT_MANT_DIG                         24
+     FLT_DIG                               6
+     FLT_MIN_EXP                        -125
+     FLT_MIN_10_EXP                      -37
+     FLT_MAX_EXP                         128
+     FLT_MAX_10_EXP                      +38
+     FLT_MIN                 1.17549435E-38F
+     FLT_MAX                 3.40282347E+38F
+     FLT_EPSILON             1.19209290E-07F
+
+   Here are the values for the `double' data type:
+
+     DBL_MANT_DIG                         53
+     DBL_DIG                              15
+     DBL_MIN_EXP                       -1021
+     DBL_MIN_10_EXP                     -307
+     DBL_MAX_EXP                        1024
+     DBL_MAX_10_EXP                      308
+     DBL_MAX         1.7976931348623157E+308
+     DBL_MIN         2.2250738585072014E-308
+     DBL_EPSILON     2.2204460492503131E-016
+
+
+File: libc.info,  Node: Structure Measurement,  Prev: Floating Type Macros,  Up: Data Type Measurements
+
+A.5.4 Structure Field Offset Measurement
+----------------------------------------
+
+You can use `offsetof' to measure the location within a structure type
+of a particular structure member.
+
+ -- Macro: size_t offsetof (TYPE, MEMBER)
+     This expands to a integer constant expression that is the offset
+     of the structure member named MEMBER in a the structure type TYPE.
+     For example, `offsetof (struct s, elem)' is the offset, in bytes,
+     of the member `elem' in a `struct s'.
+
+     This macro won't work if MEMBER is a bit field; you get an error
+     from the C compiler in that case.
+

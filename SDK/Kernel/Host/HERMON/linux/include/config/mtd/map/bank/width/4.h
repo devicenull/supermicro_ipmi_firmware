@@ -1,0 +1,1 @@
+#define CONFIG_MTD_MAP_BANK_WIDTH_4 1

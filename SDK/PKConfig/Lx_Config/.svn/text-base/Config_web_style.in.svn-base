@@ -1,0 +1,10 @@
+menu "WEB STYLE"
+choice
+    prompt "WEB SAMPLE Choice"
+    default CONFIG_SAMPLE_SUPER_MICRO_X8DTL
+
+source PKConfig/Lx_Config/Web_Config/Config_supermicro_X8DTL.in
+source PKConfig/Lx_Config/Web_Config/Config_Supermicro_2010.in
+
+endchoice
+endmenu

@@ -1,0 +1,1 @@
+#define CONFIG_VECTORS_BASE 0xffff0000

@@ -1,0 +1,1 @@
+#define CONFIG_BONDING_MODULE 1

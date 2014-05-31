@@ -1,0 +1,2249 @@
+2008-10-06 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* classProviderGz.c
+	Fixed [2101035] classProvider core dumps under slp/CIM client load 
+
+2008-10-03 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* providerDrv.c:
+	Fixed [ 2064360 ] Internal provider SIGSEGV when calling getProperty
+
+	Fixed [ 2079099 ] SFCB should load providers with RTLD_GLOBAL
+	(patch by Bart Whitely)
+
+	Removed unused hunks of code (related to 1643936)
+
+2008-10-02 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* indCIMXMLHandler.c:
+	Fixed [ 1877578 ] sfcb appears to leak memory while handling indications
+
+	* sfcBroker.c:
+	Fixed [ 2138163 ] sfcb: Wrong PID when running as daemon
+	(patch by Ingo van Lil)
+
+	* cimcClientSfcbLocal.c, msgqueue.c:
+	Fixed [ 2049872 ] "--- Warning: fd is closed" message from binary intf app
+
+	* cimcClientSfcbLocal.c, providerDrv.c:
+	Fixed [ 2143315 ] Remove unnecessary lines in providerDrv & cimcClient
+	
+2008-09-10 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* instance.c:
+	Fixed [ 2100707 ] NULL properties in property list returned with value
+	(patch by Alexander Dunfey)
+
+2008-09-09 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* getSchema.pre.in:
+	Fixed [ 2100911 ] getSchema.sh: line 17: [: =: unary operator expected
+	(patch by Narasimha Sharoff)
+
+2008-09-05 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* Makefile.am, configure.ac, control.c, cimslpCMPI.c, sfcb.cfg.pre.in
+	Fixed [ 1945390 ] Request for SLP service URL hostname override 
+	(patch from Tyrel Datwyler)
+
+2008-09-04 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* cimslp.c, cimslpCMPI.c:
+	Fixed [ 2093273 ] Fix "cimomConfig" + myGetInstances memory leaks
+
+2008-08-27 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* datetime.c:
+	Fixed [ 2023638 ] SFCB not considering UTC offset in calculating binary time
+	Refix due to misinterpretation of the spec.
+
+2008-08-20 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* indCIMXMLHandler.c:
+	Fixed [ 2062904 ] small memory leak after exportIndication
+
+2008-08-19 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* trace.h:
+	Fixed [ 2060748 ] compile fails when --disable-debug configure flag is set
+
+	* cimXmlGen.c:
+	Fixed a compiler warning ("suggest parenthesis")
+	
+2008-08-13 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* datetime.c:
+	Fixed [ 2023638 ] SFCB not considering UTC offset in calculating binary time
+
+2008-08-13 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimXmlGen.c:
+	Fixed [ 2048875 ] sfcb silently crashes when sent certain EmbeddedObjects
+	Fixed [ 2050421 ] Namespace not set for EmbeddedObjects in an XML value array
+
+	* instance.c, objectImpl.c:
+	Fixed [ 2048878 ] sfcb does not implement setObjectPath
+
+	* cimXmlParser.c, cimXmlOps.y:
+	Fixed [ 1918880 ] SFCB - Escaped XML sequences in embedded instances
+	
+2008-08-08 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* httpAdapter.c:
+	Fixed [ 2043672 ] Tighten SSL security for sfcb
+
+	* cimXmlParser.c:
+	Fixed [ 2025214 ] SFCB XML parser needs to unescape newlines
+
+2008-08-07 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* interopServerProvider.c:
+	Fixed [ 2039216 ] Memory leak in getSfcbUuid
+
+2008-08-07 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* trace.h, trace.c
+	Fixed [ 2041967 ] sfcb trace messages have hard-coded size max
+
+2008-07-30 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimXmlRequest.c:
+	Fixed [ 2024019 ] SFCB can't handle large error messages
+	(patch by Bart Whitely)
+
+2008-07-11 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* control.c:
+	Fixed [ 2015639 ] SFCB SLP registration process crashes after 2nd reg
+	(patch by Nick Bofferding)
+
+2008-07-08 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* cimXmlGen.c
+	Fixed [2001486] SFCB extrinsic method output parameter problems
+        (patch from J. Bart Whitely)
+
+2008-06-30 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimcClientSfcbLocal.c:
+	Fixed [ 2002392 ] Memory leaks in sfcb 1.2.5-35f
+	(found by Hari V.)
+
+2008-06-27 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* control.c, httpAdapter.c, sfcBroker.c, sfcb.cfg.pre.in:
+	Fixed [ 1978218 ] SFCB support for HTTP over a unix socket
+	(patch by J. Bart Whitely)
+
+2008-06-27 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* interopServerProvider.c 
+	Fixed [ 1945374 ] CIM_ObjectManagerCommunicationMechanism.Version not set
+        (2nd fix to set proper version)
+
+2008-06-25 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* fileRepository.c:
+	Fixed [ 2001879 ] sfcb string compares for qualifier name are case-sensitive
+
+	* support.c:
+	Fixed [ 1998030 ] SFCB core dumps during garbage collection
+	(thanks to Nick Bofferding for helping to track this down)
+	
+2008-06-24 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* context.c:
+	Fixed [ 1999175 ] CMAddContextEntry doesn't update entries, only adds
+
+2008-06-16 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* support.c:
+	Fixed [ 1914077 ] MI function signatures missing CMPIStatus * parameter
+	(Patch by Tim Potter)
+
+2008-06-13 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* internalProvider.c:
+	Fixed [ 1993385 ] sfcb restarts itself on startup
+
+2008-06-13 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* indCIMXMLExport.c
+	Fixed [ 1934753 ] indCIMXMLExport.c fails to compile on gcc 4.3
+
+2008-06-11 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* qualifierProvider.c:
+	Expanded previous fix to 1983569 to included similar problem in gq
+
+	* httpAdapter.c:
+	Fixed [ 1991296 ] httpAdapter doesn't check content_length correctly
+	(found by Alexander Sotirov)
+	
+2008-06-10 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* qualifierProvider.c
+	Fixed [ 1983569 ] enumerate qualifier call causes qualifier provider to die
+	(Patch by Sven Scheutz)
+
+2008-06-02 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* interopServerProvider.c 
+	Fixed [ 1945374 ] CIM_ObjectManagerCommunicationMechanism.Version not set
+
+2008-05-30 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* cimXmlOps.y
+	Fixed [ 1923373 ] SFCB GetClass defaults optional IncludeQualifiers=false
+	(Based on patch from Mike Lisanke)
+
+2008-05-30 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* support.c
+	Reversed part of the patch for 1928541 to fix deadlock
+
+2008-05-29 Chris Buccella <buccella@linux.vnet.ibm.com>
+
+	* providerDrv.c:
+	Fixed [ 1970808 ] sfcb hangs after getinstance requests 
+	(for 1.3.1 release; current cvs still needs work)
+
+2008-05-20 Sean Swehla <smswehla@linux.vnet.ibm.com>
+
+	* brokerOs.c, instance.c, support.c
+	Fixed [ 1928541 ] sfcb binary interface memory leak on CMGetObjectPath
+	Changed *alloc's of mutexes to use memAlloc/tracked memory
+
+2008-05-19 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* constClass.c
+	Fixed [ 1946202 ] getPropQualifier function attempts to free non-malloced mem
+	(Based on patch from Nicholas Bofferding)
+
+2008-05-09 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* Makefile.am, footprint.pl
+	Added makefile rule and supporting script to do 
+	disk and memory footprinting.
+
+2008-05-07 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* configure.ac, sfcBroker.c, default.reg.in, cimXmlRequest.c, 
+	Makefile.am:
+	Fixed 1953683: allow sfcb to be built to support localconnect only
+	(patch by Luong Nguyen-Duy)
+	
+2008-05-06 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* msgqueue.c:
+	Fixed 1959063: "accept error" on provider unloading (LocalConnect)
+
+2008-05-02 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* providerDrv.c, providerMgr.c, msgqueue.c:
+	Reversed original fix for 1919970, added new one
+	(patch by Gokulakannan)
+
+2008-05-01 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* indCIMXMLExport.c, indCIMXMLHandler.c
+	Fixed 1896550: Memory leak in exportIndication
+	(patch by Tim Potter)
+
+2008-04-30 Michael Chase-Salerno <bratac@linux.vnet.ibm.com>
+
+	* providerDrv.c
+	Fixed 1920539: sfcb crashes in getinstance
+	(patch by Tim Potter)
+
+2008-04-24 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* httpAdapter.c:
+	Fixed 1951133: httpAdapter crashes if auth library can't be loaded
+	(patch by Chris Abbey)
+
+2008-04-23 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* providerDrv.c:
+	Fixed 1919970: Provider process not terminated after idle 
+	(w/ LocalConnect) (patch by Luong Nguyen-Duy)
+
+2008-04-17 Gary Readler  <gdr@us.ibm.com>
+
+	* cimcClientSfcbLocal.c:
+        Reversed changes from 1879319; was causing a segfault for certain
+        testcases
+
+2008-04-16 Gary Readler  <gdr@us.ibm.com>
+
+	* cimcClientSfcbLocal.c configure.ac enumeration.c providerMgr.c providerMgr.h
+	  sfcbenum.h:
+	added 1828585: Large Volume Support (LocalConnect)
+
+2008-04-15 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cmpift.h, context.c, instance.c:
+	Fixed compiler warnings introduced by 1828500 fix
+
+2008-04-14 Gary Readler  <gdr@us.ibm.com>
+
+	* array.c:
+	Fixed 1942130: segfault when array increased by CMSetArrayElementAt
+
+2008-04-09 Sean Swehla
+
+	* Makefile.am, brokerUpc.c, cmpidt.h, cmpift.h, cmpimacs.h, cmpios.h, 
+	cmpipl.h, fileRepository.c, fileRepository.h, internalProvider.c, 
+	interopProvider.c, providerDrv.c, qualifierProvider.c
+	Added 1828500: CMPI 2.0 support
+	
+2008-04-08 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* array.c:
+	Fixed 1893302: New CMPI arrays not tracked
+	(patch by Tim Potter)
+	
+2008-04-07 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* sfcBroker.c, trace.h, trace.c:
+	Fixed 1875122: sfcb colorized traces
+
+2008-04-05 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimslp.c, cimslp.h, cimslpCMPI.c:
+	SLP support for 1930758
+	
+2008-04-02 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* httpAdapter.c:
+	Fixed 1928685: sfcb httpAdapter memory leak while authenticating
+	(patch by Rajib Saha)
+
+2008-04-01 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* profileProvider.c, Makefile.am, profileMgr.c, default.reg, interop.mof:
+	Added 1930758: Profile Registration support
+	
+2008-03-14 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimcClientSfcbLocal.c, providerMgr.c:
+	Fixed 1914551: sfcb file descriptor leaks
+	(patch by J. Vinodhini)
+
+2008-02-25 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* internalProvider.c:
+	Altered another change from 1893300
+
+2008-02-21 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* internalProvider.c:
+	Altered last change for 1893300 to solve double free problem
+
+2008-02-19 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* internalProvider.c:
+	Fixed 1892621: Memory leak in associator and associatorNames
+	(patch by Tim Potter)
+	Fixed 1893300: More memory leaks in associators and associatorNames
+	(patch by Tim Potter)
+
+	* providerDrv.c:
+	Fixed 1896551: Memory leak on loadProvider() failure
+	(patch by Tim Potter)
+	
+2008-02-15 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* classProvider.c, classSchema2c.c, internalProvider.c, 
+	interopServerProvider.c:
+	Fixed 1891702: Fix various resource leaks (patch by Tim Potter)
+
+2008-02-14 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* getSchema.sh.pre.in:
+	Fixed 1894061: Allow sfcb to use updated versions of the CIM Schema
+
+2008-02-07 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cmpimacs.h:
+	Fixed 1888889: Typo in sfcb's cmpimacs.h for CMSetObjectPath macro
+	(bug found by Charles Bullis)
+
+2008-01-31 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* objectpath.c:
+	Fixed 1883796: unused variables in objectpath.c
+
+	* cimXmlGen.c:
+	Fixed 1883826: getKeyValueTypePtr() always returns false for boolean 
+	values
+	
+2008-01-30 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimXmlRequest.c:
+	Fixed 1879334: Memory leaks in cimXmlRequest.c (patch by Tim Potter)
+
+	* brokerUpc:
+	Fixed 1879454: Memory leaks in brokerUpc.c (patch by Tim Potter)
+
+	* sfcbdump.c:
+	Fixed 1883049: Memory leak in sfcbdump (patch by Tim Potter)
+	
+2008-01-29 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cimXmlGen.c, cimcClientSfcbLocal.c, classProvider.c, 
+	classProviderMem.c, indCIMXMLHandler.c, objectImpl.c,
+	objectImplSwapI32toP32.c:
+	Fixed 1879319: various unused variable warnings
+	(patch proposed by Tim Potter)
+	
+2008-01-29 Gary Readler <gdr@us.ibm.com>
+
+	* httpAdapter.c:
+	Fixed 1725489 sfcb sending zero sized chunks in response
+
+2008-01-29 Gary Readler <gdr@us.ibm.com>
+
+	* providerMgr.c:
+	Fixed 1878340 sfcb does not complete chunked transfer sfcb hangs
+
+2008-01-25 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* msgqueue.c:
+	Fixed 1879330: Uninitialised memory in spSendMsg() and spSendCtl()
+	(patch by Tim Potter)
+	
+2008-01-24 Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* support.c:
+	Fixed 1879262: SFCB does a double free when processing a request
+
+2008-01-21 Gary Readler <gdr@us.ibm.com>
+	* dbpAdapter.c,httpAdapter.c
+	fIXED 1854481: bzero() is deprecated
+
+2008-01-11 Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlRequest.c, objectImpl.c:
+	Fixed 1868692: embedded inst support broken
+
+2008-01-10  Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* indCIMXMLExport.c:
+	Fixed 1866424: Indication sending via https does not include client cert
+	(patch by Peter Mellquist)
+	
+2008-01-09  Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* cmpift.h, cmpimacs.h, interopProvider.h:
+	Fixed 1830845: standards naming issue for _CMPIBrokerFT.enumInstances()
+	(patch by Sean Swehla)
+
+	* cmpift.h:
+	Fixed 1826571: Fixed wrong type for _CMPIBroker.brokerCapabilities
+	(patch by Sean Swehla)
+	
+2008-01-08  Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* instance.c:
+	Fixed 1850416: Deadlock in getObjectPath() (patch by Tim Potter)
+
+2007-12-21  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlRequest.c, cimXmlOps.y, internalProvider.c, providerMgr.c,
+	providerDrv.c, instance.c, cimXmlGen.h, providerMgr.h, cimXmlParser.h,
+	cimXmlGen.c, providerRegister.c, cimXmlParser.c, README
+	Fixed 1560680: sfcb property operations not supported
+
+2007-12-05  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlOps.y, array.c, cimXmlParser.c:
+	Fixed 1828678: REFARRAY not supported
+
+2007-11-14  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* httpAdapter.c: 
+	Fixed 1831794: unfinished SSL handshake blocks HTTP adapter
+	A 5 second timeout for the SSL handshake has been implemented.
+
+2007-11-12  Chris Buccella  <buccella@linux.vnet.ibm.com>
+
+	* control.c, httpAdapter.c, sfcBroker.c:
+	Fixed 1830770: Disallow external http connections (see README)
+
+2007-11-05  Sven Schuetz <sven@de.ibm.com> (patch submitted by Tim Potter)
+
+	* brokerOs.c:
+	Fixed 1826149: bad spelling in brokerOs.c
+
+2007-11-05  Sven Schuetz <sven@de.ibm.com>
+
+	* value.c:
+	Fixed 1823565: alignment problem during clone
+
+2007-10-31  Sven Schuetz <sven@de.ibm.com>
+	
+	* args.c, array.c, instance.c, internalProvider.c:
+	Fixed 1816606: problem with propertylist in modifyInstance
+
+2007-10-23  Sven Schuetz <sven@de.ibm.com> (fix proposed by Rajib Saha)
+
+	* cimcClientSfcbLocal.c:
+	Fixed 1818578: sfcb local leaks memory during associator calls
+
+2007-10-23  Sven Schuetz <sven@de.ibm.com> (fix proposed by Zhen Gang Li)
+
+	* cimXmlGen.c:
+	Fixed 1818503: sfcb generates incorrect xml for embedded objects
+
+2007-10-23  Sven Schuetz <sven@de.ibm.com>
+
+	* indCIMXMLHandler.c, internalProvider.c, internalProvider.h:
+	Fixed 1817878: sfcb might not load indication providers at startup
+
+2007-10-16  Sven Schuetz <sven@de.ibm.com> (fix proposed by Reddy Dasari)
+
+	* cimXmlGen.c:
+	Fixed 1811090: sfcb memory corruption on property value with quote or apos
+
+2007-10-16  Sven Schuetz <sven@de.ibm.com> (fix proposed by Rajib Saha)
+
+	* cimcClientSfcbLocal.c:
+	Fixed 1814455: sfcb leaks fd's during local connect
+
+2007-10-12  Sven Schuetz <sven@de.ibm.com>
+
+	* cimcClientSfcbLocal.c:
+	Fixed 1809458: sfcb local connect lib does not pass on principal info
+
+2007-10-02  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlParser.c:
+	Fixed 1807363: sfcb reports an error for a valid xml declaration
+
+2007-10-02  Sven Schuetz <sven@de.ibm.com>
+
+	* objectpath.c:
+	Removed patch for bug 1751084
+
+2007-10-02  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-67.boeblingen.de.ibm.com>
+
+	* args.c,array.c,brokerEnc.c,brokerUpc.c,cimXmlGen.c,cimXmlGen.h,
+	cimXmlRequest.c,constClass.c,context.c,datetime.c,httpAdapter.c,
+	instance.c,internalProvider.c,Status:,interopProvider.c,native.h,
+	objectImpl.c,objectpath.c,predicate.c,qualifier.c,qualifierProvider.c,
+	selectexp.c,string.c,support.c,utilft.h:
+	Fixed 1805644: HTTP Adapter Performance Improvements. Avoid useless
+	string length measurements and double copies.
+
+2007-10-02  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.c, cimXmlParser.c:
+	Fixed 1759083: sfcb cannot handle the embeddedobject attribute
+
+2007-09-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-67.boeblingen.de.ibm.com>
+
+	* cimcClientSfcbLocal.h: 
+	Fixed 1791690: also fix header file definition.
+
+2007-09-14  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-67.boeblingen.de.ibm.com>
+
+	* objectImplSwapI32toP32.c, sfcbdumpP32onI32.c:
+	Fixed 1793223: add padding for the cross-compile definition of
+	ClProperty.
+
+2007-09-12  Sven Schuetz <sven@de.ibm.com>
+
+	* cimcClientSfcbLocal.c:
+	Fixed 1791690: segfault with local call in newCMPIString
+
+2007-09-10  Sven Schuetz <sven@de.ibm.com>
+
+	* objectImpl.h:
+	Additional patch for 1685254: added new objectImpl level
+
+2007-09-06  Sven Schuetz <sven@de.ibm.com>
+
+	* brokerUpc.c:
+	Fixed 1769471: multiple handlers do not work as expected
+
+2007-09-06  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.c, instance.c, instance.h, objectImpl.c, objectImpl.h:
+	Fixed 1784913: change filter handling
+
+2007-09-06  Sven Schuetz <sven@de.ibm.com>
+
+	* providerMgr.c:
+	Fixed 1770841: one provider for multiple associations problem
+
+2007-08-28  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlRequest.c, cimXmlGen.h, cimXmlGen.c:
+	Fixed 1780595: xml special chars are not escaped in error description
+
+2007-08-28  Sven Schuetz <sven@de.ibm.com>
+
+	* objectImpl.h, objectImplSwapI32toP32.c, constClass.c,
+	classProvider.c, objectImpl.c, classProviderMem.c,
+	constClass.h, cimXmlRequest.c, cimXmlGen.c, objectpath.c:
+	Fixed 1685254: sfcb does not return REFERENCECLASS in GetClass
+
+2007-08-01  Adrian Schuur
+
+	* cimXmlGen.c, constClass.c, constClass.h:
+	Fixed 1764101: segfault in constClass::getPropQualifierAt()
+
+2007-08-01  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* classProviderGz.c:
+	Fixed 1746659: SFCB segfaults when ai commands are issued simultaneously
+
+2007-08-01  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.c, objectImpl.c:
+	Fixed 1763178: GetClass operation failure
+
+2007-08-01  Sven Schuetz <sven@de.ibm.com>
+
+	* brokerUpc.c:
+	Fixed 1754811: sfcb misses refences/referenceNames call in certain
+	upcalls
+
+2007-07-10  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlParser.c:
+	Fixed 1752715: sfcb does not unescape incoming blanks
+
+2007-07-24  Adrian Schuur
+
+	* internalProvider.c:
+	Fixed 1759208: internalProvider segfaults when object not found
+
+2007-07-10  Sven Schuetz <sven@de.ibm.com>
+
+	* objectpath.c:
+	Fixed 1751084 sfcb does not support a hostname in an objectpath
+
+2007-07-09  Sven Schuetz <sven@de.ibm.com>
+
+	* default.reg, providerMgc.c:
+	Fixed 1748392: associations in interop namespace might not work
+
+2007-07-07  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* classProvider.c, classProviderGz.c:
+	Fixed 1746771: Memory leak in classProviderGz.c - in gatherNameSpaces()
+
+2007-07-07  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* httpAdapter.c:
+	Fixed 1725493: 401 send twice
+
+2007-07-03  Adrian Schuur
+
+	* objectPath.c:
+	Fixed 1745103: bad key property when addKey done with type CMPI_chars
+
+2007-06-29  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.c, providerMgr.h, cimXmlRequest.c:
+	Fixed 1743692 sfcb does not return OBJECTPATHEs for associatorNames
+
+2007-06-27  Tyreld Datwyler <tyreld@us.ibm.com>
+
+	* classProviderMem.c:
+	Fixed 1744540: createClass segfault in classProviderMem
+
+2007-06-22  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* objectImplSwapI32toP32.c: 
+	Fixed 1741435: cross-built repository corruption.	
+
+	* Makefile.am: 
+	Fixed 1715519: missing SLP headers
+
+	* brokerUpc.c: 
+	Fixed 1698462: upcall with empty parameter list crash.
+
+2007-06-22  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* fileRepository.c, objectImpl.c, providerMgr.c, queryLexer.l,
+	queryStatement.c, support.c:
+	Fixed 1741211 cleanup compiler warnings
+
+2007-06-21  Sven Schuetz <sven@de.ibm.com>
+
+	* brokerUpc.c, internalProvider.c, providerMgr.c:
+	Fixed 1734174: sfcb behaves different when assocclass & resultclass
+	are unknown
+
+2007-06-20  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.h, cimXmlGen.c, cimXmlRequest.c:
+	Fixed 1730915 getInstance fails for associations
+
+2007-06-08  Adrian Schuur
+
+	* cimcClientSfcbLocal.c, providerDrv.c:
+	Fixed: 1732774: random provider segfaults when using local client interface
+
+2007-05-31  Sven Schuetz <sven@de.ibm.com>
+
+	* brokerUpc.c:
+	Fixed 1732080: sfcb ignores property filter in getInstance upcalls
+
+2007-06-04  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* classProvider.c
+	Fixed 1730553: createClass fails in standard classProvider
+
+2007-05-31  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlRequest.c, cimcClientSfcbLocal.c, providerMgr.c, brokerUpc.c,
+	array.c, cimXmlParser.c:
+	Fixed 1728904: problem with dateTime Values
+
+2007-05-25  Sven Schuetz <sven@de.ibm.com>
+
+	* interopProvider.c:
+	Fixed 1725608 default state of subscription state should be enabled
+
+2007-05-23  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* classProvider.c objectImpl.c objectImpl.h
+	Fixed 1724753: qualifier creation support for classes
+
+2007-05-23  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* constClass.c
+	Fixed 1724719: constClass leaks memory
+    
+2007-05-23  Sven Schuetz <sven@de.ibm.com>
+
+	* indCIMXMLExport.c, fileRepository.c:
+	Fixed 1724370: sfcb can run out of file handles
+
+2007-05-11  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlGen.c:
+	Fixed 1717262: sfcb might not properly return the hostname for some calls
+
+2007-05-08  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlOps.y, cimXmlParser.c:
+	Fixed 1663641: parser doesn't accept empty IPARAMVALUE
+
+2007-05-04  Sven Schuetz <sven@de.ibm.com>
+
+	* cimXmlOps.y, cimXmlParser.c, cimXmlRequest.c:
+	Fixed 1712545: wrong results in association operations
+	
+	* cimXmlParser.c:
+	Fixed 1712582: parser does not accept type attribute in KEYVALUE tag
+	
+2007-05-02  Sven Schuetz <sven@de.ibm.com>
+
+	* queryStatement.c:
+	Fixed 1711283: minor mem problem in qsRelease
+
+2007-04-27  Adrian Schuur
+
+	* support.c, support.h, providerRegister.c, providerRegister.h,
+	providerDrv.c:
+	New feature 1708578: Execution time parameters for providers
+
+2007-04-27  Sven Schuetz <sven@de.ibm.com>
+
+	* providerRegister.c, providerRegister.h:
+	Fixed 1708568: providers for multiple classes are invoked only once
+
+2007-04-26  Sven Schuetz <sven@de.ibm.com>
+
+	* interopProvider.c:
+	Fixed 1708071: interopProvider chokes on getinstance
+
+2007-04-23  Sven Schuetz <sven@de.ibm.com>
+
+	* interopProvider.c:
+	Fixed 1702310: indProv segfaults while ci with NULL query
+
+2007-04-17  Sven Schuetz <sven@de.ibm.com>
+
+	* interopServerProvider.c:
+	Fixed 1701174: Bug with ein on classes in interop namespace
+
+2007-04-11  Sven Schuetz <sven@de.ibm.com>
+
+	* providerMgr.c:
+	Fixed 1697772: provider resolution can fail for associators
+
+2007-04-05  Sven Schuetz <sven@de.ibm.com>
+
+	* indCIMXMLExport.c, indCIMXMLHandler.c:
+	Fixed 1693675: delivering an indication can lock sfcb
+
+2007-04-03  Sven Schuetz <sven@de.ibm.com>
+
+	* queryOperation.c:
+	Fixed 169353: problem with certain queries
+	
+	* instance.c:
+	2nd fix for 1690525: instance comparison might fail in case of NULL
+	pointer
+
+2007-03-29  Sven Schuetz <sven@de.ibm.com>
+
+	* value.c:
+	Fixed 1690525: instance comparison might fail in case of NULL pointer
+
+2007-03-29  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* providerDrv.c: 
+	Fixed 1690034: garbage principal occurrences.
+	The original patch for sfcb 1.1 hasn't fixed all the occurrences
+	of invalid CMPIPrincipal passing into the context. This is
+	corrected now.
+
+	* instance.c: 
+	Fixed 1686525: sfcb default properties not returned with NULL 
+	property list. The property filtering is not applied anymore when the
+	propertyList is NULL.
+
+	* providerMgr.c: 
+	Fixed 1690032: sfcb doesn't fully honor disabled indication support
+	Added ifdef around the startup code for the interop provider.
+
+	* fileRepository.c: 
+	Fixed 1690029: sfcb file repository failure on long directory names,
+	Invalid buffer allocation size corrected now.
+
+	* sfcbrepos.sh.in: 
+	Fixed 1690026: sfcb repository build fails if no "global" MOF found.
+	The missing of all-namespace MOFs in the staging area is now
+	handled benignly.
+
+2007-03-29  Sven Schuetz <sven@de.ibm.com>
+
+	* provMgr.c:
+	Fixed 1690518: not all indication providers are invoked
+
+2007-03-28  Sven Schuetz <sven@de.ibm.com>
+
+	* sfcBroker.c, cimslp.c:
+	Fixed 1689953: slp agent lacks proper signal handling
+
+2007-03-23  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* cimXmlParser.c, cimXmlRequest.c: 
+	Fixed 1686696: sfcb XML parsing failures not indicated to client
+	Removed exit() in yyerror, generate (i)methodresponse errors
+	for XML parsing errors.
+
+2007-03-23  Sven Schuetz
+
+	* value.c, queryOperation.h, objectpath.c, instance.c,
+	queryOperation.c, objectpath.h, instance.h, Makefile.am:
+	Fixed 1686170:instance comparision in queries do not work as expected
+
+2007-03-20  Sven Schuetz
+
+	* queryParser.y, selectexp.c:
+	2nd fix for 1674999: fixed memory corruption and leak in query statement.
+
+2007-03-16  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* args.c, array.c, context.c, instance.c, native.h, objectpath.c,
+	value.c:
+	Fixed 1682388: sfcb too picky about CMPIValue * alignment.
+	The places were CMPIValues are copied now use a common function which
+	ensures that the data copies are performed in an aligned way.
+
+2007-03-16  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* indCIMXMLExport.c: 
+	Fixed 1682045: compile failure with gcc 4.1.3
+
+	* providerMgr.c: 
+	Fixed 1677195: crash in provider manager trace on x86_64.
+
+	* cimcClientSfcbLocal.c, constClass.c, constClass.h, instance.c: 
+	Implemented 1443861: support for local clients.
+	It was necessary to implement invokeMethod and
+	cleanup the cimcClientSfcbLocal.c file. Further, the function table
+	of constClass needed to be adjusted and some qualifier related
+	functions needed to be implemented.
+	As the instance function table was incompatible with the cimc
+	definition, it needs to be switched during run time.
+
+2007-03-09  Sven Schuetz
+
+	* cimXmlOps.y:
+	Fixed 1677445: Problems with instance references as method parameter
+
+2007-03-09  Chris Buccella  
+
+	* httpAdapter.c, configure.ac, README
+	Fixed 1672704: IPv6 support.  This is a configure option.
+	Enabling this feature without having an IPv6 address available
+	will default to IPv4.
+
+2007-03-06  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* queryStatement.c, queryParser.y: 
+	Fixed 1674999: fixed memory corruption and leak in query statement.
+
+2007-03-05  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* queryLexer.l:
+	Fixed 1370752: added single quotes to lexer definition.
+
+	* predicate.c, providerDrv.c, queryOperation.c, selectexp.c,
+	subcond.c:
+	Fixed 1370764: parser unstable after syntax error.
+
+2007-03-01  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* sfcb-dox.conf.in, configure.ac, Makefile.am, support.h, support.c
+	Partially fixed 1672034: Added support for documentation generation, 
+	and initial documentation of memory managment facilities. 
+
+2007-03-01  Sven Schuetz
+
+	* instance.c, providerRegister.c, interopProvider.c, queryStatement.c:
+	Fixed 1668852: memory leak in interop provider
+	
+	* cimXmlRequest.c, instance.c:
+	Fixed 1654313: http adapter segfaults on createinstance
+
+2007-02-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* Makefile.am: 
+	Post-Fix for 1665255: added objectpath.h to source file list.
+
+2007-02-26  Sven Schuetz
+
+	* providerDrv.c, providerRegister.c, providerRegister.h:
+	Fixed 1664992: interopProvider segfaults with provider-grouping
+	
+	* providerRegister.c:
+	Fixed 1669192: new providerregistration causes problems
+
+2007-02-22  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* providerDrv.c: 
+	Fixed 1666311: Added support for old-style indication providers.
+
+2007-02-22  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* support.c: 
+	Fixed 1666258: Memory corruption in thread cleanup fixed.
+	The memUnlinkEncObj function is skipping the actual unlinking step
+	if the thread specific data containing the managed_thread structure
+	could not be found - in which case unlinking wouldn't make much
+	sense either. 
+
+	* configure.ac, README, sfcb.cfg.pre.in:
+	Amended 1660634: added README section and enhanced config defaults.
+	
+2007-02-22  Sven Schuetz
+
+	* internalProvider.c, objectpath.c, Makefile.am, brokerUpc.c,
+	fileRepository.h, interopProvider.c, fileRepository.c,
+	objectpath.h:
+	Fixed 1665255: providergrouping may fail
+	Separated InteropProvider and InternalProvider - no more linking
+	necessary
+
+2007-02-21  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* providerDrv.c
+	Fixed 1653919: sfcb provider process doesn't die if dlopen fails
+
+2007-02-20  Sven Schuetz
+
+	* queryOperation.c, array.c, value.c:
+	Fixed 1663390: problem with where clause in indicationfilter
+	
+	* README, default.reg, interopProvider.c, providerMgr.c:
+	Fixed 1664273: creating a subscription can fail
+	
+	* brokerUpc.c:
+	Fixed 1664453: indications are delivered unfiltered
+
+2007-02-15  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* Makefile.am, configure.ac, genSslCert.sh, httpAdapter.c, 
+	sfcCertificateAuthentication.c, sfcb.cfg.pre.in, sfcb.spec.in: 
+	Fixed 1660634: Added PAM authentication. Enhanced default configuration
+	to use HTTPS if SSL support is enabled. Enhanced the SSL key generation
+	script.
+
+2007-02-14  Sven Schuetz
+
+	* brokerUpc.c, array.c, interopProvider.c, cimXmlParser.c:
+	Fixed 1652255: restructure broker upcalls
+
+2007-02-09  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* providerRegister.c: 
+	Fixed 1656317: check file pointer before closing.
+
+2007-02-07  Chris Buccella
+
+	* httpAdapter.c:
+	Fixed problem with sfcbd ignoring signals when USE_THREADS enabled
+
+2007-02-06  Sven Schuetz
+
+	* objectImpl.h:
+	Fixed compile warning, added function declaration of ClObjectGetObject
+
+2007-02-02  Sven Schuetz
+
+	* cimXmlGen.c:
+	Fixed 1650708 embeddedObject qualifier in wrong place
+
+2007-02-02  Sven Schuetz
+
+	* cimXmlOps.y:
+	Added some comsmetic changes to the way paramvalues are handled
+	in the parser, addition to 1637947
+
+2007-01-31  Sven Schuetz
+
+	* cimXmlRequest.c, cimXmlOps.y, objectImpl.c, instance.c, cimXmlGen.h,
+	cimXmlParser.h, cimXmlGen.c, array.c, cimXmlParser.c:
+	Fixed 1637947: embedded Objects as method args
+
+2007-01-30  Sven Schuetz
+
+	* internalProvider.c:
+	Fixed 1644223: internalProdiver segfaults with a propertyFilter
+
+2007-01-26  Chris Buccella
+
+	* httpAdapter.c, sfcBroker.c:
+	Added suport for threads on http connections
+
+2007-01-19  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-119.boeblingen.de.ibm.com>
+
+	* classSchema2c.c, interop_classSchema2.c, README: 
+	Fixed 1639670: allow the generation of big-endian compilable schema
+	files on i386 build systems.
+
+	* cimXmlParser.c: 
+	Fixed 1638073: added unescaping code to the XML parser.
+
+2007-01-18  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-119.boeblingen.de.ibm.com>
+
+	* cimXmlOps.y, cimXmlParser.c:
+	Fix update for 1635811: qualifier and reference type keybinding
+	processing.
+
+2007-01-17  Sven Schuetz
+	* providerMgr.c:
+	2nd fix for 1636805: ain does not work for indication subscriptions
+
+2007-01-16  Sven Schuetz
+
+	* interopProvider.c, internalProvider.h:
+	Fixed 1636805: ain does not work for indication subscriptions
+
+2007-01-16  Sven Schuetz
+
+	* internalProvider.h, interopProvider.c, objectImpl.c, providerDrv.c: 
+	Fixed 1217828: add indication SubscriptionState support
+
+2007-01-16  Sven Schuetz
+
+	* providerRegister.c, providerRegister.h, providerMgr.c, default.reg: 
+	Fixed 1379327: lifecycle indication provider registration faulty
+
+2007-01-12  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-119.boeblingen.de.ibm.com>
+
+	* cimXmlGen.c, cimXmlOps.y, cimXmlParser.c, cimXmlParser.h, 
+	cimXmlRequest.c, constClass.c, control.h, httpAdapter.c, objectImpl.c, 
+	objectImp.h, providerMgr.c, providerMgr.h, qualifier.c, sfcBroker.c, 
+	support.c, support.h:
+	Fixed 1635811: memory leaks in HTTP Adapter. There were leaks in the 
+	parser and the response XML generation.
+
+2007-01-08  Sven Schuetz
+
+	* objectImpl.h, objectImpl.c, sfcbdumpP32onI32.c, objectImplSwapI32toP32.c,
+	cimXmlGen.c:
+	Fixed 1627778: default class qualifiers are returned twice
+
+2007-01-08  Sven Schuetz
+
+	* objectImpl.c:
+	Fixed 1624528: sfcb getclass doesn't return methods
+
+2007-01-04  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* httpAdapter.c: 
+	Fixed 1627910: basic authentication challenge issue. Added 
+	WWW-Authenticate header to response.
+
+2007-01-03  Sven Schuetz
+
+	* objectImpl.c, cimXmlGen.c:
+	Partially fixed 1624528: sfcb getclass doesn't return methods
+
+2006-12-29  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* providerMgr.c: 
+	Fixed 1623382: provider manager incorrectly returned not-found status
+	for interop namespace associations.
+
+2006-12-28  Sven Schuetz
+	* cimXmlGen.c:
+	applied patch from Adrian Schuur
+	Fixed 1623249: Incomplete <PROPERTY> xml generated
+	
+	* classProviderGz.c:
+	Fixed 1621417: associators and references calls fail in SFCB 1.2
+
+2006-12-22  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* cmpimacs.h: 
+	Fixed 1620730: cmpimacs.h C++ wrapper definition mismatch.
+
+2006-12-21  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-70.boeblingen.de.ibm.com>
+
+	* default.reg:
+	Fixed 1620151: using caching class provider as default now.
+
+	* brokerUpc.c, cimXmlGen.c, cimXmlParser.c, cimcClientSfcbLocal.c,
+	constClass.c, context.c, httpAdapter.c, httpAdapter.c, httpComm.h,
+	instance.c, interopProvider.c, mofpp.c, msgqueue.c, objectImpl.c,
+	predicate.c, providerDrv.c, providerMgr.c, providerRegister.h,
+	queryStatement.c, result.c, selectexp.c, sfcBroker.c, sfcbdump.c,
+	support.c:
+	Fixed 1620136: compile warnings on 32- and 64-bit platforms.
+
+2006-12-21  Sven Schuetz
+
+	* cimslp.h, cimslp.c, sfcBroker.c:
+	Fixed 1620005: unnecessary fork when slp is enabled
+	
+	* interopServerProvider:
+	Fixed 1620020: allocation error in interopServerProvider
+
+2006-12-19  Adrian Schuur
+
+	* msgqueue.c: 
+	Fixed 1616130: bad message during shutdown. Also fixes some
+	valgrind complaints.
+
+2006-12-18  Sven Schuetz
+	
+	* cimslpCMPI.c, cimslp.c, cimslpCMPI.h, cimslpSLP.c: 
+	Fixed 1618258: slp problems when ssl is enabled
+
+2006-12-18  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* array.c, cimXmlGen.c, cimXmlRequest.c, objectImpl.c, objectpath.c: 
+
+	Fixed 1618216: corrected handling of references in arrays, null
+	argument handling and formatting of resultvalues.
+	
+2006-12-14  Sven Schuetz
+	
+	* cimslpCMPI.c, cimslp.h, trace.h, trace.c, cimslp.c, Makefile.am, 
+	cimslpCMPI.h, cimslpUtil.h, cimslpSLP.h, cimslpSLP.c:
+	Fixed 1615731: slp enhancements (shutdown, tracing)
+
+2006-12-14  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-70.boeblingen.de.ibm.com>
+
+	* cimXmlOps.y, cimXmlGen.c: 
+	Fixed 1615776: parsing of PARAMVALUE xml (empty ones and arrays).
+
+	* cimXmlGen.c: 
+	Fixed 1613172: generation of PARAMVALUE xml for references
+	and arrays.
+	
+2006-12-13  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* internalProvider.c: 
+	Fixed 1529134: internal provider associator operations
+	
+2006-12-12  Sven Schuetz
+
+	* cimslpCMPI.c:
+	Fixed 1614075: enabling slp can lead to a segfault
+
+	* internalProvider.c, brokerEnc.c:
+	Fixed 1613936: associator call fails when role parameters are set
+
+	* cimXmlGen.c, objectImpl.c:
+	Fixed 1613933: embedded Objects in Indications do not work
+
+2006-12-12  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* array.c, providerMgr.c: 
+	Fixed 1613925: use of non-tracked array operations allows
+	to release the array of provider-infos properly.
+
+2006-12-06  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* Makefile.am, libsfcUtil.Versions:
+	Fixed 1610514: aligned sfcc/sfcb libsfcUtil
+
+2006-12-05  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* instance.c: 
+	Fixed 1609711: segfault during default property population of
+	instances of undefined class.
+
+2006-12-03  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* instance.c: Postfix for 1605216: removed memory leak.
+
+2006-11-30  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* classProvider.c, classProviderGz.c, classProviderMem.c: 
+	Fixed 1606013: prevent segfault with deepInheritance=false.
+
+2006-11-29  Sven Schuetz
+	
+	* cimXmlOps.y, internalProvider.c, providerDrv.c, instance.c, indication.mof,
+	native.h:
+	Fixed 1605216: empty propertyList causes parser error
+	
+	* cimXmlOps.y:
+	Fixed 1605234: parse error when IPARAMVALUE CLASSNAME is missing
+
+2006-11-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* control.c, sfcBroker.c, README, man/sfcbd.1.pre.in: 
+	Fixed 1603796: automatic provider grouping is now enabled by default.
+
+	* configure.ac, Makefile.am: 
+	Minor enhancements for build systems without bison and multi-processor
+	compiles.
+
+2006-11-24  Adrian Schuur, Viktor Mihajlovski
+
+	* args.c, cimXmlParser.c, cimXmlParser.h, classProvider.c, 
+	classProviderGz.c, classProviderMem.c, cmpios.h, configure.ac, 
+	constClass.c, fileRepository.c, objectImpl.c, objectImpl.h,
+	providerDrv.c, providerMgr.c, providerMgr.h, qualifier.c, result.c:
+	Fixed 1414618: corrected a bunch of platform dependencies: mainly sizes,
+	alignment and endianness in the object implementation.
+
+2006-11-23  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* cimXmlRequest.c, providerMgr.c:
+	Fixed 1601644: added more timing traces.
+
+2006-11-23  Sven Schuetz
+	
+	* interopProvider.c, internalProvider.c:
+	Fixed 1601174: fixed interopProvider segfault
+
+2006-11-22  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* configure.ac, interop.mof, interopServerProvider.c: 
+	Fixed 1601274: fixed __namespace support.
+
+	* brokerUpc.c: 
+	Fixed 1601219: don't return bogus enumeration results by allocating an
+	empty result array.
+
+	* instance.c, objectpath.c, value.c: 
+	Fixed 1600707: added more checks for null strings (and other encapsulated
+	datatypes)
+
+	* objectpath.c: 
+	Fixed 1601005: added missing function setHostAndNameSpaceFromObjectPath.
+
+2006-11-21  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* providerDrv.c, providerMgr.c, configure.ac, README: 
+	Fixed 1193881: added new configuration option to specify the enumeration
+	behavior. In both cases, the correct number of instances is returned now.
+
+2006-11-21  Sven Schuetz
+	
+	* sfcbrepos.sh.in, Makefile.am, interop.mof, indication.mof, README
+	Fixed 1599697: sfcbrepos include default mofs
+
+2006-11-17  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* sfcBroker.c: 
+	Fixed 1598227: Use the SIGQUIT handler for SIGTERM as well in order to
+	clean up the child processes.
+
+2006-11-09  Sven Schuetz
+	
+	* cimXmlGen.c, cimXmlRequest.c, objectImpl.c:
+	Fixed 1593220: bug in setQualifier
+
+2006-11-08  Sven Schuetz
+	
+	* cimXmlOps.y, cimXmlParser.c:
+	Fixed 1592760: sfcb PROPERTY.ARRAY creation fails
+
+2006-11-07  Sven Schuetz
+	
+	* objectImpl.h, objectImplSwapI32toP32.c, instance.c,
+	qualifier.c:
+	Fixed 1587752: objectImplSwapI32toP32.c needs to be extended
+	
+	* objectImpl.c: Fixed 1592037: objectImpl Array creation
+	
+
+2006-10-27  Sven Schuetz
+
+	* Makefile.am, sfcbrepos.sh.in, fileRepository.h, fileRepository.c, 
+	internalProvider.c:
+	Fixed 1578815: create fileRepository shared library
+
+2006-10-25  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* Makefile.am, classSchema2c.c, classProviderMem.c, classSchemaMem.c,
+	classSchemaMem.h: 
+	Fixed 1532425: Reenabled classSchema2c and went all the way and added
+	an in-memory class provider.
+
+2006-10-20  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* dbpAdapter.c, sqlStatement.c: Fixed 1581214: compile problems.
+
+	* cimXmlRequest.c, constClass.c: 
+	Update for 1443864: use free instead of release to get rid of resultdata
+	arrays without causing a coredump.
+
+2006-10-16  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* brokerUpc.c, msgqueue.c, providerDrv.c, providerMgr.c: 
+	Fixed 1578051: race condition in provider initialization code.
+	Further, hardened client (e.g. invokeProvider) code.
+
+2006-10-06  Sven Schuetz
+
+	* cimXmlRequest.c, qualifierProvider.c, providerMgr.c, providerDrv.c,
+	Makefile.am, configure.ac, README, cimXmlGen.c
+	Implemented 1569239: make qualifier provider configurable
+
+
+2006-09-29  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* constClass.c: Fixed 1567754: segfault on enumerate classes.
+
+2006-09-29  Sven Schuetz
+
+	* provDrc.c, qualifierProvider.c, internalProvider.c:
+	Fixed 1567676: fixed several memory leaks
+
+2006-09-29  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* sfcBroker.c: 
+	Fixed 1567620: make sure provider process number isn't too low.
+	At least 1 (no interop) or 2 (with interop) providers must be
+	allowed.
+
+2006-09-28  Sven Schuetz
+
+	* cimXmlGen.c, cimXmlGen.h, cimXmlOps.y, cimXmlParser.c, cimXmlParser.h,
+	cimXmlRequest.c, cmpidtx.h, cmpiftx.h, cmpimacsx.h, default.reg, Makefile.am,
+	objectImpl.c, objectImpl.h, providerDrv.c, providerMgr.c, providerMgr.h,
+	providerRegister.c, providerRegister.h, qualifier.c, qualifier.h,
+	qualifierProvider.c, support.c, support.h, value.c, README:
+	Fixed 1566963: Added qualifier support
+
+2006-09-27  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* man/sfcbd.1.pre.in, control.c, providerDrv.c, README: 
+	Post-fix 1549330: The automatic provider grouping is a configuration
+	option now.
+
+2006-09-26  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* instance.c, configure.ac: 
+	Fixed 1185824: Added default instance property generation. Can be
+	disable via configure option.
+
+2006-09-25  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* httpAdapter.c: 
+	Fixed 1564999: Incorrect CimXmlRequest format.
+	Fixed 1565105: Compile error with disabled debug.
+
+	* brokerUpc.c, cimXmlRequest.c, providerDrv.c, providerMgr.c, 
+	cimcClientSfcbLocal.c:
+	Fixed 1562801: Segmentation fault after the provider process limit
+	has been exceeded. Now an error message will be produced.
+	Fixed 1565105: Compile error with disabled debug.
+
+2006-08-30  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* providerDrv.c: 
+	Fixed 1549330: implicitly group all providers of a provider module.
+	
+2006-08-29  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* classProviderGz.c: 
+	Fixed 1519600: Removed invalid test. (By Adrian Schuur)
+
+	* support.h, providerDrv.c, providerMgr.c, msgqueue.c: 
+	Fixed 1548673: Reworked handling of MSG_SEG_CHAR segments. Now the
+	necessary padding will occur only when needed, i.e. when copied
+	to a request buffer.
+
+	* objectImpl.c:
+	Fixed 1548673: Fixed string and array buffer expansion logic.
+	Also removes a memory leak.
+
+2006-07-31  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* support.c, httpAdapter.c, providerDrv.c: 
+	Fixed 1529096: Useless provider execution timings, by bringing in line
+	with release 1.1.1 functionality.
+
+2006-07-26  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* control.c, sfcbBroker.c, trace.c, trace.h: 
+	Fixed 1529021: Added trace options to config file.
+
+2006-07-25  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* cimXmlParser.c: Fixed 1528304: segfault on reference parameters.
+
+	* README, configure.ac, getSchema.sh.pre.in: 
+	Fixed 1528455: added support for local CIM schema files.
+
+2006-07-25 Sven Schuetz
+
+	* cimslp.c: Fixed potential potential memory problem
+
+2006-07-19  Sven Schuetz
+
+	* args.c, array.c, brokerEnc.c, brokerUpc.c, cimXmlGen.c,
+	cimXmlRequest.c, cimcClientSfcbLocal.c, constClass.c, context.c,
+	control.c, datetime.c, enumeration.c, instance.c,
+	internalProvider.c, interopProvider.c, native.h, objectImpl.c,
+	objectpath.c, predicate.c, queryOperation.c, result.c,
+	selectexp.c, sqlStatement.c, string.c, support.c, value.c:
+	Fixed 1525280: fixed segfault when linking with sfcc code by
+	renaming function calls
+
+	* cimslp.c, cimslpCMPI.c, cimslpSLP.c: Fixed 1296278: added slp support
+
+	* configure.ac, acinclude.m4, Makefile.am:
+	Modified build process to include SLP stuff
+
+2006-07-18  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* internalProvider.c, cimXmlGen.c, cimXmlOps.y: 
+	Fixed 1524781: fixed handling of local instance path values for
+	association class reference properties.
+
+2006-07-17  Sven Schuetz
+
+	* cimslp.c, cimslpCMPI.c, cimslpSLP.c: Added SLP Support
+	
+	* hashtable.c, utilFactory.c, utilHashtable.c, utilStringbuffer.c:
+	Moved to sfcUtil, build as shared library now
+	
+	* Makefile.am, configure.am: Included slp stuff into build process
+
+2006-07-07  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* fileRepository.c, fileRepository.h, internalProvider.c: 
+	Fixed 1518696: rewrote the blob index processing for lookup of
+	instances in the repository.
+
+2006-06-29  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* value.c: 
+	Additional fix for 1439399. The value2chars function was not embedding
+	the datetime string in quotes, which lead to a failure in the CIMXML
+	generation.
+
+2006-06-26  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* brokerUpc.c: 
+	Fixed 1511261: sfcb doesn't pass credentials in up-calls.
+	Now copying the CMPIPrincipal to the BINREQ structure for upcalls.
+
+2006-06-21  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* cimXmlGen.c, objectpath.c, objectImpl.c: 
+	Fixed 1439399: sfcb doesn't support datetime for keys.
+
+2006-05-24  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* classProvider.c, classProviderGz.c: 
+	Fixed 1201656: Missing associations in sblim-cmpi-base.
+	The class provider's getassoc method was incorrectly returning 
+	non-association classes. This is fixed now.
+
+2006-05-03  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* providerDrv.c:
+	Fixed 1481081: corrected invocation of addEntry calls for principal.
+
+	* httpAdapter.c:
+	Made the debug loop conditional on a variable "breakloop".
+
+2006-03-01  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* sfcbunstage.sh.in: 
+	Postfix 1404047: add -n to list of getopt options.
+
+2006-02-28  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* cimXmlRequest.c, httpAdapter.c: 
+	Fixed 1440183: Fixed errors in chunked response generation.
+
+	* trace.h: 
+	Fixed 1440179: Corrected definition of SFCB_TRACE_START macro.
+
+2006-01-31    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* cmpidt.h, cmpift.h:
+	Fixed 1420604: CMPI header files were not CMPI 1.0 compliant.
+
+	* getSchema.sh.pre.in: 
+	Fixed 1420399: getSchema.sh can be customized to deal with
+	different CIM Schema versions now. Default is still 2.9.0.
+
+2006-01-30  a3schuur
+
+	* objectImpl.h, objectImplSwapI32toP32.c, sfcbdumpP32onI32.c:
+	[1408327] sfcbmof does not support big/little endian in
+	cross-compile readjusting ClProperty - removing 8 bytes of filler.
+
+2006-01-27  a3schuur
+
+	* objectImplSwapI32toP32.c: 
+	[ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile sectionOffsets not set when section is empty.
+	arrayBufferOffset and strBufOffset not cleared when buffer empty.
+
+2006-01-26  mihajlov
+
+	* Makefile.am: Fixed make distcheck problem, syntax error in
+	Makefile.am.
+
+2006-01-26  mihajlov
+
+	* man/sfcbrepos.1.pre.in, man/sfcbstage.1.pre.in,
+	man/sfcbunstage.1.pre.in: 
+	[ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile.  Updated man pages.
+
+2006-01-26  mihajlov
+
+	* mofc/mofparse.c: 
+	Enhancement: allow multiple backend options to be specified.
+
+2006-01-26  mihajlov
+
+	* sfcbdumpP32onI32.c: Minor: fixed incorrect parameter passing.
+
+2006-01-26  mihajlov
+
+	* sfcbdump.c, sfcbdumpP32onI32.c: Minor: removed compile warning.
+
+2006-01-26  mihajlov
+
+	* providerDrv.c: Minor: added helper variable for debugging.
+
+2006-01-26    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* sfcbstage.sh.in, sfcbunstage.sh.in, sfcbrepos.sh.in: 
+	Support for 1408327. Added cross compile flag to sfcbrepos and
+	DESTDIR evaluation for all the shell scripts.
+
+	* configure.ac, Makefile.am: 
+	Fixed 1414767. VPATH build failure after CVS checkout. Improved
+	xFLAGS processing.
+
+2006-01-25  a3schuur
+
+	* sfcbdumpP32onI32.c: SFCB Repository Dump Program for Power32
+	classSchemas file on Intel32
+
+2006-01-24  a3schuur
+
+	* objectImpl.h, objectImplSwapI32toP32.c: 
+	[ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile Additional alignment fixes - now generating same
+	length classSchema files.
+
+2006-01-24  mihajlov
+
+	* sfcbdump.c: 
+	SFCB Repository Dump Program.
+
+2006-01-23  a3schuur
+
+	* Makefile.am, msgqueue.c, objectImpl.c, objectImpl.h,
+	objectImplMP.h, objectImplSwapEndian.c, objectImplSwapI32toP32.c,
+	mofc/backend_sfcb.c: 
+	[ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile Previous fix did not correctly anticipate Power32
+	alignment rules.  objectImplSwapEndian.c has been removed because
+	totally inadequate.  objectImpiI32toP32.c has been created
+	instead. It recreates classSchemas files for Power32 systems.
+	sfcbmof now requires -b P32 to invoke the cross compile support.
+	-b P32 only works one way only: It must be executed on a ix86
+	machine and it will only generate classSchemas files for Power32.
+
+2006-01-20  a3schuur
+
+	* objectImplMP.h, objectImplSwapI32toP32.c: 
+	[ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile Additional support for mofc cross-compile
+
+2006-01-17  a3schuur
+
+	* classProvider.c, classProviderGz.c, objectImpl.c, objectImpl.h,
+	mofc/backend_sfcb.c, mofc/configure.ac: 
+	fix for [ 1408327 ] sfcbmof does not support big/little endian in
+	cross-compile
+
+2006-01-16  a3schuur
+
+	* args.c, providerDrv.c, support.c: 
+	fixed [ 1407244 ] memory leak with args objects args objects
+	created by providerDrv.c not garbage collected.  restructured
+	args.c
+
+2006-01-12    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* man/sfcbd.1.pre.in, man/sfcbstage.1.pre.in, man/sfcbstage.1.pre.in, 
+	man/sfcbrepos.1.pre.in, README: 
+	Fix for 1404047. Documentation Updates.
+	
+	* Makefile.am, mofpp.c: 
+	Fix for 1404047. MOF preprocessor added to build as now required
+	by sfcb{un}stage.
+
+	* sfcbrepos.sh.in, sfcbstage.sh.in, sfcbunstage.sh.in: 
+	Fix for 1404047. Added support for alternative namespaces and
+	hierarchical class MOF files.
+
+2006-01-10  a3schuur
+
+	* classProviderGz.c, constClass.c: 
+	Fixed [ 1386191 ] sfcb memory footprint for large schemas too high
+	Fixed memory leak in constClass::release Fixed bug in
+	classProviderGz.c Changed class cache size from 2 to 10
+
+2006-01-02    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* configure.ac, Makefile.am: 
+	Fixed 1395350. Use $srcdir to ensure location-independ builds.
+	
+2005-12-22    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* args.c, constClass.c, instance.c, objectpath.c: 
+	Fixed 1387264. Check for NULL array and pass in the correct pointer to the
+	array if not NULL.
+
+	* cimXmlGen.c:
+	Also 1387264. Check for NULL array before looking for the element count.
+
+2005-12-20    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* httpComm.c: 
+	Related to 1356235. Enhanced tracing and implemented an explicit
+	commClose function.
+	
+	* httpAdapter.c: 
+	Related to 1356235. Made the error responses more graceful in respect
+	to the client. I.e., keep the connection open for some kind of errors.
+
+2005-12-19    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* cimXmlGen.c: 
+	Fixed 1382741: Added to code to insert host and namespace
+	information to instance names. Also added logic to create the
+	correct (local) path XML.
+
+2005-12-18    <mihajlov@localhost.localdomain>
+
+	* objectpath.c: 
+	Fixed 1381312. Corrected the objectpath string parser to deal with
+	reference type properties.
+
+	* internalProvider.c: 
+	Fixed 1384612. In the object path normalization the namespace for
+	REF properties is included. If not specified, then the namespace of
+	the object path itself is used.
+
+	* providerMgr.c: 
+	Fixed 1382712. Duplicate keys (class names) now for provider hashtables
+	in order to avoid invalid accesses. Added key release function for
+	the hashtables.
+
+	* cimXmlRequest.c: 
+	Fixed 1382712. Delay release of sreq structures in various functions.
+
+2005-12-17  a3schuur
+
+	* Makefile.am, classProviderGz.c: 
+	Fixed 1386191. Added caching ClassProviderGz.c, optionally
+	accepting compressed classSchemas files.
+
+	This provider does not keep complete classSchemas file in memory
+	but uses a cache instead. Cache limit is currently set to a maximum
+	of 16 classes. When reaching this limit the least recently used
+	class is removed from the cache. All class retrieval goes through
+	the cache except for enumerateClasses operations, which causes
+	enumerateClasses operation to take longer as usual but prevents
+	useless flushing of cache contents.
+
+	classProviderGz does not support createClass, modifyClass and
+	deleteClass operations.
+
+	classProviderGz can handle compressed (zipped) classSchemas files
+	as wel as non-zipped files. Zipping should be done using the gzip
+	program. The class provider looks for either classSchemas or
+	classSchemas.gz files.
+
+	Regisstation is as follows:
+
+	[$ClassProvider$]    provider: ClassProvider	location:
+	sfcClassProviderGz    type: class method    unload: never
+
+2005-12-16    <mihajlov@localhost.localdomain>
+
+	* internalProvider.c: 
+	Fixed 1382722. Corrected namespace table reallocation code.
+
+	* sfcBroker.c: SIGKILL sigaction removed, as this is without effect.
+
+	* support.c, interopProvider.c: Added more trace statements.
+
+2005-12-15    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* providerDrv.c: 
+	Fix for 1379327. The deactivate code did not call disableIndications.
+	
+	* interopProvider.c: 
+	More fixes for 1379327. The activate/deactivate code doesn't have to
+	require that all providers have to successfully activate a filter. One
+	is sufficient to qualify as success.
+
+2005-12-14    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* queryStatement.c, interopProvider.c: 
+	Fixed 1380471. Added CIM:CQL and CQL to the list of accepted query
+	languages.
+
+	* cimXmlOps.y, cimXmlParser.h: 
+	Fixed 1380442. 	Added productions for qualifier related issues. 
+	Fixed an ambiguos rule for reference arrays. 
+
+	* cimXmlRequest.c: Fixed 1380442. Added null value check.
+
+2005-12-13    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* Makefile.am, args.c, array.c, brokerEnc.c, brokerUpc.c, cimXmlGen.c,
+	cimXmlRequest.c, classProvider.c, cmpidt.h, cmpift.h, cmpimacs.h,
+	cmpios.h, context.c, datetime.c, enumeration.c, fileRepository.c,
+	indCIMXMLHandler.c, instance.c, internalProvider.c, 
+	interopProvider.c, interopServerProvider.c, msgqueue.c, msgqueue.h,
+	native.h, objectImpl.c, objectImpl.h, objectpath.c, predicate.c,
+	providerDrv.c, providerMgr.c, providerMgr.h, result.c, selectcond.c,
+	selectexp.c, string.c, subcond.c, support.h, value.c:
+	Fixed 1379315. Changes for CMPI 1.0 compliance.
+	
+	* interopProvider.c: 
+	Fixed 1379315, 1379327. Relaxed the filter checking and modified the 
+	code to activate multiple providers for a given filter if needed. 
+	Changed the function signatures for CMPI 1.0 compliance.
+	
+	* trace.h, trace.c, sfcBroker.c, README, man/sfcbd.1.pre.in: 
+	Fixed 1379313. Trace level is set to 1, if the tracing command
+	line option is specified. The SFCB_TRACE variable is still honored,
+	if a higher trace level is specified there.
+
+2005-12-13  a3schuur
+
+	* mofpp.c: 
+	Added Mofpp (mof preprocessor) this program merges #pragma include
+	files into one mof file
+
+2005-12-13  a3schuur
+
+	* brokerUpc.c, cimXmlGen.c, cimXmlRequest.c, classProvider.c,
+	constClass.c, fileRepository.c, sfcBroker.c: 
+	Cleaning up function prototypes - Adding static where global
+	functions are not needed
+
+2005-12-09    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* internalProvider.c: 
+	Fixed 1376965. Added a repository namespace calculation function.
+
+	* default.reg, interop.mof: 
+	Fixed 1376959. Added CIM_IndicationHandlerCIMXML to default
+	registration and interop MOF.
+	
+	* brokerUpc.c: Fixed 1376955. Use correct opcode for invokeMethod.
+
+2005-12-02    <mihajlov@localhost.localdomain>
+
+	* cimXmlOps.y: 
+	Fixed 1371764. Corrected productions for assoc role and
+	resultRole paramers.
+
+2005-11-29  a3schuur
+
+	* classSchema2c.c: Added copyright statements
+
+2005-11-21  a3schuur
+	* datetime.c:
+	Fixed [ 1352052 ] sfcb modifies datetime properties sfcb now
+	stores date-time information as char string
+
+2005-11-20  bestorga-oss
+
+	* COPYING, Makefile.am, args.c, array.c, array.h, avltree.c,
+	avltree.h, brokerEnc.c, brokerOs.c, brokerUpc.c, cimXmlGen.c,
+	cimXmlGen.h, cimXmlOps.y, cimXmlParser.c, cimXmlParser.h,
+	cimXmlRequest.c, cimXmlRequest.h, classProvider.c, cmpidt.h,
+	cmpift.h, cmpiftx.h, cmpimacs.h, cmpimacsx.h, cmpios.h,
+	configure.ac, constClass.c, constClass.h, context.c, control.c,
+	control.h, datetime.c, dbpAdapter.c, enumeration.c,
+	fileRepository.c, fileRepository.h, genericlist.c, genericlist.h,
+	hashtable.c, hashtable.h, httpAdapter.c, httpComm.c, httpComm.h,
+	incoreClassSchema.h, indCIMXMLExport.c, indCIMXMLHandler.c,
+	instance.c, internalProvider.c, interopProvider.c,
+	interopServerProvider.c, mlog.c, mlog.h, mrwlock.c, mrwlock.h,
+	msgqueue.c, msgqueue.h, native.h, objectImpl.c, objectImpl.h,
+	objectpath.c, predicate.c, providerDrv.c, providerMgr.c,
+	providerMgr.h, providerRegister.c, providerRegister.h,
+	queryLexer.l, queryOperation.c, queryOperation.h, queryParser.y,
+	queryStatement.c, result.c, selectcond.c, selectexp.c, selectexp.h,
+	sfcBasicAuthentication.c, sfcBroker.c,
+	sfcCertificateAuthentication.c, sfcVersion.h, sqlLexer.l,
+	sqlParser.y, sqlStatement.c, sqlStatement.h, string.c, subcond.c,
+	support.c, support.h, trace.c, trace.h, utilFactory.c,
+	utilHashtable.c, utilStringBuffer.c, utilft.h, value.c, wbemcat,
+	xmltest, jdbc/com/ibm/wbem/jdbc/CIMCallableStatement.java,
+	jdbc/com/ibm/wbem/jdbc/CIMConnection.java,
+	jdbc/com/ibm/wbem/jdbc/CIMDatabaseMetaData.java,
+	jdbc/com/ibm/wbem/jdbc/CIMDriver.java,
+	jdbc/com/ibm/wbem/jdbc/CIMPreparedStatement.java,
+	jdbc/com/ibm/wbem/jdbc/CIMResultSet.java,
+	jdbc/com/ibm/wbem/jdbc/CIMResultSetMetaData.java,
+	jdbc/com/ibm/wbem/jdbc/CIMStatement.java,
+	jdbc/htmlviewer/HFrame.java: 
+	Bug: 1362805. Changed all license references to Eclipse Public license
+
+2005-11-20  a3schuur
+
+	* default.reg, httpAdapter.c, interopServerProvider.c,
+	providerMgr.c: 
+	Fixed [ 1356303 ] Cannot make connection by Java
+	based CIM Browser Corrected content-length problem caused by
+	previous fix Added support for __Namespace instanceNames
+	enumeration Added namespace: * support for providerRegister to
+	providerMgr.c	 Providers can now work on all namespaces. This is
+	used for the __Namespace entry
+
+2005-11-19  a3schuur
+
+	* cimXmlRequest.c, default.reg, httpAdapter.c,
+	interopServerProvider.c, queryOperation.h: 
+	Fixed [ 1356303 ] Cannot make connection by Java based CIM Browser
+	sfcb outputs 1 crlf to much before response payload sfcb
+	incorrectly close port when detecting M-POST request
+
+2005-11-17    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* cimXmlGen.c (str2CMPIValue): 
+	Bug 1358952: Extended to properly handle array type values.
+
+	* cimXmlOps.y, cimXmlParser.h: 
+	Bug 1358952: Added productions for array type method parameters,
+	including reference arrays. Added parser support datatypes for
+	that.
+
+2005-10-21    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* avltree.h, dbpAdapter.c, sqlLexer.l, sqlParser.y,
+	sqlStatement.c, sqlStatement.h, jdbc/TestClass.java,
+	jdbc/com/ibm/wbem/jdbc/CIMCallableStatement.java,
+	jdbc/com/ibm/wbem/jdbc/CIMConnection.java,
+	jdbc/com/ibm/wbem/jdbc/CIMDatabaseMetaData.java,
+	jdbc/com/ibm/wbem/jdbc/CIMDriver.java,
+	jdbc/com/ibm/wbem/jdbc/CIMPreparedStatement.java,
+	jdbc/com/ibm/wbem/jdbc/CIMResultSet.java,
+	jdbc/com/ibm/wbem/jdbc/CIMResultSetMetaData.java, 
+	jdbc/com/ibm/wbem/jdbc/CIMStatement.java,
+	jdbc/htmlviewer/HFrame.java: 
+	Enhancements for the experimental JDBC support/SQL adapter.
+
+2005-10-18  a3schuur
+
+	* queryOperation.c: Removed compile failure in newFncQueryOperand
+
+2005-10-18  a3schuur
+
+	* queryOperation.c, queryOperation.h, queryParser.y: 
+	Added CQL function definitions - not yet complete
+
+2005-10-18  a3schuur
+
+	* cimXmlGen.c: 
+	Fixed [ 1283987 ] sfcbd doesn't return instance for
+	Linux_BlockDeviceStati....  cimXmlGen tried to free a nullvalue
+	string
+
+2005-10-18  a3schuur
+
+	* queryLexer.l, queryOperation.h, queryParser.y: 
+	Initial support	for path name functions
+
+2005-10-17  a3schuur
+
+	* interopProvider.c, queryLexer.l, queryOperation.c,
+	queryOperation.h, queryParser.y, queryStatement.c: 
+	Prepared query support for CQL style queries
+
+2005-10-17  a3schuur
+
+	* classSchema2c.c, incoreClassSchema.h: 
+	Added initial support for incore classSchema files. 
+	classSchema2c.c makes out of an existing
+	classSchema file a binary blob that can be compiled
+
+2005-10-10  a3schuur
+
+	* classProvider.c: 
+	Correction of class data total size (excluding DMY_ classes)
+
+2005-10-06    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* httpAdapter.c, dbpAdapter.c, msgqueue.c, 
+	sfcCertificateAuthentication.c:
+	Bug 1313902. Changed IPC key creation via ftok to use the
+	sfcbd binary file instead of '.'. Set creation mode to 0600.
+
+2005-10-05    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* httpAdapter.c, control.c, sfcb.cfg.pre.in, 
+	man/sfcbd.1.pre.in, README, Makefile.am, 
+	sfcBasicAuthentication.c, sfcCertificateAuthentication.c: 
+	Bug 1308252. Further enhanced the client certifcate based
+	authentication by adding certifciate to principal mapping
+	via a new loadable library.
+
+2005-10-04  a3schuur
+
+	* httpAdapter.c: 
+	Fixed sfcbd hang situation when http port not available
+
+2005-10-02  a3schuur
+
+	* providerDrv.c, support.h: 
+	Fixed 1195240 sfcb doesn't close client connection on error
+
+2005-09-30    mihajlov
+
+	* httpAdapter.c, control.c, sfcb.cfg.pre.in, man/sfcbd.1.pre.in: 
+	Bug 1308252. Added support for client certificate
+	verfication. Introduced new config options and updated man page.
+
+2005-09-27  a3schuur
+
+	* httpAdapter.c: Rearanged DOS detection support
+
+2005-09-27  a3schuur
+
+	* httpAdapter.c: 
+	Bug [ 1298807 ] sfcb dos vulnerability Next step to detect and
+	reject DOS attacks.  Fist data after accept must arrive within 5
+	seconds, otherwise the request will be rejected.
+
+2005-09-27  a3schuur
+
+	* httpAdapter.c: 
+	Bug [ 1298807 ] sfcb dos vulnerability First steps to detect and
+	reject DOS attacks.  a) None POST requests will be rejected as
+	early as possible without attempting to read remaining HTTP header
+	data.  b) Any request having a combined header data size longer
+	than 5000 bytes will be rejected
+
+2005-09-20  mihajlov
+
+	* sfcbuuid.sh.in: Bugs: 1296278. Support for uuid generation.
+
+2005-09-20  mihajlov
+
+	* Makefile.am, configure.ac, man/sfcbuuid.1.pre.in: 
+	Bugs: 1296278.  Added support for the generation of a CIM server
+	uuid.
+
+2005-09-19  a3schuur
+
+	* default.reg, interopServerProvider.c: 
+	Added support for CIM_ObjectManagerCommunicationMechanism class.
+
+2005-09-19  mihajlov
+
+	* httpAdapter.c: 
+	Bug 1292955. Allow content-length=0 request bodies for better
+	interoperability.
+	
+2005-09-17  a3schuur
+
+	* interopServerProvider.c: 
+	Removed depricated DescriptionOfClassInfo property from
+	cim_namespace
+
+2005-09-16  a3schuur
+
+	* interopServerProvider.c: 
+	Minor fixes to namespace provider support - setting
+	ObjectManagerName property.
+
+2005-09-16  a3schuur
+
+	* default.reg, interopServerProvider.c: 
+	Update in interopServerProvider for CIM_ObjectManager This update
+	is anticipating a fix for the uuid file in the sfcb directory
+
+2005-09-16  mihajlov
+
+	* httpAdapter.c: 
+	Bugs: 1292955. Accept URIs other than /cimom and empty request
+	bodies.  Further, reply with 411 if the content length is not
+	specified.
+
+2005-09-13  a3schuur
+
+	* Makefile.am, default.reg, interopServerProvider.c: 
+	Added interopServerProvider.c This module will support CIM classes
+	needed for SLP support.  This initial version supports
+	CIM_Namespace read-only mode. You can now enumerate (names and
+	instance) class CMI_Namespace
+
+2005-09-12  tyreld
+
+	* control.c, providerRegister.c, sfcBroker.c, sfcb.cfg.pre.in, 
+	man/sfcbd.1.pre.in:
+	Bugs fixed: 1284079. Added config file option to support disabling 
+	the interop namespace.
+
+2005-09-09  mihajlov
+
+	* getSchema.sh.pre.in, sfcbrepos.sh.in,	sfcbstage.sh.in, 
+	sfcbunstage.sh.in: 
+	Bugs: 1284983. Fixed interoperability problems in sfcb scripts in
+	conjunction with ash.
+
+2005-09-06  mihajlov
+
+	* man/genSslCert.1.pre.in, man/getSchema.1.pre.in,
+	man/sfcbd.1.pre.in, man/sfcbmof.1.pre.in, man/sfcbrepos.1.pre.in,
+	man/sfcbstage.1.pre.in, man/sfcbunstage.1.pre.in,
+	man/wbemcat.1.pre.in, man/xmltest.1.pre.in: 
+	Bugs fixed: 1276160. Updated man pages (editorial stuff).
+
+	* mofc/configure.ac: Upgraded version number to 0.7.3.
+
+2005-09-03  tyreld
+
+	* man/genSslCert.1.pre.in, man/getSchema.1.pre.in,
+	man/sfcbd.1.pre.in, man/sfcbmof.1.pre.in, man/sfcbrepos.1.pre.in,
+	man/sfcbstage.1.pre.in, man/sfcbunstage.1.pre.in,
+	man/wbemcat.1.pre.in, man/xmltest.1.pre.in: 
+	Bug 1276160  Update man	page skeletons
+	The automake ready man pages checked in Thursday revisions of the
+	pages from Tuesdays check in. I've applied changes to the pages I
+	checked in on Wednesday to support automake.
+
+2005-09-01  mihajlov
+
+	* Makefile.am, configure.ac, man/genSslCert.1,
+	man/genSslCert.1.pre.in, man/getSchema.1, man/getSchema.1.pre.in,
+	man/sfcbd.1, man/sfcbd.1.pre.in, man/sfcbmof.1,
+	man/sfcbmof.1.pre.in, man/sfcbrepos.1, man/sfcbrepos.1.pre.in,
+	man/sfcbstage.1, man/sfcbstage.1.pre.in, man/sfcbunstage.1,
+	man/sfcbunstage.1.pre.in, man/wbemcat.1, man/wbemcat.1.pre.in,
+	man/xmltest.1, man/xmltest.1.pre.in: 
+	Bugs fixed: 1276160, 1269291.
+	Modified make processing for man files in order to have correct
+	file pathes in the documentation.  Renamed the man sources from .1
+	to .1.pre.in.  Fixed a typo in Makefile.am to make sure that
+	provider libs are found even when no config file exists.
+
+2005-08-31  tyreld
+
+	* man/sfcbd.1: 
+	Bug 1276160 Update skeleton man pages.  Corrected misspelled
+	environment variable.
+
+	* man/genSslCert.1, man/getSchema.1, man/sfcbmof.1,
+	man/sfcbrepos.1, man/sfcbstage.1, man/sfcbunstage.1: 
+	Bug 1276160 Update skeleton man pages.
+	Updated genSslCert, getSchema, sfcbmof, sfcbrepos, sfcbstage, and
+	sfcbunstage skeletons.
+
+	* man/sfcbd.1, man/wbemcat.1, man/xmltest.1: 
+	Bug 1276160  Update skeleton man pages.
+	Updated sfcbd, wbemcat, and xmltest skeletons.
+
+	* README: Corrected spelling and updated some usage aspects.
+
+	* man/sfcbd.1: Updated skeleton man page.
+
+2005-08-31  mihajlov
+
+	* NEWS, README, configure.ac: 
+	Bugs fixed: 1209974, 1222948.  Updated README and fixed the
+	disable-debug option of configure.
+
+	* Makefile.am, configure.ac: 
+	Bugs fixed: 1203835. Minor changes in the lex/yacc invocation.
+	Bumped version number to 0.9.1.
+
+	* Makefile.am, sfcb.spec.in: 
+	Bugs fixed: 1209974. Added/fixed support for man pages in Makefile
+	and RPM spec.
+
+2005-08-30  tyreld
+
+	* Makefile.am: Modified so that the sfcb man pages are installed.
+
+	* Makefile.am: 
+	Replaced explicit calls to yacc with $(YACC) which is set by the
+	configure script.
+
+	* Makefile.am: 
+	The sfcb.html file was removed from the CVS tree. It however is
+	still referenced in the Makefile which breaks when attempting to
+	install the missing file. Removed sfcb.html from the Makefile.
+
+	* configure.ac: 
+	Added an error message in the event that bison is not found as it
+	is a build requirement.
+
+	* README: 
+	Updated section pertaining to command line options to reflect
+	recent changes.
+
+	* sfcBroker.c: 
+	The interop namespace is now enabled by default, and disabling it
+	will now be supported from the config file in the future. Added
+	usage and version information. Revamped command line processing so
+	that it better conforms to users expected conventions. Please note
+	the new command line options:
+
+		Usage: sfcbd [options]
+
+		Options:
+		 -c, --config-file=<FILE>        use alternative config file
+		 -d, --daemon                    run in the background
+		 -h, --help                      display this message and exit
+		 -s, --collect-stats             turn on runtime statistics
+	                                         collecting
+		 -t, --trace-components=<N|?>    activate component-level
+	                                         tracing messages
+	                                         'N' is an OR-ed bitmask
+	                                         integer defining the
+	                                         components to trace 
+	                                         '?' lists the available
+	                                         components with their bitmask
+	         -v, --version                   output version information
+
+	For SBLIM package updates and additional information,
+	please see the SBLIM homepage at http://sblim.sourceforge.net
+
+2005-08-30  mihajlov
+
+	* httpAdapter.c: 
+	Bug fixed: 1276651. Didn't compile under Fedora Core 4
+	(gcc4). Needed to change arguments for accept and bind and remove
+	a static/external clash.
+
+2005-08-29  bestorga-oss
+
+	* man/xmltest.1: new man page for xmltest
+
+	* man/wbemcat.1: new man page for wbemcat
+
+	* man/sfcbunstage.1: new man page for sfcbunstage
+
+	* man/sfcbstage.1: new man page for sfcbstage
+
+	* man/sfcbmof.1: new man page for sfcbmof
+
+	* man/sfcbrepos.1: add new man page for sfcbrepos
+
+	* man/getSchema.1: new man page for getSchema
+
+	* man/sfcbd.1: new man page for sfcbd
+
+	* man/genSslCert.1: new man page for genSslCert command
+
+	* README: rewrote README
+
+2005-08-25  ibmpeanuts
+
+	* autoconfiscate.sh: [no log message]
+
+	* configure.ac: #1222948
+
+2005-08-24  ibmpeanuts
+
+	* autoconfiscate.sh: #1222948
+
+2005-08-02  a3schuur
+
+	* configure.ac, mofc/configure.ac: 
+	Added -fsigned-char compile flag to ensure ppc gcc treats char the
+	same way as gcc on ix86
+
+	* mofc/mofparse.c: 
+	fixed [ 1250128 ] sfcbmof fails on ppc char opt; on line 49
+	changed to int opt;
+
+2005-07-28  mihajlov
+
+	* sfcb.init-suse.in: 
+	Bugs fixed: 1242508.  Typo rcstatus instead of rc_status fixed.
+
+2005-07-27  a3schuur
+
+	* fileRepository.c, internalProvider.c: 
+	Fixed [ 1246249 ] sfcb fails to correctly locate repository Added
+	getRepDir() routine.
+
+2005-07-27  mihajlov
+
+	* Makefile.am, brokerUpc.c, configure.ac, msgqueue.c, msgqueue.h,
+	providerDrv.c, providerMgr.c, sfcb.spec.in: 
+	Bugs fixed: 1246130, 1246009.  Indications can now be disabled
+	effectively. Endianness sensitivity removed from msgqueue data
+	structures.
+
+2005-07-26  a3schuur
+
+	* wbemcat: fixed debugging adat
+
+	* wbemcat: 
+	Fixed [ 1242514 ] wbemcat fails under SuSE nc program not needed
+	anymore. Its function is replaced by a few Perl stmts.
+
+	* args.c, array.c, context.c, datetime.c, enumeration.c,
+	providerDrv.c, string.c, support.c, support.h: 
+	Additional cleanup for [ 1245096 ] mem_state set incorrectly by
+	instance:clone() Removed TOOL_MEM_ADD etc defines in support.h
+	Changed MEM_NOT_TRACKED value to -2 - getting better control for
+	memory management
+
+	* instance.c: 
+	Fixed [ 1245096 ] mem_state set incorrectly by instance:clone()
+	mem_state now set to MEM_NOT_TRACKED.
+

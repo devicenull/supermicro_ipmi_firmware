@@ -1,0 +1,127 @@
+[$ClassProvider$]
+   provider: ClassProvider
+   location: sfcClassProviderGz
+   type: class method
+   unload: never
+   namespace: *
+#
+[$DefaultProvider$]
+   provider: InternalProvider
+   location: sfcInternalProvider
+   type: instance association method
+   unload: never
+   namespace: *
+#
+[$InterOpProvider$]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[$ProfileProvider$]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[$QualifierProvider$]
+   provider: QualifierProvider
+   location: sfcQualifierProvider
+   type: qualifier
+   unload: never
+   namespace: *
+#
+[CIM_IndicationHandlerCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   namespace: root/interop
+#
+[CIM_ListenerDestinationCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   namespace: root/interop
+#
+[CIM_IndicationSubscription]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   namespace: root/interop
+#
+[CIM_IndicationFilter]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   namespace: root/interop
+#
+[CIM_RegisteredProfile]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[CIM_Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[__Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: *
+#
+[CIM_ObjectManager]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[CIM_ObjectManagerCommunicationMechanism]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+
+[Discrete_Sensor]   
+   provider: Discrete_SensorProvider
+   location: cmpiDiscrete_SensorProvider
+   type: instance
+   namespace: root/cimv2
+#
+[IPMI_LogRecord]   
+   provider: IPMI_LogRecordProvider
+   location: cmpiIPMI_LogRecordProvider
+   type: instance
+   namespace: root/cimv2
+#
+[IPMI_PowerManagementService]   
+   provider: IPMI_PowerManagementServiceProvider
+   location: cmpiIPMI_PowerManagementServiceProvider
+   type: instance method
+   namespace: root/cimv2
+#
+[IPMI_RecordLog]   
+   provider: IPMI_RecordLogProvider
+   location: cmpiIPMI_RecordLogProvider
+   type: instance method
+   namespace: root/cimv2
+#
+[IPMI_TextRedirectionService]   
+   provider: IPMI_TextRedirectionServiceProvider
+   location: cmpiIPMI_TextRedirectionServiceProvider
+   type: instance method
+   namespace: root/cimv2
+#
+[Threshold_Sensor]   
+   provider: Threshold_SensorProvider
+   location: cmpiThreshold_SensorProvider
+   type: instance
+   namespace: root/cimv2
+#

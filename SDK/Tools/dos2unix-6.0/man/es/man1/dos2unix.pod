@@ -1,0 +1,548 @@
+/*
+#
+#  Spanish tranlation by: Julio A. Freyre-Gonzalez <jfreyreg@gmail.com> 2011, 2012
+#
+#  Copyright and License
+#
+#   Copyright (C) 2009-2012 Erwin Waterlander
+#   All rights reserved.
+# 
+#   Redistribution and use in source and binary forms, with or without
+#   modification, are permitted provided that the following conditions
+#   are met:
+#   1. Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#   2. Redistributions in binary form must reproduce the above copyright
+#      notice in the documentation and/or other materials provided with
+#      the distribution.
+# 
+#   THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY
+#   EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+#   PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE
+#   FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+#   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+#   OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+#   BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#   WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+#   OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+#   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#   Descripción
+#
+#       Para saber cual sección de NIVEL SUPERIOR usar en las páginas del manual,
+#       véase el estándar POSIX/Susv y "Utility Description Defaults" en
+#       http://www.opengroup.org/onlinepubs/009695399/utilities/xcu_chap01.html#tag_01_11
+#
+#       Éste es el manual en formato POD de Perl. Lease más en
+#       http://perldoc.perl.org/perlpod.html o ejecute el comando:
+#
+#           perldoc perlpod | less
+#
+#       Para revisar la sintaxis:
+#
+#           podchecker *.pod
+#
+#       Cree el manual con el comando:
+#
+#           pod2man PAGE.N.pod > PAGE.N
+*/
+
+=pod
+
+=head1 NOMBRE
+
+dos2unix - Convertidor de archivos de texto de formato DOS/Mac a Unix y viceversa
+
+=head1 SINOPSIS
+
+    dos2unix [parámetros] [ARCHIVO ...] [-n ARCH_DE_ENTRADA ARCH_DE_SALIDA ...]
+    unix2dos [parámetros] [ARCHIVO ...] [-n ARCH_DE_ENTRADA ARCH_DE_SALIDA ...]
+
+=head1 DESCRIPCIÓN
+
+El paquete Dos2unix incluye las utilerías C<dos2unix> y C<unix2dos> para
+convertir archivos de texto plano en formato DOS o Mac a formato Unix y viceversa.
+
+En archivos de texto DOS/Windows, un salto de línea, también conocido como nueva
+línea, es una combinación de dos caracteres: un retorno de carro (CR) seguido
+por un salto de línea (LF). En archivos de texto Unix, un salto de línea es
+solamente un carácter: el salto de línea (LF). En archivos de texto Mac, antes
+de Mac OS X, un salto de línea era sólo un carácter retorno de carro (CR).
+Actualmente, Mac OS usa el estilo Unix de saltos de línea (LF).
+
+Los archivos binarios son ignorados automáticamente, a menos que se fuerce su
+conversión.
+
+Los archivos no regulares, tales como directorios y FIFO, son ignorados
+automáticamente.
+
+Los enlaces simbólicos y sus destinos no son modificados por defecto.
+Los enlaces simbólicos pueden opcionalmente ser reemplazados, o la salida puede
+ser escrita al archivo destino del enlace.
+Los enlaces simbólicos en Windows no están soportados. Estos son siempre
+reemplazados, sin que se alteren sus destinos.
+
+Dos2unix fue moldeado a partir del dos2unix que existe en SunOS/Solaris y tiene
+modos de conversión similares.
+
+=head1 PARÁMETROS
+
+=over 4
+
+=item B<-->
+
+Todos los parámetros siguientes son tratados como nombres de archivo. Use este
+parámetro si desea convertir archivos cuyos nombres inician con un guión. Por
+ejemplo para convertir un archivo llamado "-foo", use este comando:
+
+    dos2unix -- -foo
+
+O en modo de archivo nuevo:
+
+    dos2unix -n -- -foo out.txt
+
+=item B<-ascii>
+
+Sólo convierte los salto de línea. Éste es el modo de conversión por defecto.
+
+=item B<-iso>
+
+Conversión entre el conjunto de caracteres DOS e ISO-8859-1. Véase también la
+sección MODOS DE CONVERSIÓN.
+
+=item B<-1252>
+
+Usa la página de códigos Windows 1252 (Europa Occidental).
+
+=item B<-437>
+
+Usa la página de códigos DOS 437 (EE. UU.). Está es la página de códigos usada
+por defecto para conversión ISO.
+
+=item B<-850>
+
+Usa la página de códigos DOS 850 (Europa Occidental).
+
+=item B<-860>
+
+Usa la página de códigos DOS 860 (Portugués).
+
+=item B<-863>
+
+Usa la página de códigos DOS 863 (Francocanadiense).
+
+=item B<-865>
+
+Usa la página de códigos DOS 865 (Nórdico).
+
+=item B<-7>
+
+Convierte caracteres de 8 bits al espacio de 7 bits.
+
+=item B<-c, --convmode CONVMODE>
+
+Establece el modo de conversión, Donde CONVMODE puede ser:
+I<ascii>, I<7bit>, I<iso>, I<mac>
+siendo ascii el valor por defecto.
+
+=item B<-f, --force>
+
+Fuerza la conversión de archivos binarios.
+
+=item B<-h, --help>
+
+Despiega la ayuda y termina el programa.
+
+=item B<-k, --keepdate>
+
+Mantiene la fecha del archivo de salida igual a la del archivo de entrada.
+
+=item B<-L, --license>
+
+Muestra la licencia del programa.
+
+=item B<-l, --newline>
+
+Añade salto de línea adicional.
+
+B<dos2unix>: Sólo los saltos de línea DOS son cambiados por dos saltos de línea
+Unix.
+En modo Mac sólo los saltos de línea Mac son cambiados por dos saltos de línea
+Unix.
+
+B<unix2dos>: Sólo los saltos de línea Unix son cambiados por dos saltos de línea
+DOS.
+En modo Mac los saltos de línea Unix son cambiados por dos saltos de línea Mac.
+
+=item B<-m, --add-bom>
+
+Write an UTF-8 Byte Order Mark in the output file. Never use this option when
+the output encoding is other than UTF-8. See also section UNICODE.
+
+=item B<-n, --newfile ARCH_DE_ENTRADA ARCH_DE_SALIDA ...>
+
+Modo de archivo nuevo. Convierte el archivo ARCH_DE_ENTRADA y escribe la salida
+al archivo ARCH_DE_SALIDA.
+Los nombres de archivo deben ser dados en pares y los comodines I<no> deben ser
+usados o I<perderá> sus archivos.
+
+=item B<-o, --oldfile ARCHIVO ...>
+
+Modo de archivo viejo. Convierte el archivo ARCHIVO y lo sobrescribe con la salida.
+El programa por defecto se ejecuta en este modo. Sí se pueden emplear comodines.
+
+=item B<-q, --quiet>
+
+Modo silencioso. Suprime todas las advertencias y mensajes. El valor retornado
+es cero. Excepto cuando se emplean parámetros incorrectos.
+
+=item B<-s, --safe>
+
+Ignora los archivos binarios (por defecto).
+
+=item B<-F, --follow-symlink>
+
+Sigue los enlaces simbólicos y convierte los destinos.
+
+=item B<-R, --replace-symlink>
+
+Reemplaza los enlaces simbólicos con los archivos convertidos
+(los archivos destino originales no se alteran).
+
+=item B<-S, --skip-symlink>
+
+No altera los enlaces simbólicos ni sus destinos (por defecto).
+
+=item B<-V, --version>
+
+Despiega la información de la versión y termina el programa.
+
+=back
+
+=head1 MODO MAC
+
+En modo normal los saltos de línea son convertidos de DOS a Unix y viceversa.
+Los saltos de línea Mac no son convertidos.
+
+En modo Mac los saltos de línea son convertidos de Mac a Unix y viceversa. Los
+saltos de línea DOS no son modificados.
+
+Para ejecutar en modo Mac use el modificador C<-c mac> o use los comandos
+C<mac2unix> o C<unix2mac>.
+
+=head1 MODOS DE CONVERSIÓN
+
+Los modos de conversión I<ascii>, I<7bit>, e I<iso> son similares a los de
+los comandos dos2unix/unix2dos de SunOS/Solaris.
+
+=over 4
+
+=item B<ascii>
+
+En modo C<ascii> sólo los saltos de línea son convertidos. Éste es el modo de
+conversión por defecto.
+
+Aunque el nombre de este modo es ASCII, el cual es un estándar de 7 bits, éste
+emplea 8 bits. Siempre use este modo cuando convierta archivos en Unicode UTF-8.
+
+=item B<7bit>
+
+En este modo todos los caracteres no ASCII de 8 bits (con valores de 128 a 255)
+son convertidos al espacio de 7 bits.
+
+=item B<iso>
+
+Los caracteres son convertidos entre un conjunto de caracteres DOS (página de
+códigos) y el conjunto de caracteres ISO-8859-1 (Latín-1) de Unix. Los
+caracteres DOS sin equivalente ISO-8859-1, para los cuales la conversión es
+imposible, son convertidos en un punto. Lo mismo se aplica para caracteres
+ISO-8859-1 sin contraparte DOS.
+
+Cuando sólo se emplea el parámetro C<-iso>, dos2unix intentará determinar la
+página de códigos activa. Cuando esto no sea posible, dos2unix utilizará la
+página de códigos 437 por defecto, la cual es empleada principalmente en EE. UU.
+Para forzar una página de códigos específica emplee los parámetros
+C<-437> (EE. UU.), C<-850> (Europa Occidental), C<-860> (Portugués),
+C<-863> (Francocanadiense), o C<-865> (Nórdico). La página de códigos Windows
+1252 (Europa Occidental) también está soportada con el parámetro C<-1252>. Para
+acceder a otras páginas de códigos use dos2unix en combinación con iconv(1).
+Iconv puede convertir entre una larga lista de codificaciones de caracteres.
+
+Never use ISO converion on Unicode text files. It will corrupt UTF-8 encoded files.
+
+Algunos ejemplos:
+
+Convierte de la página de códigos por defecto de DOS a Latín-1 de Unix.
+
+    dos2unix -iso -n in.txt out.txt
+
+Convierte de DOS 850 a Unix Latín-1.
+
+    dos2unix -850 -n in.txt out.txt
+
+Convierte de Windows 1252 a Unix Latín-1.
+
+    dos2unix -1252 -n in.txt out.txt
+
+Convierte de Windows 1252 a Unix UTF-8 (Unicode).
+
+    iconv -f CP1252 -t UTF-8 in.txt | dos2unix > out.txt
+
+Convierte de Unix Latín-1 a la página de códigos por defecto de DOS.
+
+    unix2dos -iso -n in.txt out.txt
+
+Convierte de Unix Latín-1 a DOS 850.
+
+    unix2dos -850 -n in.txt out.txt
+
+Convierte de Unix Latín-1 a Windows 1252.
+
+    unix2dos -1252 -n in.txt out.txt
+
+Convierte de Unix UTF-8 (Unicode) a Windows 1252.
+
+    unix2dos < in.txt | iconv -f UTF-8 -t CP1252 > out.txt
+
+Véase también L<http://czyborra.com/charsets/codepages.html>
+y L<http://czyborra.com/charsets/iso8859.html>.
+
+=back
+
+=head1 UNICODE
+
+=head2 Encodings
+
+There exist different Unicode encodings. On Unix and Linux Unicode files are
+typically encoded in UTF-8 encoding. On Windows Unicode text files can be
+encoded in UTF-8, UTF-16, or UTF-16 big endian, but are mostly encoded in
+UTF-16 format.
+
+=head2 Conversion
+
+Unicode text files can have DOS, Unix or Mac line breaks, like regular text
+files.
+
+All versions of dos2unix and unix2dos can convert UTF-8 encoded files, because
+UTF-8 was designed for backward compatiblity with ASCII.
+
+Dos2unix and unix2dos with Unicode UTF-16 support, can read little and big
+endian UTF-16 encoded text files. To see if dos2unix was built with UTF-16
+support type C<dos2unix -V>.
+
+The Windows versions of dos2unix and unix2dos convert UTF-16 encoded files
+always to UTF-8 encoded files. Unix versions of dos2unix/unix2dos convert
+UTF-16 encoded files to the locale character encoding when it is set to UTF-8.
+Use the locale(1) command to find out what the locale character encoding is.
+
+Because UTF-8 formatted text files are well supported on both Windows and Unix,
+dos2unix and unix2dos have no option to write UTF-16 files. All UTF-16
+characters can be encoded in UTF-8. Conversion from UTF-16 to UTF-8 is without
+loss. UTF-16 files will be skipped on Unix when the locale character encoding
+is not UTF-8, to prevent accidental loss of text. When an UTF-16 to UTF-8
+conversion error occurs, for instance when the UTF-16 input file contains
+an error, the file will be skipped.
+
+ISO and 7-bit mode conversion do not work on UTF-16 files.
+
+=head2 Byte Order Mark
+
+On Windows Unicode text files typically have a Byte Order Mark (BOM), because
+many Windows programs (including Notepad) add BOMs by default. See also
+L<http://en.wikipedia.org/wiki/Byte_order_mark>.
+
+On Unix Unicode files typically don't have a BOM. It is assumed that text files
+are encoded in the locale character encoding.
+
+Dos2unix can only detect if a file is in UTF-16 format if the file has a BOM.
+When an UTF-16 file doesn't have a BOM, dos2unix will see the file as a binary
+file.
+
+Use dos2unix in combination with iconv(1) to convert an UTF-16 file without
+BOM.
+
+Dos2unix never writes a BOM in the output file, unless you use option C<-m>.
+
+Unix2dos writes a BOM in the output file when the input file has a BOM, or
+when option C<-m> is used.
+
+=head2 Unicode examples
+
+Convert from Windows UTF-16 (with BOM) to Unix UTF-8
+
+    dos2unix -n in.txt out.txt
+
+Convert from Windows UTF-16 (without BOM) to Unix UTF-8
+
+    iconv -f UTF-16 -t UTF-8 in.txt | dos2unix > out.txt
+
+Convert from Unix UTF-8 to Windows UTF-8 with BOM
+
+    unix2dos -m -n in.txt out.txt
+
+Convert from Unix UTF-8 to Windows UTF-16
+
+    unix2dos < in.txt | iconv -f UTF-8 -t UTF-16 > out.txt
+
+=head1 EJEMPLOS
+
+Lee la entrada desde 'stdin' y escribe la salida a 'stdout'.
+
+    dos2unix
+    dos2unix -l -c mac
+
+Convierte y reemplaza a.txt. Convierte y reemplaza b.txt.
+
+    dos2unix a.txt b.txt
+    dos2unix -o a.txt b.txt
+
+Convierte y reemplaza a.txt empleando modo de conversión ascii.
+
+    dos2unix a.txt
+
+Convierte y reemplaza a.txt empleando modo de conversión ascii.
+Convierte y reemplaza b.txt empleando modo de conversión de 7bits.
+
+    dos2unix a.txt -c 7bit b.txt
+    dos2unix -c ascii a.txt -c 7bit b.txt
+    dos2unix -ascii a.txt -7 b.txt
+
+Convierte a.txt del formato de Mac a Unix.
+
+    dos2unix -c mac a.txt
+    mac2unix a.txt
+
+Convierte a.txt del formato de Unix a Mac.
+
+    unix2dos -c mac a.txt
+    unix2mac a.txt
+
+Convierte y reemplaza a.txt manteniendo la fecha del archivo original.
+
+    dos2unix -k a.txt
+    dos2unix -k -o a.txt
+
+Convierte a.txt y escribe la salida a e.txt.
+
+    dos2unix -n a.txt e.txt
+
+Convierte a.txt y escribe la salida a e.txt, manteniendo la fecha de e.txt
+igual a la de a.txt.
+
+    dos2unix -k -n a.txt e.txt
+
+Convierte y reemplaza a.txt. Convierte b.txt y escribe a e.txt.
+
+    dos2unix a.txt -n b.txt e.txt
+    dos2unix -o a.txt -n b.txt e.txt
+
+Convierte c.txt y escribe a e.txt. Convierte y reemplaza a.txt.
+Convierte y reemplaza b.txt. Convierte d.txt y escribe a f.txt.
+
+    dos2unix -n c.txt e.txt -o a.txt b.txt -n d.txt f.txt
+
+=head1 RECURSIVE CONVERSION
+
+Use dos2unix in combination with the find(1) and xargs(1) commands to
+recursively convert text files in a directory tree structure. For instance to
+convert all .txt files in the directory tree under the current directory type:
+
+    find . -name *.txt |xargs dos2unix
+
+
+=head1 INTERNACIONALIZACIÓN
+
+=over 4
+
+=item B<LANG>
+
+El idioma principal se selecciona con la variable de entorno LANG. La variable
+LANG consiste de varias partes. La primer parte es el código del idioma en
+minúsculas. La segunda es opcional y es el código del país en mayúsculas,
+precedido por un guión bajo. Existe también una tercera parte opcional: la
+codificación de caracteres, precedida por un punto. Unos cuantos ejemplos para
+intérpretes de comandos tipo POSIX estándar:
+
+    export LANG=nl               Neerlandés
+    export LANG=nl_NL            Neerlandés, Países Bajos
+    export LANG=nl_BE            Neerlandés, Bélgica
+    export LANG=es_ES            Español, España
+    export LANG=es_MX            Español, México
+    export LANG=en_US.iso88591   Ingles, EE. UU., codificación Latín-1
+    export LANG=en_GB.UTF-8      Ingles, Reino Unido, codificación UTF-8
+
+Para una lista completa de códigos de idioma y país véase el manual de gettext:
+L<http://www.gnu.org/software/gettext/manual/gettext.html#Language-Codes>
+
+En sistemas Unix puede emplear el comando locale(1) para obtener información
+específica del locale.
+
+=item B<LANGUAGE>
+
+Con la variable de entorno LANGUAGE puede especificar una lista de prioridad
+de los idiomas, separados por dos puntos. Dos2unix da preferencia a LANGUAGE
+por encima de LANG. Por ejemplo, primero neerlandés y entonces alemán:
+C<LANGUAGE=nl:de>. Antes de que pueda usar una lista de prioridad de idiomas a
+través de la variable LANGUAGE, primero tiene que habilitar la
+internacionalización, mediante asignar un valor distinto de "C" a LANG
+(o LC_ALL). Véase también el manual de gettext:
+L<http://www.gnu.org/software/gettext/manual/gettext.html#The-LANGUAGE-variable>
+
+Si selecciona un idioma que no está disponible el programa funcionará en ingles.
+
+=item B<DOS2UNIX_LOCALEDIR>
+
+Con la variable de entorno DOS2UNIX_LOCALEDIR el LOCALEDIR asignado durante
+la compilación puede ser modificado. LOCALEDIR es usado para encontrar los
+archivos de idioma. El valor por defecto de GNU es C</usr/local/share/locale>.
+El parámetro B<--version> desplegará el LOCALEDIR en uso.
+
+Ejemplo (intérprete de comandos POSIX):
+
+    export DOS2UNIX_LOCALEDIR=$HOME/share/locale
+
+=back
+
+
+=head1 VALOR DE RETORNO
+
+Se regresa cero cuando el programa termina exitosamente. Cuando ocurre un error
+del sistema se regresará el último número de error del sistema. Para otros errores se
+regresa 1.
+
+El valor de retorno es siempre cero en modo silencioso, excepto cuando se
+emplean parámetros incorrectos.
+
+=head1 ESTÁNDARES
+
+L<http://es.wikipedia.org/wiki/Documento_de_texto>
+
+L<http://es.wikipedia.org/wiki/Retorno_de_carro>
+
+L<http://es.wikipedia.org/wiki/Nueva_l%C3%ADnea>
+
+L<http://es.wikipedia.org/wiki/Unicode>
+
+=head1 AUTORES
+
+Benjamin Lin - <blin@socs.uts.edu.au>
+Bernd Johannes Wuebben (modo mac2unix) - <wuebben@kde.org>,
+Christian Wurll (añadió el salto de línea extra) - <wurll@ira.uka.de>,
+Erwin Waterlander - <waterlan@xs4all.nl> (Mantenimiento)
+
+Página del proyecto: L<http://waterlan.home.xs4all.nl/dos2unix.html>
+
+Página de SourceForge: L<http://sourceforge.net/projects/dos2unix/>
+
+Freshmeat: L<http://freshmeat.net/projects/dos2unix>
+
+=head1 VÉASE TAMBIÉN
+
+file(1)
+find(1)
+iconv(1)
+locale(1)
+xargs(1)
+
+=cut

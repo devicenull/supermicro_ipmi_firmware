@@ -1,0 +1,104 @@
+if MACH_WPCM450
+
+config CPU_WPCM450
+	bool
+	default y
+	depends on MACH_WPCM450
+	help
+	  Support for WPCM450 of Winbond BMC CPUs.
+
+comment "WPCM450 Boot"
+
+config WPCM450_BOOT_WATCHDOG
+	bool "WPCM450 Initialisation watchdog"
+	depends on MACH_WPCM450 && WPCM450_WATCHDOG
+	help
+	  Say y to enable the watchdog during the kernel decompression
+	  stage. If the kernel fails to uncompress, then the watchdog
+	  will trigger a reset and the system should restart.
+
+	  Although this uses the same hardware unit as the kernel watchdog
+	  driver, it is not a replacement for it. If you use this option,
+	  you will have to use the watchdg driver to either stop the timeout
+	  or restart it. If you do not, then your kernel will reboot after
+	  startup.
+
+	  The driver uses a fixed timeout value, so the exact time till the
+	  system resets depends on the value of PCLK. The timeout on an
+	  200MHz wpcm450 should be about 30 seconds.
+
+config WPCM450_BOOT_ERROR_RESET
+	bool "WPCM450 Reboot on decompression error"
+	depends on MACH_WPCM450
+	help
+	  Say y here to use the watchdog to reset the system if the
+	  kernel decompressor detects an error during decompression.
+
+
+comment "WPCM450 Setup"
+
+config WPCM450_DMA
+	bool "WPCM450 DMA support"
+	depends on MACH_WPCM450
+	help
+	  WPCM450 DMA support. This is needed for drivers like sound which
+	  use the WPCM450's DMA system to move data to and from the
+	  peripheral blocks.
+
+config WPCM450_DMA_DEBUG
+	bool "WPCM450 DMA support debug"
+	depends on MACH_WPCM450 && WPCM450_DMA
+	help
+	  Enable debugging output for the DMA code. This option sends info
+	  to the kernel log, at priority KERN_DEBUG.
+
+	  Note, it is easy to create and fill the log buffer in a small
+	  amount of time, as well as using an significant percentage of
+	  the CPU time doing so.
+
+
+config WPCM450_PM_DEBUG
+	bool "WPCM450 PM Suspend debug"
+	depends on MACH_WPCM450 && PM
+	help
+	  Say Y here if you want verbose debugging from the PM Suspend and
+	  Resume code. See <file:Documentation/arm/Winbond-W90P9XX/Suspend.txt>
+	  for more information.
+
+config WPCM450_PM_CHECK
+	bool "WPCM450 PM Suspend Memory CRC"
+	depends on MACH_WPCM450 && PM && CRC32
+	help
+ 	  Enable the PM code's memory area checksum over sleep. This option
+	  will generate CRCs of all blocks of memory, and store them before
+	  going to sleep. The blocks are then checked on resume for any
+	  errors.
+
+config WPCM450_PM_CHECK_CHUNKSIZE
+	int "WPCM450 PM Suspend CRC Chunksize (KiB)"
+	depends on ARCH_S3C2410 && PM && WPCM450_PM_CHECK
+	default 64
+	help
+	  Set the chunksize in Kilobytes of the CRC for checking memory
+	  corruption over suspend and resume. A smaller value will mean that
+	  the CRC data block will take more memory, but wil identify any
+	  faults with better precision.
+
+config PM_SIMTEC
+	bool
+	depends on PM && (ARCH_BAST || MACH_VR1000)
+	default y
+
+config WPCM450_LOWLEVEL_UART_PORT
+	int "WPCM450 UART to use for low-level messages"
+	default 0
+	help
+	  Choice of which UART port to use for the low-level messages,
+	  such as the `Uncompressing...` at start time. The value of
+	  this configuration should be between zero and two. The port
+	  must have been initialised by the boot-loader before use.
+
+	  Note, this does not affect the port used by the debug messages,
+	  which is a separate configuration.
+
+endif

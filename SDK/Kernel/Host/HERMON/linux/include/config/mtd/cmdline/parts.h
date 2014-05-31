@@ -1,0 +1,1 @@
+#define CONFIG_MTD_CMDLINE_PARTS 1

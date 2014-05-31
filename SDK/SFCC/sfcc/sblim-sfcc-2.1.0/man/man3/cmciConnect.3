@@ -1,0 +1,80 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+cmciConnect() \- Create a CMCIClient object and connection
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMCIClient *
+.BI cmciConnect (const char* hostName, const char* scheme, 
+.br
+.BI              const char* hostPort, const char* CimUsername,
+.br
+.BI              const char* CimPassword, CMPIStatus* rc);
+.br
+.sp
+.BI CMCIClient *
+.BI cmciConnect2 (const char* hostName, const char* scheme, 
+.br
+.BI               const char* hostPort, const char* CimUsername,
+.br 
+.BI               int verifyMode, const char* trustStore,
+.br 
+.BI               const char* certFile, const char * keyFile,
+.br 
+.BI               const char* CimPassword, CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Create a CMCIClient object and initialize it with the CIMOM connection 
+hostname and port, the security credentials to log into the CIMOM, and
+the internals for sending requests and receiving responses from the CIMOM.
+.PP
+Arguments are the \fIhostName\fP and \fIhostPort\fP to connect, the 
+\fICimUsername\fP and \fICimPassword\fP credentials for authentication 
+with the CIMOM, and a pointer to an object to receive the CMPIStatus
+operation status.
+.PP
+The function cmciConnect2 has the same purpose but offers extra parameters
+to control SSL operations.
+.PP
+\fIverifyMode\fP specifies whether the server certificate for an SSL connection
+is to be verified. If set to CMCI_VERIFY_NONE the server ceritificat will not
+be verified, if set to CMCI_VERIFY_PEER it will be verified agains the certificates
+in \fItrustStore\fP.
+.PP
+\fItrustStore\fP contains the name of a file containing CA or client certificates
+against which the server certificate will be verified if \fIverifyMode\fP is set
+to CMCI_VERIFY_PEER.
+.PP
+\fIcertFile\fP specifies the name of a file containing a client certificate which
+will be presented to the CIM server, if the CIM server implements certificate-based
+client authentication. Must be set to NULL, if no client certificates are
+available.
+.PP
+\fIkeyFile\fP specifies the name of a file containing the private key 
+for the certificate specified via \fIcertFile\fP. 
+Must be set to NULL, if no client certificates are available.
+.SH "RETURN VALUE"
+When successful the \fIcmciConnect\fP function returns a pointer to a 
+dynamically allocated and initialized CMCIClient object with a successful
+operation status code set.
+When unsuccessful it returns NULL and sets \fIrc\fP object with the error
+code and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.nf
+   CMCIClient *cc;
+
+   /* Setup a local conncetion to the CIMOM */   
+   cc = cmciConnect("localhost", NULL, NULL, NULL, NULL, NULL);
+.fi
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIStatus(3)

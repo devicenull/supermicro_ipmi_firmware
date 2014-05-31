@@ -1,0 +1,158 @@
+/*subpage red arrow*/
+.redarrow {
+	margin-top:3px; 
+	margin-right: 5px;
+}
+/*subpage title*/
+.mtitle {
+	vertical-align: top; 
+	margin-top: 3px; 
+	font-family: Arial, Verdana, Georgia, sans serif; 
+	font-size: 18px; 
+	color: rgb(0, 0, 0);
+}
+/*subpage description*/
+.textA {
+	font-family: Arial, Verdana, Georgia, sans serif;
+	font-size: 11px;
+	padding: 20px;
+} 
+/*subpage description box*/
+table.boxSection {
+	border-top: #CCCCCC 1px solid;
+	border-bottom: #CCCCCC 1px solid;
+	border-left: #CCCCCC 1px solid;
+	border-right: #CCCCCC 1px solid;
+	background-color: #F2F6FF;
+	width: 600px;
+}
+/*for the page which describes the functions in the same group */
+.headerA {
+	font-weight: bold; 
+	font-size: 12px; 
+	margin-bottom: 4px; 
+	color: #336699; 
+	font-family: Arial, Verdana, Georgia, sans serif;
+}
+
+li.desc {
+	vertical-align: top;
+	margin-top: 3px;
+	padding-right: 10px; 
+	padding-left: 0px; 
+	font-weight: 100; 
+	font-size: 11px! important; 
+	list-style-type: square;
+/*	list-style-image: url(../images/cen.gif); */
+	color: #003366! important; 
+	font-family: Arial, Verdana, Georgia, sans serif;
+}
+
+.subdesc {
+	vertical-align: top;
+	margin-top: 3px;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.subHeader
+{
+	vertical-align: top; 
+	margin-top: 3px; 
+	font-family: Arial, Verdana, Georgia, sans serif; 
+	font-size: 15px; 
+	color: rgb(0, 0, 0);
+}
+
+.rightHeader{
+	font-family: Arial, Verdana, Georgia, sans serif;
+	display:block;
+	padding:5px;
+	font-size:1.1em;
+	margin:5px;
+	text-align:right;
+}
+/*for all pages, button style*/
+.btnStyle{
+	font-size:12px;
+	font-family: Arial, Verdana, Georgia, sans serif;
+	font-weight:bold;
+	/*padding:3px;*/
+	padding-left: 5px;
+	padding-right: 5px;
+}
+/*for login page */
+.login{
+	vertical-align: center;
+	margin: 0 auto;
+	width: 412px;
+	height: 200px;
+	border: 1px solid #888888;
+	color: #000000;
+	font-family: Arial, Verdana, Georgia, sans serif;
+	font-size: 13px;
+	font-weight: bolder;
+	background:#deded3;
+	padding:10px;
+	text-align:center;
+}
+/* for the string "loading"  */
+.LoadingStyle{
+	position: absolute;
+	top: 0px;
+	right: 20px;
+	z-index: 1;
+	font-family: Arial, Verdana, Georgia, sans serif;
+	font-size: 13px;
+	font-weight: bolder;
+	display:block;
+}
+/*for FRU page*/
+.label{
+	width: 400px;
+  	height: 300px;
+  	padding-left: 25px;
+  	font-weight:bold;
+  	font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+  	font-size: 12px;
+  	padding-left:10px;
+  	line-height: 18px;
+}
+
+.labeltitle{
+  	padding-left: 25px;
+  	font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+  	font-size: 12px;
+  	line-height: 18px;
+}
+	
+.labeltext{
+	font-size: 12px;
+	color:#000000;
+	font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+	font-style: normal;
+	line-height: 18px;
+}
+/*For input field description*/
+.labelhead{
+	font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+  	font-size: 12px;
+  	line-height: 18px;
+  	padding-right: 2px;
+}
+/*For the max entry number of the table*/
+.TableInfo{
+  font-weight:bold;
+  display:block;
+  font-size:12px;
+  text-align:right;
+  font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+  margin-bottom: 8px; 
+  padding-right: 10px; 
+}
+/*for sensor category text*/
+.Categorytext
+{
+	font-size:12px;
+	font-family: Arial, Verdana, Geneva,  Helvetica, sans-serif;
+}

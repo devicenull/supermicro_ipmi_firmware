@@ -1,0 +1,13 @@
+prefix=/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/libXML2/libxml2/libxml2-2.6.32/../local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+modules=1
+
+Name: libXML
+Version: 2.6.32
+Description: libXML library version2.
+Requires:
+Libs: -L${libdir} -lxml2
+Libs.private:    -lm 
+Cflags: -I${includedir}/libxml2 

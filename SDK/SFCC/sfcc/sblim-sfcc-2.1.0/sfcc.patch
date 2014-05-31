@@ -1,0 +1,11 @@
+--- sblim-sfcc-2.1.0/config.h	2008-07-01 17:33:35.000000000 +0800
++++ config.h	2008-07-01 17:32:41.000000000 +0800
+@@ -147,7 +147,7 @@
+ #endif
+ 
+ /* Define to rpl_malloc if the replacement function should be used. */
+-#define malloc rpl_malloc
++//#define malloc rpl_malloc
+ 
+ /* Define to rpl_realloc if the replacement function should be used. */
+ #define realloc rpl_realloc

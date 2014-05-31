@@ -1,0 +1,55 @@
+//
+// interop base classes for mofc/
+//
+//
+
+// ===================================================================
+// 	dummy classes to get event classes loaded by mofc
+// ===================================================================
+
+class DMY_ObjectManager : CIM_ObjectManager
+{
+};
+
+class DMY_ObjectManagerCommunicationMechanism : CIM_ObjectManagerCommunicationMechanism
+{
+};
+
+class DMY_RegisteredSubProfile : CIM_RegisteredSubProfile
+ {
+ };
+
+class DMY_RegisteredProfile : CIM_RegisteredProfile
+ {
+ };
+
+class DMY_Namespace : CIM_Namespace
+{
+};
+
+class DMY_SubProfileRequiresProfile : CIM_SubProfileRequiresProfile
+{
+};
+
+class __Namespace
+{
+  [key]
+  string Name;
+};
+
+class DMY_ListenerDestinationCIMXML : CIM_ListenerDestinationCIMXML
+{
+};
+
+class DMY_IndicationHandlerCIMXML : CIM_IndicationHandlerCIMXML
+{
+};
+
+class DMY_IndicationFilter : CIM_IndicationFilter
+{
+};
+
+class DMY_IndicationSubscription : CIM_IndicationSubscription
+{
+};
+

@@ -1,0 +1,1657 @@
+                      ---------------------------------
+                      SMALL-FOOTPRINT CIM BROKER (sfcb)
+                      ---------------------------------
+
+1. What is sfcb
+===============
+sfcb is a lightweight CIM daemon (aka CIMOM) that responds to CIM client
+requests for system management data and/or performs system management 
+tasks. sfcb supports most of the standard CIM XML over http/https protocol.
+It is highly modular, allowing functionality to be easily added, removed
+or customized for different management applications. sfcb is specifically
+targeted for small embedded system that do not have the available CPU,
+memory or disk resources to support a full-blown enterprise-level CIMOM.
+That said, sfcb runs very well on a regular Linux/Unix system and supports
+most of the functions required by CIM clients to manage such the system. 
+Supported CIM operations include:
+
+	GetClass
+	ModifyClass
+	CreateClass
+	DeleteClass
+	EnumerateClasses
+	EnumerateClassNames
+	GetInstance
+	DeleteInstance
+	CreateInstance
+	ModifyInstance
+	EnumerateInstances
+	EnumerateInstanceNames
+	InvokeMethod (MethodCall)
+	ExecQuery
+	Associators
+	AssociatorNames
+	References
+	ReferenceNames
+	GetQualifier
+	SetQualifer
+	DeleteQualifier
+	EnumerateQualifiers
+	GetProperty
+	SetProperty
+
+CIM process and lifecycle indications (aka 'events') are also supported. 
+
+sfcb supports HTTP 'chunking' for enumeration output. This allows large
+volumes of data to be send back to the CIM client in 'chunks' as they
+are generated, rather than waiting until all the results are available and
+then sending back as one huge HTTP response. This feature obviously requires
+chunking support by the CIM client.
+
+To minimize runtime resource consumption, sfcb allows providers for multiple
+CIM classes to be grouped and run under a single process, as well as the
+automatic loading and unloading of idle providers according to 
+user-configurable parameters.
+
+sfcb includes a default static instance repository provider that
+allows the reading and writing of raw instance data for classes without
+their own explicit CIM provider. This code is not yet extensively tested.
+
+  
+sfcb is part of the Standards Based Linux Instrumentation for Manageability
+(SBLIM) Project hosted by SourceForge. The project home page can be found at:
+
+	http://sblim.sourceforge.net/
+
+Please go the the SBLIM Project home page for more information about sfcb
+and/or SBLIM, including design and architecture documents, sample providers,
+test files, CIM client programs, etc.
+
+What isn't sfcb
+===============
+Currently sfcb does not support some of the CIM class operations, 
+specifically adding and removing new CIM classes dynamically. Instead,
+classes are added/removed/modified offline and require restarting the sfcb
+daemon for the changes to take effect. However, there is nothing inherent
+in the design of sfcb preventing more sophisticated class module from being
+implemented, although probably at the expense of a larger footprint.
+
+sfcb only supports the Open Group standard CMPI provider interface. Several 
+CMPI providers covering commonly needed system management resources are 
+available from the SBLIM Project.
+
+sfcb does not implement any sophisticated client authorization
+support at this time. Instead, this functionality can be added
+via writing specical purpose external SBLIM providers. There is a sample
+authorization SBLIM provider available from the SBLIM Project home page. 
+
+sfcb does include support for basic authentication (which requires writing
+a custom authentication library) and authentication based on client 
+certificates which can be combined with basic authentication. See 
+21. for details.
+
+ 
+2. Pre-requisites
+=================
+sfcb can either be built from a tarball downloaded from the SBLIM download area
+or by extracting the sources from the CVS repository.
+
+When building sfcb from a tarball, the only requisite is that curl-devel is installed 
+(see below).
+In fact even this can be avoided if the package is configured with indication disabled.
+
+
+Building sfcb from sources extracted from CVS  requires that the following packages 
+are already installed on your Linux/Unix system:
+
+	automake >= 1.8
+	autoconf >= 2.5.8
+	libtool >= 1.5.8
+	bison >= 1.85
+	curl >= 7.11.1-1
+	curl-devel >= 7.11.1-1
+    flex
+
+If you want to enable SSL support, the following packages are needed as well:
+
+	openssl > 0.9.7
+	openssl-devel > 0.9.7
+
+To check if a package is installed and to determine its version type
+
+	rpm -q <packagename>
+		
+If you want to enable SLP support, the following packages are needed as well:
+	openslp (available from http://www.openslp.org)
+	sfcc (available from our sblim cvs)
+
+Make sure all the required packages are installed prior to attempting
+to build sfcb or any of the supporting packages. You may need to
+install a more recent version than what is on your system.  Missing or
+outdated packages will result in a variety of build problems.
+
+
+3. Quick Install Instructions
+=============================
+Note: the quick install supports you in setting up an environment including
+providers and additional support programs. If you are interested only in 
+sfcb refer to the instructions in section 5.
+
+The sfcb package includes an install script to download (via CVS), build and
+install sfcb and all its supporting packages. To download the sfcb package
+and run the install script:
+
+	cvs -z3 -d:pserver:anonymous:@sblim.cvs.sourceforge.net/cvsroot/sblim co -P sfcb
+	cd sfcb
+	./installsfcb.sh
+
+You will be prompted for various install options, as well as the root password
+when it is needed for system operations that require root access. Most of the
+time the default options should work. By default sfcb will download its source
+files and supporting packages to $PWD/sfcb/ in the current working directory
+and install itself under /usr/local/
+
+
+4. Change History
+=================
+
+See NEWS file of the sfcb package
+
+
+5. Downloading sfcb and mofc Source
+===================================
+
+Option 1:
+--------
+
+You can download and extract the tarball containing both sfcb and mofc
+ready to build:
+
+	http://sourceforge.net/projects/sblim/
+
+and click on the sblim-sfcb package to download.  Then unpack: 
+
+	tar jxf sblim-sfcb-x.y.z.tar.bz2
+
+You are now ready to build sfcb and mofc (see Section 6 below).
+
+Option 2:
+--------
+
+To download the latest (unsupported) version of sfcb from CVS source:
+
+	cvs -z3 -d:pserver:anonymous:@sblim.cvs.sourceforge.net/cvsroot/sblim co -P sfcb
+
+You must also download the required mofc (MOF compiler) package INTO
+the sfcb source directory:
+
+	cd sfcb
+	cvs -z3 -d:pserver:anonymous:@sblim.cvs.sourceforge.net/cvsroot/sblim co -P mofc
+
+Then run autoconfiscate to setup the autoconf files.  From the sfcb directory:
+
+	./autoconfiscate.sh
+
+You are now ready to build sfcb and mofc (see Section 6 below).
+
+
+6. Building sfcb and mofc
+=========================
+sfcb and its supporting packages have been 'autoconfiscated' to simplify
+building and installing them on different Linux/Unix systems. In most cases
+the autoconf scripts will determine the correct build/compile options for
+your system.
+
+After downloading the sfcb and mofc, either from CVS or tarball, build the
+packages by:
+
+        ./configure
+        make
+
+And as root:
+
+        make install
+        make postinstall
+
+NOTE: By default, sfcb is installed with a prefix of /usr/local, which is
+acceptable for local installation. If sfcb is installed via RPM, the
+files will be in the "standard" locations, so that any occurence of a file
+name starting with /usr/local must be replaced according to the rules below:
+
+/usr/local/etc/* -> /etc/*
+/usr/local/var/* -> /var/*
+/usr/local/* -> /usr/*
+
+
+7. Trimming sfcb and mofc binary
+================================
+If you wish to reduce the footprint of sfcb and it supporting libraries to
+a bare minimum then run the following commands after building and installing
+sfcb and mofc
+
+	strip /usr/local/sbin/sfcbd
+	strip /usr/local/lib/libsfc*.so.0.*
+	strip /usr/local/bin/sfcbmof
+
+It is recommended that you do this after you have confirmed that sfcb is
+installed and working correctly because stripping the binaries will remove
+useful debugging information should problems arise. However, stripping the
+binaries and libs will significantly reduce their size.
+
+You can use the footprinting utility to evaluate the resource usage of sfcb.
+
+First you must download the ps_mem.py utility from http://www.pixelbeat.org/scripts/ps_mem.py
+Place that script anywhere in your path, or in the sfcb CVS directory, and ensure that it is
+executable.
+
+Then build and start sfcb as described in sections 6 and 10 
+
+Lastly, run the footprint utility as root:
+
+		make footprint
+
+The resulting report will describe the resource usage. You may then try different build
+options and rerun the utility to evaluate their affect. The README.sfcb-shrink file 
+gives some guidance and tips for further reducing the footprint.
+ 
+ 
+8. Build Options
+================
+There are several build options you can set to customize building sfcb,
+such as what optional support to include or remove for a smaller footprint.
+These options are set on the ./configure command line; e.g.
+
+	./configure --enable-ssl
+
+Options:
+	--disable-debug=[yes|no]
+		Disable debug/trace message logging. Default=no
+	
+	--enable-ssl=[yes|no]
+		Enable HTTPS (ie HTTP+SSL) support. Default=no
+
+	--enable-jdbc=[yes|no]
+		Enable server-side JDBC support (experimental). Default=no
+
+	--disable-indications=[yes|no]
+		Disable indication support. Default=no (ie enable indications)
+	
+	--enable-slp=[yes|no|standalone]
+		Enable slp support. Default=no
+		
+	--disable-qualifierrep=[yes|no]
+		Disable support for qualifier operations (Get-,Set-,Delete-,
+		EnumerateQualifiers). Default=no
+
+        --disable-default-properties=[yes|no]
+                Disable generation of default instance properties for SFCB.
+		Default=no
+
+        --enable-optimized-enumeration=[yes|no]
+                Enable enumeration call optimization for polymorphic 
+		invocations. This option can result in less provider invocations
+		but may break providers expecting to be called for leaf classes
+		only (and then multiple times). Default=no
+
+        --enable-pam=[yes|no]
+                Enable building a basic authentication module based on PAM.
+		Default=no
+
+        --enable-ipv6=[yes|no]
+                Enable IPv6 address support.  This does not disable connections
+		on IPv4 addresses.
+		Default=no
+
+        --enable-local-connect-only
+                SFCB will only support local connection. Http server will not 
+                be built. Default=no
+
+
+9. Downloading the CIM Schema
+=============================
+When building sfcb and mofc, running the 'make postinstall' step will
+download and install the standardized DMTF CIM Schema from www.dmtf.org.
+The CIM Schema contains all the class definitions for the CIM object
+hierarchy used by sfcb. Without the base CIM Schema sfcb will be unable to
+register providers and their implemented classes.
+
+The CIM Schema can be re-installed at any time by running 
+
+        su -c 'make install-cimschema'
+
+or equivalently
+
+        /usr/local/share/sfcb/getSchema.sh -f
+
+This script uses curl to download the schema. Should this script fail for
+any reason please go to 'http://www.dmtf.org/standards/cim' and manually
+download the latest CIM Schema tarball and extract the schema fileset to
+/usr/local/share/sfcb/CIM/.
+
+Again, there are a few possibilities to influence the way the schema is
+installed. The following variables can be passed to the configure command:
+
+CIMSCHEMA_SOURCE	URL or path name of CIM Schema Zipfile
+CIMSCHEMA_MOF		File name of the top level MOF file
+CIMSCHEMA_SUBDIRS	If specified, the ZIP file subdirectory structure
+			is preserved.
+If CIMSCHEMA_SOURCE points to a local file, curl is not required.
+Alternatevily, these environment variables may be set before invoking
+getSchema.sh.
+
+
+10. Starting and Stopping sfcb
+==============================
+sfcb installs an init.d style script under /usr/local/etc/init.d/ to allow
+you to start, stop and restart the sfcb daemon. 
+
+To start up sfcb you must first become root and then type
+
+	/usr/local/etc/init.d/sfcb start
+
+To stop sfcb you must first become root and then type
+
+        /usr/local/etc/init.d/sfcb stop
+
+Alternatively you can manually start the sfcd daemon as root by
+
+	/usr/local/sbin/sfcbd
+
+to run it in the foreground. After starting sfcbd in this way you should see
+something like
+
+# /usr/local/sbin/sfcbd
+--- sfcbd V0.9.0 started - 31805
+--- Using /usr/local/etc/sfcb/sfcb.cfg
+--- SSL not configured
+--- User authentication disabled
+--- Max provider procs: 32
+--- initSocketPairs: 80
+--- Max Http procs: 8
+--- sfcbd HTTP  Daemon V0.9.0 started - 31806 - port 5988
+--- Keep-alive timeout disabled
+--- ClassProvider for /usr/local/var/lib/sfcb/registration/repository/root/cimv2 (no-version) using 481237 bytes
+--- ClassProvider for /usr/local/var/lib/sfcb/registration/repository/root/interop (no-version) using 49507 bytes
+
+with three running processes associated with sfcb. e.g.
+
+	# ps -ef
+	...
+	root     31805 31392  0 20:54 pts/3    00:00:00 /usr/local/sbin/sfcbd
+	root     31806 31805  0 20:54 pts/3    00:00:00 /usr/local/sbin/sfcbd
+	root     31807 31805  0 20:54 pts/3    00:00:00 /usr/local/sbin/sfcbd
+
+which correspond to the main  sfcbd process itself (pid 31805), the HTTP codec
+(pid 31806) and the class provider (pid 31807). Hit CTRL-C at any time to stop 
+sfcb and all its associated processes. In rare cases sfcb might hang and/or not 
+shutdown cleanly. Please report this as a bug and include how to reproduce the 
+problem. Should this ever happen you can 'kill' sfcbd and all associated 
+processes by
+
+	killall -9 sfcbd
+
+This should be done as a last resort - always try a clean shutdown first. 
+ 
+To stop and restart sfcbd type
+
+	/usr/local/etc/init.d/sfcb restart
+
+
+11. Command Line Options
+========================
+sfcb has a few commandline options that enable/disable particular runtime
+features. They are
+
+	sfcbd [-t N|?] [-d] [-v] [-h] [-k] [-s] [-c FILE] 
+
+where
+	-t, --trace-components<N|?>
+		Activate component-level tracing messages, where N is a
+		OR-ed bitmask integer defining which component to trace.
+		Specifying "-t ?" which list all the components and their
+		associated integer bitmask. They are
+
+		providerMgr		     1 (0x00001)
+		providerDrv		     2 (0x00002)
+		cimxmlProc		     4 (0x00004)
+		httpDaemon		     8 (0x00008)
+		upCalls			    16 (0x00010)
+		encCalls		    32 (0x00020)
+		ProviderInstMgr		    64 (0x00040)
+		providerAssocMgr	   128 (0x00080)
+		providers		   256 (0x00100)
+		indProvider		   512 (0x00200)
+		internalProvider	  1024 (0x00400)
+		objectImpl		  2048 (0x00800)
+		xmlIn			  4096 (0x01000)
+		xmlOut			  8192 (0x02000)
+		sockets			 16384 (0x04000)
+		memoryMgr		 32768 (0x08000)
+		msgQueue		 65536 (0x10000)
+		xmlParsing		131072 (0x20000)
+		responseTiming		262144 (0x40000)
+
+		A useful one to try that reveals the internal workings of
+		sfcbd when processing a CIM request (but also does not
+		generate too many messages) is "-tm 2019".
+
+	-d, --daemon	
+		Run sfcbd (and child processes) in the background.  
+
+	-v, --version	
+		Prints version information and exits.
+
+	-h, --help
+		Displays usage infomration and exits.
+
+	-k, --color-trace
+		Prints trace output in a different color per process for easier
+		debugging.  Not recommended when redirecting output to a file.
+
+	-s, --collect-stats	
+		Turn on runtime statistics collecting. If enabled then
+		various sfcbd runtime statistics will be written to ./sfcbStat
+		Default is no statistics are collected.
+
+	-c, --config-file=<FILE>
+		Specify an alternative configuration file (see Section 12).
+		Default=/usr/local/etc/sfcb/sfcb.cfg 
+ 
+
+12. Runtime Configuration Options
+=================================
+After starting up, sfcb will read runtime configuration options from the
+file /usr/local/etc/sfcb/sfcb.cfg. For example:
+
+	httpPort:       5988
+	enableHttp:     true
+	httpProcs:      8
+	httpsPort:      5989
+	enableHttps:    false
+	httpsProcs:     8
+	provProcs:      32
+	doBasicAuth:    false
+	basicAuthLib:   sfcBasicAuthentication
+	useChunking:    true
+	keepaliveTimeout: 0
+	keepaliveMaxRequest: 10
+	sslKeyFilePath: /usr/local/etc/sfcb/file.pem
+	sslCertificateFilePath: /usr/local/etc/sfcb/server.pem
+	registrationDir: /usr/local/var/lib/sfcb/registration
+	providerDirs: /usr/local/lib /usr/local/lib/cmpi
+
+Config Option Descriptions
+--------------------------
+httpPort
+	Local port that sfcbd should listen to receive HTTP (i.e. insecure)
+	requests from CIM clients. Default=5988
+
+enableHttp
+	sfcb should/not accept HTTP client connections. Default=true.
+
+httpProcs
+	Maximum number of simultaneous HTTP client connections before
+	blocking new incoming HTTP requests. Default=8
+
+httpsPort
+	Local port that sfcbd should listen to receive HTTPS (i.e. secure)
+	requests from CIM clients. Default=5989
+
+enableHttps
+	sfcb should/not accept HTTPS client connections. Default=false.
+
+httpLocalOnly
+	sfcb should only allow HTTP connections from local interface
+        (127.0.0.1 or ::1).  Default=false
+	
+httpsProcs
+	Maximum number of simultaneous HTTPS client connections before
+	blocking new incoming HTTPS requests. Default=8
+
+provProcs
+	Maximum number of simultaneous provider processes. After this
+	point if a new incoming request requires loading a new provider,
+	then one of the existing providers will first be automatically
+        unloaded. Default=32 
+
+doBasicAuth
+	Perform basic authentication on the client userid (obtained from the
+	HTTP/HTTPS header) before allowing the request. Default=false
+	(i.e. no client authentication performed).
+
+basicAuthLib
+	Name of the local library to call to authenticate the client userid.
+	Default=/usr/local/lib/libsfcBasicAuthentication.la
+
+useChunking
+	Tell sfcbd to use HTTP/HTTPS 'chunking' to return large volumes of
+	response data to the client in 'chunks', rather than buffering the 
+	data and sending it back all at once.
+	
+slpRefreshInterval
+	timeinterval in seconds in which the slp process refreshes information
+
+keepaliveTimeout
+        Specify the maximum time in seconds an sfcb HTTP process will wait
+        between two requests on one connection before terminating. Setting 
+        it to 0 will disable HTTP keep-alive. Default=0
+	
+keepaliveMaxRequest
+	Specify the maximum number of consecutive request on one connection.
+	Setting it to 0 will effectively disable HTTP keep-alive. Default=10
+
+sslKeyFilePath
+	Specify the name of the file containing the private key for the
+	server's certificate. The file must be in PEM format and may not
+	be passphrase-protected. This file is only required if enableHttps is
+	set to true. Default=/usr/local/etc/sfcb/file.pem
+	
+sslCertificateFilePath
+	Specify the name of the file containing the server's certificate. 
+	The file must be in PEM format. This file is only required if 
+	enableHttps is set to true. Default=/usr/local/etc/sfcb/server.pem
+
+registrationDir
+	Specify the registration directory, which contains the provider
+	registration data, the staging area and the static repository.
+	Default=/usr/local/var/lib/sfcb/registration
+
+providerDirs
+	A space separated list of directories where sfcb is looking for provider
+	libraries. Default=/usr/local/lib /usr/local/lib/cmpi
+
+providerSampleInterval
+	The interval in seconds at which the provider manager is checking for
+        idle providers. Default: 30
+
+providerTimeoutInterval
+	The interval in seconds before an idle provider gets unloaded by the
+	provider manager. Default: 60
+
+providerAutoGroup
+	If set to true, all providers residing in the same shared library will
+	be executed in the same process unless another group has been specified
+  	in the provider registration file. Default: true
+
+slpHostnameLib
+    Specify the name of the library to use to determine the SLP hostname. This
+    will override the default method. You must implement this library based 
+    on the sample provided, sfcSlpHostname.c. You must also specify the 
+    --enable-slp-hostname-lib configure option to enable this support.
+
+sslClientCertificate
+	Specify the way sfcb handles client certificate based authentication. If set to
+	ignore it will not request a certificate from the client. If set to
+	accept it will request a certificate from the client but not fail if
+	the client doesn't present one. If set to require it will refuse the
+	client connection if the client doesn't present a certificate. Default=ignore
+
+certificateAuthLib
+	Name of the local library to call for client-certificate based 
+	user authentication. Called only if sslClientCertificate is not set 
+	to ignore. Default=sfcCertificateAuthentication
+
+traceLevel
+	Specify the trace level for sfcb. Can be overriden by setting environment
+	variable SFCB_TRACE_LEVEL. Default: 0.
+
+traceMask
+	Specify the trace mask for sfcb. Can be overriden by the command line option
+	--trace-mask. Default: 0.
+
+traceFile
+	Specify the trace file for sfcb. Can be overriden by setting environment
+	variable SFCB_TRACE_FILE. Default: stderr.
+
+After making any changes to sfcb.cfg you must restart sfcb or get it to reload
+the config file by typing 
+
+        /usr/local/etc/init.d/sfcb reload
+
+or equivalently
+
+	killall sfcbd -HUP
+
+
+13. Environment Variables
+=========================
+In addition to the sfcbd command line options and configuration file, several
+environment variables can also be set which directly or indirectly affect the
+runtime behavior of sfcb. Environment variables affecting sfcb and/or its 
+SBLIM providers include:
+
+PATH=/usr/local/bin:/usr/local/sbin
+	Path to the sfcbd daemon and utilities.
+
+LD_LIBRARY_PATH=/usr/local/lib
+	Path to the sfcb runtime libraries. Note: the path to the SBLIM
+	provider libraries is specified in the sfcb configuration file and 
+	therefore does not need to be on the global LD_LIBRARY_PATH. 
+	However, some of the utilities re-use sfcbd libraries, hence this
+	needs to be added to LD_LIBRARY_PATH for the utilities to work.
+	Alternatively, you can add this path to the system-wide dynamic
+	linker/loader config file /etc/ld.so.conf
+
+SFCB_PAUSE_PROVIDER
+	Specifies the name of the SBLIM provider to pause after first
+	being loaded to facilitate attaching a runtime debugger to the
+	provider's process for debugging purposes.
+	See Section 23 below for more details on debugging providers.
+ 
+SFCB_PAUSE_CODEC 
+	Specifies the name of the sfcb codec (currently only "http") to pause
+	after first being started to facilitate attaching a runtime debugger
+	to the process.
+        See Section 16 below for more details on debugging sfcb.
+
+SFCB_PAUSE_HTTP
+	(duplicate of SFCB_PAUSE_CODEC=http? remove?)
+
+SFCB_TRACE=[0..4]
+        Specifies the level of trace/debug messages for sfcb.
+        Valid values are 0 (no trace messages), or 1 (key trace messages only)
+	to 4 (all messages). If not set, a default trace level of 1 will be
+	assumed for tracing.
+	Note: SFCB_TRACE level is used in conjunction
+	with sfcb's component-level tracing (see Section 11) to control the
+	level of detail of trace messages to display within each component. 
+
+SFCB_TRACE_FILE=/path/to/file
+        By default sfcb trace messages are written to STDERR.
+        Setting this envorinment variable causes the trace messages to be
+        written to a file instead.
+
+SFCB_TRAP
+	If set this environment variable enables trap interrupts on x86
+	platforms to be generated by sfcb in special situations.
+	[Note: not currently ever used]
+ 
+SBLIM_TRACE=[0..4]
+	Specifies the level of trace/debug messages for SBLIM providers.
+	Valid values are 0 (no trace messages), or 1 (key trace messages only)
+	to 4 (all messages).
+	Note: this only applies to SBLIM providers written with explicit trace
+	messages in their source code.
+
+SBLIM_TRACE_FILE=/path/to/file
+	By default SBLIM provider trace messages are written to STDERR.
+	Setting this envorinment variable causes the trace messages to be
+	written to a file instead.
+
+
+14. Installing CMPI Providers
+=============================
+As mentioned, sfcb supports CMPI providers. In order to install a CMPI provider
+for sfcb, it is necessary to make sure that the provider shared library
+is copied into one of the directories specified by the providerDirs config option
+and that the provider is properly registered using the sfcbstage and sfcbrepos
+commands as described in 17. and 18.
+Ideally the provider package is enabled for sfcb, so that a make install and/or
+make postinstall will care for the proper registration. For instance most
+of the SBLIM providers are prepared for sfcb. See 22. below.
+
+
+15. Testing sfcb with wbemcat and xmltest
+=========================================
+sfcb includes two utility programs (actually scripts) that are useful for 
+running tests against sfcb and its providers, called wbemcat and 
+xmltest.
+
+wbemcat is a utility that will send raw CIM-XML data via the http protocol
+to the sfcb CIMOM (or any CIMOM for that matter) listening on the well-known
+port 5988 on the specified host (by default localhost), and display the
+returned results. The sfcb package include a ./test
+subdirectory contain some simple CIM client commands written in CIM-XML.
+These CIM requests can be sent to sfcb using the wbemcat utility to display
+the results. eg
+
+#  ls -1 test/*.xml
+test/enumerateclasses.ALL.xml
+test/enumerateclasses.FIRSTTIME.xml
+test/enumerateinstancenames.Linux_OperatingSystem.xml
+test/enumerateinstances.Linux_OperatingSystem.xml
+test/getclass.Linux_OperatingSystem.xml
+
+The first test file above contains the CIM-XML representation of the standard
+EnumerateClasses CIM client request.
+
+# cat test/enumerateclasses.ALL.xml
+<?xml version="1.0" encoding="utf-8"?>
+<CIM CIMVERSION="2.0" DTDVERSION="2.0">
+  <MESSAGE ID="4711" PROTOCOLVERSION="1.0">
+    <SIMPLEREQ>
+      <IMETHODCALL NAME="EnumerateClasses">
+        <LOCALNAMESPACEPATH>
+          <NAMESPACE NAME="root"/>
+          <NAMESPACE NAME="cimv2"/>
+        </LOCALNAMESPACEPATH>
+        <IPARAMVALUE NAME="ClassName">
+          <CLASSNAME NAME=""/>
+        </IPARAMVALUE>
+        <IPARAMVALUE NAME="DeepInheritance">
+          <VALUE>TRUE</VALUE>
+        </IPARAMVALUE>
+        <IPARAMVALUE NAME="LocalOnly">
+          <VALUE>FALSE</VALUE>
+        </IPARAMVALUE>
+        <IPARAMVALUE NAME="IncludeQualifiers">
+          <VALUE>FALSE</VALUE>
+        </IPARAMVALUE>
+        <IPARAMVALUE NAME="IncludeClassOrigin">
+          <VALUE>TRUE</VALUE>
+        </IPARAMVALUE>
+      </IMETHODCALL>
+    </SIMPLEREQ>
+  </MESSAGE>
+</CIM>
+
+Sending this request to the sfcb CIMOM will return the list of all supported
+classes for which there is a registered provider
+
+[bestorga@bestorga sfcb]$ wbemcat test/enumerateclasses.ALL.xml | more
+HTTP/1.1 200 OK
+Content-Type: application/xml; charset="utf-8"
+Content-Length: 54862
+Cache-Control: no-cache
+CIMOperation: MethodResponse
+Connection: close
+ 
+ 
+<?xml version="1.0" encoding="utf-8" ?>
+<CIM CIMVERSION="2.0" DTDVERSION="1.1">
+<MESSAGE ID="4711" PROTOCOLVERSION="1.0">
+<SIMPLERSP>
+<IMETHODRESPONSE NAME="EnumerateClasses">
+<IRETURNVALUE>
+<CLASS NAME="CIM_Directory" SUPERCLASS="CIM_LogicalFile">
+<PROPERTY NAME="InUseCount" TYPE="uint64">
+</PROPERTY>
+<PROPERTY NAME="EncryptionMethod" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="CompressionMethod" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="Executable" TYPE="boolean">
+</PROPERTY>
+<PROPERTY NAME="Writeable" TYPE="boolean">
+</PROPERTY>
+<PROPERTY NAME="Readable" TYPE="boolean">
+</PROPERTY>
+<PROPERTY NAME="LastAccessed" TYPE="datetime">
+</PROPERTY>
+<PROPERTY NAME="LastModified" TYPE="datetime">
+</PROPERTY>
+<PROPERTY NAME="CreationDate" TYPE="datetime">
+</PROPERTY>
+<PROPERTY NAME="FileSize" TYPE="uint64">
+</PROPERTY>
+<PROPERTY NAME="Name" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="CreationClassName" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="FSName" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="FSCreationClassName" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="CSName" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="CSCreationClassName" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="Status" TYPE="string">
+</PROPERTY>
+<PROPERTY.ARRAY NAME="StatusDescriptions" TYPE="string">
+</PROPERTY.ARRAY>
+<PROPERTY.ARRAY NAME="OperationalStatus" TYPE="uint16">
+</PROPERTY.ARRAY>
+<PROPERTY NAME="InstallDate" TYPE="datetime">
+</PROPERTY>
+<PROPERTY NAME="Caption" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="Description" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="ElementName" TYPE="string">
+</PROPERTY>
+</CLASS>
+...
+
+The classes listed above will vary depending on what providers are
+installed on your system.
+
+For testing against a host with an IPv6 address, substitute the wbemcat6
+utility for wbemcat.
+
+The second utility program called xmltest is another script that is also
+used to send a raw CIM-XML test file to the sfcb CIMOM (using wbemcat) and
+then compares the returned CIM-XML results against a previously determined
+'OK' result file to check whether the returned results match the expected
+results. If there does not yet exist an 'OK' corresponding to the XML file
+then xmltest will save the returned results as the new OK file for later
+use. eg
+
+# xmltest test/getclass.Linux_OperatingSystem.xml
+Running test test/getclass.Linux_OperatingSystem.xml ... OK
+        Saving response as test/getclass.Linux_OperatingSystem.OK
+
+# xmltest test/getclass.Linux_OperatingSystem.xml
+Running test test/getclass.Linux_OperatingSystem.xml ... Passed
+
+The xmltest script is used extensively for testing sfcb (or other CIMOMs)
+using simple CIm-XML test data files, and thereby avoiding any potential
+errors introduced by a more sophisticated CIM client.
+
+
+In addition to wbemcat and xmltest - which can be considered very
+rudimentary CIM clients, the SBLIM project includes a more fully-fledged
+command-line CIM client called wbemcli. wbemcli is installed as part of the
+automated sfcb install process when using installsfcb.sh, otherwise you will
+have to downlaod and install the wbemcli package from the SBLIM website.
+See Section 24 below for more information about wbemcli.
+
+
+16. Debugging sfcb
+==================
+If you suspect an error is occuring in the sfcb the first step is probably
+to enable the built-in trace messages to see in detail what is happening
+inside the CIMOM. First you must make sure that sfcb has been compiled with
+debug enabled (see Section 8) and then restart the sfcbd daemon with
+the appropriate component trace bit-mask (see Section 11) and trace level
+(see Section 13) to isolate where things are going wrong.
+
+If this is insufficient, then you may wish to attach a runtime debugger to
+the sfcbd and/or child processes. The pid of the main sfcb broker process,
+http codec process, and class provider process is displayed on stdout when
+you start sfcbd from the command line (see Section 10). If you need to 
+attach a debugger to the http codec process immediately that it is started by
+the main sfcb broker, then sent the environment variable 
+
+	export SFCB_PAUSE_CODEC=http
+
+before starting sfcbd. It will then display the http codec pid when the child
+process is spawned and enter an pause loop to allow you to attach to the 
+process from the debugger. One attached, do the following to exit this pause
+loop and so be able to debug the normal execution of this process:
+
+	1. set a breakpoint at the sleep(5) statement 2006 in providerDrv.c
+	2. set the next instruction to the first statement after the
+	   sleep loop (2009).
+	3. set any other breakpoint that you desire for debugging and continue
+
+The following is the relevant code from providerDrv.c
+
+2932          if (once && debugMode && parms->req->operation != OPS_LoadProvider) for (;;) {
+2933             fprintf(stdout,"-#- Pausing for provider: %s -pid: %d\n",name,currentProc);
+2934             once=0;
+2935             sleep(5);
+2936          }
+2937
+2938          if (parms->req->operation == OPS_LoadProvider || debugMode) {
+2939             processProviderInvocationRequestsThread(parms);
+2940          }
+2941          else {
+2942             pthread_create(&t, &tattr, (void *(*)(void *))
+2943                 processProviderInvocationRequestsThread, (void *) parms);
+2944          }
+  
+[How pause class provider to attach debugger?]
+
+
+If the error(s) are determined to be in the SBLIM provider library, not the
+sfcb itself, then you should enabled provider debug messages using the
+SBLIM_TRACE environment variable and/or try attaching a runtime debugger to
+the provider's process and set appropriate breakpoints. See Section 23 below
+for more information about debugging providers.   
+
+
+17. Class Repository
+====================
+sfcb stores information about the CIM classes implemented by all its
+installed providers in the class repository. This consists of the
+directory tree comprised of the CIM namespace components. Typically the
+CIM namespaces known to a CIMOM are "root/cimv2" and "root/interop", which
+respectively translate to the class repository directory paths
+
+	/usr/local/var/lib/sfcb/registration/repository/root/cimv2
+and
+	/usr/local/var/lib/sfcb/registration/repository/root/interop
+
+Note: CIM namespaces are automatically converted to lowercase letters 
+when looking for the corresponding directory tree under
+/usr/local/var/lib/sfcb/registration/repository/
+
+Each namespace leaf directory contains a single file called "classSchemas"
+that contains a compiled binary representation of *all* the CIM classes
+registered under that namespace (aside: this file is generated by sfcbmof
+from the class definition files in the staging area when sfcbrepos is run).
+In addition to the actual CIM classes defined in the providers mofs, 
+the classSchemas file also contain necessary information about any of their
+CIM superclasses (hence the need to install the DMTF CIM Schema!).
+
+In addition each namespace leaf directory may contain a file called
+"qualifiers", containing all qualifiers for the namespace.
+
+When sfcbd first starts up the internal class provider will scan the
+directory /usr/local/var/lib/sfcb/registration/repository/ and all its subdirs
+to determine the registered namespaces, and then for each namespace decode the
+classSchema's to build the class hierarchy. 
+
+
+18. Adding New Classes
+======================
+As described earlier, sfcb does not support CIM class operations for
+dynamically adding, removing or modifying CIM classes. Instead, classes must
+be added, modified or removed in an offline fashion and then the sfcb
+restarted to register the changes. 
+
+sfcb uses a 'staging area' to store providers class and registration
+information, specifically /usr/local/var/lib/sfcb/stage. Adding a new
+provider and its implemented classes consists of copying the provider class
+definition(s) files - called 'mofs' - to the staging area's ./mof
+subdirectory, and copying a registration file containing the name of the
+class(es), type of provider (instance, association, etc) and
+the name of the executable library file to the ./regs subdirectory.
+Note that subdirectories under the staging area's ./mofs designate namespaces
+in the same way described in the preceding section about the class repository.
+There are two default mof files in the staging directory, indication.mof
+(if indication support is enabled) and interop.mof as can be seen below.
+MOF files residing in the root stage mof directory (e.g.
+/usr/local/var/lib/sfcb/stage/mofs) will be compiled into each namespace
+when invoking sfcbrepos. This is useful if you want to have a set of default
+classes in each namespace (as it happens with the indication classes).
+The interop.mof is located in the interop namespace directory and will
+only be compiled into the interop namespace.
+The layout may look like the following example:
+
+# ls /usr/local/var/lib/sfcb/stage
+default.reg  mofs  regs
+
+# ls /usr/local/var/lib/sfcb/stage/mofs
+indication.mof  root
+
+# ls /usr/local/var/lib/sfcb/stage/mofs/root
+cimv2 interop
+
+# ls /usr/local/var/lib/sfcb/stage/mofs/root/cimv2
+CWS_Authorization.mof     Linux_Base.mof              TST_MethodProperties.mof
+CWS_FAD.mof               TST_InstanceDefaults.mof    TST_ProcessIndication.mof
+CWS_Instance.mof          TST_InstanceKeys.mof        TST_Reef.mof
+CWS_Process.mof           TST_InstanceProperties.mof
+Linux_BaseIndication.mof  TST_LifeCycleInstance.mof
+
+# ls /usr/local/var/lib/sfcb/stage/mofs/root/interop
+interop.mof
+
+# ls /usr/local/var/lib/sfcb/stage/regs
+CWS_Authorization.reg  Linux_BaseIndication.reg     TST_ProcessIndication.reg
+CWS_FAD.reg            TST_InstanceTest.reg         TST_Reef.reg
+CWS_Instance.reg       TST_LifeCycleIndication.reg
+CWS_Process.reg        TST_MethodTest.reg
+
+# cat /usr/local/var/lib/sfcb/stage/regs/CWS_FAD.reg
+[CWS_Directory]
+   provider: CWS_DirectoryProvider
+   location: CWS_Directory
+   type: instance
+   namespace: root/cimv2
+#
+[CWS_PlainFile]
+   provider: CWS_PlainFileProvider
+   location: CWS_PlainFile
+   type: instance method
+   namespace: root/cimv2
+#
+[CWS_DirectoryContainsFile]
+   provider: CWS_DirectoryContainsFileProvider
+   location: CWS_DirectoryContainsFile
+   type: association
+   namespace: root/cimv2
+#
+
+The mof files copied into the staging area are identical to DMTF class
+definition mofs - merely copy the mof file(s) that should always be included
+with a provider to the ./mof subdirectory structure.
+
+sfcb uses a custom provider registration file for each provider that must
+typically be created by hand for new providers (Note: all SBLIM providers
+in the SBLIM website already include an generic registration file that is 
+used to auto-generate the necessary .reg file for sfcb).
+
+The format of the sfcb registration file is
+
+[<class-name>]
+   provider: <provide-name>
+   location: <library-name>
+   type: [instance] [association] [method] [indication]
+   group: <group-name>
+   unload: never
+   namespace: <namespace-for-class> ...
+
+where:
+
+<class-name>
+	The CIM class name (required)
+
+<provider-name>
+	The CMPI provider name (required)
+
+<location-name>
+	The name of the provider library (required)
+
+type
+	The type of the provider (required). This can be any combination of:
+	instance, association, method or indication.
+
+<group-name>
+	This enables multiple providers to be grouped together and run under
+	a single process to futher minimize runtime footprint. All providers
+	registered under the same <group-name> will execute in the same
+	provider process. This is optional - by default each provider will be
+	run as a separate process.
+
+unload
+	This defines the unload policy for this provider. Currently the
+	only supported option is "never", which specifies that the provider
+	will not be subjected to idle time monitoring and never unloaded.
+	This is optional - by default each provider will be unloaded when its
+	idle times exceeds that specified in the config file (see Section 12).
+
+namespace
+	List of namespaces for which this provider can execute.	This is
+	required, although for most providers this will be "root/cimv2".
+
+
+Once all the class defintions and provider registration files are stored in
+the staging aread, running the command
+
+	/usr/local/bin/sfcbrepos -f
+
+will rebuild the sfcb class repository from all the files. In this manner
+classes can be added, removed or modified. After rebuilding
+the class repository restart sfcb to get it to register the changes, by
+
+        /usr/local/etc/init.d/sfcb restart
+or
+        killall -1 sfcbd
+
+Alternatively, the sfcb package contains a utility script that can be used
+to copy a provider's class mofs and registration file to the correct locations
+in the staging area.
+
+	/usr/local/bin/sfcbstage -r [provider.reg] [class1.mof] [class2.mof] ...
+
+after which you must still rebuild the class repository and restart sfcb as
+before.
+
+
+19. Indications
+===============
+Indications are enabled via the configure script. They are enabled by default.
+For indication providers, it is possible and necessary  to register the same
+classname for different providers. A sample providerRegister file could look
+like this:
+
+[CIM_InstModification]
+   provider: SAM_DeviceProvider
+   location: SAM_Device
+   type: indication
+   namespace: root/cimv2
+#
+[CIM_InstModification]
+   provider: OSBase_OperatingSystemProvider
+   location: cmpiOSBase_OperatingSystemProvider
+   type: indication
+   namespace: root/cimv2
+#
+
+[CIM_OperatingSystem]
+   provider: OSBase_OperatingSystemProvider
+   location: cmpiOSBase_OperatingSystemProvider
+   type: instance
+   namespace: root/cimv2
+#
+
+Now you would create a handler, a filter and a subscription instance. Sample
+xml files for this can be found in the SBLIM cmpi-base package in the directory
+test/indication.
+For the example above a query property of the filter could look like this:
+"SELECT * FROM CIM_InstModification WHERE SourceInstance ISA
+CIM_OperatingSystem"
+Now all providers registered for CIM_InstModification and located in the
+namespace as specified by the SourceNamespace property of the filter are
+invoked.
+You do not have to separate the indication and instance provider. An
+implementation like the following is perfectly ok:
+
+[CIM_InstModification]
+   provider: OSBase_OperatingSystemProvider
+   location: cmpiOSBase_OperatingSystemProvider
+   type: indication instance
+   namespace: root/cimv2
+#
+
+[CIM_OperatingSystem]
+   provider: OSBase_OperatingSystemProvider
+   location: cmpiOSBase_OperatingSystemProvider
+   type: indication instance
+   namespace: root/cimv2
+#
+
+
+20. Alternative Class Providers
+===============================
+As the class repository is implemented via a provider, it can easily be
+replaced by registerening an alternative provider in providerRegister.
+sfcb comes with three different class providers:
+
+sfcClassProvider
+----------------
+The default class provider: it loads all the classSchema file from the
+repository tree in memory. It's fast but can consume a lot of memory with
+larger schemas. At present it's the only class provider allowing to add,
+modify and delete classes while sfcb is running.
+
+sfcClassProviderGz
+------------------
+The compressing and caching class provider: it only holds a last recently
+used classes in a cache and will reload classes from the filesystem repository
+as needed. It is also capable to handle classSchema files compressed via
+gzip. It requires libgz to operate. This provider doesn't support add,
+modify and delete.
+
+sfcClassProviderMem
+-------------------
+This is a special purpose provider which allows to compile the schema into
+the provider. In consequence, no repository is needed on the file system.
+In order to use it in a meaningful way it is necessary to produce C source
+files containing the schema information, add those to the set of sources
+for the class provider and rebuild it. The default implementation of 
+sfcClassProviderMem comes with a prebuilt root/interop namespace.
+This provider doesn't support add, modify and delete.
+
+Instructions for adding namespaces to sfcClassProviderMem
+..........................................................
+
+Build and install sfcb as usual. Then build and install the providers, 
+including the post-install steps required to build the repository.
+Next, create a C source file from the class schema files in all the
+namespaces you want to include into the class provider.
+For this purpose, there's a program called classSchema2c, which you should
+invoke like this (for a namespace "xyz"):
+
+classSchema2c /usr/local/var/lib/sfcb/registration/repository/root/xyz xyz \
+  > xyz_classSchema.c
+
+This produces a file xyz_classSchema.c (by default, sfcb is shipped with
+a interop_classSchema.c) which needs to be compiled and linked with 
+the class provider library. In order to do this, spot the line in Makefile.am
+starting with sfcClassProviderMem_la_SOURCES and append this file's name to 
+list of source files. I.e., change 
+
+libsfcClassProviderMem_la_SOURCES = \
+   classProviderMem.c classSchemaMem.c interop_classSchema.c
+
+to 
+
+libsfcClassProviderMem_la_SOURCES = \
+   classProviderMem.c classSchemaMem.c interop_classSchema.c xyz_classSchema.c
+
+There's one step left to do: you must edit the file classSchemaMem.c and add
+a reference to the data structures in xyz_classSchemas.c to it. I.e., add
+
+extern ClassSchema xyz_classes;
+
+after the other extern ClassSchema statements, and add the line
+
+  { "xyz", &xyz_classes },
+
+before the line containing 
+
+  { NULL, NULL }
+
+That may sound complicated, just have a look at the file and you'll understand
+what to do.
+
+HINT: Before using sfcClassProviderMem you should verify that providers and
+schema work with the default class provider.
+
+Cross-Build Support for sfcClassProviderMem
+...........................................
+
+When cross-compiling sfcb for another platform the endianness, alignment
+and padding of the structures in the generated source file might not be
+correct. The option -X can be used to specify the cross-compilation target.
+Currently it is possible to produde compilable class schema files for
+big-endian 32-bit platforms on an i386 based host, by invoking classSchema.c
+like this:
+
+classSchema2c -X P32 /usr/local/var/lib/sfcb/registration/repository/root/xyz xyz \
+  > xyz_classSchema.c
+
+This has been tested for the following platforms:
+s390 (31-bit)
+ppc (32-bit)
+
+
+21. Authentication Support
+==========================
+sfcb can be configured to support HTTP basic authentication and authentication
+based on client certificates (for HTTP over SSL connections).
+
+Basic authentication is enabled by specifying doBasicAuth=true in the
+sfcb configuration file. With basic authentication enabled, the HTTP adapter
+will load the shared library specifed via the basicAuthLib configuration
+property and call the function _sfcBasicAuthenticate with user id and password
+from the HTTP header in order to authenticate the client request.
+The default implementation in libsfcBasicAuthentication.so is always failing
+the authentication request. Users of sfcb are encouraged to write their
+own basic authentication support.
+
+For systems supporting the Pluggable Authentication Modules (PAM) approach
+there's a basic authentication library called libsfcBasicPAMAuthentication.so.
+This library will be built when the configure script is invoked with
+--enable-pam. 
+
+Client certificate based authentication is available if SSL support for sfcb
+is enabled (via ./configure --enable-ssl). If the clientCertificate 
+configuration property is set to "accept" or "require" the sfcb HTTP adapter 
+will request a certificate from clients connecting via HTTP over SSL (HTTPS).
+If "require" was specified, the client MUST present a valid certificate
+according to the client trust store specified via sslClientTrustStore.
+If the client fails to do so, the connection will be rejected.
+
+The case clientCertificate=accept is perhaps less obvious but useful 
+in the case where both basic and client certificate authentication are 
+configured. If the client is able to present a trusted certificate, the
+HTTP adapter will load the shared library specifed via the 
+certificateAuthLib configuration property and call the function
+_sfcCertificateAuthenticate with the certificate. The function can now
+check this certificate and map it to a principal (=user id), in which
+case the basic authentication procedure will not be executed.
+If this function cannot determine the certificate to principal mapping, the
+HTTP basic authentication will take place.
+
+The default implementation of in libsfcCertificateAuthentication is fairly
+useful already, as it maintains a list of certificate/principal pairs in
+shared memory. This list is automatically updated if a client can both
+supply a trusted certificate AND succesfully authenticate via HTTP basic
+authentication. In the case of special requirements, it is necessary to
+implement a custom certificate authentication library.
+
+
+22. Installing Existing SBLIM Providers
+=======================================
+The cmpi-base SBLIM provider package - which is installed by default when you
+install sfcbd from CVS using the installsfcb.sh script - implements the
+following commonly used system management CIM classes:
+
+	Linux_ComputerSystem
+	Linux_BaseBoard
+	Linux_OperatingSystem
+	Linux_OperatingSystemStatisticalData
+	Linux_UnixProcess
+	Linux_Processor
+	Linux_RunningOS
+	Linux_CSBaseBoard
+	Linux_OSProcess
+	Linux_OperatingSystemStatistics
+	Linux_CSProcessor
+
+All SBLIM providers are autoconf'ed and therefore it is just a matter of
+downloading the provider source tarball (or obtaining the provider source
+files from CVS) and then running
+
+	./configure
+	make
+	su -c 'make install'
+	su -c 'make postinstall'
+
+Other SBLIM providers are installed in the same manner, however please check
+their README file for any special installation instructions.
+
+When you install the cmpi-base package it will detect that you are running
+the sfcb and automatically copy the necessary files for the sfcb staging area,
+rebuild the repository, and if necessary restart the sfcb. You can then start
+issuing client requests against the newly added CIM classes.
+
+Please go to the SBLIM Project home page at http://sblim.sourceforge.net/
+for a full list of available SBLIM providers, including a number of test 
+providers.
+
+
+23. Debugging SBLIM Providers
+=============================
+Many of the existing SBLIM providers include extensive degub/trace messages
+to aid in debugging errors that may occur when running the providers. To
+enable debug messages set the environment variable
+
+	export SBLIM_TRACE=[1..4]
+
+See Section 13 for a more detailed description of this variable. If you wish
+to save the resulting debug messages to a file, instead of having them printed
+to STDERR, then set the environment variable
+
+	export SBLIM_TRACE_FILE=/path/to/file.
+
+After setting either variable you must get all the SBLIM providers to be
+reloaded, which is most easily accomplished by restarting sfcb. Unlike the 
+similar trace/debug messages found in sfcb itself, SBLIM providers do not 
+typically have component-level tracing, hence there is no equivalent 
+bit-mask that you can set to restrict debug messages to individual providers.
+Enabling SBLIM_TRACE will turn on debugging for all SBLIM providers with
+SBLIM_TRACE support.
+
+If the debug messages do not provide adequate information by which to isolate
+the problem, it is possible to attach a runtime debugger to the provider
+processes and set breakpoints. Along the same lines as attaching a runtime
+debugger to the sfcb processes (described in Section 15) to attach
+a debugger to a provider process immediately after it is started by
+the main sfcb broker, set the environment variable
+                                                                                
+        export SFCB_PAUSE_PROVIDER=<providername>
+                                                                                
+before starting sfcbd. sfcb will then display the provider pid when the child
+process is spawned and enter a pause loop to allow you to attach to the
+process from the debugger. Once attached, do the following to exit the pause
+loop and so be able to debug the normal execution of the provider process:
+
+	1. set a breakpoint at the sleep(5) statement at line 2459 in
+	   providerDrv.c.and continue.
+	2. set the value of the variable debug_break to 1 so that the pause
+	   loop will be broken out of when line 2456 is executed.
+	3. set any breakpoints you desire in the provider code and continue.
+
+	NOTE: Due to optimization, setting debug_break might not work. In
+	      this case sfcb will need to be built without optimizations by
+	      adding "CFLAGS=-g" when configuring sfcb.
+                                                                                
+The following is the relevant code from providerDrv.c
+
+2455          if (once && debugMode && parms->req->operation != OPS_LoadProvider) for (;;) {
+2456            if (debug_break) break;
+2457             fprintf(stdout,"-#- Pausing for provider: %s -pid: %d\n",name,currentProc);
+2458             once=0;      
+2459             sleep(5);
+2460          }
+2461 
+2462          if (parms->req->operation == OPS_LoadProvider || debugMode) {
+2463             processProviderInvocationRequestsThread(parms);
+2464          }
+2465          else {
+2466             pthread_create(&t, &tattr, (void *(*)(void *))
+2467                 processProviderInvocationRequestsThread, (void *) parms);
+2468          }
+
+
+24. wbemcli, sfcc and other CIM Clients
+=======================================
+The SBLIM Project includes an Open Source command-line CIM client 'wbemcli'
+that can be used to send CIM requests to the sfcb and display returned
+results. wbemcli is installed by default if you build & install sfcb with the 
+included install script. However, if you build & install sfcb by other means
+then you will need to download wbemcli separately from the SBLIM Project
+home page.
+
+For example, to list all the classes implemented by the various SBLIM
+providers registed to sfcb you can use wbemcli to send the "EnumerateClasses"
+(ec) CIM client request to sfcb, which then display the returned results. e.g.
+
+	wbemcli -dx ec http://localhost/root/cimv2
+                                                                                
+You should see an output similar to:
+
+To server: <?xml version="1.0" encoding="utf-8" ?>
+<CIM CIMVERSION="2.0" DTDVERSION="2.0">
+<MESSAGE ID="4711" PROTOCOLVERSION="1.0"><SIMPLEREQ><IMETHODCALL NAME="EnumerateClasses"><LOCALNAMESPACEPATH><NAMESPACE NAME="root"></NAMESPACE><NAMESPACE NAME="cimv2"></NAMESPACE></LOCALNAMESPACEPATH>
+<IPARAMVALUE NAME="ClassName"><CLASSNAME NAME=""/></IPARAMVALUE>
+<IPARAMVALUE NAME="DeepInheritance"><VALUE>TRUE</VALUE></IPARAMVALUE>
+<IPARAMVALUE NAME="LocalOnly"><VALUE>FALSE</VALUE></IPARAMVALUE>
+<IPARAMVALUE NAME="IncludeQualifiers"><VALUE>FALSE</VALUE></IPARAMVALUE>
+<IPARAMVALUE NAME="IncludeClassOrigin"><VALUE>TRUE</VALUE></IPARAMVALUE>
+</IMETHODCALL></SIMPLEREQ>
+</MESSAGE></CIM>
+From server: Content-Type: application/xml; charset="utf-8"
+From server: Content-Length: 54862
+From server: Cache-Control: no-cache
+From server: CIMOperation: MethodResponse
+From server: Connection: close
+From server:
+<?xml version="1.0" encoding="utf-8" ?>
+<CIM CIMVERSION="2.0" DTDVERSION="1.1">
+<MESSAGE ID="4711" PROTOCOLVERSION="1.0">
+<SIMPLERSP>
+<IMETHODRESPONSE NAME="EnumerateClasses">
+<IRETURNVALUE>
+<CLASS NAME="CIM_Directory" SUPERCLASS="CIM_LogicalFile">
+<PROPERTY NAME="InUseCount" TYPE="uint64">
+</PROPERTY>
+<PROPERTY NAME="EncryptionMethod" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="CompressionMethod" TYPE="string">
+</PROPERTY>
+<PROPERTY NAME="Executable" TYPE="boolean">
+</PROPERTY>
+...
+</CLASS>
+<CLASS NAME="Linux_OSProcess" SUPERCLASS="CIM_OSProcess">
+<PROPERTY.REFERENCE NAME="GroupComponent"></PROPERTY.REFERENCE>
+<PROPERTY.REFERENCE NAME="PartComponent"></PROPERTY.REFERENCE>
+</CLASS>
+<CLASS NAME="CIM_Processor" SUPERCLASS="CIM_LogicalDevice">
+<PROPERTY NAME="MaxQuiesceTime" TYPE="uint64">
+</PROPERTY>
+<PROPERTY.ARRAY NAME="AdditionalAvailability" TYPE="uint16">
+</PROPERTY.ARRAY>
+...
+
+The -dx option enables you to see both the actual XML send to sfcb from the
+wbemcli clients, as well as all the actual XML received. In the example
+above, the first (of many!) classes returned as "CIM_Directory", followed by
+"Linux_OSProcess". Similar entries will appear for the other registered
+CIM classes.
+
+Ommiting the -dx option causes wbemcli to display only a compact 
+representation of the returned data. eg
+
+# wbemcli ec http://localhost/root/cimv2
+localhost:5988/root/cimv2:CIM_Directory InUseCount,EncryptionMethod,CompressionMethod,Executable,Writeable,Readable,LastAccessed,LastModified,CreationDate,FileSize,Name,CreationClassName,FSName,FSCreationClassName,CSName,CSCreationClassName,Status,StatusDescriptions,OperationalStatus,InstallDate,Caption,Description,ElementName
+localhost:5988/root/cimv2:TST_LifeCycleInstance ElementName,Description,Caption,id
+localhost:5988/root/cimv2:Linux_OSProcess GroupComponent,PartComponent
+...
+
+
+The SBLIM project also include a prototype Small-Footprint CIM Client (sfcc)
+that provides a C-based API for client applications to send/receive CIM
+client commands to a CIMOM (e.g. sfcb, although any CIMOM compatible with
+CIMXML-over-http will also work). Please got the the SBLIM Website for more
+information about sfcc.
+
+Other CIM clients, such as CLI from the OpenPegasus project and the
+graphical cimbrowser from the SNIA cimom projcet, can also be used to send
+and receive CIM client commands to sfcb and browse the hierarchy of CIM
+classes supported by its registered providers. Please see the 
+approriate home page for these clients for more information. In general,
+*any* CIM client that adheres to the CIMXML-over-http standard should work
+with sfcbd (except for the unsupported CIM operations mentioned in Section 1). 
+
+
+25. SLP Support
+===============
+Prerequisites for slp support are the openslp library available from
+http://www.openslp.org and the sfcc library available from our
+SBLIM project at http://sblim.sourceforge.net.
+
+It is possible to build sfcb with support for slp advertisements.
+There are two possibilities:
+a) as a standalone executable, if compiled with --enable-slp=standalone
+b) as a process forked from sfcbd, if compiled with --enable-slp[=yes]
+
+When using option a) the binary cimslp will be installed in /usr/local/bin
+It takes several arguments, such as the host where the cimserver is running.
+For a complete list, invoke "cimslp --help". The options should be self-explanatory.
+
+One note on the lifetime parameter: An slp registration lasts only a certain amount
+of time. This can be configured with the "-l" option (a postive int value, seconds).
+How cimslp works is that it registers the CIM service with the specified amount of
+time, sleeps for a little less, checks if anything changed and reregisters the
+service. If the option is not specified, SLP_LIFETIME_DEFAULT will be used
+(see <slp.h>).
+
+When using option b) a library called libslpAgent will be built which gets forked
+as a new process once sfcbd is started. It uses the same procedures as sfcbd for
+getting configuration parameters, so the parameters specified in the config file
+apply to the slp process as well, namely enableHttp, enableHttps, httpPort and
+httpsPort. The lifetime is configured via the config file as well, see parameter
+slpRefreshInterval in section 12. The behaviour is the same as described for the
+standalone process above.
+
+For the syntax of the advertised attributes see the WBEM SLP Template available
+from the dmtf website at: http://www.dmtf.org/standards/wbem/wbem.1.0.en
+
+If you have a provider registered for a CIM_RegisteredProfile class and you 
+would like it to be advertised via slp, ensure that the AdvertiseTypes property
+is set to {3}.  Any other state will prevent the profile name from being 
+included in the slp advertisement.
+
+26. Files
+=========
+/usr/local/sbin/sfcbd
+	Small-footprint CIM broker daemon.
+
+/usr/local/bin/sfcbmof
+	MOF compiler for sfcb. Generates binary class data from plaintest
+	MOF class defintion.
+
+/usr/local/bin/sfcbstage
+	Copy provider mof and registration files to sfcb staging area.
+	Used to add classes to sfcb offline.
+
+/usrlocal/bin/sfcbustage
+	Remove provider mof and registration files from sfcb staging area.
+        Used to remove classes to sfcb offline.
+
+/usr/local/bin/sfcbrepos
+	Rebuild sfcb class repository from staging files.
+
+/usr/local/bin/cimslp
+	Registers a cimom with slp
+	 (only available if configured and build with --enable-slp=standalone)
+
+/usr/local/var/lib/sfcb/registration/providerRegister
+	Contains registration data for all installed providers.
+
+/usr/local/var/lib/sfcb/registration/providerRegister.previous
+	Contains registration data for all installed providers from
+	previous time sfcbrepos was run. This can be used to restore an
+	earlier class repository in case sfcbrepos generates a corrupt one.
+
+/usr/local/var/lib/sfcb/registration/repository/*
+	Contain class repository directory for all supported CIM namespaces.
+
+/usr/local/var/lib/sfcb/registration/repository.previous/*
+        Contain class repository directory for all supported CIM namespaces
+	from the previous time sfcbrepos was run. This can be used to restore an
+        earlier class repository in case sfcbrepos generates a corrupt one.
+
+/usr/local/var/lib/sfcb/stage/default.reg
+	Registration data for the default built-in sfcb internal providers. 
+
+/usr/local/var/lib/sfcb/stage/interop.mof
+	Dummy classes used to added CIM indication support to the
+	default interop namespace.
+
+/usr/local/var/lib/sfcb/stage/mofs/*
+	Class definitions for all installed providers.
+
+/usr/local/var/lib/sfcb/stage/regs/*
+	Registration info for all installed providers.
+
+/usr/local/lib/libsfc*
+	Binaries for sfcb runtime libraries.
+
+/usr/local/lib/cmpi/*
+	Binaries for providers.
+
+/usr/local/etc/init.d/sfcb
+	Control script to start/stop/restart sfcbd daemon.
+
+/usr/local/etc/sfcb/sfcb.cfg
+	Default sfcb configuration file.
+
+/usr/local/share/genSslCert.sh
+	Script to generate SSL certificates for https (if enabled).
+ 
+/usr/local/etc/sfcb/server.pem
+	SSL server certificate for sfcb
+
+/usr/local/etc/sfcb/file.pem
+	SSL private key file for sfcb
+
+/usr/local/share/getSchema.sh
+	Script to download and install CIM schema.
+
+/usr/local/share/CIM/*
+	Class definitions for DMTF CIM schema.
+
+/usr/local/bin/wbemcli (if installed)
+	Command-line CIM client.
+
+/usr/local/bin/wbem[ai|ain|ci|cm|cmx|dc|di|ec|ecn|gc|gcd|gi|gp|mi|ri|rin|sp]
+	Shortcuts for wbemcli operations. e.g.
+		wbemgi ...
+	is the same as
+		wbemcli gi ... [gi=GetInstance]
+
+/usr/local/include/cmpi/*
+	CMPI API headers (used to build providers)
+
+
+27. Support and Reporting Bugs
+==============================
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+
+        http://lists.sourceforge.net/lists/listinfo/sblim-devel
+
+The SBLIM Project Bug tracking page can be found at:
+
+	http://sourceforge.net/tracker/?group_id=128809&atid=712784
+
+Here you will find a list of all known bugs for SFCB (set the Category
+field to "sfcb").  You can also report new bugs and request features.
+When reporting a bug, please provide a good description and attach any
+useful files, such as patches or the XML used to generate the error.
+
+
+28. Troubleshooting
+===================
+
+Problem:  Receive "error while loading shared libraries" on sfcbd startup
+Cause:    The location of the sfcb .so files are not in your library path
+Solution: Add the location of the sfcb .so files to /etc/ld.so.conf and run 
+          ldconfig. By default, they are installed in /usr/local/lib 
+
+Problem:  Can't register providers: sfcbmof not found
+Cause:    You are building from CVS and forgot to get mofc
+Solution: See Sec. 6 "Building sfcb and mofc" above
+
+Problem:  Can't register new providers; sfcbrepos/sfcbmof fails after upgrading 
+          from 1.2.x to 1.3.x
+Cause:    Most likely you forgot to get the new version of mofc and an old, 
+          incompatible version of sfcbmof was left behind from a previous install.
+Solution: Build the latest mofc with sfcb as described in Sec. 6.  If using the
+          same install path as before, this will overwrite the old sfcbmof. Make
+	  sure to run sfcbrepos or rerun the entire sfcb build process again to 
+	  create a new copy of the repository
+
+Problem:  "unsupported object implementation format" error on startup
+Cause:    The repository is old or corrupt
+Solution: Run sfcbrepos to rebuild the repository
+
+Problem:  "operation on non-socket" error on startup
+Cause:    The repository is out-of-date
+Solution: Run sfcbrepos to rebuild the repository
+
+Problem:  sfcbrepos does not exist
+Cause:    You are building sfcb from CVS and do not have the mof compiler
+Solution: Build the latest mofc with sfcb as described in Sec. 6.  Note: you 
+          should NOT run configure in the mofc subdirectory; the sfcb configure
+	  script will take care of this

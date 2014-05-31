@@ -1,0 +1,68 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.enumInstances() \- Enumerate instances of a class
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.enumInstances (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIFlags flags,
+.br
+.BI				char** properties,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Enumerate Instances of the class (and subclasses) defined by \fIop\fP.
+The instance structure and inheritance scope can be controled using the
+\fIflags\fP argument.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the reference that contains namespace and classname
+components,
+\fIflags\fP that affect the content of the returned class instance structures,
+a \fIproperties\fP array, and \fIrc\fP which returns the operation status 
+(suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contains the following 
+flags - \fICMPI_FLAG_LocalOnly\fP, \fICMPI_FLAG_DeepInheritance\fP, 
+\fICMPI_FLAG_IncludeQualifiers\fP and \fICMPI_FLAG_IncludeClassOrigin\fP.
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.enumInstances()\fP function returns
+a pointer to a CMPIEnumeration object that contains the class instances 
+found for the class and sets a successful operation status code in \fIrc\fR.
+When unsuccessful it returns a NULL pointer and sets the operation 
+status error code and corresponding error string in \fIrc\fP.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+   CMCIClient *cc;
+   CMPIObjectPath * objectpath;
+   CMPIInstance * instance;
+   CMPIEnumeration * enumeration;
+   CMPIStatus status;
+
+   /* Setup a conncetion to the CIMOM */   
+   cc = cmciConnect("localhost", NULL, NULL, NULL, NULL, NULL);
+
+   objectpath = newCMPIObjectPath("root/cimv2", NULL, NULL);
+   enumeration = cc->ft->enumInstances(cc, objectpath, 0, NULL, &status);
+
+   if (!status.rc) {
+	fprintf(stderr, "operation error code %d description %s\n",
+			status.rc, status.msg->hdl);
+	abort();
+   }
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIFlags(3),
+CMPIStatus(3)

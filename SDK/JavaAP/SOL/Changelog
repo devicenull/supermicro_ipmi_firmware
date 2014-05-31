@@ -1,0 +1,10 @@
+2010-02-08  Bobby Fu  <shuyufu@aten.com.tw>
+
+    * S_O_L
+      Read SOL port from application argument
+
+2009-11-17  Bobby Fu  <shuyufu@aten.com.tw>
+
+    * Changelog
+      Initial version
+

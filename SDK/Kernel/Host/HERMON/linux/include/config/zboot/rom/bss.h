@@ -1,0 +1,1 @@
+#define CONFIG_ZBOOT_ROM_BSS 0x0

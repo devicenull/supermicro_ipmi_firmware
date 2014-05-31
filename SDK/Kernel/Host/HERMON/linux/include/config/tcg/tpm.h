@@ -1,0 +1,1 @@
+#undef CONFIG_TCG_TPM

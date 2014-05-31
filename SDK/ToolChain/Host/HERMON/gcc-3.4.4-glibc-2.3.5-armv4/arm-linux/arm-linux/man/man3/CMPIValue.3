@@ -1,0 +1,130 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIValue \- CMPIValue class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCMPIUint64\fP \fBuint64\fP"
+.br
+.ti -1c
+.RI "\fBCMPIUint32\fP \fBuint32\fP"
+.br
+.ti -1c
+.RI "\fBCMPIUint16\fP \fBuint16\fP"
+.br
+.ti -1c
+.RI "\fBCMPIUint8\fP \fBuint8\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint64\fP \fBsint64\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint32\fP \fBsint32\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint16\fP \fBsint16\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint8\fP \fBsint8\fP"
+.br
+.ti -1c
+.RI "\fBCMPIReal64\fP \fBreal64\fP"
+.br
+.ti -1c
+.RI "\fBCMPIReal32\fP \fBreal32\fP"
+.br
+.ti -1c
+.RI "\fBCMPIBoolean\fP \fBboolean\fP"
+.br
+.ti -1c
+.RI "\fBCMPIChar16\fP \fBchar16\fP"
+.br
+.ti -1c
+.RI "\fBCMPIInstance\fP * \fBinst\fP"
+.br
+.ti -1c
+.RI "\fBCMPIObjectPath\fP * \fBref\fP"
+.br
+.ti -1c
+.RI "\fBCMPIArgs\fP * \fBargs\fP"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBEnum\fP"
+.br
+.ti -1c
+.RI "\fBCMPIArray\fP * \fBarray\fP"
+.br
+.ti -1c
+.RI "\fBCMPIString\fP * \fBstring\fP"
+.br
+.ti -1c
+.RI "char * \fBchars\fP"
+.br
+.ti -1c
+.RI "\fBCMPIDateTime\fP * \fBdateTime\fP"
+.br
+.ti -1c
+.RI "\fBCMPIValuePtr\fP \fBdataPtr\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint8\fP \fBByte\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint16\fP \fBShort\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint32\fP \fBInt\fP"
+.br
+.ti -1c
+.RI "\fBCMPISint64\fP \fBLong\fP"
+.br
+.ti -1c
+.RI "\fBCMPIReal32\fP \fBFloat\fP"
+.br
+.ti -1c
+.RI "\fBCMPIReal64\fP \fBDouble\fP"
+.br
+.in -1c
+.SH METHODS
+
+.in +1c
+.ti -1c
+.RI "void \fBnative_release_CMPIValue\fP (\fBCMPIType\fP type, \fBCMPIValue\fP *val)"
+.br
+.ti -1c
+.RI "\fBCMPIValue\fP \fBnative_clone_CMPIValue\fP (\fBCMPIType\fP type, \fBCMPIValue\fP *val, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "char * \fBpathToChars\fP (\fBCMPIObjectPath\fP *cop, \fBCMPIStatus\fP *rc, char *str, int uri)"
+.br
+.ti -1c
+.RI "char * \fBvalue2CharsUri\fP (\fBCMPIType\fP type, \fBCMPIValue\fP *value, int uri)"
+.br
+.ti -1c
+.RI "char * \fBvalue2Chars\fP (\fBCMPIType\fP type, \fBCMPIValue\fP *value)"
+.br
+.ti -1c
+.RI "char * \fBkeytype2Chars\fP (\fBCMPIType\fP type)"
+.br
+.ti -1c
+.RI "\fBCMPIValue\fP * \fBgetKeyValueTypePtr\fP (char *type, char *value, \fBXtokValueReference\fP *ref, \fBCMPIValue\fP *val, \fBCMPIType\fP *typ)"
+.br
+.ti -1c
+.RI "\fBCMPIType\fP \fBguessType\fP (char *val)"
+.br
+.ti -1c
+.RI "\fBCMPIValue\fP \fBstr2CMPIValue\fP (\fBCMPIType\fP type, char *val, \fBXtokValueReference\fP *ref)"
+.br
+.in -1c
+.SH DESCRIPTION
+.PP 
+CMPIValue class implementation, representing the Encapsulated value objects. 
+
+This is the native CMPIValue implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIValue, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

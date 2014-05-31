@@ -1,0 +1,204 @@
+#!/bin/sh
+# $OpenLDAP: pkg/ldap/tests/run.in,v 1.47.2.6 2008/02/11 23:26:50 kurt Exp $
+## This work is part of OpenLDAP Software <http://www.openldap.org/>.
+##
+## Copyright 1998-2008 The OpenLDAP Foundation.
+## All rights reserved.
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted only as authorized by the OpenLDAP
+## Public License.
+##
+## A copy of this license is available in the file LICENSE in the
+## top-level directory of the distribution or, alternatively, at
+## <http://www.OpenLDAP.org/license.html>.
+
+USAGE="$0 [-b <backend>] [-c] [-k] [-p] [-u] [-w] <script>"
+
+# configure generated
+SRCDIR="."
+TOPSRCDIR=".."
+LN_S="ln -s"
+EGREP_CMD="grep -E"
+
+export SRCDIR TOPSRCDIR LN_S EGREP_CMD
+
+# backends
+AC_bdb=no
+AC_hdb=no
+AC_ldap=ldapno
+AC_meta=metano
+AC_monitor=no
+AC_relay=relayno
+AC_sql=sqlno
+
+# overlays
+AC_accesslog=accesslogno
+AC_dds=ddsno
+AC_dynlist=dynlistno
+AC_memberof=memberofno
+AC_pcache=pcacheno
+AC_ppolicy=ppolicyno
+AC_refint=refintno
+AC_retcode=retcodeno
+AC_translucent=translucentno
+AC_unique=uniqueno
+AC_rwm=rwmno
+AC_syncprov=syncprovno
+AC_valsort=valsortno
+
+# misc
+AC_WITH_SASL=no
+AC_WITH_TLS=yes
+AC_WITH_MODULES_ENABLED=no
+AC_ACI_ENABLED=acino
+AC_THREADS=threadsno
+AC_LIBS_DYNAMIC=libstatic
+
+# sanitize
+if test "${AC_ldap}" = "ldapmod" && test "${AC_LIBS_DYNAMIC}" = "static" ; then
+	AC_ldap="ldapno"
+fi
+if test "${AC_meta}" = "metamod" && test "${AC_LIBS_DYNAMIC}" = "static" ; then
+	AC_meta="metano"
+fi
+
+export AC_bdb AC_hdb AC_ldap AC_meta AC_monitor AC_relay AC_sql \
+	AC_accesslog AC_dds AC_dynlist AC_memberof AC_pcache AC_ppolicy \
+	AC_refint AC_retcode AC_rwm AC_unique AC_syncprov AC_translucent \
+	AC_valsort \
+	AC_WITH_SASL AC_WITH_TLS AC_WITH_MODULES_ENABLED AC_ACI_ENABLED \
+	AC_THREADS AC_LIBS_DYNAMIC
+
+if test ! -x ../servers/slapd/slapd ; then
+	echo "Could not locate slapd(8)"
+	exit 1
+fi
+
+BACKEND=
+CLEAN=no
+WAIT=0
+KILLSERVERS=yes
+PRESERVE=${PRESERVE-no}
+USERDATA=no
+
+while test $# -gt 0 ; do
+	case "$1" in
+		-b | -backend)
+			BACKEND="$2"
+			shift; shift ;;
+
+		-c | -clean)
+			CLEAN=yes
+			shift ;;
+
+		-k | -kill)
+			KILLSERVERS=no
+			shift ;;
+
+		-p | -preserve)
+			PRESERVE=yes
+			shift ;;
+
+		-u | -userdata)
+			USERDATA=yes
+			shift ;;
+
+		-w | -wait)
+			WAIT=1
+			shift ;;
+
+		-)
+			shift
+			break ;;
+
+		-*)
+			echo "$USAGE"; exit 1
+			;;
+
+		*)
+			break ;;
+	esac
+done
+
+if test -z "$BACKEND" ; then
+	for b in bdb hdb ; do
+		if eval "test \"\$AC_$b\" != no" ; then
+			BACKEND=$b
+			break
+		fi
+	done
+	if test -z "$BACKEND" ; then
+		echo "No suitable default database backend configured" >&2
+		exit 1
+	fi
+fi
+BACKENDTYPE=`eval 'echo $AC_'$BACKEND`
+if test "x$BACKENDTYPE" = "x" ; then
+	BACKENDTYPE="unknown"
+fi
+export BACKEND BACKENDTYPE WAIT KILLSERVERS PRESERVE USERDATA
+
+if test $# = 0 ; then
+	echo "$USAGE"; exit 1
+fi
+
+# need defines.sh for the definitions of the directories
+. $SRCDIR/scripts/defines.sh
+
+SCRIPTDIR="${SRCDIR}/scripts"
+SCRIPTNAME="$1"
+shift
+
+if test -x "${SCRIPTDIR}/${SCRIPTNAME}" ; then
+	SCRIPT="${SCRIPTDIR}/${SCRIPTNAME}"
+elif test -x "`echo ${SCRIPTDIR}/test*-${SCRIPTNAME}`"; then
+	SCRIPT="`echo ${SCRIPTDIR}/test*-${SCRIPTNAME}`"
+elif test -x "`echo ${SCRIPTDIR}/${SCRIPTNAME}-*`"; then
+	SCRIPT="`echo ${SCRIPTDIR}/${SCRIPTNAME}-*`"
+else
+	echo "run: ${SCRIPTNAME} not found (or not executable)"
+	exit 1;
+fi
+
+if test ! -r ${DATADIR}/test.ldif ; then
+	${LN_S} ${SRCDIR}/data ${DATADIR}
+fi
+if test ! -r ${SCHEMADIR}/core.schema ; then
+	${LN_S} ${TOPSRCDIR}/servers/slapd/schema ${SCHEMADIR}
+fi
+
+if test -d ${TESTDIR} ; then
+	if test $PRESERVE = no ; then
+		echo "Cleaning up test run directory leftover from previous run."
+		/bin/rm -rf ${TESTDIR}
+	elif test $PRESERVE = yes ; then
+		echo "Cleaning up only database directories leftover from previous run."
+		/bin/rm -rf ${TESTDIR}/db.*
+	fi
+fi
+mkdir -p ${TESTDIR}
+
+if test $USERDATA = yes ; then
+	if test ! -d userdata ; then
+		echo "User data directory (userdata) does not exist."
+		exit 1
+	fi
+	cp -R userdata/* ${TESTDIR}
+fi
+
+# disable LDAP initialization
+LDAPNOINIT=true; export LDAPNOINIT
+
+echo "Running ${SCRIPT}..."
+$SCRIPT $*
+RC=$?
+
+if test $CLEAN = yes ; then
+	echo "Cleaning up test run directory from this run."
+	/bin/rm -rf ${TESTDIR}
+	echo "Cleaning up symlinks."
+	/bin/rm -f ${DATADIR} ${SCHEMADIR}
+fi
+
+exit $RC

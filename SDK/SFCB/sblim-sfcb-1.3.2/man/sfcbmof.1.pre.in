@@ -1,0 +1,69 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH sfcbmof 1 "August 2005" "sfcbmof Version 0.7.3"
+.SH NAME
+sfcbmof \- MOF compile for the Small-Footprint CIM Broker (sfcb)
+.SH SYNOPSIS
+.B sfcbmof
+[\fIoptions\fR] \fIinfile\fR...
+.SH DESCRIPTION
+The MOF compiler for sfcb generates binary class data from plaintext MOF class definitions.
+.SH OPTIONS
+.TP
+\fB\-h\fR
+Display help message and exit.
+.TP
+\fB\-v\fR
+Verbose mode.
+.TP
+\fB\-V\fR
+Print version information and exit.
+.TP
+\fB\-I\fR \fIincludepath\fR
+Directory to search for include files.
+.TP
+\fB\-i\fR \fIextrafile\fR
+File to load before parsing. This option can be used to preload the CIM
+schema or other pre-requisite classes.
+.TP
+\fB\-o\fR \fIoutfile\fR
+Output file to generate. The default is \fImofc.out\fR.
+.TP
+\fB\-b\fR \fIbackendopts\fR
+Backend options. Refer to backend documentation.
+.SH LIBRARIES
+Requires libsfcBrokerCore.a
+.SH AUTHOR
+Viktor Mihajlovski <MIHAJLOV@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd (1)

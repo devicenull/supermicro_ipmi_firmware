@@ -1,0 +1,3 @@
+memmove.o memmove.o: memmove.c ../config.h
+
+../config.h:

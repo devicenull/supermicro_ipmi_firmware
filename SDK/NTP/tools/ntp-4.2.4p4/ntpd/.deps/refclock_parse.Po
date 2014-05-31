@@ -1,0 +1,3 @@
+refclock_parse.o refclock_parse.o: refclock_parse.c ../config.h
+
+../config.h:

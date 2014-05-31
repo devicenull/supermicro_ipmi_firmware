@@ -1,0 +1,55 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.referenceNames() \- Enumerate association ObjectPaths for a class instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.referenceNames (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				const char *resultClass,
+.br
+.BI				const char *role,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Enumerate association instances that refer to the Instance defined
+by the \fIop\fP reference.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the reference that contains namespace and classname
+components,
+\fIresultClass\fP, where if it's not NULL is a valid class name that 
+is used to filter the returned set of association objects by eliminating
+objects that aren't an Instance of this Class or one of its subclasses,
+\fIrole\fP, where if it's not NULL is a valid property name that 
+is used to filter the returned set of instance objects by eliminating
+objects that aren't associated to the source object by an association 
+where the source object plays the specified role, i.e. the name of the 
+property in the association class that refers to the source object 
+has to match the value of this parameter,
+and \fIrc\fP which returns the operation status (suppressed when NULL).
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.referenceNames()\fP function returns
+a pointer to a CMPIEnumeration object that contains the class association
+reference objects found that match the association criteria, and sets a 
+successful operation status code in \fIrc\fR.
+When unsuccessful it returns a NULL pointer and sets the operation 
+status error code and corresponding error string in \fIrc\fP.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIStatus(3)

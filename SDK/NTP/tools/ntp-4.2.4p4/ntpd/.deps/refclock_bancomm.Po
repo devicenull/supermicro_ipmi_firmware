@@ -1,0 +1,3 @@
+refclock_bancomm.o refclock_bancomm.o: refclock_bancomm.c ../config.h
+
+../config.h:

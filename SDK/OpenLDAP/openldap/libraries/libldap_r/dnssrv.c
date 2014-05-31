@@ -1,0 +1,1 @@
+../libldap/dnssrv.c

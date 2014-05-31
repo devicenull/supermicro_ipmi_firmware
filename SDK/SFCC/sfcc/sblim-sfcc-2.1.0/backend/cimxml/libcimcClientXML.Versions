@@ -1,0 +1,7 @@
+CIMCCLIENTXML_1.0 {
+    global:
+	_Create_XML_Env;
+    local:
+        *;
+};
+

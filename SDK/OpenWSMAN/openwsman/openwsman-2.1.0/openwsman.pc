@@ -1,0 +1,12 @@
+prefix=/wsman/openwsman
+exec_prefix=/wsman/openwsman
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+plugindir=${libdir}/openwsman/plugins
+
+Name: openwsman
+Description: Opensource Implementation of WS-Management Client
+Version: 2.1.0
+Requires:
+Libs: -L${libdir} -lwsman -lwsman_client -lwsman_curl_client_transport 
+Cflags: -I${includedir}/openwsman 

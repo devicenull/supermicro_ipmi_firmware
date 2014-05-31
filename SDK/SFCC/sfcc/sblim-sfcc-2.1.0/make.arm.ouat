@@ -1,0 +1,302 @@
+make  all-recursive
+make[1]: Entering directory `/root/wsman/sfcc/sblim-sfcc-2.1.0'
+Making all in .
+make[2]: Entering directory `/root/wsman/sfcc/sblim-sfcc-2.1.0'
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.     -g -O2 -MT cimcclient.lo -MD -MP -MF ".deps/cimcclient.Tpo" -c -o cimcclient.lo `test -f 'cimc/cimcclient.c' || echo './'`cimc/cimcclient.c; \
+	then mv -f ".deps/cimcclient.Tpo" ".deps/cimcclient.Plo"; else rm -f ".deps/cimcclient.Tpo"; exit 1; fi
+mkdir .libs
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -g -O2 -MT cimcclient.lo -MD -MP -MF .deps/cimcclient.Tpo -c cimc/cimcclient.c  -fPIC -DPIC -o .libs/cimcclient.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -g -O2 -MT cimcclient.lo -MD -MP -MF .deps/cimcclient.Tpo -c cimc/cimcclient.c -o cimcclient.o >/dev/null 2>&1
+/bin/sh ./libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o libcimcclient.la -rpath /root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib -version-info 0:0:0 -Wl,--version-script,./cimc/libcimcclient.Versions cimcclient.lo -ldl -lpthread 
+arm-aspeed-linux-gnu-gcc -shared  .libs/cimcclient.o  -ldl -lpthread  -Wl,--version-script -Wl,./cimc/libcimcclient.Versions -Wl,-soname -Wl,libcimcclient.so.0 -o .libs/libcimcclient.so.0.0.0
+(cd .libs && rm -f libcimcclient.so.0 && ln -s libcimcclient.so.0.0.0 libcimcclient.so.0)
+(cd .libs && rm -f libcimcclient.so && ln -s libcimcclient.so.0.0.0 libcimcclient.so)
+arm-aspeed-linux-gnu-ar cru .libs/libcimcclient.a  cimcclient.o
+arm-aspeed-linux-gnu-ranlib .libs/libcimcclient.a
+creating libcimcclient.la
+(cd .libs && rm -f libcimcclient.la && ln -s ../libcimcclient.la libcimcclient.la)
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./cimc -I./backend/cimxml -I./frontend/sfcc   -g -O2 -MT libcmpisfcc_la-sfcclient.lo -MD -MP -MF ".deps/libcmpisfcc_la-sfcclient.Tpo" -c -o libcmpisfcc_la-sfcclient.lo `test -f 'frontend/sfcc/sfcclient.c' || echo './'`frontend/sfcc/sfcclient.c; \
+	then mv -f ".deps/libcmpisfcc_la-sfcclient.Tpo" ".deps/libcmpisfcc_la-sfcclient.Plo"; else rm -f ".deps/libcmpisfcc_la-sfcclient.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./cimc -I./backend/cimxml -I./frontend/sfcc -g -O2 -MT libcmpisfcc_la-sfcclient.lo -MD -MP -MF .deps/libcmpisfcc_la-sfcclient.Tpo -c frontend/sfcc/sfcclient.c  -fPIC -DPIC -o .libs/libcmpisfcc_la-sfcclient.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./cimc -I./backend/cimxml -I./frontend/sfcc -g -O2 -MT libcmpisfcc_la-sfcclient.lo -MD -MP -MF .deps/libcmpisfcc_la-sfcclient.Tpo -c frontend/sfcc/sfcclient.c -o libcmpisfcc_la-sfcclient.o >/dev/null 2>&1
+/bin/sh ./libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o libcmpisfcc.la -rpath /root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib -version-info 1:0:0 -Wl,--version-script,./frontend/sfcc/libcmpisfcc.Versions libcmpisfcc_la-sfcclient.lo -lcimcclient -lpthread 
+arm-aspeed-linux-gnu-gcc -shared  .libs/libcmpisfcc_la-sfcclient.o  -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/.libs -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -lpthread  -Wl,--version-script -Wl,./frontend/sfcc/libcmpisfcc.Versions -Wl,-soname -Wl,libcmpisfcc.so.1 -o .libs/libcmpisfcc.so.1.0.0
+(cd .libs && rm -f libcmpisfcc.so.1 && ln -s libcmpisfcc.so.1.0.0 libcmpisfcc.so.1)
+(cd .libs && rm -f libcmpisfcc.so && ln -s libcmpisfcc.so.1.0.0 libcmpisfcc.so)
+arm-aspeed-linux-gnu-ar cru .libs/libcmpisfcc.a  libcmpisfcc_la-sfcclient.o
+arm-aspeed-linux-gnu-ranlib .libs/libcmpisfcc.a
+creating libcmpisfcc.la
+(cd .libs && rm -f libcmpisfcc.la && ln -s ../libcmpisfcc.la libcmpisfcc.la)
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-args.lo -MD -MP -MF ".deps/libcimcClientXML_la-args.Tpo" -c -o libcimcClientXML_la-args.lo `test -f 'backend/cimxml/args.c' || echo './'`backend/cimxml/args.c; \
+	then mv -f ".deps/libcimcClientXML_la-args.Tpo" ".deps/libcimcClientXML_la-args.Plo"; else rm -f ".deps/libcimcClientXML_la-args.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-args.lo -MD -MP -MF .deps/libcimcClientXML_la-args.Tpo -c backend/cimxml/args.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-args.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-args.lo -MD -MP -MF .deps/libcimcClientXML_la-args.Tpo -c backend/cimxml/args.c -o libcimcClientXML_la-args.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-array.lo -MD -MP -MF ".deps/libcimcClientXML_la-array.Tpo" -c -o libcimcClientXML_la-array.lo `test -f 'backend/cimxml/array.c' || echo './'`backend/cimxml/array.c; \
+	then mv -f ".deps/libcimcClientXML_la-array.Tpo" ".deps/libcimcClientXML_la-array.Plo"; else rm -f ".deps/libcimcClientXML_la-array.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-array.lo -MD -MP -MF .deps/libcimcClientXML_la-array.Tpo -c backend/cimxml/array.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-array.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-array.lo -MD -MP -MF .deps/libcimcClientXML_la-array.Tpo -c backend/cimxml/array.c -o libcimcClientXML_la-array.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-datetime.lo -MD -MP -MF ".deps/libcimcClientXML_la-datetime.Tpo" -c -o libcimcClientXML_la-datetime.lo `test -f 'backend/cimxml/datetime.c' || echo './'`backend/cimxml/datetime.c; \
+	then mv -f ".deps/libcimcClientXML_la-datetime.Tpo" ".deps/libcimcClientXML_la-datetime.Plo"; else rm -f ".deps/libcimcClientXML_la-datetime.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-datetime.lo -MD -MP -MF .deps/libcimcClientXML_la-datetime.Tpo -c backend/cimxml/datetime.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-datetime.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-datetime.lo -MD -MP -MF .deps/libcimcClientXML_la-datetime.Tpo -c backend/cimxml/datetime.c -o libcimcClientXML_la-datetime.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-enumeration.lo -MD -MP -MF ".deps/libcimcClientXML_la-enumeration.Tpo" -c -o libcimcClientXML_la-enumeration.lo `test -f 'backend/cimxml/enumeration.c' || echo './'`backend/cimxml/enumeration.c; \
+	then mv -f ".deps/libcimcClientXML_la-enumeration.Tpo" ".deps/libcimcClientXML_la-enumeration.Plo"; else rm -f ".deps/libcimcClientXML_la-enumeration.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-enumeration.lo -MD -MP -MF .deps/libcimcClientXML_la-enumeration.Tpo -c backend/cimxml/enumeration.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-enumeration.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-enumeration.lo -MD -MP -MF .deps/libcimcClientXML_la-enumeration.Tpo -c backend/cimxml/enumeration.c -o libcimcClientXML_la-enumeration.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-instance.lo -MD -MP -MF ".deps/libcimcClientXML_la-instance.Tpo" -c -o libcimcClientXML_la-instance.lo `test -f 'backend/cimxml/instance.c' || echo './'`backend/cimxml/instance.c; \
+	then mv -f ".deps/libcimcClientXML_la-instance.Tpo" ".deps/libcimcClientXML_la-instance.Plo"; else rm -f ".deps/libcimcClientXML_la-instance.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-instance.lo -MD -MP -MF .deps/libcimcClientXML_la-instance.Tpo -c backend/cimxml/instance.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-instance.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-instance.lo -MD -MP -MF .deps/libcimcClientXML_la-instance.Tpo -c backend/cimxml/instance.c -o libcimcClientXML_la-instance.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-indicationlistener.lo -MD -MP -MF ".deps/libcimcClientXML_la-indicationlistener.Tpo" -c -o libcimcClientXML_la-indicationlistener.lo `test -f 'backend/cimxml/indicationlistener.c' || echo './'`backend/cimxml/indicationlistener.c; \
+	then mv -f ".deps/libcimcClientXML_la-indicationlistener.Tpo" ".deps/libcimcClientXML_la-indicationlistener.Plo"; else rm -f ".deps/libcimcClientXML_la-indicationlistener.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-indicationlistener.lo -MD -MP -MF .deps/libcimcClientXML_la-indicationlistener.Tpo -c backend/cimxml/indicationlistener.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-indicationlistener.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-indicationlistener.lo -MD -MP -MF .deps/libcimcClientXML_la-indicationlistener.Tpo -c backend/cimxml/indicationlistener.c -o libcimcClientXML_la-indicationlistener.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-constClass.lo -MD -MP -MF ".deps/libcimcClientXML_la-constClass.Tpo" -c -o libcimcClientXML_la-constClass.lo `test -f 'backend/cimxml/constClass.c' || echo './'`backend/cimxml/constClass.c; \
+	then mv -f ".deps/libcimcClientXML_la-constClass.Tpo" ".deps/libcimcClientXML_la-constClass.Plo"; else rm -f ".deps/libcimcClientXML_la-constClass.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-constClass.lo -MD -MP -MF .deps/libcimcClientXML_la-constClass.Tpo -c backend/cimxml/constClass.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-constClass.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-constClass.lo -MD -MP -MF .deps/libcimcClientXML_la-constClass.Tpo -c backend/cimxml/constClass.c -o libcimcClientXML_la-constClass.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-objectpath.lo -MD -MP -MF ".deps/libcimcClientXML_la-objectpath.Tpo" -c -o libcimcClientXML_la-objectpath.lo `test -f 'backend/cimxml/objectpath.c' || echo './'`backend/cimxml/objectpath.c; \
+	then mv -f ".deps/libcimcClientXML_la-objectpath.Tpo" ".deps/libcimcClientXML_la-objectpath.Plo"; else rm -f ".deps/libcimcClientXML_la-objectpath.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-objectpath.lo -MD -MP -MF .deps/libcimcClientXML_la-objectpath.Tpo -c backend/cimxml/objectpath.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-objectpath.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-objectpath.lo -MD -MP -MF .deps/libcimcClientXML_la-objectpath.Tpo -c backend/cimxml/objectpath.c -o libcimcClientXML_la-objectpath.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-property.lo -MD -MP -MF ".deps/libcimcClientXML_la-property.Tpo" -c -o libcimcClientXML_la-property.lo `test -f 'backend/cimxml/property.c' || echo './'`backend/cimxml/property.c; \
+	then mv -f ".deps/libcimcClientXML_la-property.Tpo" ".deps/libcimcClientXML_la-property.Plo"; else rm -f ".deps/libcimcClientXML_la-property.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-property.lo -MD -MP -MF .deps/libcimcClientXML_la-property.Tpo -c backend/cimxml/property.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-property.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-property.lo -MD -MP -MF .deps/libcimcClientXML_la-property.Tpo -c backend/cimxml/property.c -o libcimcClientXML_la-property.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-qualifier.lo -MD -MP -MF ".deps/libcimcClientXML_la-qualifier.Tpo" -c -o libcimcClientXML_la-qualifier.lo `test -f 'backend/cimxml/qualifier.c' || echo './'`backend/cimxml/qualifier.c; \
+	then mv -f ".deps/libcimcClientXML_la-qualifier.Tpo" ".deps/libcimcClientXML_la-qualifier.Plo"; else rm -f ".deps/libcimcClientXML_la-qualifier.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-qualifier.lo -MD -MP -MF .deps/libcimcClientXML_la-qualifier.Tpo -c backend/cimxml/qualifier.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-qualifier.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-qualifier.lo -MD -MP -MF .deps/libcimcClientXML_la-qualifier.Tpo -c backend/cimxml/qualifier.c -o libcimcClientXML_la-qualifier.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-string.lo -MD -MP -MF ".deps/libcimcClientXML_la-string.Tpo" -c -o libcimcClientXML_la-string.lo `test -f 'backend/cimxml/string.c' || echo './'`backend/cimxml/string.c; \
+	then mv -f ".deps/libcimcClientXML_la-string.Tpo" ".deps/libcimcClientXML_la-string.Plo"; else rm -f ".deps/libcimcClientXML_la-string.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-string.lo -MD -MP -MF .deps/libcimcClientXML_la-string.Tpo -c backend/cimxml/string.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-string.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-string.lo -MD -MP -MF .deps/libcimcClientXML_la-string.Tpo -c backend/cimxml/string.c -o libcimcClientXML_la-string.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-value.lo -MD -MP -MF ".deps/libcimcClientXML_la-value.Tpo" -c -o libcimcClientXML_la-value.lo `test -f 'backend/cimxml/value.c' || echo './'`backend/cimxml/value.c; \
+	then mv -f ".deps/libcimcClientXML_la-value.Tpo" ".deps/libcimcClientXML_la-value.Plo"; else rm -f ".deps/libcimcClientXML_la-value.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-value.lo -MD -MP -MF .deps/libcimcClientXML_la-value.Tpo -c backend/cimxml/value.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-value.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-value.lo -MD -MP -MF .deps/libcimcClientXML_la-value.Tpo -c backend/cimxml/value.c -o libcimcClientXML_la-value.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-client.lo -MD -MP -MF ".deps/libcimcClientXML_la-client.Tpo" -c -o libcimcClientXML_la-client.lo `test -f 'backend/cimxml/client.c' || echo './'`backend/cimxml/client.c; \
+	then mv -f ".deps/libcimcClientXML_la-client.Tpo" ".deps/libcimcClientXML_la-client.Plo"; else rm -f ".deps/libcimcClientXML_la-client.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-client.lo -MD -MP -MF .deps/libcimcClientXML_la-client.Tpo -c backend/cimxml/client.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-client.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-client.lo -MD -MP -MF .deps/libcimcClientXML_la-client.Tpo -c backend/cimxml/client.c -o libcimcClientXML_la-client.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-genericlist.lo -MD -MP -MF ".deps/libcimcClientXML_la-genericlist.Tpo" -c -o libcimcClientXML_la-genericlist.lo `test -f 'backend/cimxml/genericlist.c' || echo './'`backend/cimxml/genericlist.c; \
+	then mv -f ".deps/libcimcClientXML_la-genericlist.Tpo" ".deps/libcimcClientXML_la-genericlist.Plo"; else rm -f ".deps/libcimcClientXML_la-genericlist.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-genericlist.lo -MD -MP -MF .deps/libcimcClientXML_la-genericlist.Tpo -c backend/cimxml/genericlist.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-genericlist.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-genericlist.lo -MD -MP -MF .deps/libcimcClientXML_la-genericlist.Tpo -c backend/cimxml/genericlist.c -o libcimcClientXML_la-genericlist.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-grammar.lo -MD -MP -MF ".deps/libcimcClientXML_la-grammar.Tpo" -c -o libcimcClientXML_la-grammar.lo `test -f 'backend/cimxml/grammar.c' || echo './'`backend/cimxml/grammar.c; \
+	then mv -f ".deps/libcimcClientXML_la-grammar.Tpo" ".deps/libcimcClientXML_la-grammar.Plo"; else rm -f ".deps/libcimcClientXML_la-grammar.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-grammar.lo -MD -MP -MF .deps/libcimcClientXML_la-grammar.Tpo -c backend/cimxml/grammar.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-grammar.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-grammar.lo -MD -MP -MF .deps/libcimcClientXML_la-grammar.Tpo -c backend/cimxml/grammar.c -o libcimcClientXML_la-grammar.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-parserUtil.lo -MD -MP -MF ".deps/libcimcClientXML_la-parserUtil.Tpo" -c -o libcimcClientXML_la-parserUtil.lo `test -f 'backend/cimxml/parserUtil.c' || echo './'`backend/cimxml/parserUtil.c; \
+	then mv -f ".deps/libcimcClientXML_la-parserUtil.Tpo" ".deps/libcimcClientXML_la-parserUtil.Plo"; else rm -f ".deps/libcimcClientXML_la-parserUtil.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-parserUtil.lo -MD -MP -MF .deps/libcimcClientXML_la-parserUtil.Tpo -c backend/cimxml/parserUtil.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-parserUtil.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-parserUtil.lo -MD -MP -MF .deps/libcimcClientXML_la-parserUtil.Tpo -c backend/cimxml/parserUtil.c -o libcimcClientXML_la-parserUtil.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-cimXmlParser.lo -MD -MP -MF ".deps/libcimcClientXML_la-cimXmlParser.Tpo" -c -o libcimcClientXML_la-cimXmlParser.lo `test -f 'backend/cimxml/cimXmlParser.c' || echo './'`backend/cimxml/cimXmlParser.c; \
+	then mv -f ".deps/libcimcClientXML_la-cimXmlParser.Tpo" ".deps/libcimcClientXML_la-cimXmlParser.Plo"; else rm -f ".deps/libcimcClientXML_la-cimXmlParser.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-cimXmlParser.lo -MD -MP -MF .deps/libcimcClientXML_la-cimXmlParser.Tpo -c backend/cimxml/cimXmlParser.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-cimXmlParser.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-cimXmlParser.lo -MD -MP -MF .deps/libcimcClientXML_la-cimXmlParser.Tpo -c backend/cimxml/cimXmlParser.c -o libcimcClientXML_la-cimXmlParser.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-hashtable.lo -MD -MP -MF ".deps/libcimcClientXML_la-hashtable.Tpo" -c -o libcimcClientXML_la-hashtable.lo `test -f 'backend/cimxml/sfcUtil/hashtable.c' || echo './'`backend/cimxml/sfcUtil/hashtable.c; \
+	then mv -f ".deps/libcimcClientXML_la-hashtable.Tpo" ".deps/libcimcClientXML_la-hashtable.Plo"; else rm -f ".deps/libcimcClientXML_la-hashtable.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-hashtable.lo -MD -MP -MF .deps/libcimcClientXML_la-hashtable.Tpo -c backend/cimxml/sfcUtil/hashtable.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-hashtable.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-hashtable.lo -MD -MP -MF .deps/libcimcClientXML_la-hashtable.Tpo -c backend/cimxml/sfcUtil/hashtable.c -o libcimcClientXML_la-hashtable.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-utilFactory.lo -MD -MP -MF ".deps/libcimcClientXML_la-utilFactory.Tpo" -c -o libcimcClientXML_la-utilFactory.lo `test -f 'backend/cimxml/sfcUtil/utilFactory.c' || echo './'`backend/cimxml/sfcUtil/utilFactory.c; \
+	then mv -f ".deps/libcimcClientXML_la-utilFactory.Tpo" ".deps/libcimcClientXML_la-utilFactory.Plo"; else rm -f ".deps/libcimcClientXML_la-utilFactory.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilFactory.lo -MD -MP -MF .deps/libcimcClientXML_la-utilFactory.Tpo -c backend/cimxml/sfcUtil/utilFactory.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-utilFactory.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilFactory.lo -MD -MP -MF .deps/libcimcClientXML_la-utilFactory.Tpo -c backend/cimxml/sfcUtil/utilFactory.c -o libcimcClientXML_la-utilFactory.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-utilHashtable.lo -MD -MP -MF ".deps/libcimcClientXML_la-utilHashtable.Tpo" -c -o libcimcClientXML_la-utilHashtable.lo `test -f 'backend/cimxml/sfcUtil/utilHashtable.c' || echo './'`backend/cimxml/sfcUtil/utilHashtable.c; \
+	then mv -f ".deps/libcimcClientXML_la-utilHashtable.Tpo" ".deps/libcimcClientXML_la-utilHashtable.Plo"; else rm -f ".deps/libcimcClientXML_la-utilHashtable.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilHashtable.lo -MD -MP -MF .deps/libcimcClientXML_la-utilHashtable.Tpo -c backend/cimxml/sfcUtil/utilHashtable.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-utilHashtable.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilHashtable.lo -MD -MP -MF .deps/libcimcClientXML_la-utilHashtable.Tpo -c backend/cimxml/sfcUtil/utilHashtable.c -o libcimcClientXML_la-utilHashtable.o >/dev/null 2>&1
+if /bin/sh ./libtool --tag=CC --mode=compile arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I.  -I./backend/cimxml/sfcUtil -I./backend/cimxml  -I./frontend/sfcc -I./cimc   -g -O2 -MT libcimcClientXML_la-utilStringBuffer.lo -MD -MP -MF ".deps/libcimcClientXML_la-utilStringBuffer.Tpo" -c -o libcimcClientXML_la-utilStringBuffer.lo `test -f 'backend/cimxml/sfcUtil/utilStringBuffer.c' || echo './'`backend/cimxml/sfcUtil/utilStringBuffer.c; \
+	then mv -f ".deps/libcimcClientXML_la-utilStringBuffer.Tpo" ".deps/libcimcClientXML_la-utilStringBuffer.Plo"; else rm -f ".deps/libcimcClientXML_la-utilStringBuffer.Tpo"; exit 1; fi
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilStringBuffer.lo -MD -MP -MF .deps/libcimcClientXML_la-utilStringBuffer.Tpo -c backend/cimxml/sfcUtil/utilStringBuffer.c  -fPIC -DPIC -o .libs/libcimcClientXML_la-utilStringBuffer.o
+ arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I. -I./backend/cimxml/sfcUtil -I./backend/cimxml -I./frontend/sfcc -I./cimc -g -O2 -MT libcimcClientXML_la-utilStringBuffer.lo -MD -MP -MF .deps/libcimcClientXML_la-utilStringBuffer.Tpo -c backend/cimxml/sfcUtil/utilStringBuffer.c -o libcimcClientXML_la-utilStringBuffer.o >/dev/null 2>&1
+/bin/sh ./libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o libcimcClientXML.la -rpath /root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib -version-info 0:0:0 -Wl,--version-script,./backend/cimxml/libcimcClientXML.Versions libcimcClientXML_la-args.lo libcimcClientXML_la-array.lo libcimcClientXML_la-datetime.lo libcimcClientXML_la-enumeration.lo libcimcClientXML_la-instance.lo libcimcClientXML_la-indicationlistener.lo libcimcClientXML_la-constClass.lo libcimcClientXML_la-objectpath.lo libcimcClientXML_la-property.lo libcimcClientXML_la-qualifier.lo libcimcClientXML_la-string.lo libcimcClientXML_la-value.lo libcimcClientXML_la-client.lo libcimcClientXML_la-genericlist.lo libcimcClientXML_la-grammar.lo libcimcClientXML_la-parserUtil.lo libcimcClientXML_la-cimXmlParser.lo libcimcClientXML_la-hashtable.lo libcimcClientXML_la-utilFactory.lo libcimcClientXML_la-utilHashtable.lo libcimcClientXML_la-utilStringBuffer.lo -lcurl -lpthread 
+arm-aspeed-linux-gnu-gcc -shared  .libs/libcimcClientXML_la-args.o .libs/libcimcClientXML_la-array.o .libs/libcimcClientXML_la-datetime.o .libs/libcimcClientXML_la-enumeration.o .libs/libcimcClientXML_la-instance.o .libs/libcimcClientXML_la-indicationlistener.o .libs/libcimcClientXML_la-constClass.o .libs/libcimcClientXML_la-objectpath.o .libs/libcimcClientXML_la-property.o .libs/libcimcClientXML_la-qualifier.o .libs/libcimcClientXML_la-string.o .libs/libcimcClientXML_la-value.o .libs/libcimcClientXML_la-client.o .libs/libcimcClientXML_la-genericlist.o .libs/libcimcClientXML_la-grammar.o .libs/libcimcClientXML_la-parserUtil.o .libs/libcimcClientXML_la-cimXmlParser.o .libs/libcimcClientXML_la-hashtable.o .libs/libcimcClientXML_la-utilFactory.o .libs/libcimcClientXML_la-utilHashtable.o .libs/libcimcClientXML_la-utilStringBuffer.o  -Wl,--rpath -Wl,//root/wsman/curl/curl-7.18.1/../local/lib -Wl,--rpath -Wl,//root/wsman/curl/curl-7.18.1/../local/lib //root/wsman/curl/curl-7.18.1/../local/lib/libcurl.so -lpthread  -Wl,--version-script -Wl,./backend/cimxml/libcimcClientXML.Versions -Wl,-soname -Wl,libcimcClientXML.so.0 -o .libs/libcimcClientXML.so.0.0.0
+(cd .libs && rm -f libcimcClientXML.so.0 && ln -s libcimcClientXML.so.0.0.0 libcimcClientXML.so.0)
+(cd .libs && rm -f libcimcClientXML.so && ln -s libcimcClientXML.so.0.0.0 libcimcClientXML.so)
+arm-aspeed-linux-gnu-ar cru .libs/libcimcClientXML.a  libcimcClientXML_la-args.o libcimcClientXML_la-array.o libcimcClientXML_la-datetime.o libcimcClientXML_la-enumeration.o libcimcClientXML_la-instance.o libcimcClientXML_la-indicationlistener.o libcimcClientXML_la-constClass.o libcimcClientXML_la-objectpath.o libcimcClientXML_la-property.o libcimcClientXML_la-qualifier.o libcimcClientXML_la-string.o libcimcClientXML_la-value.o libcimcClientXML_la-client.o libcimcClientXML_la-genericlist.o libcimcClientXML_la-grammar.o libcimcClientXML_la-parserUtil.o libcimcClientXML_la-cimXmlParser.o libcimcClientXML_la-hashtable.o libcimcClientXML_la-utilFactory.o libcimcClientXML_la-utilHashtable.o libcimcClientXML_la-utilStringBuffer.o
+arm-aspeed-linux-gnu-ranlib .libs/libcimcClientXML.a
+creating libcimcClientXML.la
+(cd .libs && rm -f libcimcClientXML.la && ln -s ../libcimcClientXML.la libcimcClientXML.la)
+make[2]: Leaving directory `/root/wsman/sfcc/sblim-sfcc-2.1.0'
+Making all in TEST
+make[2]: Entering directory `/root/wsman/sfcc/sblim-sfcc-2.1.0/TEST'
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test.o -MD -MP -MF ".deps/test.Tpo" -c -o test.o test.c; \
+	then mv -f ".deps/test.Tpo" ".deps/test.Po"; else rm -f ".deps/test.Tpo"; exit 1; fi
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT show.o -MD -MP -MF ".deps/show.Tpo" -c -o show.o show.c; \
+	then mv -f ".deps/show.Tpo" ".deps/show.Po"; else rm -f ".deps/show.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test  test.o show.o ../libcmpisfcc.la -lpthread 
+mkdir .libs
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test test.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_an.o -MD -MP -MF ".deps/test_an.Tpo" -c -o test_an.o test_an.c; \
+	then mv -f ".deps/test_an.Tpo" ".deps/test_an.Po"; else rm -f ".deps/test_an.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_an  test_an.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_an test_an.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_an
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_an_2.o -MD -MP -MF ".deps/test_an_2.Tpo" -c -o test_an_2.o test_an_2.c; \
+	then mv -f ".deps/test_an_2.Tpo" ".deps/test_an_2.Po"; else rm -f ".deps/test_an_2.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_an_2  test_an_2.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_an_2 test_an_2.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_an_2
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_as.o -MD -MP -MF ".deps/test_as.Tpo" -c -o test_as.o test_as.c; \
+	then mv -f ".deps/test_as.Tpo" ".deps/test_as.Po"; else rm -f ".deps/test_as.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_as  test_as.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_as test_as.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_as
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_as_2.o -MD -MP -MF ".deps/test_as_2.Tpo" -c -o test_as_2.o test_as_2.c; \
+	then mv -f ".deps/test_as_2.Tpo" ".deps/test_as_2.Po"; else rm -f ".deps/test_as_2.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_as_2  test_as_2.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_as_2 test_as_2.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_as_2
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ci.o -MD -MP -MF ".deps/test_ci.Tpo" -c -o test_ci.o test_ci.c; \
+	then mv -f ".deps/test_ci.Tpo" ".deps/test_ci.Po"; else rm -f ".deps/test_ci.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ci  test_ci.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ci test_ci.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ci
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_di.o -MD -MP -MF ".deps/test_di.Tpo" -c -o test_di.o test_di.c; \
+	then mv -f ".deps/test_di.Tpo" ".deps/test_di.Po"; else rm -f ".deps/test_di.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_di  test_di.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_di test_di.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_di
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ec.o -MD -MP -MF ".deps/test_ec.Tpo" -c -o test_ec.o test_ec.c; \
+	then mv -f ".deps/test_ec.Tpo" ".deps/test_ec.Po"; else rm -f ".deps/test_ec.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ec  test_ec.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ec test_ec.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ec
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ecn.o -MD -MP -MF ".deps/test_ecn.Tpo" -c -o test_ecn.o test_ecn.c; \
+	then mv -f ".deps/test_ecn.Tpo" ".deps/test_ecn.Po"; else rm -f ".deps/test_ecn.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ecn  test_ecn.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ecn test_ecn.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ecn
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ecn_ssl.o -MD -MP -MF ".deps/test_ecn_ssl.Tpo" -c -o test_ecn_ssl.o test_ecn_ssl.c; \
+	then mv -f ".deps/test_ecn_ssl.Tpo" ".deps/test_ecn_ssl.Po"; else rm -f ".deps/test_ecn_ssl.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ecn_ssl  test_ecn_ssl.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ecn_ssl test_ecn_ssl.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ecn_ssl
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ei.o -MD -MP -MF ".deps/test_ei.Tpo" -c -o test_ei.o test_ei.c; \
+	then mv -f ".deps/test_ei.Tpo" ".deps/test_ei.Po"; else rm -f ".deps/test_ei.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ei  test_ei.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ei test_ei.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ei
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_ein.o -MD -MP -MF ".deps/test_ein.Tpo" -c -o test_ein.o test_ein.c; \
+	then mv -f ".deps/test_ein.Tpo" ".deps/test_ein.Po"; else rm -f ".deps/test_ein.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_ein  test_ein.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_ein test_ein.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_ein
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_gc.o -MD -MP -MF ".deps/test_gc.Tpo" -c -o test_gc.o test_gc.c; \
+	then mv -f ".deps/test_gc.Tpo" ".deps/test_gc.Po"; else rm -f ".deps/test_gc.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_gc  test_gc.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_gc test_gc.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_gc
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_gi.o -MD -MP -MF ".deps/test_gi.Tpo" -c -o test_gi.o test_gi.c; \
+	then mv -f ".deps/test_gi.Tpo" ".deps/test_gi.Po"; else rm -f ".deps/test_gi.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_gi  test_gi.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_gi test_gi.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_gi
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_gp.o -MD -MP -MF ".deps/test_gp.Tpo" -c -o test_gp.o test_gp.c; \
+	then mv -f ".deps/test_gp.Tpo" ".deps/test_gp.Po"; else rm -f ".deps/test_gp.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_gp  test_gp.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_gp test_gp.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_gp
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_im1.o -MD -MP -MF ".deps/test_im1.Tpo" -c -o test_im1.o test_im1.c; \
+	then mv -f ".deps/test_im1.Tpo" ".deps/test_im1.Po"; else rm -f ".deps/test_im1.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_im1  test_im1.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_im1 test_im1.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_im1
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_im2.o -MD -MP -MF ".deps/test_im2.Tpo" -c -o test_im2.o test_im2.c; \
+	then mv -f ".deps/test_im2.Tpo" ".deps/test_im2.Po"; else rm -f ".deps/test_im2.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_im2  test_im2.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_im2 test_im2.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_im2
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_im3.o -MD -MP -MF ".deps/test_im3.Tpo" -c -o test_im3.o test_im3.c; \
+	then mv -f ".deps/test_im3.Tpo" ".deps/test_im3.Po"; else rm -f ".deps/test_im3.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_im3  test_im3.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_im3 test_im3.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_im3
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_im4.o -MD -MP -MF ".deps/test_im4.Tpo" -c -o test_im4.o test_im4.c; \
+	then mv -f ".deps/test_im4.Tpo" ".deps/test_im4.Po"; else rm -f ".deps/test_im4.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_im4  test_im4.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_im4 test_im4.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_im4
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_imos.o -MD -MP -MF ".deps/test_imos.Tpo" -c -o test_imos.o test_imos.c; \
+	then mv -f ".deps/test_imos.Tpo" ".deps/test_imos.Po"; else rm -f ".deps/test_imos.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_imos  test_imos.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_imos test_imos.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_imos
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_leak.o -MD -MP -MF ".deps/test_leak.Tpo" -c -o test_leak.o test_leak.c; \
+	then mv -f ".deps/test_leak.Tpo" ".deps/test_leak.Po"; else rm -f ".deps/test_leak.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_leak  test_leak.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_leak test_leak.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_leak
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_rf.o -MD -MP -MF ".deps/test_rf.Tpo" -c -o test_rf.o test_rf.c; \
+	then mv -f ".deps/test_rf.Tpo" ".deps/test_rf.Po"; else rm -f ".deps/test_rf.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_rf  test_rf.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_rf test_rf.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_rf
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_rfn.o -MD -MP -MF ".deps/test_rfn.Tpo" -c -o test_rfn.o test_rfn.c; \
+	then mv -f ".deps/test_rfn.Tpo" ".deps/test_rfn.Po"; else rm -f ".deps/test_rfn.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_rfn  test_rfn.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_rfn test_rfn.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_rfn
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_si.o -MD -MP -MF ".deps/test_si.Tpo" -c -o test_si.o test_si.c; \
+	then mv -f ".deps/test_si.Tpo" ".deps/test_si.Po"; else rm -f ".deps/test_si.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_si  test_si.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_si test_si.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_si
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_sp.o -MD -MP -MF ".deps/test_sp.Tpo" -c -o test_sp.o test_sp.c; \
+	then mv -f ".deps/test_sp.Tpo" ".deps/test_sp.Po"; else rm -f ".deps/test_sp.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_sp  test_sp.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_sp test_sp.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_sp
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_xq.o -MD -MP -MF ".deps/test_xq.Tpo" -c -o test_xq.o test_xq.c; \
+	then mv -f ".deps/test_xq.Tpo" ".deps/test_xq.Po"; else rm -f ".deps/test_xq.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_xq  test_xq.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_xq test_xq.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_xq
+if arm-aspeed-linux-gnu-g++ -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_cpp.o -MD -MP -MF ".deps/test_cpp.Tpo" -c -o test_cpp.o test_cpp.cpp; \
+	then mv -f ".deps/test_cpp.Tpo" ".deps/test_cpp.Po"; else rm -f ".deps/test_cpp.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CXX --mode=link arm-aspeed-linux-gnu-g++  -g -O2   -o test_cpp  test_cpp.o  -lpthread 
+arm-aspeed-linux-gnu-g++ -g -O2 -o test_cpp test_cpp.o  -lpthread
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_qualifiers.o -MD -MP -MF ".deps/test_qualifiers.Tpo" -c -o test_qualifiers.o test_qualifiers.c; \
+	then mv -f ".deps/test_qualifiers.Tpo" ".deps/test_qualifiers.Po"; else rm -f ".deps/test_qualifiers.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_qualifiers  test_qualifiers.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_qualifiers test_qualifiers.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_qualifiers
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT test_qualifiers2.o -MD -MP -MF ".deps/test_qualifiers2.Tpo" -c -o test_qualifiers2.o test_qualifiers2.c; \
+	then mv -f ".deps/test_qualifiers2.Tpo" ".deps/test_qualifiers2.Po"; else rm -f ".deps/test_qualifiers2.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o test_qualifiers2  test_qualifiers2.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/test_qualifiers2 test_qualifiers2.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating test_qualifiers2
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT v2test_ec.o -MD -MP -MF ".deps/v2test_ec.Tpo" -c -o v2test_ec.o v2test_ec.c; \
+	then mv -f ".deps/v2test_ec.Tpo" ".deps/v2test_ec.Po"; else rm -f ".deps/v2test_ec.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o v2test_ec  v2test_ec.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/v2test_ec v2test_ec.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating v2test_ec
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT v2test_ecn.o -MD -MP -MF ".deps/v2test_ecn.Tpo" -c -o v2test_ecn.o v2test_ecn.c; \
+	then mv -f ".deps/v2test_ecn.Tpo" ".deps/v2test_ecn.Po"; else rm -f ".deps/v2test_ecn.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o v2test_ecn  v2test_ecn.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/v2test_ecn v2test_ecn.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating v2test_ecn
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT v2test_ei.o -MD -MP -MF ".deps/v2test_ei.Tpo" -c -o v2test_ei.o v2test_ei.c; \
+	then mv -f ".deps/v2test_ei.Tpo" ".deps/v2test_ei.Po"; else rm -f ".deps/v2test_ei.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o v2test_ei  v2test_ei.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/v2test_ei v2test_ei.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating v2test_ei
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT v2test_ein.o -MD -MP -MF ".deps/v2test_ein.Tpo" -c -o v2test_ein.o v2test_ein.c; \
+	then mv -f ".deps/v2test_ein.Tpo" ".deps/v2test_ein.Po"; else rm -f ".deps/v2test_ein.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o v2test_ein  v2test_ein.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/v2test_ein v2test_ein.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating v2test_ein
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT v2test_gc.o -MD -MP -MF ".deps/v2test_gc.Tpo" -c -o v2test_gc.o v2test_gc.c; \
+	then mv -f ".deps/v2test_gc.Tpo" ".deps/v2test_gc.Po"; else rm -f ".deps/v2test_gc.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o v2test_gc  v2test_gc.o show.o ../libcmpisfcc.la -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o .libs/v2test_gc v2test_gc.o show.o  ../.libs/libcmpisfcc.so /root/wsman/sfcc/sblim-sfcc-2.1.0/.libs/libcimcclient.so -ldl -lpthread -Wl,--rpath -Wl,/root/wsman/sfcc/sblim-sfcc-2.1.0/../local/lib
+creating v2test_gc
+if arm-aspeed-linux-gnu-gcc -DHAVE_CONFIG_H -I. -I. -I..  -I./../frontend/sfcc -I../cimc -I../../  -I../src -I../src   -g -O2 -MT print-types.o -MD -MP -MF ".deps/print-types.Tpo" -c -o print-types.o print-types.c; \
+	then mv -f ".deps/print-types.Tpo" ".deps/print-types.Po"; else rm -f ".deps/print-types.Tpo"; exit 1; fi
+/bin/sh ../libtool --tag=CC --mode=link arm-aspeed-linux-gnu-gcc  -g -O2   -o print-types  print-types.o  -lpthread 
+arm-aspeed-linux-gnu-gcc -g -O2 -o print-types print-types.o  -lpthread
+make[2]: Leaving directory `/root/wsman/sfcc/sblim-sfcc-2.1.0/TEST'
+make[1]: Leaving directory `/root/wsman/sfcc/sblim-sfcc-2.1.0'

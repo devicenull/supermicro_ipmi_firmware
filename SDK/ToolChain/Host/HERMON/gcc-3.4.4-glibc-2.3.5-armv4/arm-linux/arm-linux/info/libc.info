@@ -1,0 +1,2429 @@
+This is libc.info, produced by makeinfo version 4.8 from libc.texinfo.
+
+INFO-DIR-SECTION GNU libraries
+START-INFO-DIR-ENTRY
+* Libc: (libc).                 C library.
+END-INFO-DIR-ENTRY
+
+INFO-DIR-SECTION GNU C library functions and macros
+START-INFO-DIR-ENTRY
+* a64l: (libc)Encode Binary Data.
+* abort: (libc)Aborting a Program.
+* abs: (libc)Absolute Value.
+* accept: (libc)Accepting Connections.
+* access: (libc)Testing File Access.
+* acosf: (libc)Inverse Trig Functions.
+* acoshf: (libc)Hyperbolic Functions.
+* acosh: (libc)Hyperbolic Functions.
+* acoshl: (libc)Hyperbolic Functions.
+* acos: (libc)Inverse Trig Functions.
+* acosl: (libc)Inverse Trig Functions.
+* addmntent: (libc)mtab.
+* addseverity: (libc)Adding Severity Classes.
+* adjtime: (libc)High-Resolution Calendar.
+* adjtimex: (libc)High-Resolution Calendar.
+* aio_cancel64: (libc)Cancel AIO Operations.
+* aio_cancel: (libc)Cancel AIO Operations.
+* aio_error64: (libc)Status of AIO Operations.
+* aio_error: (libc)Status of AIO Operations.
+* aio_fsync64: (libc)Synchronizing AIO Operations.
+* aio_fsync: (libc)Synchronizing AIO Operations.
+* aio_init: (libc)Configuration of AIO.
+* aio_read64: (libc)Asynchronous Reads/Writes.
+* aio_read: (libc)Asynchronous Reads/Writes.
+* aio_return64: (libc)Status of AIO Operations.
+* aio_return: (libc)Status of AIO Operations.
+* aio_suspend64: (libc)Synchronizing AIO Operations.
+* aio_suspend: (libc)Synchronizing AIO Operations.
+* aio_write64: (libc)Asynchronous Reads/Writes.
+* aio_write: (libc)Asynchronous Reads/Writes.
+* alarm: (libc)Setting an Alarm.
+* alloca: (libc)Variable Size Automatic.
+* alphasort64: (libc)Scanning Directory Content.
+* alphasort: (libc)Scanning Directory Content.
+* ALTWERASE: (libc)Local Modes.
+* ARG_MAX: (libc)General Limits.
+* argp_error: (libc)Argp Helper Functions.
+* ARGP_ERR_UNKNOWN: (libc)Argp Parser Functions.
+* argp_failure: (libc)Argp Helper Functions.
+* argp_help: (libc)Argp Help.
+* argp_parse: (libc)Argp.
+* argp_state_help: (libc)Argp Helper Functions.
+* argp_usage: (libc)Argp Helper Functions.
+* argz_add: (libc)Argz Functions.
+* argz_add_sep: (libc)Argz Functions.
+* argz_append: (libc)Argz Functions.
+* argz_count: (libc)Argz Functions.
+* argz_create: (libc)Argz Functions.
+* argz_create_sep: (libc)Argz Functions.
+* argz_delete: (libc)Argz Functions.
+* argz_extract: (libc)Argz Functions.
+* argz_insert: (libc)Argz Functions.
+* argz_next: (libc)Argz Functions.
+* argz_replace: (libc)Argz Functions.
+* argz_stringify: (libc)Argz Functions.
+* asctime: (libc)Formatting Calendar Time.
+* asctime_r: (libc)Formatting Calendar Time.
+* asinf: (libc)Inverse Trig Functions.
+* asinhf: (libc)Hyperbolic Functions.
+* asinh: (libc)Hyperbolic Functions.
+* asinhl: (libc)Hyperbolic Functions.
+* asin: (libc)Inverse Trig Functions.
+* asinl: (libc)Inverse Trig Functions.
+* asprintf: (libc)Dynamic Output.
+* assert: (libc)Consistency Checking.
+* assert_perror: (libc)Consistency Checking.
+* atan2f: (libc)Inverse Trig Functions.
+* atan2: (libc)Inverse Trig Functions.
+* atan2l: (libc)Inverse Trig Functions.
+* atanf: (libc)Inverse Trig Functions.
+* atanhf: (libc)Hyperbolic Functions.
+* atanh: (libc)Hyperbolic Functions.
+* atanhl: (libc)Hyperbolic Functions.
+* atan: (libc)Inverse Trig Functions.
+* atanl: (libc)Inverse Trig Functions.
+* atexit: (libc)Cleanups on Exit.
+* atof: (libc)Parsing of Floats.
+* atoi: (libc)Parsing of Integers.
+* atol: (libc)Parsing of Integers.
+* atoll: (libc)Parsing of Integers.
+* backtrace: (libc)Backtraces.
+* backtrace_symbols_fd: (libc)Backtraces.
+* backtrace_symbols: (libc)Backtraces.
+* basename: (libc)Finding Tokens in a String.
+* basename: (libc)Finding Tokens in a String.
+* BC_BASE_MAX: (libc)Utility Limits.
+* BC_DIM_MAX: (libc)Utility Limits.
+* bcmp: (libc)String/Array Comparison.
+* bcopy: (libc)Copying and Concatenation.
+* BC_SCALE_MAX: (libc)Utility Limits.
+* BC_STRING_MAX: (libc)Utility Limits.
+* bind: (libc)Setting Address.
+* bind_textdomain_codeset: (libc)Charset conversion in gettext.
+* bindtextdomain: (libc)Locating gettext catalog.
+* BRKINT: (libc)Input Modes.
+* brk: (libc)Resizing the Data Segment.
+* bsearch: (libc)Array Search Function.
+* btowc: (libc)Converting a Character.
+* BUFSIZ: (libc)Controlling Buffering.
+* bzero: (libc)Copying and Concatenation.
+* cabsf: (libc)Absolute Value.
+* cabs: (libc)Absolute Value.
+* cabsl: (libc)Absolute Value.
+* cacosf: (libc)Inverse Trig Functions.
+* cacoshf: (libc)Hyperbolic Functions.
+* cacosh: (libc)Hyperbolic Functions.
+* cacoshl: (libc)Hyperbolic Functions.
+* cacos: (libc)Inverse Trig Functions.
+* cacosl: (libc)Inverse Trig Functions.
+* calloc: (libc)Allocating Cleared Space.
+* canonicalize_file_name: (libc)Symbolic Links.
+* cargf: (libc)Operations on Complex.
+* carg: (libc)Operations on Complex.
+* cargl: (libc)Operations on Complex.
+* casinf: (libc)Inverse Trig Functions.
+* casinhf: (libc)Hyperbolic Functions.
+* casinh: (libc)Hyperbolic Functions.
+* casinhl: (libc)Hyperbolic Functions.
+* casin: (libc)Inverse Trig Functions.
+* casinl: (libc)Inverse Trig Functions.
+* catanf: (libc)Inverse Trig Functions.
+* catanhf: (libc)Hyperbolic Functions.
+* catanh: (libc)Hyperbolic Functions.
+* catanhl: (libc)Hyperbolic Functions.
+* catan: (libc)Inverse Trig Functions.
+* catanl: (libc)Inverse Trig Functions.
+* catclose: (libc)The catgets Functions.
+* catgets: (libc)The catgets Functions.
+* catopen: (libc)The catgets Functions.
+* cbc_crypt: (libc)DES Encryption.
+* cbrtf: (libc)Exponents and Logarithms.
+* cbrt: (libc)Exponents and Logarithms.
+* cbrtl: (libc)Exponents and Logarithms.
+* ccosf: (libc)Trig Functions.
+* ccoshf: (libc)Hyperbolic Functions.
+* ccosh: (libc)Hyperbolic Functions.
+* ccoshl: (libc)Hyperbolic Functions.
+* ccos: (libc)Trig Functions.
+* ccosl: (libc)Trig Functions.
+* CCTS_OFLOW: (libc)Control Modes.
+* ceilf: (libc)Rounding Functions.
+* ceil: (libc)Rounding Functions.
+* ceill: (libc)Rounding Functions.
+* cexpf: (libc)Exponents and Logarithms.
+* cexp: (libc)Exponents and Logarithms.
+* cexpl: (libc)Exponents and Logarithms.
+* cfgetispeed: (libc)Line Speed.
+* cfgetospeed: (libc)Line Speed.
+* cfmakeraw: (libc)Noncanonical Input.
+* cfree: (libc)Freeing after Malloc.
+* cfsetispeed: (libc)Line Speed.
+* cfsetospeed: (libc)Line Speed.
+* cfsetspeed: (libc)Line Speed.
+* chdir: (libc)Working Directory.
+* CHILD_MAX: (libc)General Limits.
+* chmod: (libc)Setting Permissions.
+* chown: (libc)File Owner.
+* CIGNORE: (libc)Control Modes.
+* cimagf: (libc)Operations on Complex.
+* cimag: (libc)Operations on Complex.
+* cimagl: (libc)Operations on Complex.
+* clearenv: (libc)Environment Access.
+* clearerr: (libc)Error Recovery.
+* clearerr_unlocked: (libc)Error Recovery.
+* CLK_TCK: (libc)CPU Time.
+* CLOCAL: (libc)Control Modes.
+* clock: (libc)CPU Time.
+* CLOCKS_PER_SEC: (libc)CPU Time.
+* clog10f: (libc)Exponents and Logarithms.
+* clog10: (libc)Exponents and Logarithms.
+* clog10l: (libc)Exponents and Logarithms.
+* clogf: (libc)Exponents and Logarithms.
+* clog: (libc)Exponents and Logarithms.
+* clogl: (libc)Exponents and Logarithms.
+* closedir: (libc)Reading/Closing Directory.
+* close: (libc)Opening and Closing Files.
+* closelog: (libc)closelog.
+* COLL_WEIGHTS_MAX: (libc)Utility Limits.
+* _Complex_I: (libc)Complex Numbers.
+* confstr: (libc)String Parameters.
+* conjf: (libc)Operations on Complex.
+* conj: (libc)Operations on Complex.
+* conjl: (libc)Operations on Complex.
+* connect: (libc)Connecting.
+* copysignf: (libc)FP Bit Twiddling.
+* copysign: (libc)FP Bit Twiddling.
+* copysignl: (libc)FP Bit Twiddling.
+* cosf: (libc)Trig Functions.
+* coshf: (libc)Hyperbolic Functions.
+* cosh: (libc)Hyperbolic Functions.
+* coshl: (libc)Hyperbolic Functions.
+* cos: (libc)Trig Functions.
+* cosl: (libc)Trig Functions.
+* cpowf: (libc)Exponents and Logarithms.
+* cpow: (libc)Exponents and Logarithms.
+* cpowl: (libc)Exponents and Logarithms.
+* cprojf: (libc)Operations on Complex.
+* cproj: (libc)Operations on Complex.
+* cprojl: (libc)Operations on Complex.
+* CPU_CLR: (libc)CPU Affinity.
+* CPU_ISSET: (libc)CPU Affinity.
+* CPU_SET: (libc)CPU Affinity.
+* CPU_SETSIZE: (libc)CPU Affinity.
+* CPU_ZERO: (libc)CPU Affinity.
+* CREAD: (libc)Control Modes.
+* crealf: (libc)Operations on Complex.
+* creal: (libc)Operations on Complex.
+* creall: (libc)Operations on Complex.
+* creat64: (libc)Opening and Closing Files.
+* creat: (libc)Opening and Closing Files.
+* CRTS_IFLOW: (libc)Control Modes.
+* crypt: (libc)crypt.
+* crypt_r: (libc)crypt.
+* CS5: (libc)Control Modes.
+* CS6: (libc)Control Modes.
+* CS7: (libc)Control Modes.
+* CS8: (libc)Control Modes.
+* csinf: (libc)Trig Functions.
+* csinhf: (libc)Hyperbolic Functions.
+* csinh: (libc)Hyperbolic Functions.
+* csinhl: (libc)Hyperbolic Functions.
+* csin: (libc)Trig Functions.
+* csinl: (libc)Trig Functions.
+* CSIZE: (libc)Control Modes.
+* csqrtf: (libc)Exponents and Logarithms.
+* csqrt: (libc)Exponents and Logarithms.
+* csqrtl: (libc)Exponents and Logarithms.
+* CSTOPB: (libc)Control Modes.
+* ctanf: (libc)Trig Functions.
+* ctanhf: (libc)Hyperbolic Functions.
+* ctanh: (libc)Hyperbolic Functions.
+* ctanhl: (libc)Hyperbolic Functions.
+* ctan: (libc)Trig Functions.
+* ctanl: (libc)Trig Functions.
+* ctermid: (libc)Identifying the Terminal.
+* ctime: (libc)Formatting Calendar Time.
+* ctime_r: (libc)Formatting Calendar Time.
+* cuserid: (libc)Who Logged In.
+* dcgettext: (libc)Translation with gettext.
+* dcngettext: (libc)Advanced gettext functions.
+* DES_FAILED: (libc)DES Encryption.
+* des_setparity: (libc)DES Encryption.
+* dgettext: (libc)Translation with gettext.
+* difftime: (libc)Elapsed Time.
+* dirfd: (libc)Opening a Directory.
+* dirname: (libc)Finding Tokens in a String.
+* div: (libc)Integer Division.
+* dngettext: (libc)Advanced gettext functions.
+* drand48: (libc)SVID Random.
+* drand48_r: (libc)SVID Random.
+* dremf: (libc)Remainder Functions.
+* drem: (libc)Remainder Functions.
+* dreml: (libc)Remainder Functions.
+* DTTOIF: (libc)Directory Entries.
+* dup2: (libc)Duplicating Descriptors.
+* dup: (libc)Duplicating Descriptors.
+* E2BIG: (libc)Error Codes.
+* EACCES: (libc)Error Codes.
+* EADDRINUSE: (libc)Error Codes.
+* EADDRNOTAVAIL: (libc)Error Codes.
+* EADV: (libc)Error Codes.
+* EAFNOSUPPORT: (libc)Error Codes.
+* EAGAIN: (libc)Error Codes.
+* EALREADY: (libc)Error Codes.
+* EAUTH: (libc)Error Codes.
+* EBACKGROUND: (libc)Error Codes.
+* EBADE: (libc)Error Codes.
+* EBADFD: (libc)Error Codes.
+* EBADF: (libc)Error Codes.
+* EBADMSG: (libc)Error Codes.
+* EBADR: (libc)Error Codes.
+* EBADRPC: (libc)Error Codes.
+* EBADRQC: (libc)Error Codes.
+* EBADSLT: (libc)Error Codes.
+* EBFONT: (libc)Error Codes.
+* EBUSY: (libc)Error Codes.
+* ECANCELED: (libc)Error Codes.
+* ecb_crypt: (libc)DES Encryption.
+* ECHILD: (libc)Error Codes.
+* ECHOCTL: (libc)Local Modes.
+* ECHOE: (libc)Local Modes.
+* ECHOKE: (libc)Local Modes.
+* ECHOK: (libc)Local Modes.
+* ECHO: (libc)Local Modes.
+* ECHONL: (libc)Local Modes.
+* ECHOPRT: (libc)Local Modes.
+* ECHRNG: (libc)Error Codes.
+* ECOMM: (libc)Error Codes.
+* ECONNABORTED: (libc)Error Codes.
+* ECONNREFUSED: (libc)Error Codes.
+* ECONNRESET: (libc)Error Codes.
+* ecvt: (libc)System V Number Conversion.
+* ecvt_r: (libc)System V Number Conversion.
+* EDEADLK: (libc)Error Codes.
+* EDEADLOCK: (libc)Error Codes.
+* EDESTADDRREQ: (libc)Error Codes.
+* EDIED: (libc)Error Codes.
+* ED: (libc)Error Codes.
+* EDOM: (libc)Error Codes.
+* EDOTDOT: (libc)Error Codes.
+* EDQUOT: (libc)Error Codes.
+* EEXIST: (libc)Error Codes.
+* EFAULT: (libc)Error Codes.
+* EFBIG: (libc)Error Codes.
+* EFTYPE: (libc)Error Codes.
+* EGRATUITOUS: (libc)Error Codes.
+* EGREGIOUS: (libc)Error Codes.
+* EHOSTDOWN: (libc)Error Codes.
+* EHOSTUNREACH: (libc)Error Codes.
+* EIDRM: (libc)Error Codes.
+* EIEIO: (libc)Error Codes.
+* EILSEQ: (libc)Error Codes.
+* EINPROGRESS: (libc)Error Codes.
+* EINTR: (libc)Error Codes.
+* EINVAL: (libc)Error Codes.
+* EIO: (libc)Error Codes.
+* EISCONN: (libc)Error Codes.
+* EISDIR: (libc)Error Codes.
+* EISNAM: (libc)Error Codes.
+* EL2HLT: (libc)Error Codes.
+* EL2NSYNC: (libc)Error Codes.
+* EL3HLT: (libc)Error Codes.
+* EL3RST: (libc)Error Codes.
+* ELIBACC: (libc)Error Codes.
+* ELIBBAD: (libc)Error Codes.
+* ELIBEXEC: (libc)Error Codes.
+* ELIBMAX: (libc)Error Codes.
+* ELIBSCN: (libc)Error Codes.
+* ELNRNG: (libc)Error Codes.
+* ELOOP: (libc)Error Codes.
+* EMEDIUMTYPE: (libc)Error Codes.
+* EMFILE: (libc)Error Codes.
+* EMLINK: (libc)Error Codes.
+* EMSGSIZE: (libc)Error Codes.
+* EMULTIHOP: (libc)Error Codes.
+* ENAMETOOLONG: (libc)Error Codes.
+* ENAVAIL: (libc)Error Codes.
+* encrypt: (libc)DES Encryption.
+* encrypt_r: (libc)DES Encryption.
+* endfsent: (libc)fstab.
+* endgrent: (libc)Scanning All Groups.
+* endhostent: (libc)Host Names.
+* endmntent: (libc)mtab.
+* endnetent: (libc)Networks Database.
+* endnetgrent: (libc)Lookup Netgroup.
+* endprotoent: (libc)Protocols Database.
+* endpwent: (libc)Scanning All Users.
+* endservent: (libc)Services Database.
+* endutent: (libc)Manipulating the Database.
+* endutxent: (libc)XPG Functions.
+* ENEEDAUTH: (libc)Error Codes.
+* ENETDOWN: (libc)Error Codes.
+* ENETRESET: (libc)Error Codes.
+* ENETUNREACH: (libc)Error Codes.
+* ENFILE: (libc)Error Codes.
+* ENOANO: (libc)Error Codes.
+* ENOBUFS: (libc)Error Codes.
+* ENOCSI: (libc)Error Codes.
+* ENODATA: (libc)Error Codes.
+* ENODEV: (libc)Error Codes.
+* ENOENT: (libc)Error Codes.
+* ENOEXEC: (libc)Error Codes.
+* ENOLCK: (libc)Error Codes.
+* ENOLINK: (libc)Error Codes.
+* ENOMEDIUM: (libc)Error Codes.
+* ENOMEM: (libc)Error Codes.
+* ENOMSG: (libc)Error Codes.
+* ENONET: (libc)Error Codes.
+* ENOPKG: (libc)Error Codes.
+* ENOPROTOOPT: (libc)Error Codes.
+* ENOSPC: (libc)Error Codes.
+* ENOSR: (libc)Error Codes.
+* ENOSTR: (libc)Error Codes.
+* ENOSYS: (libc)Error Codes.
+* ENOTBLK: (libc)Error Codes.
+* ENOTCONN: (libc)Error Codes.
+* ENOTDIR: (libc)Error Codes.
+* ENOTEMPTY: (libc)Error Codes.
+* ENOTNAM: (libc)Error Codes.
+* ENOTSOCK: (libc)Error Codes.
+* ENOTSUP: (libc)Error Codes.
+* ENOTTY: (libc)Error Codes.
+* ENOTUNIQ: (libc)Error Codes.
+* envz_add: (libc)Envz Functions.
+* envz_entry: (libc)Envz Functions.
+* envz_get: (libc)Envz Functions.
+* envz_merge: (libc)Envz Functions.
+* envz_strip: (libc)Envz Functions.
+* ENXIO: (libc)Error Codes.
+* EOF: (libc)EOF and Errors.
+* EOPNOTSUPP: (libc)Error Codes.
+* EOVERFLOW: (libc)Error Codes.
+* EPERM: (libc)Error Codes.
+* EPFNOSUPPORT: (libc)Error Codes.
+* EPIPE: (libc)Error Codes.
+* EPROCLIM: (libc)Error Codes.
+* EPROCUNAVAIL: (libc)Error Codes.
+* EPROGMISMATCH: (libc)Error Codes.
+* EPROGUNAVAIL: (libc)Error Codes.
+* EPROTO: (libc)Error Codes.
+* EPROTONOSUPPORT: (libc)Error Codes.
+* EPROTOTYPE: (libc)Error Codes.
+* EQUIV_CLASS_MAX: (libc)Utility Limits.
+* erand48: (libc)SVID Random.
+* erand48_r: (libc)SVID Random.
+* ERANGE: (libc)Error Codes.
+* EREMCHG: (libc)Error Codes.
+* EREMOTEIO: (libc)Error Codes.
+* EREMOTE: (libc)Error Codes.
+* ERESTART: (libc)Error Codes.
+* erfcf: (libc)Special Functions.
+* erfc: (libc)Special Functions.
+* erfcl: (libc)Special Functions.
+* erff: (libc)Special Functions.
+* erf: (libc)Special Functions.
+* erfl: (libc)Special Functions.
+* EROFS: (libc)Error Codes.
+* ERPCMISMATCH: (libc)Error Codes.
+* err: (libc)Error Messages.
+* errno: (libc)Checking for Errors.
+* error_at_line: (libc)Error Messages.
+* error: (libc)Error Messages.
+* errx: (libc)Error Messages.
+* ESHUTDOWN: (libc)Error Codes.
+* ESOCKTNOSUPPORT: (libc)Error Codes.
+* ESPIPE: (libc)Error Codes.
+* ESRCH: (libc)Error Codes.
+* ESRMNT: (libc)Error Codes.
+* ESTALE: (libc)Error Codes.
+* ESTRPIPE: (libc)Error Codes.
+* ETIMEDOUT: (libc)Error Codes.
+* ETIME: (libc)Error Codes.
+* ETOOMANYREFS: (libc)Error Codes.
+* ETXTBSY: (libc)Error Codes.
+* EUCLEAN: (libc)Error Codes.
+* EUNATCH: (libc)Error Codes.
+* EUSERS: (libc)Error Codes.
+* EWOULDBLOCK: (libc)Error Codes.
+* EXDEV: (libc)Error Codes.
+* execle: (libc)Executing a File.
+* execl: (libc)Executing a File.
+* execlp: (libc)Executing a File.
+* execve: (libc)Executing a File.
+* execv: (libc)Executing a File.
+* execvp: (libc)Executing a File.
+* EXFULL: (libc)Error Codes.
+* EXIT_FAILURE: (libc)Exit Status.
+* exit: (libc)Normal Termination.
+* _exit: (libc)Termination Internals.
+* _Exit: (libc)Termination Internals.
+* EXIT_SUCCESS: (libc)Exit Status.
+* exp10f: (libc)Exponents and Logarithms.
+* exp10: (libc)Exponents and Logarithms.
+* exp10l: (libc)Exponents and Logarithms.
+* exp2f: (libc)Exponents and Logarithms.
+* exp2: (libc)Exponents and Logarithms.
+* exp2l: (libc)Exponents and Logarithms.
+* expf: (libc)Exponents and Logarithms.
+* exp: (libc)Exponents and Logarithms.
+* expl: (libc)Exponents and Logarithms.
+* expm1f: (libc)Exponents and Logarithms.
+* expm1: (libc)Exponents and Logarithms.
+* expm1l: (libc)Exponents and Logarithms.
+* EXPR_NEST_MAX: (libc)Utility Limits.
+* fabsf: (libc)Absolute Value.
+* fabs: (libc)Absolute Value.
+* fabsl: (libc)Absolute Value.
+* __fbufsize: (libc)Controlling Buffering.
+* fchdir: (libc)Working Directory.
+* fchmod: (libc)Setting Permissions.
+* fchown: (libc)File Owner.
+* fclean: (libc)Cleaning Streams.
+* fcloseall: (libc)Closing Streams.
+* fclose: (libc)Closing Streams.
+* fcntl: (libc)Control Operations.
+* fcvt: (libc)System V Number Conversion.
+* fcvt_r: (libc)System V Number Conversion.
+* fdatasync: (libc)Synchronizing I/O.
+* FD_CLOEXEC: (libc)Descriptor Flags.
+* FD_CLR: (libc)Waiting for I/O.
+* fdimf: (libc)Misc FP Arithmetic.
+* fdim: (libc)Misc FP Arithmetic.
+* fdiml: (libc)Misc FP Arithmetic.
+* FD_ISSET: (libc)Waiting for I/O.
+* fdopen: (libc)Descriptors and Streams.
+* FD_SET: (libc)Waiting for I/O.
+* FD_SETSIZE: (libc)Waiting for I/O.
+* F_DUPFD: (libc)Duplicating Descriptors.
+* FD_ZERO: (libc)Waiting for I/O.
+* feclearexcept: (libc)Status bit operations.
+* fedisableexcept: (libc)Control Functions.
+* feenableexcept: (libc)Control Functions.
+* fegetenv: (libc)Control Functions.
+* fegetexceptflag: (libc)Status bit operations.
+* fegetexcept: (libc)Control Functions.
+* fegetround: (libc)Rounding.
+* feholdexcept: (libc)Control Functions.
+* feof: (libc)EOF and Errors.
+* feof_unlocked: (libc)EOF and Errors.
+* feraiseexcept: (libc)Status bit operations.
+* ferror: (libc)EOF and Errors.
+* ferror_unlocked: (libc)EOF and Errors.
+* fesetenv: (libc)Control Functions.
+* fesetexceptflag: (libc)Status bit operations.
+* fesetround: (libc)Rounding.
+* fetestexcept: (libc)Status bit operations.
+* feupdateenv: (libc)Control Functions.
+* fflush: (libc)Flushing Buffers.
+* fflush_unlocked: (libc)Flushing Buffers.
+* fgetc: (libc)Character Input.
+* fgetc_unlocked: (libc)Character Input.
+* F_GETFD: (libc)Descriptor Flags.
+* F_GETFL: (libc)Getting File Status Flags.
+* fgetgrent: (libc)Scanning All Groups.
+* fgetgrent_r: (libc)Scanning All Groups.
+* F_GETLK: (libc)File Locks.
+* F_GETOWN: (libc)Interrupt Input.
+* fgetpos64: (libc)Portable Positioning.
+* fgetpos: (libc)Portable Positioning.
+* fgetpwent: (libc)Scanning All Users.
+* fgetpwent_r: (libc)Scanning All Users.
+* fgets: (libc)Line Input.
+* fgets_unlocked: (libc)Line Input.
+* fgetwc: (libc)Character Input.
+* fgetwc_unlocked: (libc)Character Input.
+* fgetws: (libc)Line Input.
+* fgetws_unlocked: (libc)Line Input.
+* FILENAME_MAX: (libc)Limits for Files.
+* fileno: (libc)Descriptors and Streams.
+* fileno_unlocked: (libc)Descriptors and Streams.
+* finitef: (libc)Floating Point Classes.
+* finite: (libc)Floating Point Classes.
+* finitel: (libc)Floating Point Classes.
+* __flbf: (libc)Controlling Buffering.
+* flockfile: (libc)Streams and Threads.
+* floorf: (libc)Rounding Functions.
+* floor: (libc)Rounding Functions.
+* floorl: (libc)Rounding Functions.
+* _flushlbf: (libc)Flushing Buffers.
+* FLUSHO: (libc)Local Modes.
+* fmaf: (libc)Misc FP Arithmetic.
+* fma: (libc)Misc FP Arithmetic.
+* fmal: (libc)Misc FP Arithmetic.
+* fmaxf: (libc)Misc FP Arithmetic.
+* fmax: (libc)Misc FP Arithmetic.
+* fmaxl: (libc)Misc FP Arithmetic.
+* fmemopen: (libc)String Streams.
+* fminf: (libc)Misc FP Arithmetic.
+* fmin: (libc)Misc FP Arithmetic.
+* fminl: (libc)Misc FP Arithmetic.
+* fmodf: (libc)Remainder Functions.
+* fmod: (libc)Remainder Functions.
+* fmodl: (libc)Remainder Functions.
+* fmtmsg: (libc)Printing Formatted Messages.
+* fnmatch: (libc)Wildcard Matching.
+* F_OK: (libc)Testing File Access.
+* fopen64: (libc)Opening Streams.
+* fopencookie: (libc)Streams and Cookies.
+* fopen: (libc)Opening Streams.
+* FOPEN_MAX: (libc)Opening Streams.
+* fork: (libc)Creating a Process.
+* forkpty: (libc)Pseudo-Terminal Pairs.
+* fpathconf: (libc)Pathconf.
+* fpclassify: (libc)Floating Point Classes.
+* __fpending: (libc)Controlling Buffering.
+* FP_ILOGB0: (libc)Exponents and Logarithms.
+* FP_ILOGBNAN: (libc)Exponents and Logarithms.
+* fprintf: (libc)Formatted Output Functions.
+* __fpurge: (libc)Flushing Buffers.
+* fputc: (libc)Simple Output.
+* fputc_unlocked: (libc)Simple Output.
+* fputs: (libc)Simple Output.
+* fputs_unlocked: (libc)Simple Output.
+* fputwc: (libc)Simple Output.
+* fputwc_unlocked: (libc)Simple Output.
+* fputws: (libc)Simple Output.
+* fputws_unlocked: (libc)Simple Output.
+* __freadable: (libc)Opening Streams.
+* __freading: (libc)Opening Streams.
+* fread: (libc)Block Input/Output.
+* fread_unlocked: (libc)Block Input/Output.
+* free: (libc)Freeing after Malloc.
+* freopen64: (libc)Opening Streams.
+* freopen: (libc)Opening Streams.
+* frexpf: (libc)Normalization Functions.
+* frexp: (libc)Normalization Functions.
+* frexpl: (libc)Normalization Functions.
+* fscanf: (libc)Formatted Input Functions.
+* fseek: (libc)File Positioning.
+* fseeko64: (libc)File Positioning.
+* fseeko: (libc)File Positioning.
+* F_SETFD: (libc)Descriptor Flags.
+* F_SETFL: (libc)Getting File Status Flags.
+* F_SETLK: (libc)File Locks.
+* F_SETLKW: (libc)File Locks.
+* __fsetlocking: (libc)Streams and Threads.
+* F_SETOWN: (libc)Interrupt Input.
+* fsetpos64: (libc)Portable Positioning.
+* fsetpos: (libc)Portable Positioning.
+* fstat64: (libc)Reading Attributes.
+* fstat: (libc)Reading Attributes.
+* fsync: (libc)Synchronizing I/O.
+* ftell: (libc)File Positioning.
+* ftello64: (libc)File Positioning.
+* ftello: (libc)File Positioning.
+* ftruncate64: (libc)File Size.
+* ftruncate: (libc)File Size.
+* ftrylockfile: (libc)Streams and Threads.
+* ftw64: (libc)Working with Directory Trees.
+* ftw: (libc)Working with Directory Trees.
+* funlockfile: (libc)Streams and Threads.
+* futimes: (libc)File Times.
+* fwide: (libc)Streams and I18N.
+* fwprintf: (libc)Formatted Output Functions.
+* __fwritable: (libc)Opening Streams.
+* fwrite: (libc)Block Input/Output.
+* fwrite_unlocked: (libc)Block Input/Output.
+* __fwriting: (libc)Opening Streams.
+* fwscanf: (libc)Formatted Input Functions.
+* gammaf: (libc)Special Functions.
+* gamma: (libc)Special Functions.
+* gammal: (libc)Special Functions.
+* __gconv_end_fct: (libc)glibc iconv Implementation.
+* __gconv_fct: (libc)glibc iconv Implementation.
+* __gconv_init_fct: (libc)glibc iconv Implementation.
+* gcvt: (libc)System V Number Conversion.
+* get_avphys_pages: (libc)Query Memory Parameters.
+* getchar: (libc)Character Input.
+* getchar_unlocked: (libc)Character Input.
+* getc: (libc)Character Input.
+* getcontext: (libc)System V contexts.
+* getc_unlocked: (libc)Character Input.
+* get_current_dir_name: (libc)Working Directory.
+* getcwd: (libc)Working Directory.
+* getdate: (libc)General Time String Parsing.
+* getdate_r: (libc)General Time String Parsing.
+* getdelim: (libc)Line Input.
+* getdomainnname: (libc)Host Identification.
+* getegid: (libc)Reading Persona.
+* getenv: (libc)Environment Access.
+* geteuid: (libc)Reading Persona.
+* getfsent: (libc)fstab.
+* getfsfile: (libc)fstab.
+* getfsspec: (libc)fstab.
+* getgid: (libc)Reading Persona.
+* getgrent: (libc)Scanning All Groups.
+* getgrent_r: (libc)Scanning All Groups.
+* getgrgid: (libc)Lookup Group.
+* getgrgid_r: (libc)Lookup Group.
+* getgrnam: (libc)Lookup Group.
+* getgrnam_r: (libc)Lookup Group.
+* getgrouplist: (libc)Setting Groups.
+* getgroups: (libc)Reading Persona.
+* gethostbyaddr: (libc)Host Names.
+* gethostbyaddr_r: (libc)Host Names.
+* gethostbyname2: (libc)Host Names.
+* gethostbyname2_r: (libc)Host Names.
+* gethostbyname: (libc)Host Names.
+* gethostbyname_r: (libc)Host Names.
+* gethostent: (libc)Host Names.
+* gethostid: (libc)Host Identification.
+* gethostname: (libc)Host Identification.
+* getitimer: (libc)Setting an Alarm.
+* getline: (libc)Line Input.
+* getloadavg: (libc)Processor Resources.
+* getlogin: (libc)Who Logged In.
+* getmntent: (libc)mtab.
+* getmntent_r: (libc)mtab.
+* getnetbyaddr: (libc)Networks Database.
+* getnetbyname: (libc)Networks Database.
+* getnetent: (libc)Networks Database.
+* getnetgrent: (libc)Lookup Netgroup.
+* getnetgrent_r: (libc)Lookup Netgroup.
+* get_nprocs_conf: (libc)Processor Resources.
+* get_nprocs: (libc)Processor Resources.
+* getopt: (libc)Using Getopt.
+* getopt_long: (libc)Getopt Long Options.
+* getopt_long_only: (libc)Getopt Long Options.
+* getpagesize: (libc)Query Memory Parameters.
+* getpass: (libc)getpass.
+* getpeername: (libc)Who is Connected.
+* getpgid: (libc)Process Group Functions.
+* getpgrp: (libc)Process Group Functions.
+* getpgrp: (libc)Process Group Functions.
+* get_phys_pages: (libc)Query Memory Parameters.
+* getpid: (libc)Process Identification.
+* getppid: (libc)Process Identification.
+* getpriority: (libc)Traditional Scheduling Functions.
+* getprotobyname: (libc)Protocols Database.
+* getprotobynumber: (libc)Protocols Database.
+* getprotoent: (libc)Protocols Database.
+* getpt: (libc)Allocation.
+* getpwent: (libc)Scanning All Users.
+* getpwent_r: (libc)Scanning All Users.
+* getpwnam: (libc)Lookup User.
+* getpwnam_r: (libc)Lookup User.
+* getpwuid: (libc)Lookup User.
+* getpwuid_r: (libc)Lookup User.
+* getrlimit64: (libc)Limits on Resources.
+* getrlimit: (libc)Limits on Resources.
+* getrusage: (libc)Resource Usage.
+* getservbyname: (libc)Services Database.
+* getservbyport: (libc)Services Database.
+* getservent: (libc)Services Database.
+* getsid: (libc)Process Group Functions.
+* gets: (libc)Line Input.
+* getsockname: (libc)Reading Address.
+* getsockopt: (libc)Socket Option Functions.
+* getsubopt: (libc)Suboptions.
+* gettext: (libc)Translation with gettext.
+* gettimeofday: (libc)High-Resolution Calendar.
+* getuid: (libc)Reading Persona.
+* getumask: (libc)Setting Permissions.
+* getutent: (libc)Manipulating the Database.
+* getutent_r: (libc)Manipulating the Database.
+* getutid: (libc)Manipulating the Database.
+* getutid_r: (libc)Manipulating the Database.
+* getutline: (libc)Manipulating the Database.
+* getutline_r: (libc)Manipulating the Database.
+* getutmp: (libc)XPG Functions.
+* getutmpx: (libc)XPG Functions.
+* getutxent: (libc)XPG Functions.
+* getutxid: (libc)XPG Functions.
+* getutxline: (libc)XPG Functions.
+* getwchar: (libc)Character Input.
+* getwchar_unlocked: (libc)Character Input.
+* getwc: (libc)Character Input.
+* getwc_unlocked: (libc)Character Input.
+* getwd: (libc)Working Directory.
+* getw: (libc)Character Input.
+* glob64: (libc)Calling Glob.
+* globfree64: (libc)More Flags for Globbing.
+* globfree: (libc)More Flags for Globbing.
+* glob: (libc)Calling Glob.
+* gmtime: (libc)Broken-down Time.
+* gmtime_r: (libc)Broken-down Time.
+* grantpt: (libc)Allocation.
+* gsignal: (libc)Signaling Yourself.
+* gtty: (libc)BSD Terminal Modes.
+* hasmntopt: (libc)mtab.
+* hcreate: (libc)Hash Search Function.
+* hcreate_r: (libc)Hash Search Function.
+* hdestroy: (libc)Hash Search Function.
+* hdestroy_r: (libc)Hash Search Function.
+* hsearch: (libc)Hash Search Function.
+* hsearch_r: (libc)Hash Search Function.
+* htonl: (libc)Byte Order.
+* htons: (libc)Byte Order.
+* HUGE_VALF: (libc)Math Error Reporting.
+* HUGE_VAL: (libc)Math Error Reporting.
+* HUGE_VALL: (libc)Math Error Reporting.
+* HUPCL: (libc)Control Modes.
+* hypotf: (libc)Exponents and Logarithms.
+* hypot: (libc)Exponents and Logarithms.
+* hypotl: (libc)Exponents and Logarithms.
+* ICANON: (libc)Local Modes.
+* iconv_close: (libc)Generic Conversion Interface.
+* iconv: (libc)Generic Conversion Interface.
+* iconv_open: (libc)Generic Conversion Interface.
+* ICRNL: (libc)Input Modes.
+* IEXTEN: (libc)Local Modes.
+* if_freenameindex: (libc)Interface Naming.
+* if_indextoname: (libc)Interface Naming.
+* if_nameindex: (libc)Interface Naming.
+* if_nametoindex: (libc)Interface Naming.
+* IFNAMSIZ: (libc)Interface Naming.
+* IFTODT: (libc)Directory Entries.
+* IGNBRK: (libc)Input Modes.
+* IGNCR: (libc)Input Modes.
+* IGNPAR: (libc)Input Modes.
+* I: (libc)Complex Numbers.
+* ilogbf: (libc)Exponents and Logarithms.
+* ilogb: (libc)Exponents and Logarithms.
+* ilogbl: (libc)Exponents and Logarithms.
+* _Imaginary_I: (libc)Complex Numbers.
+* imaxabs: (libc)Absolute Value.
+* IMAXBEL: (libc)Input Modes.
+* imaxdiv: (libc)Integer Division.
+* in6addr_any: (libc)Host Address Data Type.
+* in6addr_loopback: (libc)Host Address Data Type.
+* INADDR_ANY: (libc)Host Address Data Type.
+* INADDR_BROADCAST: (libc)Host Address Data Type.
+* INADDR_LOOPBACK: (libc)Host Address Data Type.
+* INADDR_NONE: (libc)Host Address Data Type.
+* index: (libc)Search Functions.
+* inet_addr: (libc)Host Address Functions.
+* inet_aton: (libc)Host Address Functions.
+* inet_lnaof: (libc)Host Address Functions.
+* inet_makeaddr: (libc)Host Address Functions.
+* inet_netof: (libc)Host Address Functions.
+* inet_network: (libc)Host Address Functions.
+* inet_ntoa: (libc)Host Address Functions.
+* inet_ntop: (libc)Host Address Functions.
+* inet_pton: (libc)Host Address Functions.
+* INFINITY: (libc)Infinity and NaN.
+* initgroups: (libc)Setting Groups.
+* initstate: (libc)BSD Random.
+* initstate_r: (libc)BSD Random.
+* INLCR: (libc)Input Modes.
+* innetgr: (libc)Netgroup Membership.
+* INPCK: (libc)Input Modes.
+* ioctl: (libc)IOCTLs.
+* _IOFBF: (libc)Controlling Buffering.
+* _IOLBF: (libc)Controlling Buffering.
+* _IONBF: (libc)Controlling Buffering.
+* IPPORT_RESERVED: (libc)Ports.
+* IPPORT_USERRESERVED: (libc)Ports.
+* isalnum: (libc)Classification of Characters.
+* isalpha: (libc)Classification of Characters.
+* isascii: (libc)Classification of Characters.
+* isatty: (libc)Is It a Terminal.
+* isblank: (libc)Classification of Characters.
+* iscntrl: (libc)Classification of Characters.
+* isdigit: (libc)Classification of Characters.
+* isfinite: (libc)Floating Point Classes.
+* isgraph: (libc)Classification of Characters.
+* isgreaterequal: (libc)FP Comparison Functions.
+* isgreater: (libc)FP Comparison Functions.
+* ISIG: (libc)Local Modes.
+* isinff: (libc)Floating Point Classes.
+* isinf: (libc)Floating Point Classes.
+* isinfl: (libc)Floating Point Classes.
+* islessequal: (libc)FP Comparison Functions.
+* islessgreater: (libc)FP Comparison Functions.
+* isless: (libc)FP Comparison Functions.
+* islower: (libc)Classification of Characters.
+* isnanf: (libc)Floating Point Classes.
+* isnan: (libc)Floating Point Classes.
+* isnan: (libc)Floating Point Classes.
+* isnanl: (libc)Floating Point Classes.
+* isnormal: (libc)Floating Point Classes.
+* isprint: (libc)Classification of Characters.
+* ispunct: (libc)Classification of Characters.
+* isspace: (libc)Classification of Characters.
+* ISTRIP: (libc)Input Modes.
+* isunordered: (libc)FP Comparison Functions.
+* isupper: (libc)Classification of Characters.
+* iswalnum: (libc)Classification of Wide Characters.
+* iswalpha: (libc)Classification of Wide Characters.
+* iswblank: (libc)Classification of Wide Characters.
+* iswcntrl: (libc)Classification of Wide Characters.
+* iswctype: (libc)Classification of Wide Characters.
+* iswdigit: (libc)Classification of Wide Characters.
+* iswgraph: (libc)Classification of Wide Characters.
+* iswlower: (libc)Classification of Wide Characters.
+* iswprint: (libc)Classification of Wide Characters.
+* iswpunct: (libc)Classification of Wide Characters.
+* iswspace: (libc)Classification of Wide Characters.
+* iswupper: (libc)Classification of Wide Characters.
+* iswxdigit: (libc)Classification of Wide Characters.
+* isxdigit: (libc)Classification of Characters.
+* IXANY: (libc)Input Modes.
+* IXOFF: (libc)Input Modes.
+* IXON: (libc)Input Modes.
+* j0f: (libc)Special Functions.
+* j0: (libc)Special Functions.
+* j0l: (libc)Special Functions.
+* j1f: (libc)Special Functions.
+* j1: (libc)Special Functions.
+* j1l: (libc)Special Functions.
+* jnf: (libc)Special Functions.
+* jn: (libc)Special Functions.
+* jnl: (libc)Special Functions.
+* jrand48: (libc)SVID Random.
+* jrand48_r: (libc)SVID Random.
+* kill: (libc)Signaling Another Process.
+* killpg: (libc)Signaling Another Process.
+* l64a: (libc)Encode Binary Data.
+* labs: (libc)Absolute Value.
+* lcong48: (libc)SVID Random.
+* lcong48_r: (libc)SVID Random.
+* L_ctermid: (libc)Identifying the Terminal.
+* L_cuserid: (libc)Who Logged In.
+* ldexpf: (libc)Normalization Functions.
+* ldexp: (libc)Normalization Functions.
+* ldexpl: (libc)Normalization Functions.
+* ldiv: (libc)Integer Division.
+* lfind: (libc)Array Search Function.
+* lgammaf: (libc)Special Functions.
+* lgammaf_r: (libc)Special Functions.
+* lgamma: (libc)Special Functions.
+* lgammal: (libc)Special Functions.
+* lgammal_r: (libc)Special Functions.
+* lgamma_r: (libc)Special Functions.
+* LINE_MAX: (libc)Utility Limits.
+* link: (libc)Hard Links.
+* LINK_MAX: (libc)Limits for Files.
+* lio_listio64: (libc)Asynchronous Reads/Writes.
+* lio_listio: (libc)Asynchronous Reads/Writes.
+* listen: (libc)Listening.
+* llabs: (libc)Absolute Value.
+* lldiv: (libc)Integer Division.
+* llrintf: (libc)Rounding Functions.
+* llrint: (libc)Rounding Functions.
+* llrintl: (libc)Rounding Functions.
+* llroundf: (libc)Rounding Functions.
+* llround: (libc)Rounding Functions.
+* llroundl: (libc)Rounding Functions.
+* localeconv: (libc)The Lame Way to Locale Data.
+* localtime: (libc)Broken-down Time.
+* localtime_r: (libc)Broken-down Time.
+* log10f: (libc)Exponents and Logarithms.
+* log10: (libc)Exponents and Logarithms.
+* log10l: (libc)Exponents and Logarithms.
+* log1pf: (libc)Exponents and Logarithms.
+* log1p: (libc)Exponents and Logarithms.
+* log1pl: (libc)Exponents and Logarithms.
+* log2f: (libc)Exponents and Logarithms.
+* log2: (libc)Exponents and Logarithms.
+* log2l: (libc)Exponents and Logarithms.
+* logbf: (libc)Exponents and Logarithms.
+* logb: (libc)Exponents and Logarithms.
+* logbl: (libc)Exponents and Logarithms.
+* logf: (libc)Exponents and Logarithms.
+* login: (libc)Logging In and Out.
+* login_tty: (libc)Logging In and Out.
+* log: (libc)Exponents and Logarithms.
+* logl: (libc)Exponents and Logarithms.
+* logout: (libc)Logging In and Out.
+* logwtmp: (libc)Logging In and Out.
+* longjmp: (libc)Non-Local Details.
+* lrand48: (libc)SVID Random.
+* lrand48_r: (libc)SVID Random.
+* lrintf: (libc)Rounding Functions.
+* lrint: (libc)Rounding Functions.
+* lrintl: (libc)Rounding Functions.
+* lroundf: (libc)Rounding Functions.
+* lround: (libc)Rounding Functions.
+* lroundl: (libc)Rounding Functions.
+* lsearch: (libc)Array Search Function.
+* lseek64: (libc)File Position Primitive.
+* lseek: (libc)File Position Primitive.
+* lstat64: (libc)Reading Attributes.
+* lstat: (libc)Reading Attributes.
+* L_tmpnam: (libc)Temporary Files.
+* lutimes: (libc)File Times.
+* madvise: (libc)Memory-mapped I/O.
+* makecontext: (libc)System V contexts.
+* mallinfo: (libc)Statistics of Malloc.
+* malloc: (libc)Basic Allocation.
+* mallopt: (libc)Malloc Tunable Parameters.
+* MAX_CANON: (libc)Limits for Files.
+* MAX_INPUT: (libc)Limits for Files.
+* MAXNAMLEN: (libc)Limits for Files.
+* MAXSYMLINKS: (libc)Symbolic Links.
+* MB_CUR_MAX: (libc)Selecting the Conversion.
+* mblen: (libc)Non-reentrant Character Conversion.
+* MB_LEN_MAX: (libc)Selecting the Conversion.
+* mbrlen: (libc)Converting a Character.
+* mbrtowc: (libc)Converting a Character.
+* mbsinit: (libc)Keeping the state.
+* mbsnrtowcs: (libc)Converting Strings.
+* mbsrtowcs: (libc)Converting Strings.
+* mbstowcs: (libc)Non-reentrant String Conversion.
+* mbtowc: (libc)Non-reentrant Character Conversion.
+* mcheck: (libc)Heap Consistency Checking.
+* MDMBUF: (libc)Control Modes.
+* memalign: (libc)Aligned Memory Blocks.
+* memccpy: (libc)Copying and Concatenation.
+* memchr: (libc)Search Functions.
+* memcmp: (libc)String/Array Comparison.
+* memcpy: (libc)Copying and Concatenation.
+* memfrob: (libc)Trivial Encryption.
+* memmem: (libc)Search Functions.
+* memmove: (libc)Copying and Concatenation.
+* mempcpy: (libc)Copying and Concatenation.
+* memrchr: (libc)Search Functions.
+* memset: (libc)Copying and Concatenation.
+* mkdir: (libc)Creating Directories.
+* mkdtemp: (libc)Temporary Files.
+* mkfifo: (libc)FIFO Special Files.
+* mknod: (libc)Making Special Files.
+* mkstemp: (libc)Temporary Files.
+* mktemp: (libc)Temporary Files.
+* mktime: (libc)Broken-down Time.
+* mlockall: (libc)Page Lock Functions.
+* mlock: (libc)Page Lock Functions.
+* mmap64: (libc)Memory-mapped I/O.
+* mmap: (libc)Memory-mapped I/O.
+* modff: (libc)Rounding Functions.
+* modf: (libc)Rounding Functions.
+* modfl: (libc)Rounding Functions.
+* mount: (libc)Mount-Unmount-Remount.
+* mprobe: (libc)Heap Consistency Checking.
+* mrand48: (libc)SVID Random.
+* mrand48_r: (libc)SVID Random.
+* mremap: (libc)Memory-mapped I/O.
+* MSG_DONTROUTE: (libc)Socket Data Options.
+* MSG_OOB: (libc)Socket Data Options.
+* MSG_PEEK: (libc)Socket Data Options.
+* msync: (libc)Memory-mapped I/O.
+* mtrace: (libc)Tracing malloc.
+* munlockall: (libc)Page Lock Functions.
+* munlock: (libc)Page Lock Functions.
+* munmap: (libc)Memory-mapped I/O.
+* muntrace: (libc)Tracing malloc.
+* NAME_MAX: (libc)Limits for Files.
+* nanf: (libc)FP Bit Twiddling.
+* nan: (libc)FP Bit Twiddling.
+* NAN: (libc)Infinity and NaN.
+* nanl: (libc)FP Bit Twiddling.
+* nanosleep: (libc)Sleeping.
+* NCCS: (libc)Mode Data Types.
+* nearbyintf: (libc)Rounding Functions.
+* nearbyint: (libc)Rounding Functions.
+* nearbyintl: (libc)Rounding Functions.
+* nextafterf: (libc)FP Bit Twiddling.
+* nextafter: (libc)FP Bit Twiddling.
+* nextafterl: (libc)FP Bit Twiddling.
+* nexttowardf: (libc)FP Bit Twiddling.
+* nexttoward: (libc)FP Bit Twiddling.
+* nexttowardl: (libc)FP Bit Twiddling.
+* nftw64: (libc)Working with Directory Trees.
+* nftw: (libc)Working with Directory Trees.
+* ngettext: (libc)Advanced gettext functions.
+* NGROUPS_MAX: (libc)General Limits.
+* nice: (libc)Traditional Scheduling Functions.
+* nl_langinfo: (libc)The Elegant and Fast Way.
+* NOFLSH: (libc)Local Modes.
+* NOKERNINFO: (libc)Local Modes.
+* nrand48: (libc)SVID Random.
+* nrand48_r: (libc)SVID Random.
+* NSIG: (libc)Standard Signals.
+* ntohl: (libc)Byte Order.
+* ntohs: (libc)Byte Order.
+* ntp_adjtime: (libc)High Accuracy Clock.
+* ntp_gettime: (libc)High Accuracy Clock.
+* NULL: (libc)Null Pointer Constant.
+* O_ACCMODE: (libc)Access Modes.
+* O_APPEND: (libc)Operating Modes.
+* O_ASYNC: (libc)Operating Modes.
+* obstack_1grow_fast: (libc)Extra Fast Growing.
+* obstack_1grow: (libc)Growing Objects.
+* obstack_alignment_mask: (libc)Obstacks Data Alignment.
+* obstack_alloc: (libc)Allocation in an Obstack.
+* obstack_base: (libc)Status of an Obstack.
+* obstack_blank_fast: (libc)Extra Fast Growing.
+* obstack_blank: (libc)Growing Objects.
+* obstack_chunk_size: (libc)Obstack Chunks.
+* obstack_copy0: (libc)Allocation in an Obstack.
+* obstack_copy: (libc)Allocation in an Obstack.
+* obstack_finish: (libc)Growing Objects.
+* obstack_free: (libc)Freeing Obstack Objects.
+* obstack_grow0: (libc)Growing Objects.
+* obstack_grow: (libc)Growing Objects.
+* obstack_init: (libc)Preparing for Obstacks.
+* obstack_int_grow_fast: (libc)Extra Fast Growing.
+* obstack_int_grow: (libc)Growing Objects.
+* obstack_next_free: (libc)Status of an Obstack.
+* obstack_object_size: (libc)Growing Objects.
+* obstack_object_size: (libc)Status of an Obstack.
+* obstack_printf: (libc)Dynamic Output.
+* obstack_ptr_grow_fast: (libc)Extra Fast Growing.
+* obstack_ptr_grow: (libc)Growing Objects.
+* obstack_room: (libc)Extra Fast Growing.
+* obstack_vprintf: (libc)Variable Arguments Output.
+* O_CREAT: (libc)Open-time Flags.
+* O_EXCL: (libc)Open-time Flags.
+* O_EXEC: (libc)Access Modes.
+* O_EXLOCK: (libc)Open-time Flags.
+* offsetof: (libc)Structure Measurement.
+* O_FSYNC: (libc)Operating Modes.
+* O_IGNORE_CTTY: (libc)Open-time Flags.
+* O_NDELAY: (libc)Operating Modes.
+* on_exit: (libc)Cleanups on Exit.
+* ONLCR: (libc)Output Modes.
+* O_NOATIME: (libc)Operating Modes.
+* O_NOCTTY: (libc)Open-time Flags.
+* ONOEOT: (libc)Output Modes.
+* O_NOLINK: (libc)Open-time Flags.
+* O_NONBLOCK: (libc)Open-time Flags.
+* O_NONBLOCK: (libc)Operating Modes.
+* O_NOTRANS: (libc)Open-time Flags.
+* open64: (libc)Opening and Closing Files.
+* opendir: (libc)Opening a Directory.
+* open: (libc)Opening and Closing Files.
+* openlog: (libc)openlog.
+* OPEN_MAX: (libc)General Limits.
+* open_memstream: (libc)String Streams.
+* open_obstack_stream: (libc)Obstack Streams.
+* openpty: (libc)Pseudo-Terminal Pairs.
+* OPOST: (libc)Output Modes.
+* O_RDONLY: (libc)Access Modes.
+* O_RDWR: (libc)Access Modes.
+* O_READ: (libc)Access Modes.
+* O_SHLOCK: (libc)Open-time Flags.
+* O_SYNC: (libc)Operating Modes.
+* O_TRUNC: (libc)Open-time Flags.
+* O_WRITE: (libc)Access Modes.
+* O_WRONLY: (libc)Access Modes.
+* OXTABS: (libc)Output Modes.
+* PA_FLAG_MASK: (libc)Parsing a Template String.
+* PARENB: (libc)Control Modes.
+* PARMRK: (libc)Input Modes.
+* PARODD: (libc)Control Modes.
+* parse_printf_format: (libc)Parsing a Template String.
+* pathconf: (libc)Pathconf.
+* PATH_MAX: (libc)Limits for Files.
+* _PATH_UTMP: (libc)Manipulating the Database.
+* _PATH_WTMP: (libc)Manipulating the Database.
+* pause: (libc)Using Pause.
+* pclose: (libc)Pipe to a Subprocess.
+* PENDIN: (libc)Local Modes.
+* perror: (libc)Error Messages.
+* PF_FILE: (libc)Local Namespace Details.
+* PF_INET6: (libc)Internet Namespace.
+* PF_INET: (libc)Internet Namespace.
+* PF_LOCAL: (libc)Local Namespace Details.
+* PF_UNIX: (libc)Local Namespace Details.
+* PIPE_BUF: (libc)Limits for Files.
+* pipe: (libc)Creating a Pipe.
+* popen: (libc)Pipe to a Subprocess.
+* _POSIX2_C_DEV: (libc)System Options.
+* _POSIX2_C_VERSION: (libc)Version Supported.
+* _POSIX2_FORT_DEV: (libc)System Options.
+* _POSIX2_FORT_RUN: (libc)System Options.
+* _POSIX2_LOCALEDEF: (libc)System Options.
+* _POSIX2_SW_DEV: (libc)System Options.
+* _POSIX_CHOWN_RESTRICTED: (libc)Options for Files.
+* _POSIX_JOB_CONTROL: (libc)System Options.
+* posix_memalign: (libc)Aligned Memory Blocks.
+* _POSIX_NO_TRUNC: (libc)Options for Files.
+* _POSIX_SAVED_IDS: (libc)System Options.
+* _POSIX_VDISABLE: (libc)Options for Files.
+* _POSIX_VERSION: (libc)Version Supported.
+* pow10f: (libc)Exponents and Logarithms.
+* pow10: (libc)Exponents and Logarithms.
+* pow10l: (libc)Exponents and Logarithms.
+* powf: (libc)Exponents and Logarithms.
+* pow: (libc)Exponents and Logarithms.
+* powl: (libc)Exponents and Logarithms.
+* pread64: (libc)I/O Primitives.
+* pread: (libc)I/O Primitives.
+* printf: (libc)Formatted Output Functions.
+* printf_size_info: (libc)Predefined Printf Handlers.
+* printf_size: (libc)Predefined Printf Handlers.
+* psignal: (libc)Signal Messages.
+* P_tmpdir: (libc)Temporary Files.
+* ptsname: (libc)Allocation.
+* ptsname_r: (libc)Allocation.
+* putchar: (libc)Simple Output.
+* putchar_unlocked: (libc)Simple Output.
+* putc: (libc)Simple Output.
+* putc_unlocked: (libc)Simple Output.
+* putenv: (libc)Environment Access.
+* putpwent: (libc)Writing a User Entry.
+* puts: (libc)Simple Output.
+* pututline: (libc)Manipulating the Database.
+* pututxline: (libc)XPG Functions.
+* putwchar: (libc)Simple Output.
+* putwchar_unlocked: (libc)Simple Output.
+* putwc: (libc)Simple Output.
+* putwc_unlocked: (libc)Simple Output.
+* putw: (libc)Simple Output.
+* pwrite64: (libc)I/O Primitives.
+* pwrite: (libc)I/O Primitives.
+* qecvt: (libc)System V Number Conversion.
+* qecvt_r: (libc)System V Number Conversion.
+* qfcvt: (libc)System V Number Conversion.
+* qfcvt_r: (libc)System V Number Conversion.
+* qgcvt: (libc)System V Number Conversion.
+* qsort: (libc)Array Sort Function.
+* raise: (libc)Signaling Yourself.
+* rand: (libc)ISO Random.
+* RAND_MAX: (libc)ISO Random.
+* random: (libc)BSD Random.
+* random_r: (libc)BSD Random.
+* rand_r: (libc)ISO Random.
+* rawmemchr: (libc)Search Functions.
+* readdir64: (libc)Reading/Closing Directory.
+* readdir64_r: (libc)Reading/Closing Directory.
+* readdir: (libc)Reading/Closing Directory.
+* readdir_r: (libc)Reading/Closing Directory.
+* read: (libc)I/O Primitives.
+* readlink: (libc)Symbolic Links.
+* readv: (libc)Scatter-Gather.
+* realloc: (libc)Changing Block Size.
+* realpath: (libc)Symbolic Links.
+* recvfrom: (libc)Receiving Datagrams.
+* recv: (libc)Receiving Data.
+* recvmsg: (libc)Receiving Datagrams.
+* RE_DUP_MAX: (libc)General Limits.
+* regcomp: (libc)POSIX Regexp Compilation.
+* regerror: (libc)Regexp Cleanup.
+* regexec: (libc)Matching POSIX Regexps.
+* regfree: (libc)Regexp Cleanup.
+* register_printf_function: (libc)Registering New Conversions.
+* remainderf: (libc)Remainder Functions.
+* remainder: (libc)Remainder Functions.
+* remainderl: (libc)Remainder Functions.
+* remove: (libc)Deleting Files.
+* rename: (libc)Renaming Files.
+* rewinddir: (libc)Random Access Directory.
+* rewind: (libc)File Positioning.
+* rindex: (libc)Search Functions.
+* rintf: (libc)Rounding Functions.
+* rint: (libc)Rounding Functions.
+* rintl: (libc)Rounding Functions.
+* RLIM_INFINITY: (libc)Limits on Resources.
+* rmdir: (libc)Deleting Files.
+* R_OK: (libc)Testing File Access.
+* roundf: (libc)Rounding Functions.
+* round: (libc)Rounding Functions.
+* roundl: (libc)Rounding Functions.
+* rpmatch: (libc)Yes-or-No Questions.
+* SA_NOCLDSTOP: (libc)Flags for Sigaction.
+* SA_ONSTACK: (libc)Flags for Sigaction.
+* SA_RESTART: (libc)Flags for Sigaction.
+* sbrk: (libc)Resizing the Data Segment.
+* scalbf: (libc)Normalization Functions.
+* scalb: (libc)Normalization Functions.
+* scalbl: (libc)Normalization Functions.
+* scalblnf: (libc)Normalization Functions.
+* scalbln: (libc)Normalization Functions.
+* scalblnl: (libc)Normalization Functions.
+* scalbnf: (libc)Normalization Functions.
+* scalbn: (libc)Normalization Functions.
+* scalbnl: (libc)Normalization Functions.
+* scandir64: (libc)Scanning Directory Content.
+* scandir: (libc)Scanning Directory Content.
+* scanf: (libc)Formatted Input Functions.
+* sched_getaffinity: (libc)CPU Affinity.
+* sched_getparam: (libc)Basic Scheduling Functions.
+* sched_get_priority_max: (libc)Basic Scheduling Functions.
+* sched_get_priority_min: (libc)Basic Scheduling Functions.
+* sched_getscheduler: (libc)Basic Scheduling Functions.
+* sched_rr_get_interval: (libc)Basic Scheduling Functions.
+* sched_setaffinity: (libc)CPU Affinity.
+* sched_setparam: (libc)Basic Scheduling Functions.
+* sched_setscheduler: (libc)Basic Scheduling Functions.
+* sched_yield: (libc)Basic Scheduling Functions.
+* seed48: (libc)SVID Random.
+* seed48_r: (libc)SVID Random.
+* SEEK_CUR: (libc)File Positioning.
+* seekdir: (libc)Random Access Directory.
+* SEEK_END: (libc)File Positioning.
+* SEEK_SET: (libc)File Positioning.
+* select: (libc)Waiting for I/O.
+* send: (libc)Sending Data.
+* sendmsg: (libc)Receiving Datagrams.
+* sendto: (libc)Sending Datagrams.
+* setbuffer: (libc)Controlling Buffering.
+* setbuf: (libc)Controlling Buffering.
+* setcontext: (libc)System V contexts.
+* setdomainname: (libc)Host Identification.
+* setegid: (libc)Setting Groups.
+* setenv: (libc)Environment Access.
+* seteuid: (libc)Setting User ID.
+* setfsent: (libc)fstab.
+* setgid: (libc)Setting Groups.
+* setgrent: (libc)Scanning All Groups.
+* setgroups: (libc)Setting Groups.
+* sethostent: (libc)Host Names.
+* sethostid: (libc)Host Identification.
+* sethostname: (libc)Host Identification.
+* setitimer: (libc)Setting an Alarm.
+* setjmp: (libc)Non-Local Details.
+* setkey: (libc)DES Encryption.
+* setkey_r: (libc)DES Encryption.
+* setlinebuf: (libc)Controlling Buffering.
+* setlocale: (libc)Setting the Locale.
+* setlogmask: (libc)setlogmask.
+* setmntent: (libc)mtab.
+* setnetent: (libc)Networks Database.
+* setnetgrent: (libc)Lookup Netgroup.
+* setpgid: (libc)Process Group Functions.
+* setpgrp: (libc)Process Group Functions.
+* setpriority: (libc)Traditional Scheduling Functions.
+* setprotoent: (libc)Protocols Database.
+* setpwent: (libc)Scanning All Users.
+* setregid: (libc)Setting Groups.
+* setreuid: (libc)Setting User ID.
+* setrlimit64: (libc)Limits on Resources.
+* setrlimit: (libc)Limits on Resources.
+* setservent: (libc)Services Database.
+* setsid: (libc)Process Group Functions.
+* setsockopt: (libc)Socket Option Functions.
+* setstate: (libc)BSD Random.
+* setstate_r: (libc)BSD Random.
+* settimeofday: (libc)High-Resolution Calendar.
+* setuid: (libc)Setting User ID.
+* setutent: (libc)Manipulating the Database.
+* setutxent: (libc)XPG Functions.
+* setvbuf: (libc)Controlling Buffering.
+* shutdown: (libc)Closing a Socket.
+* S_IFMT: (libc)Testing File Type.
+* SIGABRT: (libc)Program Error Signals.
+* sigaction: (libc)Advanced Signal Handling.
+* sigaddset: (libc)Signal Sets.
+* SIGALRM: (libc)Alarm Signals.
+* sigaltstack: (libc)Signal Stack.
+* sigblock: (libc)Blocking in BSD.
+* SIGBUS: (libc)Program Error Signals.
+* SIGCHLD: (libc)Job Control Signals.
+* SIGCLD: (libc)Job Control Signals.
+* SIGCONT: (libc)Job Control Signals.
+* sigdelset: (libc)Signal Sets.
+* sigemptyset: (libc)Signal Sets.
+* SIGEMT: (libc)Program Error Signals.
+* SIG_ERR: (libc)Basic Signal Handling.
+* sigfillset: (libc)Signal Sets.
+* SIGFPE: (libc)Program Error Signals.
+* SIGHUP: (libc)Termination Signals.
+* SIGILL: (libc)Program Error Signals.
+* SIGINFO: (libc)Miscellaneous Signals.
+* siginterrupt: (libc)BSD Handler.
+* SIGINT: (libc)Termination Signals.
+* SIGIO: (libc)Asynchronous I/O Signals.
+* SIGIOT: (libc)Program Error Signals.
+* sigismember: (libc)Signal Sets.
+* SIGKILL: (libc)Termination Signals.
+* siglongjmp: (libc)Non-Local Exits and Signals.
+* SIGLOST: (libc)Operation Error Signals.
+* sigmask: (libc)Blocking in BSD.
+* signal: (libc)Basic Signal Handling.
+* signbit: (libc)FP Bit Twiddling.
+* significandf: (libc)Normalization Functions.
+* significand: (libc)Normalization Functions.
+* significandl: (libc)Normalization Functions.
+* sigpause: (libc)Blocking in BSD.
+* sigpending: (libc)Checking for Pending Signals.
+* SIGPIPE: (libc)Operation Error Signals.
+* SIGPOLL: (libc)Asynchronous I/O Signals.
+* sigprocmask: (libc)Process Signal Mask.
+* SIGPROF: (libc)Alarm Signals.
+* SIGQUIT: (libc)Termination Signals.
+* SIGSEGV: (libc)Program Error Signals.
+* sigsetjmp: (libc)Non-Local Exits and Signals.
+* sigsetmask: (libc)Blocking in BSD.
+* sigstack: (libc)Signal Stack.
+* SIGSTOP: (libc)Job Control Signals.
+* sigsuspend: (libc)Sigsuspend.
+* SIGSYS: (libc)Program Error Signals.
+* SIGTERM: (libc)Termination Signals.
+* SIGTRAP: (libc)Program Error Signals.
+* SIGTSTP: (libc)Job Control Signals.
+* SIGTTIN: (libc)Job Control Signals.
+* SIGTTOU: (libc)Job Control Signals.
+* SIGURG: (libc)Asynchronous I/O Signals.
+* SIGUSR1: (libc)Miscellaneous Signals.
+* SIGUSR2: (libc)Miscellaneous Signals.
+* sigvec: (libc)BSD Handler.
+* SIGVTALRM: (libc)Alarm Signals.
+* SIGWINCH: (libc)Miscellaneous Signals.
+* SIGXCPU: (libc)Operation Error Signals.
+* SIGXFSZ: (libc)Operation Error Signals.
+* sincosf: (libc)Trig Functions.
+* sincos: (libc)Trig Functions.
+* sincosl: (libc)Trig Functions.
+* sinf: (libc)Trig Functions.
+* sinhf: (libc)Hyperbolic Functions.
+* sinh: (libc)Hyperbolic Functions.
+* sinhl: (libc)Hyperbolic Functions.
+* sin: (libc)Trig Functions.
+* sinl: (libc)Trig Functions.
+* S_ISBLK: (libc)Testing File Type.
+* S_ISCHR: (libc)Testing File Type.
+* S_ISDIR: (libc)Testing File Type.
+* S_ISFIFO: (libc)Testing File Type.
+* S_ISLNK: (libc)Testing File Type.
+* S_ISREG: (libc)Testing File Type.
+* S_ISSOCK: (libc)Testing File Type.
+* sleep: (libc)Sleeping.
+* snprintf: (libc)Formatted Output Functions.
+* SOCK_DGRAM: (libc)Communication Styles.
+* socket: (libc)Creating a Socket.
+* socketpair: (libc)Socket Pairs.
+* SOCK_RAW: (libc)Communication Styles.
+* SOCK_RDM: (libc)Communication Styles.
+* SOCK_SEQPACKET: (libc)Communication Styles.
+* SOCK_STREAM: (libc)Communication Styles.
+* SOL_SOCKET: (libc)Socket-Level Options.
+* sprintf: (libc)Formatted Output Functions.
+* sqrtf: (libc)Exponents and Logarithms.
+* sqrt: (libc)Exponents and Logarithms.
+* sqrtl: (libc)Exponents and Logarithms.
+* srand48: (libc)SVID Random.
+* srand48_r: (libc)SVID Random.
+* srand: (libc)ISO Random.
+* srandom: (libc)BSD Random.
+* srandom_r: (libc)BSD Random.
+* sscanf: (libc)Formatted Input Functions.
+* ssignal: (libc)Basic Signal Handling.
+* SSIZE_MAX: (libc)General Limits.
+* stat64: (libc)Reading Attributes.
+* stat: (libc)Reading Attributes.
+* stime: (libc)Simple Calendar Time.
+* stpcpy: (libc)Copying and Concatenation.
+* stpncpy: (libc)Copying and Concatenation.
+* strcasecmp: (libc)String/Array Comparison.
+* strcasestr: (libc)Search Functions.
+* strcat: (libc)Copying and Concatenation.
+* strchr: (libc)Search Functions.
+* strchrnul: (libc)Search Functions.
+* strcmp: (libc)String/Array Comparison.
+* strcoll: (libc)Collation Functions.
+* strcpy: (libc)Copying and Concatenation.
+* strcspn: (libc)Search Functions.
+* strdupa: (libc)Copying and Concatenation.
+* strdup: (libc)Copying and Concatenation.
+* STREAM_MAX: (libc)General Limits.
+* strerror: (libc)Error Messages.
+* strerror_r: (libc)Error Messages.
+* strfmon: (libc)Formatting Numbers.
+* strfry: (libc)strfry.
+* strftime: (libc)Formatting Calendar Time.
+* strlen: (libc)String Length.
+* strncasecmp: (libc)String/Array Comparison.
+* strncat: (libc)Copying and Concatenation.
+* strncmp: (libc)String/Array Comparison.
+* strncpy: (libc)Copying and Concatenation.
+* strndupa: (libc)Copying and Concatenation.
+* strndup: (libc)Copying and Concatenation.
+* strnlen: (libc)String Length.
+* strpbrk: (libc)Search Functions.
+* strptime: (libc)Low-Level Time String Parsing.
+* strrchr: (libc)Search Functions.
+* strsep: (libc)Finding Tokens in a String.
+* strsignal: (libc)Signal Messages.
+* strspn: (libc)Search Functions.
+* strstr: (libc)Search Functions.
+* strtod: (libc)Parsing of Floats.
+* strtof: (libc)Parsing of Floats.
+* strtoimax: (libc)Parsing of Integers.
+* strtok: (libc)Finding Tokens in a String.
+* strtok_r: (libc)Finding Tokens in a String.
+* strtold: (libc)Parsing of Floats.
+* strtol: (libc)Parsing of Integers.
+* strtoll: (libc)Parsing of Integers.
+* strtoq: (libc)Parsing of Integers.
+* strtoul: (libc)Parsing of Integers.
+* strtoull: (libc)Parsing of Integers.
+* strtoumax: (libc)Parsing of Integers.
+* strtouq: (libc)Parsing of Integers.
+* strverscmp: (libc)String/Array Comparison.
+* strxfrm: (libc)Collation Functions.
+* stty: (libc)BSD Terminal Modes.
+* S_TYPEISMQ: (libc)Testing File Type.
+* S_TYPEISSEM: (libc)Testing File Type.
+* S_TYPEISSHM: (libc)Testing File Type.
+* SUN_LEN: (libc)Local Namespace Details.
+* SV_INTERRUPT: (libc)BSD Handler.
+* SV_ONSTACK: (libc)BSD Handler.
+* SV_RESETHAND: (libc)BSD Handler.
+* swapcontext: (libc)System V contexts.
+* swprintf: (libc)Formatted Output Functions.
+* swscanf: (libc)Formatted Input Functions.
+* symlink: (libc)Symbolic Links.
+* sync: (libc)Synchronizing I/O.
+* syscall: (libc)System Calls.
+* sysconf: (libc)Sysconf Definition.
+* sysctl: (libc)System Parameters.
+* syslog: (libc)syslog; vsyslog.
+* system: (libc)Running a Command.
+* sysv_signal: (libc)Basic Signal Handling.
+* tanf: (libc)Trig Functions.
+* tanhf: (libc)Hyperbolic Functions.
+* tanh: (libc)Hyperbolic Functions.
+* tanhl: (libc)Hyperbolic Functions.
+* tan: (libc)Trig Functions.
+* tanl: (libc)Trig Functions.
+* tcdrain: (libc)Line Control.
+* tcflow: (libc)Line Control.
+* tcflush: (libc)Line Control.
+* tcgetattr: (libc)Mode Functions.
+* tcgetpgrp: (libc)Terminal Access Functions.
+* tcgetsid: (libc)Terminal Access Functions.
+* tcsendbreak: (libc)Line Control.
+* tcsetattr: (libc)Mode Functions.
+* tcsetpgrp: (libc)Terminal Access Functions.
+* tdelete: (libc)Tree Search Function.
+* tdestroy: (libc)Tree Search Function.
+* telldir: (libc)Random Access Directory.
+* tempnam: (libc)Temporary Files.
+* textdomain: (libc)Locating gettext catalog.
+* tfind: (libc)Tree Search Function.
+* tgammaf: (libc)Special Functions.
+* tgamma: (libc)Special Functions.
+* tgammal: (libc)Special Functions.
+* timegm: (libc)Broken-down Time.
+* time: (libc)Simple Calendar Time.
+* timelocal: (libc)Broken-down Time.
+* times: (libc)Processor Time.
+* tmpfile64: (libc)Temporary Files.
+* tmpfile: (libc)Temporary Files.
+* TMP_MAX: (libc)Temporary Files.
+* tmpnam: (libc)Temporary Files.
+* tmpnam_r: (libc)Temporary Files.
+* toascii: (libc)Case Conversion.
+* _tolower: (libc)Case Conversion.
+* tolower: (libc)Case Conversion.
+* TOSTOP: (libc)Local Modes.
+* _toupper: (libc)Case Conversion.
+* toupper: (libc)Case Conversion.
+* towctrans: (libc)Wide Character Case Conversion.
+* towlower: (libc)Wide Character Case Conversion.
+* towupper: (libc)Wide Character Case Conversion.
+* truncate64: (libc)File Size.
+* truncate: (libc)File Size.
+* truncf: (libc)Rounding Functions.
+* trunc: (libc)Rounding Functions.
+* truncl: (libc)Rounding Functions.
+* tsearch: (libc)Tree Search Function.
+* ttyname: (libc)Is It a Terminal.
+* ttyname_r: (libc)Is It a Terminal.
+* twalk: (libc)Tree Search Function.
+* TZNAME_MAX: (libc)General Limits.
+* tzset: (libc)Time Zone Functions.
+* ulimit: (libc)Limits on Resources.
+* umask: (libc)Setting Permissions.
+* umount2: (libc)Mount-Unmount-Remount.
+* umount: (libc)Mount-Unmount-Remount.
+* uname: (libc)Platform Type.
+* ungetc: (libc)How Unread.
+* ungetwc: (libc)How Unread.
+* unlink: (libc)Deleting Files.
+* unlockpt: (libc)Allocation.
+* unsetenv: (libc)Environment Access.
+* updwtmp: (libc)Manipulating the Database.
+* utime: (libc)File Times.
+* utimes: (libc)File Times.
+* utmpname: (libc)Manipulating the Database.
+* utmpxname: (libc)XPG Functions.
+* va_arg: (libc)Argument Macros.
+* __va_copy: (libc)Argument Macros.
+* va_end: (libc)Argument Macros.
+* valloc: (libc)Aligned Memory Blocks.
+* vasprintf: (libc)Variable Arguments Output.
+* va_start: (libc)Argument Macros.
+* va_start: (libc)Old Varargs.
+* VDISCARD: (libc)Other Special.
+* VDSUSP: (libc)Signal Characters.
+* VEOF: (libc)Editing Characters.
+* VEOL2: (libc)Editing Characters.
+* VEOL: (libc)Editing Characters.
+* VERASE: (libc)Editing Characters.
+* verr: (libc)Error Messages.
+* verrx: (libc)Error Messages.
+* versionsort64: (libc)Scanning Directory Content.
+* versionsort: (libc)Scanning Directory Content.
+* vfork: (libc)Creating a Process.
+* vfprintf: (libc)Variable Arguments Output.
+* vfscanf: (libc)Variable Arguments Input.
+* vfwprintf: (libc)Variable Arguments Output.
+* vfwscanf: (libc)Variable Arguments Input.
+* VINTR: (libc)Signal Characters.
+* VKILL: (libc)Editing Characters.
+* vlimit: (libc)Limits on Resources.
+* VLNEXT: (libc)Other Special.
+* VMIN: (libc)Noncanonical Input.
+* vprintf: (libc)Variable Arguments Output.
+* VQUIT: (libc)Signal Characters.
+* VREPRINT: (libc)Editing Characters.
+* vscanf: (libc)Variable Arguments Input.
+* vsnprintf: (libc)Variable Arguments Output.
+* vsprintf: (libc)Variable Arguments Output.
+* vsscanf: (libc)Variable Arguments Input.
+* VSTART: (libc)Start/Stop Characters.
+* VSTATUS: (libc)Other Special.
+* VSTOP: (libc)Start/Stop Characters.
+* VSUSP: (libc)Signal Characters.
+* vswprintf: (libc)Variable Arguments Output.
+* vswscanf: (libc)Variable Arguments Input.
+* vsyslog: (libc)syslog; vsyslog.
+* VTIME: (libc)Noncanonical Input.
+* vtimes: (libc)Resource Usage.
+* vwarn: (libc)Error Messages.
+* vwarnx: (libc)Error Messages.
+* VWERASE: (libc)Editing Characters.
+* vwprintf: (libc)Variable Arguments Output.
+* vwscanf: (libc)Variable Arguments Input.
+* wait3: (libc)BSD Wait Functions.
+* wait4: (libc)Process Completion.
+* wait: (libc)Process Completion.
+* waitpid: (libc)Process Completion.
+* warn: (libc)Error Messages.
+* warnx: (libc)Error Messages.
+* WCHAR_MAX: (libc)Extended Char Intro.
+* WCHAR_MIN: (libc)Extended Char Intro.
+* WCOREDUMP: (libc)Process Completion Status.
+* wcpcpy: (libc)Copying and Concatenation.
+* wcpncpy: (libc)Copying and Concatenation.
+* wcrtomb: (libc)Converting a Character.
+* wcscasecmp: (libc)String/Array Comparison.
+* wcscat: (libc)Copying and Concatenation.
+* wcschr: (libc)Search Functions.
+* wcschrnul: (libc)Search Functions.
+* wcscmp: (libc)String/Array Comparison.
+* wcscoll: (libc)Collation Functions.
+* wcscpy: (libc)Copying and Concatenation.
+* wcscspn: (libc)Search Functions.
+* wcsdup: (libc)Copying and Concatenation.
+* wcsftime: (libc)Formatting Calendar Time.
+* wcslen: (libc)String Length.
+* wcsncasecmp: (libc)String/Array Comparison.
+* wcsncat: (libc)Copying and Concatenation.
+* wcsncmp: (libc)String/Array Comparison.
+* wcsncpy: (libc)Copying and Concatenation.
+* wcsnlen: (libc)String Length.
+* wcsnrtombs: (libc)Converting Strings.
+* wcspbrk: (libc)Search Functions.
+* wcsrchr: (libc)Search Functions.
+* wcsrtombs: (libc)Converting Strings.
+* wcsspn: (libc)Search Functions.
+* wcsstr: (libc)Search Functions.
+* wcstod: (libc)Parsing of Floats.
+* wcstof: (libc)Parsing of Floats.
+* wcstoimax: (libc)Parsing of Integers.
+* wcstok: (libc)Finding Tokens in a String.
+* wcstold: (libc)Parsing of Floats.
+* wcstol: (libc)Parsing of Integers.
+* wcstoll: (libc)Parsing of Integers.
+* wcstombs: (libc)Non-reentrant String Conversion.
+* wcstoq: (libc)Parsing of Integers.
+* wcstoul: (libc)Parsing of Integers.
+* wcstoull: (libc)Parsing of Integers.
+* wcstoumax: (libc)Parsing of Integers.
+* wcstouq: (libc)Parsing of Integers.
+* wcswcs: (libc)Search Functions.
+* wcsxfrm: (libc)Collation Functions.
+* wctob: (libc)Converting a Character.
+* wctomb: (libc)Non-reentrant Character Conversion.
+* wctrans: (libc)Wide Character Case Conversion.
+* wctype: (libc)Classification of Wide Characters.
+* WEOF: (libc)EOF and Errors.
+* WEOF: (libc)Extended Char Intro.
+* WEXITSTATUS: (libc)Process Completion Status.
+* WIFEXITED: (libc)Process Completion Status.
+* WIFSIGNALED: (libc)Process Completion Status.
+* WIFSTOPPED: (libc)Process Completion Status.
+* wmemchr: (libc)Search Functions.
+* wmemcmp: (libc)String/Array Comparison.
+* wmemcpy: (libc)Copying and Concatenation.
+* wmemmove: (libc)Copying and Concatenation.
+* wmempcpy: (libc)Copying and Concatenation.
+* wmemset: (libc)Copying and Concatenation.
+* W_OK: (libc)Testing File Access.
+* wordexp: (libc)Calling Wordexp.
+* wordfree: (libc)Calling Wordexp.
+* wprintf: (libc)Formatted Output Functions.
+* write: (libc)I/O Primitives.
+* writev: (libc)Scatter-Gather.
+* wscanf: (libc)Formatted Input Functions.
+* WSTOPSIG: (libc)Process Completion Status.
+* WTERMSIG: (libc)Process Completion Status.
+* X_OK: (libc)Testing File Access.
+* y0f: (libc)Special Functions.
+* y0: (libc)Special Functions.
+* y0l: (libc)Special Functions.
+* y1f: (libc)Special Functions.
+* y1: (libc)Special Functions.
+* y1l: (libc)Special Functions.
+* ynf: (libc)Special Functions.
+* yn: (libc)Special Functions.
+* ynl: (libc)Special Functions.
+END-INFO-DIR-ENTRY
+
+   This file documents the GNU C library.
+
+   This is Edition 0.10, last updated 2001-07-06, of `The GNU C Library
+Reference Manual', for Version 2.3.x.
+
+   Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2002,
+2003 Free Software Foundation, Inc.
+
+   Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with the
+Invariant Sections being "Free Software Needs Free Documentation" and
+"GNU Lesser General Public License", the Front-Cover texts being (a)
+(see below), and with the Back-Cover Texts being (b) (see below).  A
+copy of the license is included in the section entitled "GNU Free
+Documentation License".
+
+   (a) The FSF's Front-Cover Text is:
+
+   A GNU Manual
+
+   (b) The FSF's Back-Cover Text is:
+
+   You have freedom to copy and modify this GNU Manual, like GNU
+software.  Copies published by the Free Software Foundation raise
+funds for GNU development.
+
+
+Indirect:
+libc.info-1: 63189
+libc.info-2: 362565
+libc.info-3: 660522
+libc.info-4: 958434
+libc.info-5: 1255919
+libc.info-6: 1496273
+libc.info-7: 1792324
+libc.info-8: 2091220
+libc.info-9: 2386053
+libc.info-10: 2491592
+libc.info-11: 2781226
+libc.info-12: 3047649
+
+Tag Table:
+(Indirect)
+Node: Top63189
+Node: Introduction123549
+Node: Getting Started124901
+Node: Standards and Portability126365
+Node: ISO C127818
+Node: POSIX129344
+Node: Berkeley Unix131090
+Node: SVID131863
+Node: XPG132872
+Node: Using the Library133822
+Node: Header Files134550
+Node: Macro Definitions138511
+Node: Reserved Names140860
+Node: Feature Test Macros145583
+Node: Roadmap to the Manual156391
+Node: Error Reporting163680
+Node: Checking for Errors164599
+Node: Error Codes168818
+Node: Error Messages188260
+Node: Memory202581
+Node: Memory Concepts203439
+Node: Memory Allocation209121
+Node: Memory Allocation and C210015
+Node: Unconstrained Allocation213592
+Node: Basic Allocation215021
+Node: Malloc Examples216737
+Node: Freeing after Malloc218717
+Node: Changing Block Size220544
+Node: Allocating Cleared Space223163
+Node: Efficiency and Malloc224187
+Node: Aligned Memory Blocks225299
+Node: Malloc Tunable Parameters227527
+Node: Heap Consistency Checking229300
+Node: Hooks for Malloc234418
+Node: Statistics of Malloc240606
+Node: Summary of Malloc242583
+Node: Allocation Debugging244760
+Node: Tracing malloc245872
+Node: Using the Memory Debugger247740
+Node: Tips for the Memory Debugger249633
+Node: Interpreting the traces250949
+Node: Obstacks254487
+Node: Creating Obstacks256110
+Node: Preparing for Obstacks258025
+Node: Allocation in an Obstack260778
+Node: Freeing Obstack Objects263196
+Node: Obstack Functions264544
+Node: Growing Objects266787
+Node: Extra Fast Growing271053
+Node: Status of an Obstack274690
+Node: Obstacks Data Alignment276125
+Node: Obstack Chunks277825
+Node: Summary of Obstacks280196
+Node: Variable Size Automatic283626
+Node: Alloca Example285164
+Node: Advantages of Alloca286298
+Node: Disadvantages of Alloca288198
+Node: GNU C Variable-Size Arrays288954
+Node: Resizing the Data Segment290125
+Node: Locking Pages292220
+Node: Why Lock Pages292987
+Node: Locked Memory Details294626
+Node: Page Lock Functions296894
+Node: Character Handling302776
+Node: Classification of Characters304234
+Node: Case Conversion308140
+Node: Classification of Wide Characters310042
+Node: Using Wide Char Classes317804
+Node: Wide Character Case Conversion320120
+Node: String and Array Utilities322823
+Node: Representation of Strings324888
+Node: String/Array Conventions330417
+Node: String Length333356
+Node: Copying and Concatenation337167
+Node: String/Array Comparison362565
+Node: Collation Functions372726
+Node: Search Functions382847
+Node: Finding Tokens in a String395049
+Node: strfry407142
+Node: Trivial Encryption408177
+Node: Encode Binary Data409647
+Node: Argz and Envz Vectors414322
+Node: Argz Functions414929
+Node: Envz Functions421513
+Node: Character Set Handling424579
+Node: Extended Char Intro425732
+Node: Charset Function Overview438847
+Node: Restartable multibyte conversion439815
+Node: Selecting the Conversion441930
+Node: Keeping the state444327
+Node: Converting a Character447552
+Node: Converting Strings463564
+Node: Multibyte Conversion Example473683
+Node: Non-reentrant Conversion476634
+Node: Non-reentrant Character Conversion478323
+Node: Non-reentrant String Conversion483038
+Node: Shift State486037
+Node: Generic Charset Conversion488699
+Node: Generic Conversion Interface491886
+Node: iconv Examples501840
+Node: Other iconv Implementations507138
+Node: glibc iconv Implementation512537
+Node: Locales552081
+Node: Effects of Locale553751
+Node: Choosing Locale555720
+Node: Locale Categories557099
+Node: Setting the Locale559621
+Node: Standard Locales564153
+Node: Locale Information565447
+Node: The Lame Way to Locale Data567168
+Node: General Numeric569052
+Node: Currency Symbol572048
+Node: Sign of Money Amount576249
+Node: The Elegant and Fast Way578392
+Node: Formatting Numbers590538
+Node: Yes-or-No Questions599963
+Node: Message Translation602000
+Node: Message catalogs a la X/Open604047
+Node: The catgets Functions605350
+Node: The message catalog files614386
+Node: The gencat program621134
+Node: Common Usage624277
+Node: The Uniforum approach631441
+Node: Message catalogs with gettext632940
+Node: Translation with gettext633984
+Node: Locating gettext catalog640305
+Node: Advanced gettext functions647183
+Ref: Advanced gettext functions-Footnote-1657927
+Node: Charset conversion in gettext658019
+Node: GUI program problems660522
+Node: Using gettextized software666069
+Node: Helper programs for gettext674395
+Node: Searching and Sorting676168
+Node: Comparison Functions677084
+Node: Array Search Function678301
+Node: Array Sort Function681655
+Node: Search/Sort Example683794
+Node: Hash Search Function687175
+Node: Tree Search Function694868
+Node: Pattern Matching701873
+Node: Wildcard Matching702678
+Node: Globbing706624
+Node: Calling Glob707495
+Node: Flags for Globbing717502
+Node: More Flags for Globbing721043
+Node: Regular Expressions727188
+Node: POSIX Regexp Compilation728179
+Node: Flags for POSIX Regexps732307
+Node: Matching POSIX Regexps733225
+Node: Regexp Subexpressions735398
+Node: Subexpression Complications737465
+Node: Regexp Cleanup739841
+Node: Word Expansion742180
+Node: Expansion Stages743542
+Node: Calling Wordexp745046
+Node: Flags for Wordexp749023
+Node: Wordexp Example750987
+Node: Tilde Expansion752789
+Node: Variable Substitution753872
+Node: I/O Overview758009
+Node: I/O Concepts759526
+Node: Streams and File Descriptors760680
+Node: File Position763778
+Node: File Names765926
+Node: Directories766821
+Node: File Name Resolution768569
+Node: File Name Errors771508
+Node: File Name Portability773059
+Node: I/O on Streams775062
+Node: Streams777287
+Node: Standard Streams778638
+Node: Opening Streams780443
+Node: Closing Streams790572
+Node: Streams and Threads793133
+Node: Streams and I18N802170
+Node: Simple Output808341
+Node: Character Input813718
+Node: Line Input818986
+Node: Unreading825680
+Node: Unreading Idea826498
+Node: How Unread827337
+Node: Block Input/Output830111
+Node: Formatted Output832906
+Node: Formatted Output Basics834682
+Node: Output Conversion Syntax837189
+Node: Table of Output Conversions842304
+Node: Integer Conversions845323
+Node: Floating-Point Conversions850877
+Node: Other Output Conversions856724
+Node: Formatted Output Functions860543
+Node: Dynamic Output866527
+Node: Variable Arguments Output868398
+Node: Parsing a Template String874593
+Node: Example of Parsing878441
+Node: Customizing Printf880715
+Node: Registering New Conversions882643
+Node: Conversion Specifier Options884832
+Node: Defining the Output Handler888685
+Node: Printf Extension Example891161
+Node: Predefined Printf Handlers893523
+Node: Formatted Input896319
+Node: Formatted Input Basics897407
+Node: Input Conversion Syntax900115
+Node: Table of Input Conversions903496
+Node: Numeric Input Conversions907679
+Node: String Input Conversions912147
+Node: Dynamic String Input917280
+Node: Other Input Conversions918473
+Node: Formatted Input Functions920131
+Node: Variable Arguments Input922993
+Node: EOF and Errors925368
+Node: Error Recovery928297
+Node: Binary Streams930094
+Node: File Positioning932629
+Node: Portable Positioning939681
+Node: Stream Buffering945387
+Node: Buffering Concepts946995
+Node: Flushing Buffers948377
+Node: Controlling Buffering951503
+Node: Other Kinds of Streams957136
+Node: String Streams958434
+Node: Obstack Streams962552
+Node: Custom Streams964610
+Node: Streams and Cookies965340
+Node: Hook Functions968431
+Node: Formatted Messages970838
+Node: Printing Formatted Messages971512
+Node: Adding Severity Classes977967
+Node: Example979588
+Node: Low-Level I/O982800
+Node: Opening and Closing Files985811
+Node: I/O Primitives993807
+Node: File Position Primitive1007918
+Node: Descriptors and Streams1015245
+Node: Stream/Descriptor Precautions1017950
+Node: Linked Channels1019163
+Node: Independent Channels1020435
+Node: Cleaning Streams1022349
+Node: Scatter-Gather1024661
+Node: Memory-mapped I/O1027261
+Node: Waiting for I/O1038744
+Node: Synchronizing I/O1046816
+Node: Asynchronous I/O1050274
+Node: Asynchronous Reads/Writes1058345
+Node: Status of AIO Operations1070836
+Node: Synchronizing AIO Operations1074422
+Node: Cancel AIO Operations1080869
+Node: Configuration of AIO1084375
+Node: Control Operations1086584
+Node: Duplicating Descriptors1089287
+Node: Descriptor Flags1093555
+Node: File Status Flags1096968
+Node: Access Modes1098432
+Node: Open-time Flags1100748
+Node: Operating Modes1105497
+Node: Getting File Status Flags1108282
+Node: File Locks1110899
+Node: Interrupt Input1119809
+Node: IOCTLs1122250
+Ref: IOCTLs-Footnote-11124240
+Node: File System Interface1124337
+Node: Working Directory1125869
+Node: Accessing Directories1130891
+Node: Directory Entries1132325
+Node: Opening a Directory1135593
+Node: Reading/Closing Directory1138050
+Node: Simple Directory Lister1142558
+Node: Random Access Directory1143549
+Node: Scanning Directory Content1145065
+Node: Simple Directory Lister Mark II1149537
+Node: Working with Directory Trees1150643
+Node: Hard Links1162975
+Node: Symbolic Links1165784
+Node: Deleting Files1173308
+Node: Renaming Files1176240
+Node: Creating Directories1179852
+Node: File Attributes1181614
+Node: Attribute Meanings1183145
+Node: Reading Attributes1192389
+Node: Testing File Type1196476
+Node: File Owner1200656
+Node: Permission Bits1204321
+Node: Access Permission1209652
+Node: Setting Permissions1210805
+Node: Testing File Access1216028
+Node: File Times1219708
+Node: File Size1226116
+Node: Making Special Files1232553
+Node: Temporary Files1234241
+Node: Pipes and FIFOs1243549
+Node: Creating a Pipe1245135
+Node: Pipe to a Subprocess1248403
+Node: FIFO Special Files1251404
+Node: Pipe Atomicity1252986
+Node: Sockets1253876
+Node: Socket Concepts1255919
+Node: Communication Styles1260166
+Node: Socket Addresses1262028
+Node: Address Formats1264071
+Node: Setting Address1267284
+Node: Reading Address1269018
+Node: Interface Naming1270791
+Node: Local Namespace1273211
+Node: Local Namespace Concepts1273878
+Node: Local Namespace Details1275406
+Node: Local Socket Example1277370
+Node: Internet Namespace1278859
+Node: Internet Address Formats1281093
+Node: Host Addresses1283259
+Node: Abstract Host Addresses1284438
+Node: Host Address Data Type1288960
+Node: Host Address Functions1292107
+Node: Host Names1296496
+Node: Ports1305771
+Node: Services Database1307822
+Node: Byte Order1310664
+Node: Protocols Database1312989
+Node: Inet Example1316550
+Node: Misc Namespaces1318541
+Node: Open/Close Sockets1319294
+Node: Creating a Socket1319799
+Node: Closing a Socket1321493
+Node: Socket Pairs1323031
+Node: Connections1325051
+Node: Connecting1326152
+Node: Listening1328991
+Node: Accepting Connections1331076
+Node: Who is Connected1334219
+Node: Transferring Data1335333
+Node: Sending Data1336449
+Node: Receiving Data1338994
+Node: Socket Data Options1340757
+Node: Byte Stream Example1341638
+Node: Server Example1343666
+Node: Out-of-Band Data1347653
+Node: Datagrams1353520
+Node: Sending Datagrams1354558
+Node: Receiving Datagrams1356497
+Node: Datagram Example1358577
+Node: Example Receiver1360574
+Node: Inetd1363111
+Node: Inetd Servers1363929
+Node: Configuring Inetd1365184
+Node: Socket Options1367866
+Node: Socket Option Functions1368583
+Node: Socket-Level Options1370155
+Node: Networks Database1373802
+Node: Low-Level Terminal Interface1376701
+Node: Is It a Terminal1378173
+Node: I/O Queues1380086
+Node: Canonical or Not1382050
+Node: Terminal Modes1383903
+Node: Mode Data Types1385479
+Node: Mode Functions1387322
+Node: Setting Modes1391267
+Node: Input Modes1393272
+Node: Output Modes1398562
+Node: Control Modes1400189
+Node: Local Modes1404308
+Node: Line Speed1410652
+Node: Special Characters1414846
+Node: Editing Characters1416771
+Node: Signal Characters1421133
+Node: Start/Stop Characters1424018
+Node: Other Special1425905
+Node: Noncanonical Input1427737
+Node: BSD Terminal Modes1432567
+Node: Line Control1434049
+Node: Noncanon Example1438778
+Node: Pseudo-Terminals1440957
+Node: Allocation1441876
+Node: Pseudo-Terminal Pairs1446644
+Node: Syslog1449173
+Node: Overview of Syslog1450125
+Node: Submitting Syslog Messages1454317
+Node: openlog1455142
+Node: syslog; vsyslog1460139
+Node: closelog1464349
+Node: setlogmask1465501
+Node: Syslog Example1467356
+Node: Mathematics1468010
+Node: Mathematical Constants1469737
+Node: Trig Functions1471752
+Node: Inverse Trig Functions1475515
+Node: Exponents and Logarithms1479345
+Node: Hyperbolic Functions1487609
+Node: Special Functions1491692
+Node: Errors in Math Functions1496273
+Node: Pseudo-Random Numbers1562094
+Node: ISO Random1564342
+Node: BSD Random1566291
+Node: SVID Random1570895
+Node: FP Function Optimizations1584216
+Node: Arithmetic1586310
+Node: Integers1587592
+Node: Integer Division1590621
+Node: Floating Point Numbers1594323
+Node: Floating Point Classes1596071
+Node: Floating Point Errors1599912
+Node: FP Exceptions1600419
+Node: Infinity and NaN1604791
+Node: Status bit operations1607877
+Node: Math Error Reporting1612035
+Node: Rounding1614375
+Node: Control Functions1617972
+Node: Arithmetic Functions1622808
+Node: Absolute Value1623683
+Node: Normalization Functions1625764
+Node: Rounding Functions1629094
+Node: Remainder Functions1633520
+Node: FP Bit Twiddling1635684
+Node: FP Comparison Functions1638820
+Node: Misc FP Arithmetic1641550
+Node: Complex Numbers1644315
+Node: Operations on Complex1646029
+Node: Parsing of Numbers1648397
+Node: Parsing of Integers1649098
+Node: Parsing of Floats1659716
+Node: System V Number Conversion1664902
+Node: Date and Time1670509
+Node: Time Basics1671242
+Node: Elapsed Time1673143
+Node: Processor And CPU Time1676690
+Node: CPU Time1678570
+Node: Processor Time1680350
+Node: Calendar Time1682767
+Node: Simple Calendar Time1684713
+Node: High-Resolution Calendar1687133
+Node: Broken-down Time1692521
+Node: High Accuracy Clock1700501
+Node: Formatting Calendar Time1707952
+Node: Parsing Date and Time1723804
+Node: Low-Level Time String Parsing1724659
+Node: General Time String Parsing1738253
+Node: TZ Variable1745399
+Node: Time Zone Functions1751455
+Node: Time Functions Example1754313
+Node: Setting an Alarm1755397
+Node: Sleeping1761176
+Node: Resource Usage And Limitation1765788
+Node: Resource Usage1766468
+Node: Limits on Resources1772063
+Node: Priority1781306
+Node: Absolute Priority1783746
+Node: Realtime Scheduling1788866
+Node: Basic Scheduling Functions1792324
+Node: Traditional Scheduling1800280
+Node: Traditional Scheduling Intro1800864
+Node: Traditional Scheduling Functions1805143
+Node: CPU Affinity1809048
+Node: Memory Resources1815082
+Node: Memory Subsystem1815940
+Node: Query Memory Parameters1818333
+Node: Processor Resources1821994
+Node: Non-Local Exits1824120
+Node: Non-Local Intro1824833
+Node: Non-Local Details1828546
+Node: Non-Local Exits and Signals1831634
+Node: System V contexts1833143
+Node: Signal Handling1846019
+Node: Concepts of Signals1848056
+Node: Kinds of Signals1848627
+Node: Signal Generation1850033
+Node: Delivery of Signal1852311
+Node: Standard Signals1855176
+Node: Program Error Signals1856777
+Node: Termination Signals1864263
+Node: Alarm Signals1868122
+Node: Asynchronous I/O Signals1869377
+Node: Job Control Signals1870581
+Node: Operation Error Signals1875211
+Node: Miscellaneous Signals1877165
+Node: Signal Messages1878874
+Node: Signal Actions1880771
+Node: Basic Signal Handling1881723
+Node: Advanced Signal Handling1887793
+Node: Signal and Sigaction1890782
+Node: Sigaction Function Example1892545
+Node: Flags for Sigaction1894842
+Node: Initial Signal Actions1897234
+Node: Defining Handlers1898616
+Node: Handler Returns1900808
+Node: Termination in Handler1902834
+Node: Longjmp in Handler1904268
+Node: Signals in Handler1906358
+Node: Merged Signals1908489
+Node: Nonreentrancy1914158
+Node: Atomic Data Access1919575
+Node: Non-atomic Example1920632
+Node: Atomic Types1922409
+Node: Atomic Usage1923444
+Node: Interrupted Primitives1924929
+Node: Generating Signals1928403
+Node: Signaling Yourself1929003
+Node: Signaling Another Process1930971
+Node: Permission for kill1934362
+Node: Kill Example1936169
+Node: Blocking Signals1938477
+Node: Why Block1940256
+Node: Signal Sets1941803
+Node: Process Signal Mask1944850
+Node: Testing for Delivery1948218
+Node: Blocking for Handler1949462
+Node: Checking for Pending Signals1951877
+Node: Remembering a Signal1953883
+Node: Waiting for a Signal1957428
+Node: Using Pause1957980
+Node: Pause Problems1959617
+Node: Sigsuspend1961342
+Node: Signal Stack1964045
+Node: BSD Signal Handling1969378
+Node: BSD Handler1970663
+Node: Blocking in BSD1973114
+Node: Program Basics1974585
+Node: Program Arguments1976571
+Node: Argument Syntax1978577
+Node: Parsing Program Arguments1981262
+Node: Getopt1982377
+Node: Using Getopt1983022
+Node: Example of Getopt1987158
+Node: Getopt Long Options1990002
+Node: Getopt Long Option Example1995264
+Node: Argp1998319
+Node: Argp Global Variables2001655
+Node: Argp Parsers2003702
+Node: Argp Option Vectors2007088
+Node: Argp Option Flags2010315
+Node: Argp Parser Functions2012376
+Node: Argp Special Keys2015080
+Node: Argp Helper Functions2020381
+Node: Argp Parsing State2023432
+Node: Argp Children2027011
+Node: Argp Flags2029105
+Node: Argp Help Filtering2031393
+Node: Argp Help Filter Keys2032640
+Node: Argp Help2033568
+Node: Argp Help Flags2034760
+Node: Argp Examples2037123
+Node: Argp Example 12037606
+Node: Argp Example 22038408
+Node: Argp Example 32041326
+Node: Argp Example 42048258
+Node: Argp User Customization2055894
+Node: Suboptions2057635
+Node: Suboptions Example2059595
+Node: Environment Variables2061742
+Node: Environment Access2063614
+Node: Standard Environment2068554
+Node: System Calls2072738
+Node: Program Termination2076234
+Node: Normal Termination2077450
+Node: Exit Status2078859
+Node: Cleanups on Exit2082233
+Node: Aborting a Program2084053
+Node: Termination Internals2084966
+Node: Processes2087161
+Node: Running a Command2089185
+Node: Process Creation Concepts2091220
+Node: Process Identification2093236
+Node: Creating a Process2094172
+Node: Executing a File2097803
+Node: Process Completion2104951
+Node: Process Completion Status2111233
+Node: BSD Wait Functions2112892
+Node: Process Creation Example2114771
+Node: Job Control2117019
+Node: Concepts of Job Control2118300
+Node: Job Control is Optional2121661
+Node: Controlling Terminal2122717
+Node: Access to the Terminal2123632
+Node: Orphaned Process Groups2125242
+Node: Implementing a Shell2126240
+Node: Data Structures2127130
+Node: Initializing the Shell2129764
+Node: Launching Jobs2133456
+Node: Foreground and Background2140875
+Node: Stopped and Terminated Jobs2143975
+Node: Continuing Stopped Jobs2149110
+Node: Missing Pieces2150733
+Node: Functions for Job Control2152368
+Node: Identifying the Terminal2152855
+Node: Process Group Functions2154443
+Node: Terminal Access Functions2159474
+Node: Name Service Switch2162967
+Node: NSS Basics2164301
+Node: NSS Configuration File2165897
+Node: Services in the NSS configuration2167587
+Node: Actions in the NSS configuration2168879
+Node: Notes on NSS Configuration File2172051
+Node: NSS Module Internals2173939
+Node: NSS Module Names2174642
+Ref: NSS Module Names-Footnote-12176697
+Ref: NSS Module Names-Footnote-22176851
+Node: NSS Modules Interface2177029
+Node: Extending NSS2181732
+Node: Adding another Service to NSS2182670
+Node: NSS Module Function Internals2184912
+Node: Users and Groups2189827
+Node: User and Group IDs2192441
+Node: Process Persona2193356
+Node: Why Change Persona2195048
+Node: How Change Persona2196936
+Node: Reading Persona2198830
+Node: Setting User ID2201116
+Node: Setting Groups2203991
+Node: Enable/Disable Setuid2209673
+Node: Setuid Program Example2211715
+Node: Tips for Setuid2215111
+Node: Who Logged In2217635
+Node: User Accounting Database2220029
+Node: Manipulating the Database2221222
+Node: XPG Functions2233580
+Node: Logging In and Out2238030
+Node: User Database2240165
+Node: User Data Structure2240836
+Node: Lookup User2242109
+Node: Scanning All Users2244690
+Node: Writing a User Entry2247663
+Node: Group Database2248579
+Node: Group Data Structure2249164
+Node: Lookup Group2249943
+Node: Scanning All Groups2252461
+Node: Database Example2255510
+Node: Netgroup Database2257686
+Node: Netgroup Data2258109
+Node: Lookup Netgroup2259650
+Node: Netgroup Membership2263085
+Node: System Management2264429
+Node: Host Identification2265363
+Node: Platform Type2271866
+Node: Filesystem Handling2275182
+Node: Mount Information2276689
+Node: fstab2278872
+Node: mtab2284709
+Node: Other Mount Information2294064
+Node: Mount-Unmount-Remount2294593
+Node: System Parameters2304594
+Node: System Configuration2310136
+Node: General Limits2311710
+Node: System Options2315360
+Node: Version Supported2318706
+Node: Sysconf2320555
+Node: Sysconf Definition2321198
+Node: Constants for Sysconf2321885
+Node: Examples of Sysconf2334831
+Node: Minimums2335835
+Node: Limits for Files2338553
+Node: Options for Files2341569
+Node: File Minimums2343872
+Node: Pathconf2346099
+Node: Utility Limits2349483
+Node: Utility Minimums2351430
+Node: String Parameters2353194
+Node: Cryptographic Functions2357094
+Node: Legal Problems2359070
+Node: getpass2361345
+Node: crypt2363498
+Node: DES Encryption2368228
+Node: Debugging Support2374445
+Node: Backtraces2375090
+Node: POSIX Threads2379854
+Node: Basic Thread Operations2381460
+Node: Thread Attributes2386053
+Node: Cancellation2393021
+Node: Cleanup Handlers2396924
+Node: Mutexes2402074
+Node: Condition Variables2411749
+Node: POSIX Semaphores2419134
+Node: Thread-Specific Data2423028
+Node: Threads and Signal Handling2427647
+Node: Threads and Fork2431350
+Node: Streams and Fork2436622
+Node: Miscellaneous Thread Functions2438793
+Node: Language Features2445299
+Node: Consistency Checking2446244
+Node: Variadic Functions2450797
+Node: Why Variadic2451874
+Node: How Variadic2453847
+Node: Variadic Prototypes2455145
+Node: Receiving Arguments2456299
+Node: How Many Arguments2458983
+Node: Calling Variadics2460658
+Node: Argument Macros2462771
+Node: Variadic Example2465626
+Node: Old Varargs2466752
+Node: Null Pointer Constant2468443
+Node: Important Data Types2469532
+Node: Data Type Measurements2472105
+Node: Width of Type2472967
+Node: Range of Type2473881
+Node: Floating Type Macros2477158
+Node: Floating Point Concepts2478425
+Node: Floating Point Parameters2482166
+Node: IEEE Floating Point2489121
+Node: Structure Measurement2490887
+Node: Library Summary2491592
+Node: Installation2695632
+Node: Configuring and compiling2697353
+Node: Running make install2706688
+Node: Tools for Compilation2710742
+Node: Supported Configurations2713547
+Node: Linux2715869
+Node: Reporting Bugs2718778
+Node: Maintenance2721105
+Node: Source Layout2721510
+Node: Porting2725447
+Node: Hierarchy Conventions2733754
+Node: Porting to Unix2738819
+Node: Contributors2740843
+Node: Free Manuals2748116
+Node: Copying2753055
+Node: Documentation License2781226
+Node: Concept Index2801130
+Node: Type Index2900956
+Node: Function Index2913305
+Node: Variable Index3047649
+Node: File Index3153769
+
+End Tag Table

@@ -1,0 +1,33 @@
+menu "Build Option"
+config CONFIG_BUILD_SHARE_LIB
+    bool "Build the  shared IPMI Command Library"
+    default y
+    help
+    Build the shared Library
+config CONFIG_COMPILE_FLAGS
+    string "Build option(CFLAGS)"
+    default ""
+    help
+        It is CFLAGS
+
+config CONFIG_LINK_FLAGS
+    string "Build option(LDFLAGS)"
+    default ""
+    help
+    It is LDFLAGS
+config CONFIG_STRIP_OBJECTS
+    bool "Strip objects"
+    default n
+    help
+    Strip all objects
+config CONFIG_DEBUG_NETCONSOLE
+    bool "Enable Network debug console"
+    default n
+    help
+    By using telnet to manage BMC
+config CONFIG_DEBUG
+    bool "Show verbose message for development"
+    default n
+    help
+    Debug for development
+endmenu

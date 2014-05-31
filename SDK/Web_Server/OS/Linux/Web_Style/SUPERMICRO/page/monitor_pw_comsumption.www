@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script> 
+
+        <!-- support lt IE 9-->
+	<script language="javascript" type="text/javascript" src="../js/flot/excanvas.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/flot/jquery.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../js/flot/jquery.flot.min.js"></script>
+	
+	
+	<script type="text/javascript">
+	var PowerTable,PeakTable;
+	var MaxPowerTableRows = 4;
+	var MaxPowerTableColumns = 8;
+	var GridTable0,GridTable1;
+	var TableTitles0 = [
+			["(img)", "1%", "left"],
+			["Power Statistics", "7%", "center"],
+			["Last Hour", "7%", "center"],
+			["Time", "15%", "center"],
+			["Past 24 Hr", "7%", "center"],
+			["Time", "15%", "center"],
+			["Past 7 days", "7%", "center"],
+			["Time", "15%", "center"]
+		];
+	
+	var TableTitles1 = [
+			["Peak name", "7%", "center"],
+			["Value", "7%", "left"],
+			["Time", "15%", "left"]			
+		];
+		
+
+	var PowerTableArray = new Array(MaxPowerTableRows);
+	var PeakTableArray = new Array(3);
+	
+	
+
+
+	var MonitoringURL = "../cgi/url_redirect.cgi?url_name=monitor_nm_reading"
+	var CurrentPowerReading = 0;
+	
+	var $j = jQuery.noConflict();
+	var PreviousURL="../cgi/url_redirect.cgi?url_name=misc_nm_config"
+	
+	// for chart
+	var MaxData = new Array(3);
+	var AvrData = new Array(3);
+	var MinData = new Array(3);
+	var updateInterval = 0;
+	var options;
+	var TMin,TMax,Ticks;
+	var Tinterval=[5,1,1];
+	var TNum=[12,24,14];
+	var keyword= ['FMINS','HOUR','DAY'];
+	var ckb1Max,ckb1Min,ckb1Avr,ckb2Max,ckb2Min,ckb2Avr,ckb3Max,ckb3Min,ckb3Avr;
+	
+        var mainPage = "../cgi/url_redirect.cgi?url_name=health";	
+
+	function PageInit()	
+	{
+		var i = 0;
+
+		//Grid table Init
+		PowerTable=document.getElementById("HtmlPowerTable");				
+		GridTable0=LWC.getElement('datagrid',document);		
+		GridTable0.setColumns(TableTitles0);		
+		GridTable0.init('GridTable0',PowerTable);
+		
+		PeakTable = document.getElementById("HtmlPeakTable");
+		GridTable1=LWC.getElement('datagrid',document);		
+		GridTable1.setColumns(TableTitles1);		
+		GridTable1.init('GridTable1',PeakTable);
+		
+		PowerTableInit();
+	
+		for(i=0; i<3; i++)
+		{
+			MaxData[i]=new Array();
+			AvrData[i]=new Array();
+			MinData[i]=new Array();			
+		}
+		GetPowerConsumption();			
+	}		
+	
+	function PowerTableInit()
+	{
+		var i = 0, j = 0;
+	
+		for( i = 0; i < MaxPowerTableRows ;i ++)
+		{
+			PowerTableArray[i]=new Array(MaxPowerTableColumns);
+			for(j = 0; j < MaxPowerTableColumns; j ++)
+				PowerTableArray[i][j] = "NULL";				
+		}
+		
+		for(i=0; i< 3; i++)
+		{
+			PeakTableArray[i]=new Array(3);
+			for(j = 0; j < 3; j ++)
+				PeakTableArray[i][j] = "NULL";
+		}		
+		
+	}
+	function GetPowerConsumption()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'POWER_CONSUMPTION.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+		var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete:ShowPowerConsumption }//reigister callback function
+                 );
+		setTimeout("GetPowerConsumption();", 60000);
+	}
+	
+
+	function InitChart()
+	{
+		switch (updateInterval)
+		{	
+			case 0:
+			{
+				ckb1Max = document.getElementById('ckb1Max');
+				ckb1Min = document.getElementById('ckb1Min');
+				ckb1Avr = document.getElementById('ckb1Avr');
+				if(!ckb1Max.checked)  MaxData[0]=[];
+				if(!ckb1Min.checked)  MinData[0]=[];				
+				if(!ckb1Avr.checked)  AvrData[0]=[];
+				TMin = -60;
+				document.getElementById("xy_axis1").innerHTML = "X:Time (min), Y:Power Consumption (Watt)";
+				options = {
+					xaxis: {		  
+					min : TMin,
+					max : 0,
+					ticks : [[0, "now"],[-15, "-15m"],[-30,"-30m"],[-45,"-45m"],[-60,"-60m"]]
+					}
+				}	
+				var p= $j.plot($j("#placeholder1"),[MaxData[0],AvrData[0],MinData[0]],options);	
+				
+				break;
+			}
+		
+			case 1:
+			{
+				ckb2Max = document.getElementById('ckb2Max');
+				ckb2Min = document.getElementById('ckb2Min');
+				ckb2Avr = document.getElementById('ckb2Avr');		
+		
+				if(!ckb2Max.checked)  MaxData[1]=[];
+				if(!ckb2Min.checked)  MinData[1]=[];
+				if(!ckb2Avr.checked)  AvrData[1]=[];
+				TMin = -24;
+				document.getElementById("xy_axis2").innerHTML = "X:Time (hour), Y:Power Consumption (Watt)";
+				options = {
+					xaxis: {		  
+					min : TMin,
+					max : 0,
+					ticks : [[0, "now"],[-4, "-4h"],[-8,"-8h"],[-12,"-12h"],[-16,"-16h"],[-20,"-20h"],[-24,"-24h"]]
+					}
+				}
+				$j.plot($j("#placeholder2"),[MaxData[1],AvrData[1],MinData[1]],options);
+				break;
+			}
+		
+			case 2:
+			{
+				ckb3Max = document.getElementById('ckb3Max');
+				ckb3Min = document.getElementById('ckb3Min');
+				ckb3Avr = document.getElementById('ckb3Avr');
+		
+				if(!ckb3Max.checked)  MaxData[2]=[];
+				if(!ckb3Min.checked)  MinData[2]=[];
+				if(!ckb3Avr.checked)  AvrData[2]=[];
+				TMin = -14;
+				document.getElementById("xy_axis3").innerHTML = "X:Time (day), Y:Power Consumption (Watt)";
+				options = {
+					xaxis: {		  
+					min : TMin,
+					max : 0,
+					ticks : [[0, "now"],[-2, "-1d"],[-4,"-2d"],[-6,"-3d"],[-8,"-4d"],[-10,"-5d"],[-12,"-6d"],[-17,"-7d"]] }
+				}
+				$j.plot($j("#placeholder3"),[MaxData[2],AvrData[2],MinData[2]],options);
+				break;
+			}
+			default:
+				return;
+					
+		}
+		for(i=0; i<3;i++)
+		{
+			MaxData[i]=[];
+			AvrData[i]=[];
+			MinData[i]=[];
+		}
+	}
+	
+	
+	function ShowPowerConsumption(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var PowerCurReading = new Array(20);
+			var PeakReading = new Array(4);
+			var TimeoutValue = 0,BBPSupport = 0;
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}	
+			
+			var IPMIRoot=xmldoc.documentElement;//point to IPMI
+			var PowerElement=IPMIRoot.getElementsByTagName('POWER');
+			var PeakElement=IPMIRoot.getElementsByTagName('PEAK');
+			var BBPElement=IPMIRoot.getElementsByTagName('BBP');
+			var RowData = [];
+			var i;
+			var idx,maxval,avrval,minval;
+			var Node,key;
+					
+			
+			PowerCurReading[0] = parseInt(PowerElement[0].getAttribute('HAVERAGE'),10);
+			PowerCurReading[1] = parseInt(PowerElement[0].getAttribute('DAVERAGE'),10);
+			PowerCurReading[2] = parseInt(PowerElement[0].getAttribute('WAVERAGE'),10);
+			PowerCurReading[3] = parseInt(PowerElement[0].getAttribute('HMINIMUM'),10);
+			PowerCurReading[4] = parseInt(PowerElement[0].getAttribute('DMINIMUM'),10);
+			PowerCurReading[5] = parseInt(PowerElement[0].getAttribute('WMINIMUM'),10);
+			PowerCurReading[6] = PowerElement[0].getAttribute('HMINTIME');
+			PowerCurReading[7] = PowerElement[0].getAttribute('DMINTIME');
+			PowerCurReading[8] = PowerElement[0].getAttribute('WMINTIME');			
+			PowerCurReading[9] = parseInt(PowerElement[0].getAttribute('HMAXIMUM'),10);
+			PowerCurReading[10] = parseInt(PowerElement[0].getAttribute('DMAXIMUM'),10);
+			PowerCurReading[11] = parseInt(PowerElement[0].getAttribute('WMAXIMUM'),10);
+			PowerCurReading[12] = PowerElement[0].getAttribute('HMAXTIME');
+			PowerCurReading[13] = PowerElement[0].getAttribute('DMAXTIME');
+			PowerCurReading[14] = PowerElement[0].getAttribute('WMAXTIME');
+			
+			
+			for(i=0;i<15;i++)
+			{
+			  if(PowerCurReading[i] == 0)
+			  {
+				  PowerCurReading[i] = "0";
+			  }
+			  
+			  if(PowerCurReading[i] == 65535)
+			  {
+				  PowerCurReading[i] = "0";
+			  }
+			}
+			
+			GridTable0.empty();
+
+			
+			RowData.push([1,"bgcolor=#AFD8F8","Average (W)",PowerCurReading[0],"N/A",PowerCurReading[1],"N/A",PowerCurReading[2],"N/A"]);
+			RowData.push([2,"bgcolor=#CB4B4B","Minimum (W)",PowerCurReading[3],PowerCurReading[6],PowerCurReading[4],PowerCurReading[7],PowerCurReading[5],PowerCurReading[8]]);
+			RowData.push([3,"bgcolor=#EDC240","Maxmum (W)",PowerCurReading[9],PowerCurReading[12],PowerCurReading[10],PowerCurReading[13],PowerCurReading[11],PowerCurReading[14]]);
+			
+			GridTable0.show(RowData);
+			
+			
+			PeakReading[0] = parseInt(PeakElement[0].getAttribute('MAX'),10);
+			PeakReading[1] = parseInt(PeakElement[0].getAttribute('MIN'),10);
+			PeakReading[2] = PeakElement[0].getAttribute('PMAXTIME');
+			PeakReading[3] = PeakElement[0].getAttribute('PMINTIME');
+			
+			TimeoutValue = parseInt(BBPElement[0].getAttribute('TIMEOUT'),10);
+			BBPSupport = parseInt(BBPElement[0].getAttribute('BBPSUPPORT'),10);
+			
+			if(0 != TimeoutValue)
+				document.getElementById("time").innerHTML = TimeoutValue+" sec";
+			else
+			{
+				if(0 == BBPSupport)
+					document.getElementById("time").innerHTML = TimeoutValue+" sec ( No Battery in the system)";
+				else
+					document.getElementById("time").innerHTML = TimeoutValue+" sec ( Remaining relative battery energy 0 %)";
+			}	
+			for(i=0; i<4; i++)
+			{
+				if(PeakReading[i] == 0)
+			  	  PeakReading[i] = "0";
+				  
+			    if(PeakReading[i] == 65535)
+				  PeakReading[i] = "0";
+			}			
+			
+			GridTable1.empty();
+			RowData = [];
+			RowData.push([1,"The Highest Peak (W)",PeakReading[0],PeakReading[2]]);
+			RowData.push([2,"The Lowest Peak (W)",PeakReading[1],PeakReading[3]]);
+			GridTable1.show(RowData);
+			
+			//document.getElementById("HtmlPowerTableInfo").innerHTML = lang.LANG_MISC_NM_CONFIG_EXTRATBLINFO+(MaxPowerTableRows)+lang.LANG_MISC_NM_CONFIG_POLICYUNIT;		
+			
+			for(i=0;i<3;i++)
+			{
+				for(idx = 0;idx < (TNum[i]+1); idx++)
+				{
+					if(idx == 0)
+					{
+						key = 'NOW';
+						Node = IPMIRoot.getElementsByTagName(key);
+						maxval = parseInt(Node[0].getAttribute('MAX'),10);
+						avrval = parseInt(Node[0].getAttribute('AVR'),10); 
+						minval = parseInt(Node[0].getAttribute('MIN'),10);
+						//alert(maxval,avrval,minval);					
+						MaxData[i].push([0, maxval]);
+						MinData[i].push([0, minval]);
+						AvrData[i].push([0, avrval]);					
+					}
+					else
+					{
+						key = keyword[i] + (idx-1);
+						Node = IPMIRoot.getElementsByTagName(key);
+						maxval = parseInt(Node[0].getAttribute('MAX'),10);
+						avrval = parseInt(Node[0].getAttribute('AVR'),10); 
+						minval = parseInt(Node[0].getAttribute('MIN'),10);
+						MaxData[i].push([-idx*Tinterval[i], maxval]);
+						MinData[i].push([-idx*Tinterval[i], minval]);
+						AvrData[i].push([-idx*Tinterval[i], avrval]);
+					}
+				}
+				updateInterval = i;
+				InitChart();		
+			}						
+		}
+	}
+	</script>
+	
+	
+	
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 80%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_MISC_PWC_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+		<tr><td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_MISC_PWC_DESC)</script></div></td></tr></table></td>
+        </tr>		
+		<tr><td></td><td colspan="2"><table>
+		<td><div class="headerA"><script>document.writeln(lang.LANG_MISC_PWC_TIMEOUT_DESC)</script></div></td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		<td><div class="textA" id="time"></div></td>
+		</table></td></tr>		
+		<tr><td></td><td><div class="headerA"><script>document.writeln(lang.LANG_MISC_PWC_PEAK_DESC)</script></div></td></tr>
+		<tr><td colspan="2"><br></td></tr>
+		<tr>
+			<td></td>
+        	<td colspan="2">
+        	<span style="overflow-x:hidden;overflow-y:auto;overflow:-moz-hidden-unscrollable;" id="HtmlPeakTable" ></span></td>
+		</tr>
+		<tr><td colspan="3"><br></td></tr>
+		<tr><td></td><td><div class="headerA"><script>document.writeln(lang.LANG_MISC_PWC_GRAPH_DESC)</script></div></td></tr>
+		<tr><td colspan="3"><br></td></tr>
+		<tr>
+			<td></td>
+        	<td colspan="3">
+        	<span style="overflow-x:hidden;overflow-y:auto;overflow:-moz-hidden-unscrollable;" id="HtmlPowerTable" ></span></td>
+		</tr>
+		<tr><td colspan="3"><br></td></tr>
+		<tr><td></td>
+			<td><fieldset style="width: 360px;"><legend>Last Hour</legend>
+			<table>
+				<tr><td align="center">
+					<input type="checkbox" name="Maxium" style="display:none" value="Maxium" id="ckb1Max" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Average" style="display:none" value="Average" id="ckb1Avr" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Minium" style="display:none" value="Minium" id="ckb1Min" onClick="GetPowerConsumption();" CHECKED >
+				</td></tr>
+				<tr><td align="center" colspan="2">
+					<div id="placeholder1" style="width:350px;height:200px;"></div>
+					<span class="labelhead" id="xy_axis1"></span>
+				</td></tr>
+			</table></fieldset></td>
+			<td><fieldset style="width: 360px;"><legend>Last Day</legend>
+			<table>
+				<tr><td align="center">
+					<input type="checkbox" name="Maxium" style="display:none" value="Maxium" id="ckb2Max" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Average" style="display:none" value="Average" id="ckb2Avr" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Minium" style="display:none" value="Minium" id="ckb2Min" onClick="GetPowerConsumption();"  CHECKED >
+					</td></tr>
+				<tr><td align="center" colspan="2">
+					<div id="placeholder2" style="width:350px;height:200px;"></div>
+					<span class="labelhead" id="xy_axis2"></span>
+				</td></tr>
+			</table></fieldset></td>		
+			<td><fieldset style="width: 360px;"><legend>Last Week</legend>
+			<table>
+				<tr><td align="center">
+					<input type="checkbox" name="Maxium" style="display:none" value="Maxium" id="ckb3Max" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Average" style="display:none" value="Average" id="ckb3Avr" onClick="GetPowerConsumption();" CHECKED >
+					<input type="checkbox" name="Minium" style="display:none" value="Minium" id="ckb3Min" onClick="GetPowerConsumption();"  CHECKED >
+				</td></tr>
+				<tr><td align="center" colspan="2">
+					<div id="placeholder3" style="width:350px;height:200px;"></div>				
+					<span class="labelhead" id="xy_axis3"></span>					
+				</td></tr>
+			</table></fieldset></td>
+		</tr>			
+	</table>
+</body>
+</html>

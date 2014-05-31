@@ -1,0 +1,4 @@
+bootloader_pcb_rev_b.bin=0
+out_rootfs_img.bin= 0x180000
+out_kernel.bin= 0x980000
+out_webfs_img.bin=0xB80000

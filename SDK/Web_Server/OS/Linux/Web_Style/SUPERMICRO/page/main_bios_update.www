@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- Page-specific styles -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!-- Dependency source files -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		var frist_flag  = 0;
+		var dataTabObj;
+		var Pwr_action;
+		var pollfreq = 200;
+		var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";	
+		var array=new Array("&nbsp|",'／','一','＼');
+		var idx  = 0; 
+		var idx1  = 0;
+		
+			
+		//var enableTopFrame = "../cgi/url_redirect.cgi?url_name=topmenu";
+		//var disableTopFrame = "../cgi/url_redirect.cgi?url_name=topmenu_fw_update";
+
+		var pollstatus = 0;
+		function PageInit() 
+		{	 
+
+			progress = document.getElementById("progress_line");
+		
+			$(TAG_ALERT)
+			$(TAG_MAINPAGE)		
+			UpdateBIOS();		
+			//CheckUpdateStatus();
+		}
+
+		function ShowProgress ()
+		{
+			if ( idx == 3 || idx == 4 ) 
+			{
+				idx = 0;
+				idx1 ++;
+			}
+			if (idx1  == 2)
+			{
+				idx1 = 0;
+				idx = 3;
+			}
+			progress.innerHTML = "Prepare BIOS update .... &nbsp&nbsp&nbsp" + array[idx++] ;
+			timeoutId = setTimeout("ShowProgress()",500);	 
+		}
+		function stop_timer()
+		{
+			clearTimeout ( timeoutId );
+			progress.innerHTML ="Start to program flash bios";
+		}
+		function UpdateBIOS()
+		{
+//			if(confirm(lang.LANG_BIOS_UPDATE_CONFIRM))			
+			{
+				Loading(true);   
+				ShowProgress();
+				var url = '/cgi/bios_update.cgi';
+				var pars ="timeStamp="+(new Date());
+				var myAjax = new Ajax.Request(
+					         url,
+						     {method: 'post',parameters:pars, onComplete: doUpdateBIOS}//reigister callback function
+							 ); 
+				setTimeout("PollUpdateProgress()", 1000);
+			}
+		}
+	
+		function doUpdateBIOS()
+		{
+			
+		}
+
+		function doCancel()
+		{ 
+			if(confirm(lang.LANG_BIOS_UPLOAD_CONFIRM))
+			{
+				//top.frames.topmenu.location = enableTopFrame;
+
+				var url = '/cgi/bios_update.cgi';
+	            var pars = 'cancel_bu=y' + '&time_stamp='+(new Date());
+		        var myAjax = new Ajax.Request(
+			                url,
+				            {method: 'post',parameters:pars, onComplete: cancel_callback}//reigister callback function
+					         );
+			}
+		}
+
+		function cancel_callback(originalRequest)
+		{
+			location.href = mainPage;
+		}
+
+        function processResult(percent_complete)
+        {
+            var ind;
+            ind = Math.floor(percent_complete)/10;
+            return ind;
+        }
+
+        function PollUpdateProgress()
+        {
+            var url = '/cgi/upgrade_process.cgi';
+            var pars = 'time_stamp='+(new Date()) ;
+            var myAjax = new Ajax.Request(
+                         url,
+                         {method: 'post',parameters:pars, onComplete: pollCallback}//reigister callback function
+                         );
+        }
+		
+        function pollCallback(originalRequest)
+		{
+			pollstatus = 1;
+            if (originalRequest.readyState == 4 && originalRequest.status == 200){
+                var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+                var xmldoc=GetResponseXML(response);
+                if(xmldoc == null)
+                {
+                    SessionTimeout();
+                    return;
+                }
+                var root=xmldoc.documentElement;
+                if(browser_ie)
+                {
+                    percent_complete=root.text;
+                }
+                else
+                    percent_complete=root.textContent;
+
+                var pc_index = processResult(percent_complete);
+                if(100 != percent_complete)
+                {
+                    if (percent_complete != 0)
+                    {
+                    	stop_timer();
+                    	if (frist_flag == 1 )
+                    		progress.innerHTML = "Upgrade progress : " + percent_complete + "%";
+                    	else
+                    		progress.innerHTML = "Upgrade progress : 0%";
+                    	frist_flag =1
+                    }
+                    else
+                    {
+                    	
+                    	frist_flag = 0;
+                    }
+                    setTimeout("PollUpdateProgress()", pollfreq);
+                }
+                else if(100 ==percent_complete)
+                {
+					Loading(false);
+                    progress.innerHTML = "Upgrade progress : " + percent_complete + "%";
+					//top.frames.topmenu.location = enableTopFrame;
+					getPwrStatus();
+                }
+            }
+		}
+		function getPwrStatus()
+		{
+	
+			Loading(true);
+			var url = '../cgi/ipmi.cgi';
+		    var pars = '?POWER_INFO.XML=(0,0)&time_stamp='+(new Date());
+		   	var myAjax = new Ajax.Request(
+		                url,
+		                {method: 'post', parameters: pars, onComplete: getPwrStatusHandler}//reigister callback function
+		                );
+		}
+		function getPwrStatusHandler(originalRequest)
+		{
+			if (originalRequest.readyState == 4 && originalRequest.status == 200)
+			{
+				var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc = GetResponseXML(response);
+		   		var IPMIRoot = xmldoc.documentElement;//point to IPMI
+		   		var POWER_INFO = IPMIRoot.getElementsByTagName('POWER_INFO');//point to SENSOR_INFO
+		   		var POWER = POWER_INFO[0].getElementsByTagName('POWER');
+		   		var pwrStatus = POWER[0].getAttribute("STATUS"); 
+		    	currentPwrStatus = (pwrStatus == "OFF") ? 0 : 1;
+		    	if (currentPwrStatus == 1)
+		    	{
+		    		Pwr_action  = 3;
+		    		conifrm_msg = lang.LANG_BIOS_UPDATE_REBOOT_CONFIRM;
+                }
+                else 
+                {
+                	conifrm_msg = lang.LANG_BIOS_UPDATE_PWERON_CONFIRM;
+                	Pwr_action  = 1;
+                }
+                if(confirm(conifrm_msg))
+	                setTimeout("reset_platform()", 1000);
+	            else 
+                {	
+                    alert(lang.LANG_BIOS_UPDATE_COMPLETE1);
+                    location.href = mainPage;
+                }
+			}
+		}
+		
+		function reset_platform()
+		{
+			ajax_url = '../cgi/ipmi.cgi';
+            ajax_param = '?POWER_INFO.XML=(1,'+Pwr_action+')&time_stamp='+(new Date());
+            ajax_req = new Ajax.Request
+			(
+                    ajax_url,
+                    {method: 'post', parameters: ajax_param, onComplete: update_complete}//register callback function
+            );
+		}
+
+
+		function update_complete()
+		{
+			if (Pwr_action == 1 )
+				alert(lang.LANG_BIOS_UPDATE_COMPLETE2);
+			else 
+				alert(lang.LANG_BIOS_UPDATE_COMPLETE);
+			location.href = mainPage;
+		}
+
+		</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_BIOS_UPDATE_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_BIOS_UPDATE_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+		<tr><td></td>
+		<td>
+            <table border="0" width="100%">
+                <tr><td>
+                <strong><span class="labeltext" id="progress_line"></span></strong>
+                </td></tr>
+                <tr><td align=center id="complete"></td></tr>
+            </table>
+		</td>
+		</tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself 
+        	  <input type="button" class="btnStyle" id="btn_upgrade" />
+			  <input type="button" class="btnStyle" id="btn_cancel" />
+        	   end of this area -->
+        	  </td>
+        </tr>
+    </table>
+</body>
+</html>

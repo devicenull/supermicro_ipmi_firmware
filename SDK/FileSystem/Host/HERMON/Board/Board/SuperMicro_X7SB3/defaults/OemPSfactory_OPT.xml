@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <IPMI>
+    <OEMPS a_b_SDRVer="" a_b_FRUVer="" dw_SDR_last_add_time="0" dw_SDR_last_erase_time="0" 
+    	dw_GPU_ID1="0" dw_GPU_ID2="0" at_b_FanMode="2"	a_b_ManufData="" a_b_BIOSVer="" 
+    	a_b_PCIEId="" a_b_BIOSReleaseDate= "" a_b_FanLed_Control="0" a_b_IBAddOn="0" 
+    	a_b_HotSwapController="0" a_b_12VFailure="0" a_b_PSTimeoutEnable="1" a_w_PSTimeoutValue="1E" 
+    />
+  </IPMI>
+</root>

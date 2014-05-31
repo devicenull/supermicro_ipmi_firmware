@@ -1,0 +1,3 @@
+adjtime.o adjtime.o: adjtime.c ../config.h
+
+../config.h:

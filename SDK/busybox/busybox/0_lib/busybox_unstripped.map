@@ -1,0 +1,352 @@
+Archive member included because of file (symbol)
+
+/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc_nonshared.a(elf-init.oST)
+                              /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o (__libc_csu_init)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+START GROUP
+LOAD applets/built-in.o
+END GROUP
+LOAD 0_lib/libbusybox.so
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/libgcc.a
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/libgcc_eh.a
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc.so
+START GROUP
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc.so.6
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc_nonshared.a
+END GROUP
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/libgcc.a
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/libgcc_eh.a
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+LOAD /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+                0x00008000                PROVIDE (__executable_start, 0x8000)
+                0x000080d4                . = (0x8000 + SIZEOF_HEADERS)
+
+.interp         0x000080d4       0x13
+ *(SORT(.interp))
+ .interp        0x000080d4       0x13 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.hash           0x000080e8       0xa4
+ *(SORT(.hash))
+ .hash          0x000080e8       0xa4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.dynsym         0x0000818c      0x160
+ *(SORT(.dynsym))
+ .dynsym        0x0000818c      0x160 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.dynstr         0x000082ec      0x11c
+ *(SORT(.dynstr))
+ .dynstr        0x000082ec      0x11c /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.gnu.version    0x00008408       0x2c
+ *(SORT(.gnu.version))
+ .gnu.version   0x00008408       0x2c /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.gnu.version_d
+ *(SORT(.gnu.version_d))
+
+.gnu.version_r  0x00008434       0x20
+ *(SORT(.gnu.version_r))
+ .gnu.version_r
+                0x00008434       0x20 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.rel.dyn        0x00008454       0x28
+ *(SORT(.rel.init))
+ *(SORT(.rel.text) .rel.text.* .rel.gnu.linkonce.t.*)
+ *(SORT(.rel.fini))
+ *(SORT(.rel.rodata) .rel.rodata.* .rel.gnu.linkonce.r.*)
+ *(SORT(.rel.data.rel.ro*))
+ *(SORT(.rel.data) .rel.data.* .rel.gnu.linkonce.d.*)
+ *(SORT(.rel.tdata) .rel.tdata.* .rel.gnu.linkonce.td.*)
+ *(SORT(.rel.tbss) .rel.tbss.* .rel.gnu.linkonce.tb.*)
+ *(SORT(.rel.ctors))
+ *(SORT(.rel.dtors))
+ *(SORT(.rel.got))
+ .rel.got       0x00008454       0x28 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ *(SORT(.rel.bss) .rel.bss.* .rel.gnu.linkonce.b.*)
+
+.rela.dyn
+ *(SORT(.rela.init))
+ *(SORT(.rela.text) .rela.text.* .rela.gnu.linkonce.t.*)
+ *(SORT(.rela.fini))
+ *(SORT(.rela.rodata) .rela.rodata.* .rela.gnu.linkonce.r.*)
+ *(SORT(.rela.data) .rela.data.* .rela.gnu.linkonce.d.*)
+ *(SORT(.rela.tdata) .rela.tdata.* .rela.gnu.linkonce.td.*)
+ *(SORT(.rela.tbss) .rela.tbss.* .rela.gnu.linkonce.tb.*)
+ *(SORT(.rela.ctors))
+ *(SORT(.rela.dtors))
+ *(SORT(.rela.got))
+ *(SORT(.rela.bss) .rela.bss.* .rela.gnu.linkonce.b.*)
+
+.rel.plt        0x0000847c       0x20
+ *(SORT(.rel.plt))
+ .rel.plt       0x0000847c       0x20 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.rela.plt
+ *(SORT(.rela.plt))
+
+.init           0x0000849c       0x14
+ *(SORT(.init))
+ .init          0x0000849c        0x8 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+                0x0000849c                _init
+ .init          0x000084a4        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ .init          0x000084a8        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+ .init          0x000084ac        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.plt            0x000084b0       0x44
+ *(SORT(.plt))
+ .plt           0x000084b0       0x44 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+                0x000084c4                abort@@GLIBC_2.0
+                0x000084d0                lbb_main
+                0x000084dc                __libc_start_main@@GLIBC_2.0
+
+.text           0x000084f4      0x200
+ *(SORT(.text) .stub .text.* .gnu.linkonce.t.*)
+ .text          0x000084f4       0x38 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o
+                0x000084f4                _start
+ .text          0x0000852c       0x30 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .text          0x0000855c       0x8c /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ .text.main     0x000085e8        0x8 applets/built-in.o
+                0x000085e8                main
+ .text          0x000085f0       0xc4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc_nonshared.a(elf-init.oST)
+                0x00008654                __libc_csu_fini
+                0x000085f0                __libc_csu_init
+ .text          0x000086b4       0x40 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+ *(SORT(.text.*personality*))
+ *(SORT(.gnu.warning))
+ *(SORT(.glue_7t))
+ *(SORT(.glue_7))
+
+.fini           0x000086f4        0xc
+ *(SORT(.fini))
+ .fini          0x000086f4        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+                0x000086f4                _fini
+ .fini          0x000086f8        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ .fini          0x000086fc        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+                0x00008700                PROVIDE (__etext, .)
+                0x00008700                PROVIDE (_etext, .)
+                0x00008700                PROVIDE (etext, .)
+
+.rodata         0x00008700        0x4
+ *(SORT(.rodata) .rodata.* .gnu.linkonce.r.*)
+ .rodata        0x00008700        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o
+                0x00008700                _IO_stdin_used
+
+.rodata1
+ *(SORT(.rodata1))
+
+.eh_frame_hdr
+ *(SORT(.eh_frame_hdr))
+
+.eh_frame       0x00008704        0x4
+ *(SORT(.eh_frame))
+ .eh_frame      0x00008704        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+
+.gcc_except_table
+ *(SORT(.gcc_except_table))
+ *(SORT(.gcc_except_table.*))
+                0x00008708                . = (ALIGN (0x8000) - ((0x8000 - .) & 0x7fff))
+                0x00010708                . = (0x8000 DATA_SEGMENT_ALIGN 0x1000)
+
+.eh_frame
+ *(SORT(.eh_frame))
+
+.gcc_except_table
+ *(SORT(.gcc_except_table))
+ *(SORT(.gcc_except_table.*))
+
+.tdata
+ *(SORT(.tdata) .tdata.* .gnu.linkonce.td.*)
+
+.tbss
+ *(SORT(.tbss) .tbss.* .gnu.linkonce.tb.*)
+ *(SORT(.tcommon))
+                0x00010708                . = ALIGN (0x4)
+                0x00010708                PROVIDE (__preinit_array_start, .)
+
+.preinit_array
+ *(SORT(.preinit_array))
+                0x00010708                PROVIDE (__preinit_array_end, .)
+                0x00010708                PROVIDE (__init_array_start, .)
+
+.init_array
+ *(SORT(.init_array))
+                0x00010708                PROVIDE (__init_array_end, .)
+                0x00010708                PROVIDE (__fini_array_start, .)
+
+.fini_array
+ *(SORT(.fini_array))
+                0x00010708                PROVIDE (__fini_array_end, .)
+
+.ctors          0x00010708        0x8
+ *crtbegin*.o(SORT(.ctors))
+ *(SORT(EXCLUDE_FILE(*crtend*.o) .ctors))
+ .ctors         0x00010708        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ *(SORT(.ctors.*))
+ *(SORT(.ctors))
+ .ctors         0x0001070c        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+
+.dtors          0x00010710        0x8
+ *crtbegin*.o(SORT(.dtors))
+ *(SORT(EXCLUDE_FILE(*crtend*.o) .dtors))
+ .dtors         0x00010710        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ *(SORT(.dtors.*))
+ *(SORT(.dtors))
+ .dtors         0x00010714        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+
+.jcr            0x00010718        0x4
+ *(SORT(.jcr))
+ .jcr           0x00010718        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+
+.data.rel.ro
+ *(SORT(.data.rel.ro.local))
+ *(SORT(.data.rel.ro*))
+
+.dynamic        0x0001071c       0xd0
+ *(SORT(.dynamic))
+ .dynamic       0x0001071c       0xd0 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+                0x0001071c                _DYNAMIC
+                0x000107ec                . = (. DATA_SEGMENT_RELRO_END 0x0)
+
+.got            0x000107ec       0x30
+ *(SORT(.got.plt))
+ .got.plt       0x000107ec       0x1c /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+                0x000107ec                _GLOBAL_OFFSET_TABLE_
+ *(SORT(.got))
+ .got           0x00010808       0x14 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+
+.data           0x0001081c        0xc
+                0x0001081c                __data_start = .
+ *(SORT(.data) .data.* .gnu.linkonce.d.*)
+ .data          0x0001081c        0x8 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+                0x0001081c                __dso_handle
+ .data          0x00010824        0x4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o
+                0x00010824                data_start
+ *(SORT(.gnu.linkonce.d.*personality*))
+
+.data1
+ *(SORT(.data1))
+                0x00010828                _edata = .
+                0x00010828                PROVIDE (edata, .)
+                0x00010828                __bss_start = .
+                0x00010828                __bss_start__ = .
+
+.bss            0x00010828        0x4
+ *(SORT(.dynbss))
+ *(SORT(.bss) .bss.* .gnu.linkonce.b.*)
+ .bss           0x00010828        0x1 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ *(SORT(COMMON))
+                0x0001082c                . = ALIGN (0x4)
+ *fill*         0x00010829        0x3 00
+                0x0001082c                . = ALIGN (0x4)
+                0x0001082c                _end = .
+                0x0001082c                _bss_end__ = .
+                0x0001082c                __bss_end__ = .
+                0x0001082c                __end__ = .
+                0x0001082c                PROVIDE (end, .)
+                0x0001082c                . = DATA_SEGMENT_END (.)
+
+.stab
+ *(SORT(.stab))
+
+.stabstr
+ *(SORT(.stabstr))
+
+.stab.excl
+ *(SORT(.stab.excl))
+
+.stab.exclstr
+ *(SORT(.stab.exclstr))
+
+.stab.index
+ *(SORT(.stab.index))
+
+.stab.indexstr
+ *(SORT(.stab.indexstr))
+
+.comment        0x00000000       0x7e
+ *(SORT(.comment))
+ .comment       0x00000000       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crt1.o
+ .comment       0x00000012       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .comment       0x00000024       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtbegin.o
+ .comment       0x00000036       0x12 applets/built-in.o
+ .comment       0x00000048       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/libc_nonshared.a(elf-init.oST)
+ .comment       0x0000005a       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/crtend.o
+ .comment       0x0000006c       0x12 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.debug
+ *(SORT(.debug))
+
+.line
+ *(SORT(.line))
+
+.debug_srcinfo
+ *(SORT(.debug_srcinfo))
+
+.debug_sfnames
+ *(SORT(.debug_sfnames))
+
+.debug_aranges  0x00000000       0x58
+ *(SORT(.debug_aranges))
+ .debug_aranges
+                0x00000000       0x30 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .debug_aranges
+                0x00000030       0x28 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.debug_pubnames
+ *(SORT(.debug_pubnames))
+
+.debug_info     0x00000000      0x1ae
+ *(SORT(.debug_info) .gnu.linkonce.wi.*)
+ .debug_info    0x00000000       0xd7 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .debug_info    0x000000d7       0xd7 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.debug_abbrev   0x00000000       0x20
+ *(SORT(.debug_abbrev))
+ .debug_abbrev  0x00000000       0x10 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .debug_abbrev  0x00000010       0x10 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.debug_line     0x00000000      0x14d
+ *(SORT(.debug_line))
+ .debug_line    0x00000000       0xb4 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crti.o
+ .debug_line    0x000000b4       0x99 /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/../lib/gcc/arm-linux/3.4.4/../../../../arm-linux/lib/crtn.o
+
+.debug_frame
+ *(SORT(.debug_frame))
+
+.debug_str
+ *(SORT(.debug_str))
+
+.debug_loc
+ *(SORT(.debug_loc))
+
+.debug_macinfo
+ *(SORT(.debug_macinfo))
+
+.debug_weaknames
+ *(SORT(.debug_weaknames))
+
+.debug_funcnames
+ *(SORT(.debug_funcnames))
+
+.debug_typenames
+ *(SORT(.debug_typenames))
+
+.debug_varnames
+ *(SORT(.debug_varnames))
+
+.note.gnu.arm.ident
+ *(SORT(.note.gnu.arm.ident))
+
+/DISCARD/
+ *(SORT(.note.GNU-stack))
+OUTPUT(0_lib/busybox_unstripped elf32-littlearm)

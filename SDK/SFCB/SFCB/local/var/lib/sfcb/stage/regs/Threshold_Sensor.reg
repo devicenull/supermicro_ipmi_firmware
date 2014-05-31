@@ -1,0 +1,6 @@
+[Threshold_Sensor]   
+   provider: Threshold_SensorProvider
+   location: cmpiThreshold_SensorProvider
+   type: instance
+   namespace: root/cimv2
+#

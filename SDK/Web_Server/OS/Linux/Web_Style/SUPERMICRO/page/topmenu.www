@@ -1,0 +1,835 @@
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+        <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">      
+        <link rel="stylesheet" type="text/css" href="../yui/build/reset-fonts-grids/reset-fonts-grids.css">
+        <!-- CSS for Menu -->
+        <link rel="stylesheet" type="text/css" href="../yui/build/menu/assets/skins/sam/menu.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/basic.css" />
+        <link rel="stylesheet" type="text/css" href="../css/topmenu.css" />
+        <!-- Page-specific styles -->
+        <style type="text/css">
+            div.yui-b p {
+            
+                margin: 0 0 .5em 0;
+                color: #999;
+            
+            }
+            
+            div.yui-b p strong {
+            
+                font-weight: bold;
+                color: #000;
+            
+            }
+            
+            div.yui-b p em {
+
+                color: #000;
+            
+            }            
+            
+            h1 {
+
+                font-weight: bold;
+                margin: 0 0 1em 0;
+                padding: .25em .5em;
+                background-color: #ccc;
+
+            }
+
+            #productsandservices {
+
+                margin: 0 0 10px 0;
+            
+            }
+
+        </style>
+
+        <!-- Dependency source files -->
+        <script type="text/javascript" src="../yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+        <script type="text/javascript" src="../yui/build/container/container_core.js"></script>
+		<script src="../js/prototype.js"></script>
+		<script src="../js/utils.js"></script>
+		<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+        <!-- Menu source file -->
+        <script type="text/javascript" src="../yui/build/menu/menu.js"></script>
+
+        <!-- Page-specific script -->
+        <script type="text/javascript">
+<!--
+
+					  /*global variable*/
+				var isUID = 0;  
+				var PlatformCapability = 0;
+				var EnBBP  = 0;
+				var c_mainpage, c_subpage;
+
+            /*
+                 Initialize and render the MenuBar when its elements are ready 
+                 to be scripted.
+            */        
+            submenu_obj = [            
+                    {
+                        id: "sys", 
+                        index: "system",
+                        label: lang.LANG_TOPMENU_SYSTEM,
+                        itemdata: [ 
+                            { text: lang.LANG_SYSTEM_SUBMENU_SYSTEM_INFO, url: "javascript:page_mapping('system', 'sys_info')" , index: "sys_info"},
+                            { text: lang.LANG_SYSTEM_SUBMENU_FRU_INFO, url: "javascript:page_mapping('system', 'sys_fru')", index: "sys_fru" }                                                 
+                        ]
+                    },
+
+                    {
+                    	id: "server_health",
+                        index: "health", 
+                        label: lang.LANG_TOPMENU_SERVER_HEALTH,
+                        itemdata: [
+                            { text: lang.LANG_SERVER_HEALTH_SUBMENU_SENSOR_READINGS   , url: "javascript:page_mapping('health', 'servh_sensor')", index: "servh_sensor"},
+                       /*     { text: lang.LANG_SERVER_HEALTH_SUBMENU_STORAGE_MONITORING, url: "javascript:page_mapping('health', 'servh_storage')", index: "servh_storage"}, */	 //[Linda] move bottom for platform checking
+                            { text: lang.LANG_SERVER_HEALTH_SUBMENU_EVENT_LOG         , url: "javascript:page_mapping('health', 'servh_event')", index: "servh_event" }              
+                        ]    
+                    },
+                    
+                    {
+                    	id: "config",
+                        index: "configuration", 
+                        label: lang.LANG_TOPMENU_CONFIGURATION,
+
+                        itemdata: [
+                            //we dynamic draw it
+                        ]
+
+                    },
+                    
+                    {
+                        id: "remote_control",
+                        index: "remote",
+                        label: lang.LANG_TOPMENU_REMOTE_CONTROL,
+                        itemdata: [
+                            { text: lang.LANG_REMOTE_CNTRL_SUBMENU_CONSOLE_REDIRECTION, url: "javascript:page_mapping('remote', 'man_ikvm')", index: "man_ikvm" },
+                            { text: lang.LANG_REMOTE_CNTRL_SUBMENU_POWER_CONTROL, url: "javascript:page_mapping('remote', 'man_chassis')", index: "man_chassis" },
+                            { text: lang.LANG_REMOTE_CNTRL_SUBMENU_LAUNCH_SOL, url: "javascript:page_mapping('remote', 'man_sol')", index: "man_sol" }                            
+                        ]
+                    },
+                    {
+                        id: "virtual_media",
+                        index: "vmedia",
+                        label: lang.LANG_TOPMENU_VIRTUAL_MEDIA,
+                        itemdata: [
+                            { text: lang.LANG_VM_SUBMENU_FLOPPY_IMG, url: "javascript:page_mapping('vmedia', 'vm_floppy')", index: "vm_floppy" },
+                            { text: lang.LANG_VM_SUBMENU_CDROM_IMG, url: "javascript:page_mapping('vmedia', 'vm_cdrom')", index: "vm_cdrom" }                          
+                        ]
+                    },
+                    {
+                        id: "mainten",             
+                        index: "maintenance",
+                        label: lang.LANG_TOPMENU_MAINTENANCE,
+                        itemdata: [
+                            { text: lang.LANG_MAINTENACE_SUBMENU_FW_UPDATE, url: "javascript:page_mapping('maintenance', 'main_fw_update')", index: "main_fw_update" },
+                            { text: lang.LANG_MAINTENACE_SUBMENU_UNIT_RESET, url: "javascript:page_mapping('maintenance', 'main_bmcreset')", index: "main_bmcreset" },
+                            { text: lang.LANG_MAINTENACE_SUBMENU_IP_RESET, url: "javascript:page_mapping('maintenance', 'main_ipreset')", index: "main_ipreset" },
+                            { text: lang.LANG_MAINTENACE_SUBMENU_FACTORY_DEFAULT, url: "javascript:page_mapping('maintenance', 'main_factorydefault')", index: "main_factorydefault" },
+                            { text: lang.LANG_MAINTENACE_SUBMENU_SAVE_CONFIG, url: "javascript:page_mapping('maintenance', 'main_saveconf')", index: "main_saveconf" },
+			    			{ text: lang.LANG_MAINTENACE_SUBMENU_SYS_EVENT_LOG, url: "javascript:page_mapping('maintenance', 'main_system_event_log')", index: "main_system_event_log" }, 
+							{ text: lang.LANG_MAINTENACE_SUBMENU_BIOS_UPDATE, url: "javascript:page_mapping('maintenance', 'main_bios_upload')", index: "main_bios_upload" }                         
+							
+                        ]
+                    },
+                    {
+                        id: "misc",
+                        index: "miscellaneous",
+                        label: lang.LANG_TOPMENU_MISCELLANEOUS,
+                        itemdata: [
+                            //we dynamic draw it
+                        ]
+                    },                    
+                ];
+			function DrawMenuBar(){
+            	YAHOO.util.Event.onContentReady("productsandservices", function () {
+
+                /*
+								Instantiate a MenuBar:  The first argument passed to the constructor
+								is the id for the Menu element to be created, the second is an 
+								object literal of configuration properties.
+                */
+
+                var oMenuBar = new YAHOO.widget.MenuBar("productsandservices", { 
+                                                            autosubmenudisplay: true, 
+                                                            hidedelay: 750, 
+                                                            lazyload: true });
+
+                /*
+                     Define an array of object literals, each containing 
+                     the data necessary to create a submenu.
+                */
+
+                var aSubmenuData = submenu_obj;
+
+
+                /*
+                     Subscribe to the "beforerender" event, adding a submenu 
+                     to each of the items in the MenuBar instance.
+                */
+
+                oMenuBar.subscribe("beforeRender", function () {
+
+					var nSubmenus = aSubmenuData.length,
+										i;
+
+               		if (this.getRoot() == this) {
+
+						for (i = 0; i < nSubmenus; i++) 
+						{
+
+							if(aSubmenuData[i].index == 'configuration')
+							{
+								aSubmenuData[i].itemdata = [
+									{ text: lang.LANG_CONFIG_SUBMENU_ALERT, url: "javascript:page_mapping('configuration', 'config_alert')", index: "config_alert" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_DATE_AND_TIME, url: "javascript:page_mapping('configuration', 'config_datetime')", index: "config_datetime" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_LDAP, url: "javascript:page_mapping('configuration', 'config_ldap')", index: "config_ldap" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_ACTIVE_DIRECTORY, url: "javascript:page_mapping('configuration', 'config_ad')", index: "config_ad" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_RADIUS, url: "javascript:page_mapping('configuration', 'config_radius')", index: "config_radius"},
+                            		{ text: lang.LANG_CONFIG_SUBMENU_MOUSE_MODE, url: "javascript:page_mapping('configuration', 'config_mouse')", index: "config_mouse" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_NETWORK, url: "javascript:page_mapping('configuration', 'config_network')", index: "config_network" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_DDNS, url: "javascript:page_mapping('configuration', 'config_ddns')", index: "config_ddns" },     
+                            		{ text: lang.LANG_CONFIG_SUBMENU_REMOTE_SESSION, url: "javascript:page_mapping('configuration', 'config_rsession')", index: "config_rsession" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_SMTP, url: "javascript:page_mapping('configuration', 'config_smtp')", index: "config_smtp" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_SSL, url: "javascript:page_mapping('configuration', 'config_ssl')", index: "config_ssl" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_USER, url: "javascript:page_mapping('configuration', 'config_usr')", index: "config_usr" },
+                            		{ text: lang.LANG_CONFIG_SUBMENU_PORT, url: "javascript:page_mapping('configuration', 'config_port')", index: "config_port"}     ,
+                            		{ text: lang.LANG_CONFIG_SUBMENU_IPCTRL, url: "javascript:page_mapping('configuration', 'config_ip_ctrl')", index: "config_ip_ctrl"},
+									]; 
+							
+							
+								if (PlatformCapability &  0x8)
+								{
+									aSubmenuData[i].itemdata.push(
+                           		 	{ text: lang.LANG_CONFIG_SUBMENU_FAN, url: "javascript:page_mapping('configuration', 'config_fan')", index: "config_fan"}
+									);				
+								}
+
+							}
+
+							if(aSubmenuData[i].index == 'miscellaneous')
+							{
+								aSubmenuData[i].itemdata = [
+									{ text: lang.LANG_MISC_SUBMENU_POST_SNOOPING, url: "javascript:page_mapping('miscellaneous', 'misc_snoopy')", index: "misc_snoopy" },
+								];
+					
+								if(isUID == 1)
+								{
+									aSubmenuData[i].itemdata.push(
+									{ text: lang.LANG_MISC_SUBMENU_UID, url: "javascript:page_mapping('miscellaneous', 'misc_uid')", index: "misc_uid" }
+									);
+								}
+								if (PlatformCapability &  0x4)
+								{
+						
+								}
+								if (PlatformCapability &  0x2)
+								{		
+								/* Tony, 09/10/2012 Move power page to health submenu { */
+								//	//aSubmenuData[i].itemdata.push(	
+									//{ text: lang.LANG_MISC_SUBMENU_POWER, url: "javascript:page_mapping('miscellaneous', 'misc_power')", index: "misc_power" }
+									//);
+								/* Tony, 09/10/2012 Move power page to health submenu } */	
+								}
+										
+							}
+							/* Tony, 09/10/2012 Move power page to health submenu { */
+							if(aSubmenuData[i].index == 'health')
+							{
+								if (PlatformCapability &  0x2)
+								{	
+									aSubmenuData[i].itemdata.push(	
+									{ text: lang.LANG_MISC_SUBMENU_POWER, url: "javascript:page_mapping('health', 'servh_power')", index: "servh_power" }
+									);
+								}
+/* Jack: Comment out for Std Release	*/
+								else
+								{
+                  if( (PlatformCapability&0x40000) == 0)
+                  {                   
+                    aSubmenuData[i].itemdata.push(	
+                    { text: lang.LANG_MISC_SUBMENU_PW_CONSUMPTION, url: "javascript:page_mapping('health', 'monitor_pw_comsumption')", index: "monitor_pw_comsumption" }
+									);									
+                  }
+								}
+/* <- Jack */
+
+								// if (PlatformCapability &  0x20000)	//[Linda] LSI HDD monitoring
+								if( EnStoragePage ) //Jack: Set it dynamic showing
+								{	
+									aSubmenuData[i].itemdata.push(	
+									{ text: lang.LANG_SERVER_HEALTH_SUBMENU_STORAGE_MONITORING, url: "javascript:page_mapping('health', 'servh_storage')", index: "servh_storage"}
+									);
+								}
+
+								/* Tony, 01/03/2013 Add power source info { */
+/* Jack: Comment out for Std Release */
+                if( EnBBP )
+                {
+                  aSubmenuData[i].itemdata.push(	
+                  { text: lang.LANG_MISC_SUBMENU_PSINFO_POWER, url: "javascript:page_mapping('health', 'servh_psinfo')", index: "servh_psinfo" }
+                  );
+                }
+ /* Std */
+								/* Tony, 01/03/2013 Add power source info } */
+							}
+							/* Tony, 09/10/2012 Move power page to health submenu } */	
+							this.getItem(i).cfg.setProperty("submenu", aSubmenuData[i]);
+						}
+
+                	}
+
+            	});
+
+
+                /*
+                     Call the "render" method with no arguments since the 
+                     markup for this MenuBar instance is already exists in 
+                     the page.
+                */
+
+                oMenuBar.render();         
+            
+            });
+      		}
+		  
+			    
+			function do_loggout() 
+			{  
+//				if(navigator.userAgent.indexOf("Chrome") > 0)
+//				{
+//				var url = '/cgi/logout.cgi';   
+//				var pars = 'time_stamp='+(new Date())+'&SID='+ReadCookie("SID");
+//				var myAjax = new Ajax.Request( 
+//				url,
+//				{method: 'post',parameters:pars }//reigister callback function
+//				);
+//				}
+						top.location.href = '/cgi/logout.cgi' + '?time_stamp='+(new Date());
+			}
+			function do_refresh()
+			{
+				MainFrame.location.reload();				
+			}
+			function Go_eventlog()
+			{
+				MainFrame.location.href = "../cgi/url_redirect.cgi?url_name=servh_event";
+				page_mapping('health', 'servh_event');
+			}
+			function do_change_lan()
+			{
+				if(document.getElementById("lang_select").value == "en")
+				{
+					CreateCookie("langSetFlag","1");
+					CreateCookie("language","English");			 
+					top.lang_setting = "English";
+				}else{
+					CreateCookie("langSetFlag","1")
+					CreateCookie("language","Japanese");
+					top.lang_setting = "Japanese";
+				}
+				parent.frames.topmenu.location.reload();
+			}
+			
+            function iframe_onload()
+            {
+                adjustIFramesHeightOnLoad(document.getElementById("frame_main"));
+            }
+
+            function adjustIFramesHeightOnLoad(iframe) {
+                //alert("documentElement.scrollHeight = " + iframe.contentWindow.window.document.documentElement.scrollHeight);
+                //alert("body.scrollHeight" + iframe.contentWindow.window.document.body.scrollHeight);
+                var iframeHeight = Math.max(iframe.contentWindow.window.document.documentElement.scrollHeight,
+                                            iframe.contentWindow.window.document.body.scrollHeight);
+                iframeHeight += 20;
+                //alert("iframeHeight = " + iframeHeight);
+                iframe.style.height = iframeHeight;
+            }
+			
+			function page_mapping(mainpage, subpage)
+			{
+				/*main page [doris] test switch page cgi*/
+				var page;
+				CreateCookie("mainpage", mainpage); 
+				CreateCookie("subpage", subpage);
+				c_mainpage = mainpage;
+				c_subpage = subpage;
+				if(subpage == 'top'){
+					if( mainpage == 'miscellaneous' && isUID == 1)
+					{
+						page = 'miscellaneous0';
+					}
+					else if( mainpage == 'miscellaneous' && isUID == 0)
+					{
+						page = 'miscellaneous1';
+					}
+					else
+					{
+						page = mainpage.toString();
+					}
+					var str= '../cgi/url_redirect.cgi?url_name=' + page;
+					document.getElementById("frame_main").src = str;
+				}
+				else
+				{
+					var str= '../cgi/url_redirect.cgi?url_name=' + subpage;
+					document.getElementById("frame_main").src = str;
+				}
+				/*sidebar page*/
+				var sidbar_pool = document.getElementById("sidebar");
+				/*clear sidebar*/
+				while(sidbar_pool.rows.length > 0)
+    				sidbar_pool.deleteRow(sidbar_pool.rows.length - 1);	
+
+				var submenu_count = submenu_obj.length;
+
+				/*tile*/
+				var i, j;
+				for (i = 0; i < submenu_count; i++) 
+				{
+                	if( mainpage == submenu_obj[i].index )
+                	break;
+				}	
+				var tr = document.getElementById('sidebar').insertRow(-1);
+				var td = tr.insertCell(0);
+				tr.className = 'submenu_position';
+				var submenu_len = submenu_obj[i].itemdata.length;	       
+				//var br = document.createElement('br');
+				
+				var aElement = document.createElement('a');
+				aElement.href = document.getElementById(mainpage).href;
+				aElement.innerHTML = submenu_obj[i].label;
+				if(subpage == 'top')
+					aElement.className = 'submenu_header_select';
+				else
+					aElement.className = 'submenu_header';	
+					
+				td.appendChild(aElement);
+				var div = document.createElement('div');
+				div.className = 'submenu_line';
+				td.appendChild(div);
+				//br = document.createElement('br');
+				//td.appendChild(br);
+				for(j=0; j < submenu_len; j++)
+				{
+					if( mainpage == 'miscellaneous' && isUID == 0 && 
+					    submenu_obj[i].itemdata[j].text == lang.LANG_MISC_SUBMENU_UID )
+					{
+						continue;
+					}
+					if (submenu_obj[i].itemdata[j])
+					{
+					aElement = document.createElement('a');
+					aElement.href = submenu_obj[i].itemdata[j].url;
+					aElement.innerHTML = submenu_obj[i].itemdata[j].text;
+					if(subpage == submenu_obj[i].itemdata[j].index)
+						aElement.className = 'submenu_item_select';
+					else
+						aElement.className = 'submenu_item';
+					td.appendChild(aElement);
+					div = document.createElement('div');
+					div.className = 'submenu_line';
+					td.appendChild(div);
+					//br = document.createElement('br');
+					//td.appendChild(br);
+				}
+			}	
+			}	
+			function PageInit()
+			{
+				// check language setting
+				if(top.lang_setting == "English")
+					document.getElementById("lang_en").selected = true;
+				else
+					document.getElementById("lang_jp").selected = true;
+
+				var url = '/cgi/ipmi.cgi';
+			    var pars = 'UID_SUPPORT.XML=(0,0)&time_stamp='+(new Date());
+			   	var myAjax = new Ajax.Request(
+			                url,
+			                {method: 'post',parameters:pars, onComplete: PageInit2}//reigister callback function
+			                );
+			    
+			    RefreshSystemHealthResquest();			    
+/*
+			    //for demo test code. [doris] test		    
+				page_mapping('system', 'top'); 
+				sys_health_lamp = document.getElementById("img_sys_health_lamp");
+				sys_health_desc = document.getElementById("text_sys_health_desc");
+				sys_health_lamp.src = '../images/green.gif';
+				sys_health_desc.innerHTML = 'Normal';*/
+			}
+			function PageInit2(originalRequest)
+			{	
+				if (originalRequest.readyState == 4 && originalRequest.status == 200){
+					var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+					var xmldoc=GetResponseXML(response);
+					if(xmldoc == null)
+					{
+						SessionTimeout();
+						return;
+					}
+					var IPMI=xmldoc.documentElement;//point to IPMI
+					
+					UID=IPMI.getElementsByTagName('UID');//point to SENSOR_INFO
+					isUID = UID[0].getAttribute("EN");
+					
+					/* Tony, 09/03/2012 Add host and user info { */
+					var ajax_url = '/cgi/ipmi.cgi';
+					var ajax_param = 'Get_HostAndUserInfo.XML=(0,0)&time_stamp='+(new Date());
+					var ajax_req = new Ajax.Request(
+					ajax_url,
+					{method: 'post',parameters:ajax_param, onComplete: ShowHostAndUser}//register callback function
+					);
+					/* Tony, 09/03/2012 Add host and user info } */
+
+					
+					var url = '/cgi/ipmi.cgi';
+			 	   	var pars = 'Get_PlatformCap.XML=(0,0)&time_stamp='+(new Date());
+			   		var myAjax = new Ajax.Request(
+			                url,
+			                {method: 'post',parameters:pars, onComplete: PageInit3}//reigister callback function
+			                );
+				   
+				}
+			}
+			/* Tony, 09/03/2012 Add host and user info { */
+			function ShowHostAndUser(originalRequest)
+			{
+			    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			    	var t_value, t_Msbvalue, t_Lsbvalue;
+			    	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			    	var xml_obj=GetResponseXML(response);
+				    if(xml_obj == null)
+				    {
+				        SessionTimeout();
+				        return;
+				    }
+
+				    var_host_info_1=document.getElementById("id_host_info_1");
+				    var_host_info_2=document.getElementById("id_host_info_2");				    
+				    var_user_info_1=document.getElementById("id_user_info_1");
+				    var_user_info_2=document.getElementById("id_user_info_2");
+
+				    var IPMIRoot = xml_obj.documentElement;
+				    var HostAndUserInfoElm=IPMIRoot.getElementsByTagName('HOST_AND_USER_INFO');//point to PlatformInfo
+
+			    	var host_info_1 = HostAndUserInfoElm[0].getAttribute("HOST_INFO_1");
+			    	var host_info_2 = HostAndUserInfoElm[0].getAttribute("HOST_INFO_2");
+			    	var user_info_1 = HostAndUserInfoElm[0].getAttribute("USER_INFO_1");
+			    	var user_info_2 = HostAndUserInfoElm[0].getAttribute("USER_INFO_2");
+
+			    	var_host_info_1.innerHTML = host_info_1;
+			    	var_host_info_2.innerHTML = host_info_2;
+			    	var_user_info_1.innerHTML = user_info_1;
+					var_user_info_2.innerHTML = user_info_2;
+			    }
+			}
+			/* Tony, 09/03/2012 Add host and user info } */
+
+
+			
+			function PageInit3(originalRequest)
+			{
+				if (originalRequest.readyState == 4 && originalRequest.status == 200){
+					var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+					var xmldoc=GetResponseXML(response);
+					if(xmldoc == null)
+					{
+						SessionTimeout();
+						return;
+					}
+					var IPMI=xmldoc.documentElement;//point to IPMI
+					
+					
+					CapObj = IPMI.getElementsByTagName('Platform');
+
+					CapValue = CapObj[0].getAttribute("Cap");
+					
+					PlatformCapability = parseInt(CapValue,16);	//linda modified to support fan control flag
+
+					EnBBPValue = CapObj[0].getAttribute("EnBBP");
+					EnBBP  		   = parseInt(EnBBPValue,16);
+					
+					//Jack: 
+					EnStoragePageValue = CapObj[0].getAttribute("EnStorage");
+					EnStoragePage  		   = parseInt(EnStoragePageValue,16);
+					
+				    DrawMenuBar();	
+                    if(navigator.userAgent.indexOf("MSIE 9")!=-1)
+                        document.getElementById("frame_main").onload = iframe_onload;
+
+					if(ReadCookie("langSetFlag") == "1")
+					{
+						CreateCookie("langSetFlag","0");
+						page_mapping(ReadCookie("mainpage"), ReadCookie("subpage"));
+					}else{
+						page_mapping('system', 'sys_info');		//linda changes homepage
+					}					
+				}
+			}
+			function RefreshSystemHealthResquest()
+			{
+				var url = '/cgi/ipmi.cgi';
+			    var pars = '?SENSOR_INFO_FOR_SYS_HEALTH.XML=(1,ff)&time_stamp='+(new Date());
+			   	var myAjax = new Ajax.Updater(
+			   				'table1',
+			                url,
+			                {method: 'post', parameters: pars, onComplete: RefreshSystemHealth}//reigister callback function
+			                );
+			   setTimeout("RefreshSystemHealthResquest();", 30000);
+			}
+			function RefreshSystemHealth(originalRequest)
+			{
+				var sys_health_green = 0; 	
+				var sys_health_yellow = 0;
+				var sys_health_red = 0;
+				
+				if (originalRequest.readyState == 4 && originalRequest.status == 200){
+					
+					var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+
+					var xmldoc=GetResponseXML(response);			
+			   		var IPMI = xmldoc.documentElement;//point to IPMI
+					var SENSOR_INFO = IPMI.getElementsByTagName("SENSOR_INFO"); //point to SENSOR_INFO
+					var SENSOR_ptr = SENSOR_INFO[0].getElementsByTagName('SENSOR');
+				
+					$A(SENSOR_INFO[0].getElementsByTagName('SENSOR') ).each(function (node){
+			 			var sensor_type = node.getAttribute("STYPE");
+			 			var xml_sensor_reading = node.getAttribute("READING");
+						var event_reading_type_code = parseInt(node.getAttribute("ERTYPE"), 16);
+						var option = parseInt(node.getAttribute("OPTION"), 16);
+			 			if(event_reading_type_code == 0x01)
+			 			{
+			                	
+							SensorFormula(node,0,0);
+							var compare_flag = SensorFormula.NeedCompare;
+			 				var sensor_unr = SensorFormula.SensorUNR;
+			 				var sensor_uc  = SensorFormula.SensorUC;
+			 				var sensor_unc = SensorFormula.SensorUNC;
+			 		    	var sensor_lnc = SensorFormula.SensorLNC;
+			 				var sensor_lc  = SensorFormula.SensorLC;
+			 				var sensor_lnr = SensorFormula.SensorLNR;
+			 				var sensor_reading = SensorFormula.SensorReading;
+			 	 	 		if(compare_flag == 1)
+							{
+								if((sensor_reading <= sensor_unc) &&(sensor_reading >= sensor_lnc)){
+									sys_health_green = 1;
+								}
+								else if(sensor_reading > sensor_unr){
+									sys_health_red = 1;
+								}
+								else if(sensor_reading > sensor_uc){
+									sys_health_red = 1;
+								}
+								else if(sensor_reading > sensor_unc){
+									sys_health_yellow = 1;
+								}
+								else if(sensor_reading >= sensor_lc){
+									sys_health_yellow = 1;
+								}
+								else if(sensor_reading >= sensor_lnr){
+									sys_health_red = 1;
+								}
+								else{
+									sys_health_red = 1;
+								}										
+								compare_flag = 0;
+			 			}
+			 			}
+						else
+			 			{
+			 				/*	discrete state of sensor type 05	*/
+			 				var reading_l = parseInt(xml_sensor_reading.substr(0, 2), 16);
+			 	 			var sensor_d = parseInt(xml_sensor_reading.substr(2, 2), 16);
+			     	 		var sensor_d_MSB = parseInt(xml_sensor_reading.substr(4, 2), 16);
+			 				var sensor_state = '';
+			
+			 				if(!(option & 0x40)){// Ignore on reading	
+			           		 }
+			            	else{
+			            		if(node.getAttribute("STYPE") == "05")
+				  	 			{   /*chassis*/	  
+				  	 				sensor_state += ShowDiscStateAPI("05", reading_l);	
+				  	 				if(ShowDiscStateAPI.SensorHealth == 'bgcolor=green')
+				  	 					sys_health_green = 1;
+				  	 				else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=yellow')
+										sys_health_yellow = 1;
+									else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=red')
+										sys_health_red = 1;
+				  	 			}
+				  	 			else if(node.getAttribute("STYPE") == "08" ||
+				  	 					node.getAttribute("STYPE") == "c0" ||
+				  	 					node.getAttribute("STYPE") == "c2")
+				  	 			{
+				  	 				sensor_state += ShowDiscStateAPI(node.getAttribute("STYPE"), sensor_d);
+				  	 		   		if(ShowDiscStateAPI.SensorHealth == 'bgcolor=green')
+				  	 					sys_health_green = 1;
+				  	 				else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=yellow')
+										sys_health_yellow = 1;
+									else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=red')
+										sys_health_red = 1;
+					  	 		} 	 					  	 			
+							}
+			 			}						
+					});
+					sys_health_lamp = document.getElementById("img_sys_health_lamp");
+					sys_health_desc = document.getElementById("text_sys_health_desc");
+					if(sys_health_red == 1){
+						sys_health_lamp.src = '../images/red.gif';
+						sys_health_desc.innerHTML = 'Critical';		
+					}else if (sys_health_yellow == 1){
+						sys_health_lamp.src = '../images/yellow.gif';
+						sys_health_desc.innerHTML = 'Warning';		
+					}else if (sys_health_green == 1){
+						sys_health_lamp.src = '../images/green.gif';	
+						sys_health_desc.innerHTML = 'Normal';	
+					}else{
+						sys_health_lamp.src = '../images/green.gif';
+						sys_health_desc.innerHTML = 'Normal';	
+					}
+				}
+			}
+-->
+		</script>
+    </head>
+    <body class="yui-skin-sam" id="header-com" onload= 'PageInit()'>
+		<div style="text-align: left; height: 100%; width: 100%;">
+		<table style="height: 100%; width: 100%;" border="0" cellpadding="0" cellspacing="0"> 
+			<tr>
+          	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 45px">
+          		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+		        <tr>
+		          <td>
+		            <img src="../images/logo.gif" alt="" border="0">
+		          </td>
+						<!--  Tony, 09/03/2012 Add host and user info  -->
+						<!--  Linda added   -->
+					<td width="100%" align="center">
+					  <table border="0" cellspacing="0" cellpadding="0">
+						<td id="_headermiddle" class="hMiddle">
+							<fieldset style = "border-color:black; width:300px; height:48px; border: solid 2px;" >
+									<legend><font color=black size="-1">Host Identification</font></legend>
+									<table border=0 cellspacing=0 cellpadding=0 align="center" height=35px>
+											<tr style="text-align: center; font-size: 12px">
+												<td style="font-size: 12px;  font-weight: bold;">
+											  		<script>document.writeln(lang.LANG_TOPVIEW_SERVER_HOST_NAME);</script></td>
+												<td>&nbsp&nbsp</td>
+												<td id="id_host_info_1" style="font-size: 12px;"></td>
+												<td>&nbsp&nbsp</td>
+												<td id="id_host_info_2" style="font-size: 12px;"></td>
+											</tr>
+											<tr style="text-align: center; font-size: 12px">
+													<td style="font-size: 12px;  font-weight: bold;">
+									    				<script>document.writeln(lang.LANG_TOPVIEW_USER_SESS_USER_NAME);</script></td>
+													<td>&nbsp&nbsp</td>
+													<td id="id_user_info_1" style="font-size: 12px;"></td>
+													<td>&nbsp&nbsp</td>
+													<td id="id_user_info_2" style="font-size: 12px;"></td>
+											</tr>
+									</table>
+							</fieldset>
+						</td>
+					  </table>
+					</td>
+						<!--  Tony, 09/03/2012 Add host and user info  -->
+                  <td width="100%" align="right">
+                     <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                           <td width="25" align="center"><img id="img_sys_health_lamp" align="right"/></td>
+                           <td align="left" valign="middle" width="50"><span id="text_sys_health_desc" class="t_head_sys_health"></span></td>
+						   <td style="font-weight:bold;text-align:center;color:white"><a href="javascript:Go_eventlog()"><span id="SelInfo"></span></a></td>
+                           <td width="24" align="center"><img src="../images/t_refresh.gif" width="16" height="16" /></td>
+                           <td align="left" valign="middle" width="50"><a href="javascript:do_refresh()" class="t_head">Refresh</a></td>                                                       
+                           <td width="24" align="center"><img src="../images/t_logout.gif" width="16" height="16" /></td>
+                           <td align="left" valign="middle" width="50"><a href="javascript:do_loggout()" class="t_head">Logout</a></td>
+                           <td align="center">
+                           	<select id="lang_select" onchange="do_change_lan()">
+                           	<option id="lang_en" value="en">English</option>
+							<option id="lang_jp" value="jp">Japanese</option>
+                           	</select>
+                           </td>                           
+                        </tr>            
+                     </table>                       
+                  </td>
+		        </tr>
+		      </table> 
+		    </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 20px">
+		    	<table style="height: 100%; width: 100%;" border="0"><tr><td background="../images/hdr_bk.jpg">&nbsp</td></tr></table>
+		    	</td>
+		    </tr>
+		    <tr>
+          	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top;">
+            	<div id="bd">
+                   <div id="productsandservices" class="yuimenubar yuimenubarnav">
+                       <div class="bd">
+                           <ul class="first-of-type">
+                               <li class="yuimenubaritem first-of-type">
+									<!--linda highlight sys info-->
+                                   <a id="system" class="yuimenubaritemlabel" href="javascript:page_mapping('system', 'sys_info')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_SYSTEM)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="health" class="yuimenubaritemlabel" href="javascript:page_mapping('health', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_SERVER_HEALTH)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="configuration" class="yuimenubaritemlabel" href="javascript:page_mapping('configuration', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_CONFIGURATION)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="remote" class="yuimenubaritemlabel" href="javascript:page_mapping('remote', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_REMOTE_CONTROL)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="vmedia" class="yuimenubaritemlabel" href="javascript:page_mapping('vmedia', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_VIRTUAL_MEDIA)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="maintenance" class="yuimenubaritemlabel" href="javascript:page_mapping('maintenance', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_MAINTENANCE)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="miscellaneous" class="yuimenubaritemlabel" href="javascript:page_mapping('miscellaneous', 'top')" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_MISCELLANEOUS)</script></a>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+            	</div>
+            </td>
+		    </tr>
+		    <tr>
+		      <td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 100%;">
+		      <table border="0" width=100% height=100%><tr>
+			      <td width="165px" height="100%" valign="top" align="top">
+			      <table border="0" id="sidebar" height=100% width=100% style="margin-left: 13px; margin-top: 13px">
+			      </table>
+			      </td>
+			      <td background="../images/line.gif" width="35px" height="100%">
+					<img src="../images/pixel.gif" alt="" border="0">
+				  </td>
+				  <td valign="top" align="top" height="100%">
+			      	<iframe align="top" frameborder="0" width="100%" height="100%" scrolling="auto" src="" name="MainFrame" id="frame_main"></iframe>
+			      </td>
+		      </tr></table>
+		      </td>
+		    </tr>
+		    <tr><td style="padding-left: 26px; padding-right: 26px; height: 5px"></td></tr>
+		    <tr>
+		    	<td style="padding-left: 26px; padding-right: 26px; vertical-align: bottom; height:20px;">
+		    		<table style="background-color:#959595; text-align: center; width: 100%" border="0">
+		    			<tr><td>
+		      			<span class="copyright"><script>document.writeln(lang.LANG_COMMON_COPYRIGHT)</script></span>
+		      			</td></tr>
+		      		</table>
+		      	</td>
+		    </tr>
+		</table> 
+		</div>  
+    </body>
+</html>

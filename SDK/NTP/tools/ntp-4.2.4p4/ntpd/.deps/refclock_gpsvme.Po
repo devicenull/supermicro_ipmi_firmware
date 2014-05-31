@@ -1,0 +1,3 @@
+refclock_gpsvme.o refclock_gpsvme.o: refclock_gpsvme.c ../config.h
+
+../config.h:

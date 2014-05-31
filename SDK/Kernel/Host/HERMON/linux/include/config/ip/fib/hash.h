@@ -1,0 +1,1 @@
+#define CONFIG_IP_FIB_HASH 1

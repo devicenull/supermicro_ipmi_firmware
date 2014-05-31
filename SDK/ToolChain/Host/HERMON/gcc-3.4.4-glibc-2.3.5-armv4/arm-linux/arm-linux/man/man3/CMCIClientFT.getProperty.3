@@ -1,0 +1,42 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.getProperty() \- Get a named property value of an instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIData
+.BI CMCIClientFT.getProperty (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				const char* name,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Get the named property value of an instance identified by reference \fIop\fP.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the namespace and classname to identify the instance,
+a pointer to a string with the property name to get in \fIname\fP,
+and \fIrc\fP which returns the operation status (suppressed when NULL).
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.getProperty()\fP function returns
+a CMPIData object with the instance property value and sets a successful
+operation status code in \fIrc\fR.
+When unsuccessful it returns the CMPIStatus object with sets an operation
+status error code and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIData(3), CMPIObjectPath(3), CMPIStatus(3)

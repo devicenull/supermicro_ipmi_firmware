@@ -1,0 +1,3 @@
+config CONFIG_SAMPLE_SUPER_MICRO_X8DTL
+    bool "SUPER_MICRO_X8DTL WEB"
+    default y

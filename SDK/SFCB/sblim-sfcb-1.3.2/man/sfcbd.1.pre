@@ -1,0 +1,303 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH sfcbd 1 "December 2005" "sfcb Version 1.3.2"
+
+.SH NAME
+sfcbd \- Open Source Small-Footprint CIM Broker (sfcb)
+.SH SYNOPSIS
+.B sfcbd
+[\fIoptions\fR]
+.SH DESCRIPTION
+.PP
+sfcb is a lightweight CIM daemon (aka CIMOM) that responds to CIM client
+requests for system management data and/or performs system management 
+tasks. sfcb supports most of the standard CIM XML over http/https protocol.
+It is highly modular, allowing functionality to be easily added, removed
+or customized for different management applications. sfcb is specifically
+targetted for small embedded system that do not have the available CPU,
+memory or disk resources to support a full-blown enterprise-level CIMOM.
+That said, sfcb runs very well on a regular Linux/Unix system and supports
+most of the functions required by CIM clients to manage such the system. 
+Supported CIM operations include:
+.IP
+.TS
+l l.	
+GetClass
+EnumerateClasses
+EnumerateClassNames
+GetInstance
+DeleteInstance
+CreateInstance
+ModifyInstance
+EnumerateInstances
+EnumerateInstanceNames
+InvokeMethod (MethodCall)
+ExecQuery
+Associators
+AssociatorNames
+References
+ReferenceNames
+.TE
+.PP
+CIM process and lifecycle indications (aka 'events') are also supported.
+.SH OPTIONS
+.PP
+Supported command line options are:
+.TP
+\fB\-c\fR, \fB\-\-config-file\fR=\fIFILE\fR
+Specify an alternative configuration file. 
+Default=\fI${prefix}/etc/sfcb/sfcb.cfg\fR
+.TP
+\fB\-d\fR, \fB\-\-daemon\fR
+Run sfcbd (and child processes) in the background.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help message and exit.
+.TP
+\fB\-s\fR, \fB\-\-collect-stats\fR
+Turn on runtime statistics collecting. If enabled then
+various sfcbd runtime statistics will be written to \fI./sfcbStat\fR.
+Default is no statistics are collected.
+.TP
+\fB\-t\fR, \fB\-\-trace-components\fR=\fINUM\fR
+Activate component-level tracing messages, where \fINUM\fR is an
+OR-ed bitmask integer defining which component to trace.
+Specifying "-t ?" will list all the components and their
+associated integer bitmask.
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+Prints version information and exits.
+.SH CONFIGURATION FILE
+.PP
+sfcbd reads the configuration file \fI${prefix}/etc/sfcb/sfcb.cfg\fR (or
+the file specified with the -c option) at start up. The configuration file 
+contains \fIoption : value\fR pairs, one per line. sfcb recogonizes the 
+following configuration file options
+.TP
+.B httpPort
+Local port that sfcbd should listen to receive HTTP (i.e. insecure)
+requests from CIM clients. Default=\fI5988\fR
+.TP
+.B enableHttp
+Whether sfcb should accept HTTP client connections. Default=\fItrue\fR.
+.TP
+.B httpProcs
+Maximum number of simultaneous HTTP client connections before
+blocking new incoming HTTP requests. Default=\fI8\fR
+.TP
+.B httpsPort
+Local port that sfcbd should listen to receive HTTPS (i.e. secure)
+requests from CIM clients. Default=\fI5989\fR
+.TP
+.B enableHttps
+Whether sfcb should accept HTTPS client connections. Default=\fIfalse\fR.
+.TP
+.B httpsProcs
+Maximum number of simultaneous HTTPS client connections before
+blocking new incoming HTTPS requests. Default=\fI8\fR
+.TP
+.B enableInterOp
+Whether sfcb should provide the interop namespace for indication support.
+Default=\fItrue\fR
+.TP
+.B provProcs
+Maximum number of simultaneous provider processes. After this
+point if a new incoming request requires loading a new provider,
+then one of the existing providers will first be automatically
+unloaded. Default=\fI32\fR 
+.TP
+.B doBasicAuth
+Perform basic authentication on the client userid (obtained from the
+HTTP/HTTPS header) before allowing the request. Default=\fIfalse\fR
+(i.e. no client authentication performed).
+.TP
+.B basicAuthLib
+Name of the local library to call to authenticate the client userid.
+Default=\fIsfcBasicAuthentication\fR
+.TP
+.B useChunking
+Tell sfcbd to use HTTP/HTTPS 'chunking' to return large volumes of
+response data to the client in 'chunks', rather than buffering the 
+data and sending it back all at once. Default=\fItrue\fR
+.TP
+.B keepaliveTimeout
+Specify the maximum time in seconds an sfcb HTTP process will wait
+between two requests on one connection before terminating. Setting 
+it to 0 will disable HTTP keep-alive. Default=\fI0\fR
+.TP
+.B keepaliveMaxRequest
+Specify the maximum number of consecutive request on one connection.
+Setting it to 0 will effectively disable HTTP keep-alive. Default=\fI10\fR
+.TP
+.B registrationDir
+Specify the registration directory, which contains the provider
+registration data, the staging area and the static repository.
+Default=\fI/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/var/lib/sfcb/registration\fR
+.TP
+.B providerDirs
+A space separated list of directories where sfcb is looking for provider
+libraries. Default=\fI${exec_prefix}/lib\ ${exec_prefix}/lib/cmpi\fR
+.TP
+.B providerSampleInterval
+The interval in seconds at which the provider manager is checking for
+idle providers. Default: \fI30\fR
+.TP
+.B providerTimeoutInterval
+The interval in seconds before an idle provider gets unloaded by the
+provider manager. Default: \fI60\fR
+.TP
+.B providerAutoGroup
+If set to true, all providers residing in the same shared library will
+be executed in the same process unless another group has been specified
+in the provider registration file. Default: \fItrue\fR
+.TP
+.B sslCertificateFilePath
+Specify the name of the file containing the server's certificate. 
+The file must be in PEM format. This file is only required if 
+enableHttps is set to \fItrue\fR. Default=\fI ${prefix}/etc/sfcb/server.pem\fR
+.TP
+.B sslKeyFilePath
+Specify the name of the file containing the private key for the
+server's certificate. The file must be in PEM format and may not
+be passphrase-protected. This file is only required if enableHttps is
+set to \fItrue\fR. Default=\fI${prefix}/etc/sfcb/file.pem\fR
+.TP
+.B sslClientTrustStore
+Specify the name of the file containing the either the CA certificate
+issuing client certificates or self-signed certificates of the clients.
+This file must be in PEM format and is only required if sslClientCertificate
+is set to \fIaccept\fR or \fIrequire\fR. Default=\fI${prefix}/etc/sfcb/client.pem\fR
+.TP
+.B sslClientCertificate
+Specify the way sfcb handles client certificate based authentication. If set to
+\fIignore\fR it will not request a certificate from the client. If set to
+\fIaccept\fR it will request a certificate from the client but not fail if
+the client doesn't present one. If set to \fIrequire\fR it will refuse the
+client connection if the client doesn't present a certificate. Default=\fIignore\fR
+.TP
+.B certificateAuthLib
+Name of the local library to call for client-certificate based 
+user authentication. Called only if sslClientCertificate is not set 
+to \fIignore\fR. Default=\fIsfcCertificateAuthentication\fR
+.TP
+.B traceLevel
+Specify the trace level for sfcb. Can be overriden by setting environment
+variable SFCB_TRACE_LEVEL. Default:\fI0\fR.
+.TP 
+.B traceMask
+Specify the trace mask for sfcb. Can be overriden by the command line option
+\-\-trace-components. Default: \fI0\fR.
+.TP
+.B traceFile
+Specify the trace file for sfcb. Can be overriden by setting environment
+variable SFCB_TRACE_FILE. Default: \fIstderr\fR.
+.SH ENVIRONMENT
+.TP
+.B SFCB_PAUSE_PROVIDER
+Specifies the name of the provider to pause after first
+being loaded to facilitate attaching a runtime debugger to the
+provider's process for debugging purposes.
+.TP
+.B SFCB_PAUSE_CODEC
+Specifies the name of the sfcb codec (currently only "http") to pause
+after first being started to facilitate attaching a runtime debugger
+to the process.
+.TP
+.B SFCB_TRACE
+Specifies the level of trace/debug messages for sfcb.
+Valid values are 0 (no trace messages), or 1 (key trace messages only)
+to 4 (all messages). A default value of 1 will be assumed, if this
+variable is not set.
+.br
+[Note: SFCB_TRACE level is used in conjunction
+with sfcb's component-level tracing to control the
+level of detail of trace messages to display within each component]
+.TP
+.B SFCB_TRACE_FILE
+By default sfcb trace messages are written to STDERR.
+Setting this envorinment variable causes the trace messages to be
+written to a file instead.
+.TP
+.B SFCB_TRAP
+If set this environment variable enables trap interrupts on x86
+platforms to be generated by sfcb in special situations.
+.br
+[Note: not currently ever used]
+.TP
+.B SBLIM_TRACE
+Specifies the level of trace/debug messages for SBLIM providers.
+Valid values are 0 (no trace messages), or 1 (key trace messages only)
+to 4 (all messages).
+.br
+[Note: this only applies to SBLIM providers written with explicit trace
+messages in their source code.]
+.TP
+.B SBLIM_TRACE_FILE
+By default SBLIM provider trace messages are written to STDERR.
+Setting this envorinment variable causes the trace messages to be
+written to a file instead.
+.SH FILES
+.TP
+.I ${prefix}/etc/sfcb/sfcb.cfg
+Default sfcb configuration file.
+.TP
+.I ${prefix}/etc/sfcb/server.pem
+SSL server certificate for sfcb.
+.TP
+.I ${prefix}/etc/sfcb/file.pem
+SSL private key file for sfcb.
+.TP
+.I ${prefix}/etc/sfcb/client.pem
+SSL client certificate / trus store for sfcb.
+.SH LIBRARIES
+.TP
+.I ${exec_prefix}/lib/libsfc*
+Binaries for sfcb runtime libraries.
+.TP
+.I ${exec_prefix}/lib/cmpi/*
+Binaries for providers
+.SH AUTHOR
+Adrian Schuur <schuur@de.ibm.com>
+.SH CONRIBUTORS
+Dr. Gareth S. Bestor <bestor@us.ibm.com>,
+Viktor Mihajlovski <MIHAJLOV@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR cimserver (1),
+.BR sfcbmof (1),
+.BR sfcbstage (1),
+.BR sfcbunstage (1),
+.BR sfcbrebos (1),
+.BR genSslCert.sh (1),
+.BR getSchema.sh (1),
+.BR wbemcli (1)
+
+

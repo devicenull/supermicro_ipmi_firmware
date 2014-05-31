@@ -1,0 +1,13 @@
+--- linux1/net/ipv6/addrconf.c	2009-08-19 11:21:06.000000000 +0800
++++ linux/net/ipv6/addrconf.c	2009-08-18 17:26:05.000000000 +0800
+@@ -2164,6 +2164,10 @@
+ 	switch(event) {
+ 	case NETDEV_UP:
+ 	case NETDEV_CHANGE:
++		
++		if (dev->flags & IFF_SLAVE)
++           break;
++
+ 		if (event == NETDEV_UP) {
+ 			if (!netif_carrier_ok(dev)) {
+ 				/* device is not ready yet. */

@@ -1,0 +1,1 @@
+#undef CONFIG_LIBCRC32C

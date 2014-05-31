@@ -1,0 +1,71 @@
+Changes in 0.8.3
+================
+
+Bugs fixed:
+- 1709042 build system cleanup
+- 1741211 Fixed cleanup compiler warnings
+- 1763178 Fixed sfcb GetClass operation failure
+- 1685254 Fixed sfcb does not return REFERENCECLASS in GetClass
+
+Changes in 0.8.2
+================
+
+Bugs fixed:
+- 1624528 sfcb getclass doesn't return methods
+- 1616463 mofc doesn't process REF type properties
+- 1683860 Error compiling CIM v2.14Experimental
+
+Changes in 0.8.1
+================
+
+Bugs fixed:
+- 1599675 endless loop after class redefinition
+- 1605522 added warning of no yacc or lex found
+- 1614898 mofc coredumps for instance of undefined class
+- 1601274 new option --enable-namespace-kludge for legacy __namespace classes
+
+Changes in 0.8.0
+================
+
+Enhancements:
+- 1585788 support for instances and qualifiers added
+- 1587752 support for object swapping added
+
+
+Changes in 0.7.5
+================
+
+Enhancements:
+- allow multiple specification of backend options via -b
+
+Bugs fixed:
+- 1420397: File handle leaks removed.
+- 1528352: Support for forward declarations.
+- 1532423: Support for class upgrades
+
+Changes in 0.7.4
+================
+
+Bugs fixed:
+- 1395350: Location dependent build problem fixed.
+- 1414767: vpath build failure fixed.
+
+Changes in 0.7.3
+================
+
+Bugs fixed:
+- 1220394: Coredump on char literals.
+- 1250128: Failure on PPC platform
+- 1362805: Changed License from CPL to EPL.
+
+Changes in 0.7.2
+================
+
+Bugs fixed:
+- 1220035: Corrected dynamic CMPI array handling.
+
+Changes in 0.7.1
+================
+
+Bugs fixed:
+- 1216246: Array type value/qualifiers are always NULL

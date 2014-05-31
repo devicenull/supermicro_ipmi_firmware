@@ -1,0 +1,27 @@
+mainmenu "SDK Extractor Configuration"
+
+source PKConfig/Lx_Config/Config_mcu.in
+source PKConfig/Lx_Config/Config_plat.in
+source PKConfig/Lx_Config/Config_build_opt.in
+
+menu "Extractor Options"
+config CONFIG_EXTRACT_PATH
+    string "Extract to this Path"
+    default "SDK"
+
+choice
+	prompt "Extract Mode"
+	default CONFIG_EXTRACT_ALL_SRC
+	help
+	chose the extract mode
+	
+source PKConfig/Lx_Config/Extr_Config/Config_Extr_Allobj.in
+source PKConfig/Lx_Config/Extr_Config/Config_Extr_Mix.in
+endchoice
+endmenu
+
+config CONFIG_EXTRACT_MOD
+bool
+    default y
+
+source PKConfig/Lx_Config/Config_fun.in

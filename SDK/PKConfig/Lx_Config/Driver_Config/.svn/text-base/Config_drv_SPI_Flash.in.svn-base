@@ -1,0 +1,13 @@
+config CONFIG_SPI_FLASH
+    depends on CONFIG_PLATFORM_HERMONEVB || CONFIG_PLATFORM_SUPERMICRO_X7SB3 || CONFIG_PLATFORM_IP1600 || CONFIG_PLATFORM_WISTRON_P92TB1 || CONFIG_PLATFORM_YARKONEVB
+    bool "Using SPI_Drv driver for HERMON"
+    default y
+choice
+    prompt "Choose SPI FLASH Driver Extract Source "
+    depends on CONFIG_EXTRACT_MOD &&  CONFIG_SPI_FLASH
+    default CONFIG_SPI_FLASH_DRV_OBJ
+config  CONFIG_SPI_FLASH_DRV_OBJ
+    bool "Object Codes"
+config CONFIG_SPI_FLASH_DRV_SRC
+    bool "SOURCE Code"
+endchoice

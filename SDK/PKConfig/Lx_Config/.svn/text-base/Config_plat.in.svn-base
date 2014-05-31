@@ -1,0 +1,20 @@
+
+menu "Platform Configuration"
+
+choice
+	prompt "Which Platform IPMI Run in"
+	default CONFIG_PLM_EVB
+	help
+	chose a platform IPMI will run in
+	  
+source PKConfig/Lx_Config/Plat_Config/Config_plat_SUPERMICRO_X7SB3.in
+
+source PKConfig/Lx_Config/Plat_Config/Config_plat_SUPERMICRO_X8DTT.in
+	
+source PKConfig/Lx_Config/Plat_Config/Config_plat_SUPERMICRO_X9.in
+
+source PKConfig/Lx_Config/Plat_Config/Config_plat_SUPERMICRO_X9_new.in
+	
+endchoice
+endmenu
+

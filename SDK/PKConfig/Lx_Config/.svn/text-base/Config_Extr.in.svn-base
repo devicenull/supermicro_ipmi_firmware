@@ -1,0 +1,21 @@
+mainmenu "SDK Extractor Configuration"
+
+source PKConfig/Lx_Config/Config_mcu.in
+source PKConfig/Lx_Config/Config_plat.in
+source PKConfig/Lx_Config/Config_build_opt.in
+
+menu "Extractor Options"
+config CONFIG_EXTRACT_PATH
+    string "Extract to this Path"
+    default "SDK"
+
+config CONFIG_EXCLUDE_OBJS
+    string "Exclude Objs"
+    default""
+
+config CONFIG_EXTRACT_MOD
+bool
+    default y
+endmenu
+
+source PKConfig/Lx_Config/Config_fun.in

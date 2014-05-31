@@ -1,0 +1,55 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.getInstance() \- Get class instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIInstance *
+.BI CMCIClientFT.getInstance (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIFlags flags,
+.br
+.BI				char** properties,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Get class instance using \fIop\fP as reference. The content of the returned
+class instance structure can be controled using the \fIflags\fP parameter.
+.PP
+Arguments are the client object pointer \fIcl\fP, ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components,
+\fIflags\fP to affect the returned class instance structure content,
+ \fIproperties\fP array, and \fIrc\fP which returns the operation status 
+(suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contain combinations of 
+the following flags - \fICMPI_FLAG_LocalOnly\fP, \fICMPI_FLAG_IncludeQualifiers\fP, and \fICMPI_FLAG_IncludeClassOrigin\fP.
+.PP
+The \fIproperties\fP array defines what properties should be returned 
+for the class.
+If this argument is not NULL, only the class properties in the list are 
+returned.
+If it's NULL all class properties are returned.
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.getInstance()\fP function returns a pointer
+to a CMPIInstance object and sets a successful status code for \fIrc\fR.
+When unsuccessful it returns NULL and sets the \fIrc\fP argument with the
+error code and and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIInstance(3), CMPIObjectPath(3), CMPIFlags(3), 
+CMPIStatus(3)

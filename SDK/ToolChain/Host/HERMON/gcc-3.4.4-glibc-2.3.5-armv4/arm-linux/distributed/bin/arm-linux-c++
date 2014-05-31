@@ -1,0 +1,2 @@
+#!/bin/sh
+distcc /home/andylin/opt/crosstool/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-c++ "$@"

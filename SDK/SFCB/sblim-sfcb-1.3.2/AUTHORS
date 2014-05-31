@@ -1,0 +1,21 @@
+Principal author of sfcb is Adrian Schuur
+
+Other core developers are or have been:
+ Gareth S Bestor
+ Chris Buccella 
+ Tyrel Datwyler
+ Sven Schuetz
+ Viktor Mihajlovski
+
+Frank Scheffler has contributed by writing the Remote CMPI interface
+from which many code portions have been reused - especially the native
+data support.
+
+Keith Pomakis has kindly granted the use of his hashtable and generic list
+functions.
+
+The query parser syntax is partially based on the OpenPegasus WQL Parser.
+See the copyright statements in queryParser.y and queryLexer.l for
+details. 
+
+Chris Abbey has contributed the initial IPV6 support in the HTTP adapter.

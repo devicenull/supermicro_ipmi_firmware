@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+    <title></title>
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script> <!-- temporarily used -->
+</head>
+<body>
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_CONFIG_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="headerA"><script>document.writeln(lang.LANG_CONFIG_DESC)</script></div>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+            <td>
+            <!-- below area is needed to modify by yourself -->
+                <ul>
+                    <!-- Alerts -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_ALERTS)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_ALERTS_DESC)</script></span></li>
+                    <!-- Date and Time -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_DATE_TIME)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_DATE_TIME_DESC)</script></span></li>
+                    <!-- LDAP -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_LDAP)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_LDAP_DESC)</script></span></li>
+                    <!-- Active Directory -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_ACTIVE_DIRECTORY)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_ACTIVE_DIRECTORY_DESC)</script></span></li>
+                    <!-- RADIUS -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_RADIUS)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_RADIUS_DESC)</script></span></li>
+                    <!-- Mouse mode -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_MOUSE_MODE)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_MOUSE_MODE_DESC)</script></span></li>
+                    <!-- Network -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_NETWORK)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_NETWORK_DESC)</script></span></li>
+                    <!-- Dynamic DNS -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_DDNS)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_DDNS_DESC)</script></span></li>
+                    <!-- Remote Session -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_REMOTE_SESSION)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_REMOTE_SESSION_DESC)</script></span></li>
+                    <!-- SMTP -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_SMTP)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_SMTP_DESC)</script></span></li>
+                    <!-- SSL Certificate -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_SSL)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_SSL_DESC1)</script></span></li>
+                    <!-- Users -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_USERS)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_USERS_DESC)</script></span></li>
+                    <!-- port -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_PORT)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_PORT_DESC)</script></span></li>
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_IPCTRL)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_IPCTRL_DESC)</script></span></li>
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_FAN)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_CONFIG_FAN_DESC)</script></span></li>
+                </ul>
+        	<!-- end of this area -->
+        	</td>
+        <tr>
+    </table>
+</body>
+</html>

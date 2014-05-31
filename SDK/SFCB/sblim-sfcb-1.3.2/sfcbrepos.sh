@@ -1,0 +1,166 @@
+#!/bin/sh
+
+usage() 
+{
+    echo "usage: $0 [-h] [-f] [-c cimschemadir] [-s stagingdir] [-r registrationdir] " 1>&2 
+}
+
+args=`getopt fhs:r:c:X: $*`
+rc=$?
+
+if [ $rc = 127 ]
+then
+    echo "warning: getopt not found ...continue without syntax check"
+    args=$*
+elif [ $rc != 0 ]
+then
+    usage $0
+    exit 1
+fi
+
+set -- $args
+
+while [ -n "$1" ]
+do
+  case $1 in
+      -h) help=1; 
+	  shift;;
+      -f) force=1
+	  shift;;
+      -X) xformat="-b $2"
+	  shift 2;;
+      -s) stagingdir=$2
+	  shift 2;;
+      -r) registrationdir=$2
+	  shift 2;;
+      -c) cimschemadir=$2
+	  shift 2;;
+      --) shift;
+	  break;;
+      **) break;;
+  esac
+done
+
+if [ "$help" = "1" ]
+then
+    usage
+    echo -e "\t-h display help message"
+    echo -e "\t-f force repository creation"
+    echo -e "\t-X create repository in non-native format as specifed by argument"
+    echo -e "\t-s specify staging directory [/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/var/lib/sfcb/stage]"
+    echo -e "\t-r specify repository directory [/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/var/lib/sfcb/registration]"
+    echo -e "\t-c specify directory containing CIM Schema MOFs [/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb/CIM]"
+    echo
+    echo "Use to create sfcb provider registration and class repository."
+    exit 0
+fi
+
+if [ -z "$force" ]
+then 
+    echo Setting up sfcb Repository, Class and Provider Registration
+    echo Your old repository and registration data will be deleted
+    echo Do you want to proceed "(type yes to continue)"
+
+    read response
+
+    if [ x$response = x ] || [ $response != yes ]
+    then
+	echo Keeping old data
+	exit 2
+    fi
+fi
+
+if [ -z "$stagingdir" ]
+then
+    stagingdir=${DESTDIR}/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/var/lib/sfcb/stage
+fi
+
+if [ -z "$registrationdir" ]
+then
+    registrationdir=${DESTDIR}/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/var/lib/sfcb/registration
+fi
+
+if [ -z "$cimschemadir" ]
+then
+    cimschemadir=${DESTDIR}/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb/CIM
+fi
+
+if [ -d $stagingdir ] && [ -f $stagingdir/default.reg ] &&
+	[ -f $cimschemadir/CIM_Schema.mof ] 
+then
+    if [ -d $registrationdir/repository ]
+    then
+	rm -rf $registrationdir/repository.previous 2> /dev/null
+	mv -f $registrationdir/repository $registrationdir/repository.previous
+	if [ $? != 0 ]
+        then
+	    echo "Failed to remove old repository" >&2
+	    exit 1
+	fi
+    fi
+
+    if [ -f $registrationdir/providerRegister ]
+    then
+	mv -f $registrationdir/providerRegister $registrationdir/providerRegister.previous 
+	if [ $? != 0 ]
+	then
+	    echo "Failed to remove old provider registry" >&2
+	    exit 1
+	fi
+    fi
+
+    # Creating empty default namespace directories
+    mkdir -p $registrationdir/repository/root/cimv2 &&
+    mkdir -p $registrationdir/repository/root/interop &&
+    cp $stagingdir/default.reg $registrationdir/providerRegister
+    if [ $? != 0 ]
+    then
+	echo "Failed to create default repositories and registry" >&2
+	exit 1
+    fi
+
+    if ls $stagingdir/regs/*.reg > /dev/null 2>&1
+    then
+	if ! cat $stagingdir/regs/*.reg >> $registrationdir/providerRegister
+	then
+	    echo Failed copying the registration files. >&2
+	    exit 1
+	fi
+    fi
+    
+    if false
+    then
+    # Note: do we need "legacy" support -- don't think so
+	if ls $stagingdir/mofs/*.mof > /dev/null 2>&1
+	then
+	    cp $stagingdir/mofs/*.mof $stagingdir/mofs/root/cimv2
+	fi
+    fi
+    
+    # Compile all staged namespace directories
+    mofsubdirs=`find $stagingdir/mofs/* -type d -print 2> /dev/null`
+    if ls $stagingdir/mofs/*.mof > /dev/null 2>&1
+    then
+	globalmofs=$stagingdir/mofs/*.mof
+    else
+	globalmofs=""
+    fi
+    for mofdir in $mofsubdirs
+    do
+	if ls $mofdir/*.mof > /dev/null 2>&1
+	then
+	    namespace=`echo $mofdir | sed s?$stagingdir/mofs/??`
+	    repositorydir=$registrationdir/repository/
+	    [ -d $repositorydir ] || mkdir -p $repositorydir
+	    if ! sfcbmof -d $repositorydir -n $namespace -o classSchemas -I $cimschemadir -i CIM_Schema.mof $xformat $mofdir/*.mof $globalmofs
+	    then
+		echo Failed compiling the MOF files. >&2
+		exit 1
+	    fi
+	fi
+    done
+
+else
+    echo Could not find required staging files. Please check your setup. >&2
+    exit 1
+fi

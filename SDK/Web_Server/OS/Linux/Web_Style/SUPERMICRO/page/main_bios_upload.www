@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- Page-specific styles -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<!-- Dependency source files -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		
+		
+		//var chkPage = "../cgi/url_redirect.cgi?url_name=bios_upload_chk1";
+		var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";
+		function PageInit() {	 
+			BtnUpload 		  = document.getElementById("btn_upload");
+			BtnUpload.value   = lang.LANG_BIOS_UPLOAD_BTN;
+			BtnCancel 		  = document.getElementById("btn_cancel");
+			BtnCancel.value   = lang.LANG_BIOS_UPLOAD_CANCEL;	
+			FileUploaded	  = document.getElementById("file_upload");
+			BiosKey1 		  = document.getElementById("bioskey1");
+			BiosKey2 		  = document.getElementById("bioskey2");
+			BiosKey3 		  = document.getElementById("bioskey3");
+			BiosKey4 		  = document.getElementById("bioskey4");
+			BiosKey5 		  = document.getElementById("bioskey5");
+			BiosKey6 		  = document.getElementById("bioskey6");
+			
+			BtnActivate		  	= document.getElementById('btn_activate');
+			BtnActivate.value 	= lang.LANG_BIOS_LICENSE_ACTIVATE;
+			BtnActivate.onclick	= doActivate;
+
+
+			$(TAG_ALERT)
+			$(TAG_MAINPAGE)	
+			BtnUpload.onclick	= checkFile;
+			BtnCancel.onclick  	= doCancel;
+			$(TAG_BIOSPAGE)
+		}
+
+		function doActivate()
+		{
+			var url  = '/cgi/ipmi.cgi';			
+			var pars = 'BIOS_LINCENSE_ACTIVATE.XML=(0,0)';
+			var key1 = BiosKey1.value;
+			var key2 = BiosKey2.value;
+			var key3 = BiosKey3.value;
+			var key4 = BiosKey4.value;
+			var key5 = BiosKey5.value;
+			var key6 = BiosKey6.value;
+			
+			if (key1.length != 4 || key2.length != 4 || key3.length != 4 || 
+				key4.length != 4 || key5.length != 4 || key6.length != 4 )
+			{
+				alert (lang.LANG_BIOS_LICENSE_WARNING)
+				return;	
+			}
+			pars +='&time_stamp='+(new Date()) + '&bioskey0='+ key1 +'&bioskey1='+key2 +'&bioskey2='+key3+'&bioskey3='+key4+'&bioskey4='+key5+'&bioskey5='+key6;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: ActivateStatusResp}
+		                 );
+		                 
+		}
+		function bios_upload_page(){
+			BtnUpload.onclick	= checkFile;
+			BtnCancel.onclick  	= doCancel;
+			BiosKey1.disabled   = true;
+			BiosKey1.value		= "****";
+			BiosKey2.disabled   = true;
+			BiosKey2.value		= "****";
+			BiosKey3.disabled   = true;
+			BiosKey3.value		= "****";
+			BiosKey4.disabled   = true;
+			BiosKey4.value		= "****";
+			BiosKey5.disabled   = true;
+			BiosKey5.value		= "****";
+			BiosKey6.disabled   = true;
+			BiosKey6.value		= "****";
+			document.getElementById("license_status").innerHTML = lang.LANG_BIOS_LICENSE_ACTIVATED;
+			document.getElementById("upload_block").style.display="";
+			BtnActivate.style.display="none"
+			document.getElementById("bios_key_caption").innerHTML = lang.LANG_BIOS_UPLOAD_CAPTION;
+			document.getElementById("bios_key_desc").innerHTML    = lang.LANG_BIOS_UPLOAD_DESC;
+		}
+
+		function bios_license_page(){
+			document.getElementById("bios_key_caption").innerHTML = lang.LANG_BIOS_KEY_CAPTION;
+			document.getElementById("bios_key_desc").innerHTML    = lang.LANG_BIOS_KEY_DESC;
+			document.getElementById("license_status").innerHTML = lang.LANG_BIOS_LICENSE_NOTACTIVATED;
+		}		
+
+		function ActivateStatusResp(originalRequest)
+		{
+			HandleXMLResponse(
+				function(xmldoc)
+				{
+					
+					location.href = '../cgi/url_redirect.cgi?url_name=main_bios_upload';
+				}
+				,originalRequest);
+		}
+		function checkFile()
+		{	
+			
+			var file_name = FileUploaded.value;
+			if(file_name.length == 0)
+			{
+				alert(lang.LANG_BIOS_UPLOAD_ERR1);
+				return;
+			}
+//			var file_subname = file_name.substr(file_name.lastIndexOf(".")+1, file_name.length);
+//			if(file_subname != 'ROM' && file_subname != 'rom'  && file_subname != 'BIN'  && file_subname != 'bin')
+//			{
+//			   alert(lang.LANG_BIOS_UPLOAD_ERR2);
+//			   return;
+//			}
+
+			BtnUpload.disabled = true;
+			//allow only one user to do f/w update
+			//we check whether another user is updating now
+			//if not lock the usage
+			var url = '/cgi/ipmi.cgi';			
+			var pars = 'BIOS_UPLOAD.XML=(0,0)';
+
+
+			pars += '&time_stamp='+(new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: LockUploadBIOS}//reigister callback function
+		                 );
+		}
+		function LockUploadBIOS(originalRequest)
+		{
+			if (originalRequest.readyState == 4 && originalRequest.status == 200){
+		    	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}	    
+				var root=xmldoc.documentElement;	
+				var status_elm=root.getElementsByTagName("LOCK_FW_UPLOAD"); 	
+				var res=status_elm[0].getAttribute("RES");
+				if(res == '1')
+				{
+					document.getElementById("upload_status").innerHTML = lang.LANG_BIOS_UPLOAD_STATUS;
+					Loading(true);
+					BtnCancel.disabled = true;
+					FileUploaded.form.submit();
+				}	
+				else
+				{
+					alert(lang.LANG_BIOS_UPLOAD_OCCUPIED);
+					location.href = mainPage;
+				}
+			}
+		}
+		function doCancel()
+		{
+			if(confirm(lang.LANG_BIOS_UPLOAD_CONFIRM))
+			{
+				location.href = mainPage;
+			}
+		}
+	</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><span id="bios_key_caption"></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA">
+                	<span id="bios_key_desc">
+                </div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself --> 
+        	  <table id="BIOSKey_TBL" border="0">
+        	  		<tr>
+        	  		<div class="labelhead"><script>document.writeln(lang.LANG_BIOS_LICENSE_STATUS)</script><span class ="label" id="license_status"></span></div>
+					</tr>
+        	 	 <form id="form2" action="/cgi/url_redirect.cgi?url_name=main_bios_upload" method="post" enctype="multipart/form-data"> 
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_BIOS_LICENSE_KEY)</script></div></td>
+						<td> <input type="text"   size="4" maxlength="4" name="bioskey1" id="bioskey1" $(TAG_DISABLE)></td>
+						<td>-<input type="text"   size="4" maxlength="4" name="bioskey2" id="bioskey2" $(TAG_DISABLE)></td>
+						<td>-<input type="text"   size="4" maxlength="4" name="bioskey3" id="bioskey3" $(TAG_DISABLE)></td>
+						<td>-<input type="text"   size="4" maxlength="4" name="bioskey4" id="bioskey4" $(TAG_DISABLE)></td>
+						<td>-<input type="text"   size="4" maxlength="4" name="bioskey5" id="bioskey5" $(TAG_DISABLE)></td>
+						<td>-<input type="text"   size="4" maxlength="4" name="bioskey6" id="bioskey6" $(TAG_DISABLE)></td>
+						<!--<td> <span class ="label" id="license_status"></span> </td>-->
+					</tr>
+					<tr>
+						<td><input type="button" class="btnStyle" id="btn_activate" $(TAG_DISABLE)></td>
+					</tr>
+				  </form>
+				</table>   
+				<span id="upload_block" style="display:none;">      	  
+        	 	 <span class ="label" id="upload_status"></span> 
+        	 	 <form name="form1" action="/cgi/bios_upload.cgi" method="post" enctype="multipart/form-data"> 
+					<span class="labeltext" style="margin: 0px; padding: 0px;"><script>document.writeln(lang.LANG_BIOS_UPLOAD_SELECT_FILE);</script></span>
+					<br>
+					<input type="file" name="form1" id="file_upload" $(TAG_DISABLE)>				 
+					<br>
+					<p>
+					<input type="button" class="btnStyle" id="btn_upload" $(TAG_DISABLE)>
+					<input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)>
+				</span>	
+			    </p>
+			  </form>
+        	  <br>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,20 @@
+source PKConfig/Lx_Config/Config_mcu.in
+source PKConfig/Lx_Config/Config_plat.in
+
+config CONFIG_OLDSDK_FOLDER
+    string "The Previous Release folder(Necessary)"
+    default ""
+    help
+        Diff betwween new and old SDK
+menu "SDK Release Mode"
+
+config CONFIG_SDK_TOTAL_RELEASE
+    bool "SDK Total Release"
+    default y
+
+config CONFIG_SDK_PARTIAL_RELEASE
+    bool "SDK Partial Release"
+    default n
+
+endmenu
+

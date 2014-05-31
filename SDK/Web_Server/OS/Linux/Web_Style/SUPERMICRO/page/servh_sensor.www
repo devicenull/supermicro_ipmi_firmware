@@ -1,0 +1,544 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script> 
+	
+	
+	<script type="text/javascript">
+	
+	var GridTable;
+	
+	var SelectedSensorType = 0;
+	var RearmIntrusion = 0;
+	var SensorRecordNum = 0;
+	var ThresholdFlag = 0;
+	
+	var SensorTableArray = new Array();
+	var MaxSensorTableColumn = 10;
+	var MaxSensorTableRow  = 255;
+	
+	var SensorCategoryObj;
+	var ButtonRefreshObj;
+	var ButtonThresholdObj;
+	var ButtonChassisIntrusionObj;
+	var SensorTableExtraInfoObj;
+
+	// [Jack]
+	var PlatformCapability = 0;  
+
+        var mainPage = "../cgi/url_redirect.cgi?url_name=health";
+
+	function PageInit()	
+	{
+				
+		SensorCategoryObj = document.getElementById("SensorCategory");
+		SensorCategoryObj.onchange = function()
+		{
+			SelectedSensorType =SensorCategoryObj.options.selectedIndex; 	
+			ReloadSensorTbl();
+		}
+		
+		ButtonRefreshObj = document.getElementById("btn_Refresh")
+		ButtonRefreshObj.value = lang.LANG_SENSOR_REFRESH;
+		ButtonRefreshObj.onclick = function()
+		{
+			GetSensors();
+		}
+		
+		ButtonThresholdObj = document.getElementById("btn_ShowThreshold");
+		ButtonThresholdObj.value = lang.LANG_SENSOR_SHOWTHRESHOLD;
+		ButtonThresholdObj.onclick = function()
+		{
+			if (ThresholdFlag == 0)
+			{
+				ThresholdFlag = 1;
+ 				GridTableInit(1);
+				ReloadSensorTbl();
+				ButtonThresholdObj.value =lang.LANG_SENSOR_HIDETHRESHOLD;		
+			}
+			else
+			{
+				ThresholdFlag = 0;
+				GridTableInit(0);
+				ReloadSensorTbl();	
+				ButtonThresholdObj.value =lang.LANG_SENSOR_SHOWTHRESHOLD;	
+			}
+		}
+		ButtonChassisIntrusionObj = document.getElementById('btn_ChassisIntrusion');
+		ButtonChassisIntrusionObj.setAttribute("value", lang.LANG_SENSOR_CHASSISINTR);
+		ButtonChassisIntrusionObj.style.visibility='hidden';
+		ButtonChassisIntrusionObj.onclick = function()
+		{
+			Loading(true);
+			RearmIntrusion = 1;
+		
+			ButtonChassisIntrusionObj.disabled = true;
+			ButtonRefreshObj.disabled = true;
+			ButtonThresholdObj.disabled = true;
+		
+ 			var url = '/cgi/rearm_chassis.cgi';
+ 			var pars = 'time_stamp='+(new Date()); 
+			var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete:function()
+                 	{
+                 		setTimeout(GetSensors, 3000);
+                	}
+                 }//reigister callback function
+                 );   
+			
+		}
+		SensorTableExtraInfoObj = document.getElementById("HtmlSensorTableInfo");
+
+		ThresholdFlag = 0;
+		GridTableInit(0);
+		GetPlatformCapbility();
+	}
+	function SensorTableArrayInit()
+	{
+		for( i = 0; i <  MaxSensorTableRow; i ++)
+			SensorTableArray[i] = new Array(MaxSensorTableColumn+1);
+		
+		for( i = 0; i < MaxSensorTableRow; i ++)
+			for( j = 0; j < (MaxSensorTableColumn+1); j ++)
+			SensorTableArray[i][j] = "N/A";			
+		
+	}
+	function ReloadSensorTbl()
+	{
+		var SensorCount = 0;
+		var j = 0;
+		var SensorData = [];
+		
+		GridTable.empty();
+		for(j = 0 ; j < SensorRecordNum ; j++ )
+		{
+			if((parseInt(SensorTableArray[j][MaxSensorTableColumn],16) == SensorCategoryObj.value) || 
+		  	  (SensorCategoryObj.value == 0) ||(SensorCategoryObj.value == 0xc0 && 
+		  	  parseInt(SensorTableArray[j][MaxSensorTableColumn],16) >= 0xc0 &&  
+		  	  parseInt(SensorTableArray[j][MaxSensorTableColumn],16) <= 0xff))
+			 {			
+				if(ThresholdFlag == 1)
+				{
+					SensorData.push([
+						j+1,
+						SensorTableArray[j][9],		
+						SensorTableArray[j][0],
+						SensorTableArray[j][1],
+						SensorTableArray[j][2],
+						SensorTableArray[j][3],
+						SensorTableArray[j][4],
+						SensorTableArray[j][5],
+						SensorTableArray[j][6],
+						SensorTableArray[j][7],
+						SensorTableArray[j][8]
+						]);
+				}
+				else
+				{
+					SensorData.push([
+						j+1,
+						SensorTableArray[j][9],
+						SensorTableArray[j][0],
+						SensorTableArray[j][1],
+						SensorTableArray[j][2]
+						]);
+
+				}		
+				SensorCount++;
+			}
+		}
+		GridTable.show(SensorData);
+		SensorTableExtraInfoObj.innerHTML = lang.LANG_SENSOR_SNRNUMBER +SensorCount+lang.LANG_SENSOR_SNRUNIT;
+		
+	}
+	
+		
+	function GridTableInit(ExtraInfo)
+	{
+		//Grid table Init
+		if(GridTable != null)
+			GridTable.empty(1);
+		
+		SensorTable=document.getElementById("HtmlSensorTable");
+		
+		GridTable=LWC.getElement('datagrid',document);
+		
+		rowSelEnable = 0;
+		
+		if (ExtraInfo == 1)
+		{
+			var SensorsTblTitle = [
+			["(img)", "1px", "left"],
+			["Name", "10%", "center"],
+			["Status", "15%", "center"],
+			["Reading", "15%", "left"],
+			["Low NR", "10%", "center"],
+			["Low CT", "10%", "center"],
+			["Low NC", "10%", "center"],
+			["High NC", "10%", "center"],
+			["High CT", "10%", "center"],
+			["High NR", "10%", "center"]
+			];
+			
+		}
+		else 
+		{	
+			var SensorsTblTitle = [
+			["(img)", "1px", "left"],
+			["Name", "20%", "center"],
+			["Status", "50%", "center"],
+			["Reading", "30%", "left"]
+			];
+			
+			
+		}
+		GridTable.setColumns(SensorsTblTitle);
+		
+		GridTable.init('GridTable',SensorTable);
+	}
+	
+	function SensorTableInit()
+	{
+		var i = 0, j = 0;
+	
+		for( i = 0; i < MaxSensorTableRows ;i ++)
+		{
+			SensorTableArray[i] = new Array(6);
+			for(j = 0; j < MaxSensorTableColumn; j ++)
+			{
+				SensorTableArray[i][j] = "NULL";
+			}	
+		}
+	}
+	
+	
+
+	//For Sensor APIs
+	function ShowSensorCategory(SensorRecNum)
+	{
+		SensorCategoryObj.innerHTML = '';
+	   	var val = 0;
+	   	
+	   	for(i = 0 ; i <= MaxSensorTableRow; i++)
+    	{
+    		if(i >= 0xc0 && i <= 0xff)
+    		{
+    			if(IsSensorExists(i,SensorRecNum))
+    			{
+    				var OptionName = new Option(lang.LANG_SENSOR_SNRTYPEC0,0xc0);
+    				var OptionValue = browser_ie?val++:null;
+    				SensorCategoryObj.add(OptionName,OptionValue);	  
+    			}  		
+	     	}
+	    	else
+	        {
+	     		if(IsSensorExists(i,SensorRecNum) || i==0x00)
+	     		{
+	     			var OptionName = new Option(eval("lang.LANG_SENSOR_SNRTYPE"+IntegerToHexString(i)),i);
+	     			var OptionValue = browser_ie?val++:null;
+	     			SensorCategoryObj.add(OptionName,OptionValue);
+	     		}
+	     					
+	    	}
+	    }
+		SensorCategoryObj.options[SelectedSensorType].selected = true;	
+	}	
+	
+	function IsSensorExists(i,SnrRecNum)
+	{
+  		for(var _ex=0 ; _ex < SnrRecNum; _ex++)
+ 		{
+    		if(parseInt(SensorTableArray[_ex][MaxSensorTableColumn],16) == i)
+      			return true;
+      	}
+  	}
+
+	// [Jack] 
+	function GetPlatformCapbility()
+	{
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'Get_PlatformCap.XML=(0,0)&time_stamp='+(new Date());
+		var myAjax = new Ajax.Request(
+				url,
+				{method: 'post',parameters:pars, onComplete: HandleGetPlatformCapbility}
+				);
+	}
+
+	function HandleGetPlatformCapbility(originalRequest)
+	{
+		if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			else
+			{
+				var IPMI=xmldoc.documentElement;
+				CapObj = IPMI.getElementsByTagName('Platform');
+				CapValue = CapObj[0].getAttribute("Cap");
+				PlatformCapability = parseInt(CapValue,16);
+			}
+		}
+
+		GetSensors();			
+	}
+
+    function GetSensors()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+    	var pars = '?SENSOR_INFO.XML=(1,ff)&time_stamp='+(new Date());
+   		var myAjax = new Ajax.Updater(
+   				'table1',
+                url,
+                {method: 'post', parameters: pars, onComplete: HandleSensorsResp}
+                );
+	} 
+    function HandleSensorsResp(originalRequest)
+	{
+		
+		Loading(false);
+		
+		if (RearmIntrusion == 1)
+		{
+			if($(TAG_ADMIN_ACTION))
+			ButtonChassisIntrusionObj.disabled = false;
+			ButtonThresholdObj.disabled = false;
+			ButtonRefreshObj.disabled = false;
+			RearmIntrusion = 0;
+		}
+		
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}	
+			
+			var IPMIRoot=xmldoc.documentElement;//point to IPMI
+			var SensorInfo = IPMIRoot.getElementsByTagName("SENSOR_INFO"); 
+			
+			SensorRecordNum = 0;
+			SensorTableArrayInit();
+			
+			//traverse all nodes ;take the following example
+  	 		//<SENSOR ID="1" NAME="test" READING="5" UNR="9" UC="8" UNC="7" LNC="3" LC="2" LNR="1"/>
+			$A(SensorInfo[0].getElementsByTagName('SENSOR') ).each(function (node){
+				var Idx;
+				var SensorType = node.getAttribute("STYPE");
+				var SensorName = node.getAttribute("NAME");
+				var EventReadingType = parseInt(node.getAttribute("ERTYPE"), 16);
+				
+				
+				for( i = 0 ,Idx = 0; i < MaxSensorTableRow; i ++)
+				{
+					if(SensorTableArray[i][0] == "N/A")
+					{
+						Idx = i;
+						break;
+					}
+				}
+				
+				SensorTableArray[Idx][0] = SensorName;
+				SensorTableArray[Idx][MaxSensorTableColumn] = SensorType;
+				
+				//threshold sensors
+				if (EventReadingType == 0x01)
+				{
+					ProcThreshlodSensor(node,Idx);
+				}
+				//for descrete sensor
+				else 
+				{
+					ProcDiscreteSensor(node,Idx);	
+				}
+				SensorRecordNum ++; 	
+			});
+			if(!SensorRecordNum)
+			{
+					alert(lang.LANG_SENSOR_NOSNRSTR);
+					SensorTableExtraInfoObj.innerHTML = lang.LANG_SENSOR_SNRNUMBER+(SensorRecordNum)+lang.LANG_SENSOR_SNRUNIT;
+					return;
+			}
+			
+			ShowSensorCategory(SensorRecordNum);
+			ReloadSensorTbl();
+			
+		}
+	} 
+	
+	function ProcThreshlodSensor(node,Idx)
+	{
+  	 	
+		SensorFormula(node,Idx,SensorTableArray);
+					
+		var SensorReading = SensorFormula.SensorReading;
+		var NeedCompare = SensorFormula.NeedCompare;
+		var SensorUNC = SensorFormula.SensorUNC;
+		var SensorUNR = SensorFormula.SensorUNR;
+		var SensorUC = SensorFormula.SensorUC;
+		var SensorLNC = SensorFormula.SensorLNC;
+		var SensorLC = SensorFormula.SensorLC;
+		var SensorLNR = SensorFormula.SensorLNR;
+	                			
+ 	 	if(NeedCompare == 1)
+		{
+  	 		if((SensorReading <= SensorUNC) &&(SensorReading >= SensorLNC))
+  	 		{
+				SensorTableArray[Idx][1] = "Normal";
+				SensorTableArray[Idx][9] = "bgcolor=green";
+  	 		}
+  	 		else if(SensorReading > SensorUNR)
+  	 		{
+				SensorTableArray[Idx][1] = "Upper Non-recoverable";
+				SensorTableArray[Idx][9] = "bgcolor=red";
+  	 		}
+  	 		else if(SensorReading > SensorUC)
+  	 		{
+				SensorTableArray[Idx][1] = "Upper Critical";
+				SensorTableArray[Idx][9] = "bgcolor=red";
+  	 		}
+  	 		else if(SensorReading > SensorUNC)
+  	 		{
+				SensorTableArray[Idx][1] = "Upper Non-critical";
+				SensorTableArray[Idx][9] = "bgcolor=yellow";
+  	 		}
+  	 		else if(SensorReading >= SensorLC)
+  	 		{
+				SensorTableArray[Idx][1] = "Lower Non-critical";
+				SensorTableArray[Idx][9] = "bgcolor=yellow";
+  	 		}
+  	 		else if(SensorReading >= SensorLNR)
+  	 		{
+				SensorTableArray[Idx][1] = "Lower Critical";
+				SensorTableArray[Idx][9] = "bgcolor=red";
+  	 		}
+  	 		else
+  	 		{
+				SensorTableArray[Idx][1] = "Lower Non-recoverable";
+				SensorTableArray[Idx][9] = "bgcolor=red";
+  	 		}												
+ 			NeedCompare = 0;
+		} 
+		else
+		{	
+			SensorTableArray[Idx][9] = "bgcolor=white";
+		}
+  	}
+  	function ProcDiscreteSensor(node,Idx)
+  	{
+  		/*	discrete state of sensor type 05	*/
+     	var SensorType = node.getAttribute("STYPE");
+  	 	var SensorReadingObj = node.getAttribute("READING");
+  	 	var Option = parseInt(node.getAttribute("OPTION"), 16);
+  	 	var RawReading = SensorReadingObj.substr(0, 2);
+  	 	
+     	var SensorD = parseInt(SensorReadingObj.substr(2, 2), 16);
+     	var SensorDMSB = parseInt(SensorReadingObj.substr(4, 2), 16);
+     	
+  	 	var SensorState = '';
+					
+		// Ignore on reading
+  	 	if(!(Option & 0x40))
+  	 	{				
+  	 		SensorTableArray[Idx][2] = "Not Present";
+  	 		SensorTableArray[Idx][9] = "bgcolor=white";
+  	 	}
+  	 	else
+  	 	{
+			//linda modified for cpu temp reading
+	  	 	if((RawReading == 0 && SensorType != "c0") && SensorD == 0 && SensorDMSB == 0 && SensorType != "05")
+	  	 	{
+	  	 		SensorTableArray[Idx][2] = "Not Present";
+  	 			SensorTableArray[Idx][9] = "bgcolor=white";
+	  	 	}
+	  	 	else if(SensorType == "05")
+	  	 	{   	/*chassis*/	  
+	  	 		SensorState += ShowDiscStateAPI("05", RawReading);	
+	  	 		SensorTableArray[Idx][9] = ShowDiscStateAPI.SensorHealth;  	 				  	 						
+
+				// [Jack] Hide Reset Button for X9 board
+				if( (PlatformCapability & 0x04) != 0x04)
+				{
+				if(RawReading == 0)
+				{
+					ButtonChassisIntrusionObj.style.visibility='hidden';
+				}
+				else
+				{
+					ButtonChassisIntrusionObj.style.visibility='visible';
+						if($(TAG_ADMIN_ACTION))
+					ButtonChassisIntrusionObj.disabled = false;
+				}
+				}
+
+	  	 		SensorTableArray[Idx][1] = "&nbsp;";
+  	 			SensorTableArray[Idx][2] = SensorState;
+	  	 	}
+	  	 	else if( SensorType == "08" || SensorType == "c0" || SensorType == "c2"  || SensorType == "0d" || SensorType == "29")
+	  	 	{
+	  	 		SensorState += ShowDiscStateAPI(SensorType, SensorD);
+	  	 		SensorTableArray[Idx][1] = "&nbsp;";
+  	 			SensorTableArray[Idx][2] = SensorState;
+  	 			SensorTableArray[Idx][9] = ShowDiscStateAPI.SensorHealth;
+	  	 	} 	 					
+	  	 	else
+	  	 	{   
+	  	 		SensorTableArray[Idx][1] = "Not Supported";
+				SensorTableArray[Idx][9] = "bgcolor=white";
+	  	 	}	  	 		
+  	 	} 			
+  	}	
+	</script>
+	
+	
+	
+</head>
+<body onload="PageInit()" style="overflow:hidden;overflow:-moz-hidden-unscrollable;" >
+   <span class="LoadingStyle" id="loading"></span>
+   <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;height=70%" >
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_SENSOR_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_SENSOR_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td class="Categorytext"><script>document.writeln(lang.LANG_SENSOR_SNRTYPE);</script></td><td ><br><span class="TableInfo" id="HtmlSensorTableInfo"></span></td></tr>
+       
+       <tr><td><br></td><td colspan="3"><select class="Categorytext" id="SensorCategory"></td></tr>
+        <tr ><td></td>
+        	<td colspan="3">
+        	  <div style="overflow-x:hidden;overflow-y:auto;overflow:-moz-hidden-unscrollable;" id="HtmlSensorTable" ></div>
+        	  <!-- below area is needed to modify by yourself -->
+        	  <br>
+        	 <input type="button" class="btnStyle" id="btn_Refresh"/>
+        	 <input type="button" class="btnStyle" id="btn_ShowThreshold"/>
+        	 <input type="button" class="btnStyle" id="btn_ChassisIntrusion" $(TAG_DISABLE)/>
+        	  <!-- end of this area -->
+        	</td>
+        <tr>
+    </table>
+</body>
+</html>

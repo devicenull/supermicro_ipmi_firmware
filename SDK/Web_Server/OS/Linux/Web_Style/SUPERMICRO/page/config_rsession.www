@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+	  <link rel="stylesheet" href="../css/basic.css" type="text/css">
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	  <script language="javascript" src="../js/utils.js"></script> 
+<!-- Remote Session javascript start -->
+<script type="text/javascript">
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+function PageInit()
+{
+	document.getElementById("ButtonSave").value = lang.LANG_CONFIG_RSESSION_SAVE;
+	nowstatus=document.getElementById("modestatus");
+	autoatmode=document.getElementById("auto_at");
+	atmode=document.getElementById("at");
+	dtmode=document.getElementById("dt");
+	modesave=document.getElementById("ButtonSave");
+  
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)		
+	RemoteSeReading();    	
+}
+
+function RemoteSeReading()
+{
+	 Loading(true);
+	 var url = '/cgi/ipmi.cgi';
+	 var pars = 'REMOTE_SESSION.XML=(0,0)&time_stamp='+(new Date()) ;
+	 var myAjax = new Ajax.Request(
+                  url,
+                  {method: 'post',parameters:pars, onComplete: RemoteSeReadingResult}//reigister callback function
+                  ); 
+}
+function RemoteSeReadingResult(originalRequest)
+{
+	Loading(false);
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	var xmldoc=GetResponseXML(response);
+	var root=xmldoc.documentElement;
+	var remotesession=root.getElementsByTagName("REMOTE_SESSION");
+	var infocode=remotesession[0].getElementsByTagName('INFO');
+	var modereading=parseInt(infocode[0].getAttribute("CODE"), 10);		
+	modeswitch(modereading);
+	}
+}
+function modeswitch(modereading)
+{
+	var nowstatus_str;
+	if(modereading==0)
+	{	
+		autoatmode.checked = true;
+	  atmode.checked = false;
+	  dtmode.checked = false;
+	  nowstatus_str=lang.LANG_CONFIG_RSESSION_AUTO_ATCH;
+  }
+  if(modereading==1)
+	{	
+		autoatmode.checked = false;
+	  atmode.checked = true;
+	  dtmode.checked = false;
+	  nowstatus_str=lang.LANG_CONFIG_RSESSION_ATCH;
+  }
+  if(modereading==2)
+	{	
+		autoatmode.checked = false;
+	  atmode.checked = false;
+	  dtmode.checked = true;
+	  nowstatus_str=lang.LANG_CONFIG_RSESSION_DETACH;  
+  }
+
+  nowstatus.innerHTML=nowstatus_str.toString();
+}
+
+function BtnSave()
+{ 
+	var mode_setting;	
+  if(autoatmode.checked == true)
+    mode_setting=0;
+  if(atmode.checked == true)
+    mode_setting=1;
+  if(dtmode.checked == true)
+    mode_setting=2;
+
+	var url = '/cgi/config_remote_session.cgi';
+	var pars = 'remote_session=' + mode_setting;			
+	var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post', parameters:pars, onComplete: saveresult}
+                 );    
+}
+function saveresult(originalRequest)
+{
+    if (originalRequest.readyState == 4 && originalRequest.status == 200)
+    {
+        alert(lang.LANG_CONFIG_RSESSION_SUCCSAVE);
+        RemoteSeReading();
+    }
+    else
+        alert(lang.LANG_COMMON_UNSAVE);
+}
+</script>
+<!-- Remote Session javascript end -->
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_CONFIG_RSESSION_TITLE)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_CONFIG_RSESSION_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>
+			&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0">
+				<tr>
+					<td class="labelhead">&nbsp;<span><script>document.writeln(lang.LANG_CONFIG_RSESSION_MODE)</script></span></td>
+					<td class="labelhead" id="modestatus" style="font-weight:bold;"></td>
+				</tr>
+			</table>
+			</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td><td>
+			<table border="0">
+				<tr>
+					<td>&nbsp;<label><input type="radio" id="auto_at" name="vmmode" $(TAG_DISABLE/>
+					<span class="labelhead" ><script>document.writeln(lang.LANG_CONFIG_RSESSION_AUTO_ATCH)</script></label></span></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<label><input type="radio" id="at" name="vmmode" $(TAG_DISABLE/>
+					<span class="labelhead" ><script>document.writeln(lang.LANG_CONFIG_RSESSION_ATCH)</script></label></span></td>
+				</tr>
+				<tr>
+					<td>&nbsp;<label><input type="radio" id="dt" name="vmmode" $(TAG_DISABLE/>
+					<span class="labelhead" ><script>document.writeln(lang.LANG_CONFIG_RSESSION_DETACH)</script></label></span></td>
+				</tr>
+			</table>
+			</td></tr>
+ 	        <tr><td></td>
+       	    <td>
+        	<!-- below area is needed to modify by yourself -->
+       	    <br><input type="button" class="btnStyle" id="ButtonSave" onclick="BtnSave()" $(TAG_DISABLE/>
+        	<!-- end of this area -->
+            </td></tr>
+        </table>
+</body>
+</html>

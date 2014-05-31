@@ -1,0 +1,17 @@
+***************
+*** 147,153 ****
+  #endif
+  
+  /* Define to rpl_malloc if the replacement function should be used. */
+- #define malloc rpl_malloc
+  
+  /* Define to rpl_realloc if the replacement function should be used. */
+  #define realloc rpl_realloc
+--- 147,153 ----
+  #endif
+  
+  /* Define to rpl_malloc if the replacement function should be used. */
++ //#define malloc rpl_malloc
+  
+  /* Define to rpl_realloc if the replacement function should be used. */
+  #define realloc rpl_realloc

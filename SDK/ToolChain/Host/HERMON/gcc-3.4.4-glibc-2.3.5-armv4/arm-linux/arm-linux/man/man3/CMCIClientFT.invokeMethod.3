@@ -1,0 +1,49 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.invokeMethod() \- Invoke a named method of an instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.invokeMethod (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				const char* method,
+.br
+.BI				CMPIArgs* in,
+.br
+.BI				CMPIArgs* out,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Invoke a named method of an instance defined by the \fIop\fP reference.
+.PP
+Arguments are the client object pointer \fIcl\fP, an ObjectPath object 
+pointer \fIop\fP with the reference that contains namespace and classname
+components,
+\fImethod\fP pointer to string that identifies the class method,
+\fIin\fP pointer to the input arguments,
+\fIout\fP pointer to the output parameters,
+and \fIrc\fP which returns the operation status (suppressed when NULL).
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.invokeMethod()\fP function returns
+the CMPIData value returned by the method invoked and sets a successful
+operation status code in \fIrc\fR.
+When unsuccessful it returns a NULL pointer and sets the operation 
+status error code and corresponding error string in \fIrc\fP.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIArgs(3),
+CMPIStatus(3)

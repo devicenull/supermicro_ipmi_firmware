@@ -1,0 +1,1 @@
+#define CONFIG_FORCED_INLINING 1

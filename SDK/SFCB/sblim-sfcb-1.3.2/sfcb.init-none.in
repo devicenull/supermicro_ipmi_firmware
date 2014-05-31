@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# $Id: sfcb.init-none.in,v 1.2 2005/06/13 12:50:33 mihajlov Exp $
+# 
+# Generic System V Init Script
+
+echo $PATH | grep -q @sbindir@ ||PATH=@sbindir@:$PATH
+
+if [ -z "$LD_LIBRARY_PATH" ] || echo $LD_LIBRARY_PATH | grep -qv @libdir@
+then
+    LD_LIBRARY_PATH=@libdir@:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH
+fi
+
+start() {
+	echo -n "Starting sfcb: "
+	@sbindir@/sfcbd -d && echo "done." && return 0 ||
+	echo "failed."
+	return 1
+}	
+
+stop() {
+	echo -n "Shutting down sfcb: "
+	killall sfcbd && echo "done." && return 0 ||
+	echo "failed."
+	return 1
+}
+
+reload() {
+	echo -n "Reloading sfcb configuration: "
+	killall -HUP sfcbd && echo "done." && return 0 ||
+	echo "failed."
+	return 1
+}
+
+case "$1" in
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+    status)
+	echo -n "Checking SFCB status: "
+	ps --noheaders -C sfcbd || echo "stopped." 
+	;;
+    restart)
+    	stop
+	start
+	;;
+    reload)
+	reload
+	;;
+    *)
+	echo "Usage: sfcb {start|stop|status|reload|restart}"
+	exit 1
+	;;
+esac
+exit $?

@@ -1,0 +1,66 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCICLientFT.enumClasses() \- Enumerate classes and subclasss
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.enumClasses (CMCIClient* cl,
+.br
+				    CMPIObjectPath* op,
+.br
+				    CMPIFlags flags,
+.br
+				    CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Enumerate Classies using \fIop\fP as reference. The content of the returned
+classes can be controled using the \fIflags\fP parameter.
+.PP
+Arguments are the client object pointer \fIcl\fP, ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components,
+\fIflags\fP to affect the returned class structure content, 
+and \fIrc\fP the CMPI return status (suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contain the flags 
+\fICMPI_FLAG_LocalOnly\fP, \fICMPI_FLAG_DeepInheritance\fP, 
+\fICMPI_FLAG_IncludeQualifiers\fP, and \fICMPI_FLAG_IncludeClassOrigin\fP.
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.enumClasses()\fP function returns
+a pointer to a CMPIEnumeration object that contains each enumerated class
+and sets a successful status code
+in \fIrc\fR.
+When unsuccessful it returns NULL and sets the \fIrc\fP argument with the
+error code and and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+   CMCIClient *cc;
+   CMPIObjectPath * objectpath;
+   CMPIInstance * instance;
+   CMPIEnumeration * enumeration;
+   CMPIStatus status;
+
+   /* Setup a conncetion to the CIMOM */   
+   cc = cmciConnect("localhost", NULL, NULL, NULL, NULL, NULL);
+
+   objectpath = newCMPIObjectPath("root/cimv2", NULL, NULL);
+   enumeration = cc->ft->enumClasses(cc, objectpath, 0, &status);
+
+   if (!status.rc) {
+	fprintf(stderr, "operation error code %d description %s\n",
+			status.rc, status.msg->hdl);
+	abort();
+   }
+.fi
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIFlags(3), 
+CMPIStatus(3)

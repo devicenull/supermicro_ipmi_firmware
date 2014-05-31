@@ -1,0 +1,241 @@
+
+INTRO:sfcc - Small Footprint CIM Client Library
+SFCC information:
+Version 1:
+Version 2:
+Compatibility:
+Backend Selection:
+CVS Instructions:
+Functions:
+====================================================================================
+
+INTRO:sfcc - Small Footprint CIM Client Library
+===============================================
+
+The small footprint CIM client library is a C API allowing client applications
+to interface with CIM implementations (e.g. CIM servers). Due to it's small
+memory and disk footprint it is well-suited for embedded environments.
+
+SFCC information:
+=================
+
+SFCC provides a generic layer to load the underlying libraries to communicate to the 
+CIM server via 2 methods:
+   1- http interface
+   2- local connect interface
+
+SFCC provides the libraries for cimxml via http and SFCB provides a library 
+which is loaded by SFCC to provide local connect.
+
+When using the http interface the CIM server can physically be located on the same 
+system as SFCC or a remote system and communication is over the http protocol.
+
+When using the local connect interface the CIM server must be SFCB and physically 
+located on the same system as SFCC and is provided via SFCB and SFCC libraries.
+Communication is accomplished via localconnect sockets. Note that the local connect
+will use a library that is part of sfcb so the application must have the same 
+authorization as the installer of sfcb.
+
+Applications using SFCC determine which method to use by calling the NewCIMCEnv 
+library function which establishes the environment for using one of the above 
+communication methods.
+
+
+Version 1:
+==========
+
+The initial version of sfcc is based on concepts of the Common Manageability
+Programming Interface (CMPI) defined by the Open Group. A client program
+using version 1 of sfcc usually needs to include the following headers or
+a subset thereof and link against libcmpisfcc.so:
+
+  - cmci.h
+  - cmcidt.h
+  - cmcift.h
+  - cmcimacs.h
+  - native.h
+
+Version 2:
+==========
+
+The current version of sfcc has undergone some structural changes in order
+to support different backend implementations, like local communication to
+a CIM server or even direct provider calls. 
+For this purpose a three-layer architecture has been chosen, consisting of
+a frontend layer, the core CIM C API and a backend layer.
+
+The core CIM C API which in fact is also an application binary interface (ABI)
+just offers two functions: NewCIMCEnv and ReleaseCIMCEnv.
+These are used to establish or to remove a CIM client environment which can
+be used to connect to a CIM server and perform CIM operations against
+that connection.
+A CIM client environment needs to be implemented by a backend which is a
+shared library offering a defined entry point with a name like
+ _Create_<backend>_Env
+which is used to return a pointer to a CIMCEnv structure containing a function
+pointer table exposing the services supported by the backend. This is very
+similar to the way a CMPI provider is implemented.
+
+Currently sfcc ships with a CIM XML backend which should be the most common
+protocol for CIM-based client-server communication. The sfcb CIM server also
+ships with a local connect backend. The effort to write a backend for a CIM server 
+is roughly comparable to the effort of writing a CMPI provider adapter/manager.
+
+While it's possible to write programs directly against the core CIM C API,
+it's likely that this will not be appropriate for everybody. Therefore
+it's possible to add frontend APIs (aka language bindings) on top of the 
+core CIM C API. Currently there's one frontend in sfcc v2: the v1 
+compatibility library.
+
+Compatibility:
+==============
+
+There's a number of reasons why the original sfcc API is not well suited to 
+serve as the core CIM C API.
+Most problematic is that the object creation functions are not implemented
+via function pointer tables but with fixed entry points which would
+add overhead and complication for backend implementations. 
+The core CIM C API groups these functions in the CIMCEnv function pointer 
+table.
+Another, more cosmetic issue, is that the original sfcc implementation
+in fact uses modified CMPI headers which disallows to mix provider and
+client code in the same executable. The new core CIM C API headers have 
+their own declarations prefixed with CIMC (instead of CMPI or CMCI).
+
+Compatibility with version 1 is ensured via a frontend implementation.
+This allows old applications to take advantage of new backends without
+the need to rewrite them. 
+There are however some restrictions to keep in mind:
+
+A. Removed Functions
+Some functions have been removed from the set of public functions, as they
+are considered internal stuff, which shouldn't be of concern to clients.
+These are:
+      native_release_CMPIValue
+      newList
+      newStringBuffer
+As consequence of this it was necessary to re-version the library which
+will require a re-linking of your application.
+
+B. Feature Freeze
+The version 1 sfcc API is frozen: new features like support for large
+volume results via iterator won't be backported.
+
+
+Backend Selection:
+==================
+
+The proper way to select the backend is via the NewCIMCEnv call. The first
+argument is used to construct the backend library name and the entry point.
+I.e.
+
+example 1 - sets up the CIM XML environment.
+CIMCEnv ce = NewCIMCEnv("XML",0,&rc,&msg);
+
+  will load the shared library libcimcClientXML.so, locate the
+  function _Create_XML_Env and call it to establish the environment. 
+  
+
+example 2 - sets up the local connect environment.
+CIMCEnv ce = NewCIMCEnv("SfcbLocal",0,&rc,&msg); 
+
+  will load the shared library libcimcClientLocal.so, locate the
+  function _Create_SfcbLocal_Env and call it to establish the environment. 
+  
+
+This also implies that any future library that implements the functions 
+specified in the cimc layer could also be loaded by specifying "XXX" to 
+load the libcimcClientXXX.so library.
+                       
+
+CVS Instructions:
+=================
+If you checkout from CVS run autoconfiscate.sh to prepare for building.
+
+To build:
+	# configure
+	# make
+	# make install
+
+	These make the test cases under TEST as well.
+
+	# configure CPPFLAGS='-DDEBUG'
+
+	Builds a version of the library with debug output enabled.
+
+	Note that to pass the tests it is necessary to install the following
+	provider packages from the SBLIM project 
+	http://sourceforge.net/projects/sblim
+	- sblim-cmpi-base (available in tar.bz2 format)
+	- cmpi-tests (currently available 
+	
+	
+Large Volume Data support - CIMXML :
+  The default is to build without this support.
+  To build with this support :
+  
+  #configure --enable-large_volume_support
+  #make
+  #make install
+  
+  Large volume support is provided for the following requests :
+     enumerateClasses
+     enumerateClassNames
+     enumerateInstances
+     enumerateInstanceNames
+     
+  This support will create multiple threads to receive data from the server and 
+  to parse the data as it is received. This creates parallel operation of receiving
+  data and parsing it.
+
+
+Functions:
+==========
+
+Necessary for initialization:
+    NewCIMCEnv - sets up the environment to use for communication to the CIM server.
+                       
+              usage for local connect
+                ce = NewCIMCEnv("SfcbLocal",0,&rc,&msg); 
+
+              usage for http connect
+                ce = NewCIMCEnv("XML",0,&rc,&msg);
+
+    connect    - establishes the connection to the CIM server
+              
+
+
+CIM Request functions:
+    getClass
+    enumClasses
+    enumClassNames
+    createInstance
+    getInstance         
+    setInstance
+    deleteInstance
+    execQuery
+    enumInstanceNames
+    enumInstances
+    associators
+    associatorNames
+    references
+    referenceNames
+    invokeMethod
+    setProperty
+    getProperty
+
+Since the enumeration functions can result in an array of responses there 
+are 2 functions to control getting the responses.
+
+enumeration special functions
+    hasNext
+    getNext 
+
+The hasNext function will return a boolean value 
+          0 - no more responses
+          1 - more responses available
+
+The getNext function will return the next response for the enumeration.
+
+The release function is used to release resources associated with the specific 
+pointer. 

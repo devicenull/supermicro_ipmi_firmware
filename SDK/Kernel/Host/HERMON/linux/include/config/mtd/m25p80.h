@@ -1,0 +1,1 @@
+#undef CONFIG_MTD_M25P80

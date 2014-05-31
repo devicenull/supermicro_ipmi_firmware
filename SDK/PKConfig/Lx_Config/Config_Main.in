@@ -1,0 +1,3 @@
+source PKConfig/Lx_Config/Config_mcu.in
+source PKConfig/Lx_Config/Config_plat.in
+

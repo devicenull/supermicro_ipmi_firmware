@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <!-- common css -->
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+    <script type="text/javascript">
+
+    //declare all global variables
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+
+function PageInit()
+{
+    document.getElementById("save_btn").setAttribute("value", lang.LANG_CONF_RADIUS_SAVE);
+    var_en_RADIUS=document.getElementById("en_RADIUS");
+    var_port_no=document.getElementById("port_num");
+    var_ip_address=document.getElementById("ip_addr");
+    secret=document.getElementById("secret_item");
+    var_save_btn=document.getElementById("save_btn");
+
+    var_en_RADIUS.onclick = CheckFunc;
+    var_save_btn.onclick = RADIUSConfigSetting;
+
+    $(TAG_ALERT)
+    $(TAG_MAINPAGE)	
+    GetRADIUSConfig();
+}
+
+function GetRADIUSConfig()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'RADIUS_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_obj = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete: GetRADIUSConfigResp}//reigister callback function
+                 );
+}
+function GetRADIUSConfigResp (originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    var IPMIRoot=xml_obj.documentElement;
+    var radius=IPMIRoot.getElementsByTagName("RADIUS");
+
+    if (radius.length > 0)
+    {
+        if(parseInt(radius[0].getAttribute("enable"), 10))
+        {
+            var_en_RADIUS.checked = true;
+            EnableFunc();
+        }
+        else
+        {
+            var_en_RADIUS.checked = false;
+            DisableFunc();
+        }
+
+        //var_port_no.value = parseInt(radius[0].getAttribute("port"),10);
+        port_num = parseInt(radius[0].getAttribute("port"),10);
+		if (port_num == 0)
+			var_port_no.value = 1812;
+		else 
+			var_port_no.value = port_num;
+
+        var_ip_address.value = radius[0].getAttribute("ip");
+        secret.value = radius[0].getAttribute("secret");
+    }
+    else
+        alert (lang.LANG_CONF_RADIUS_ERR1);
+    }
+}
+function RADIUSConfigSettingResp(originalRequest)
+{
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    alert(lang.LANG_CONF_RADIUS_SUCC);
+    }
+  else{
+    alert(lang.LANG_COMMON_UNSAVE);
+  }
+}
+function RADIUSConfigSetting()
+{
+    //Check validity of all the fields
+    if (var_en_RADIUS.checked == true)
+    {
+		if (!port_number_check(var_port_no.value))
+        {
+            alert(lang.LANG_CONF_RADIUS_ERR2);
+            return;
+        }
+        if (!CheckIP(var_ip_address.value))
+        {
+            alert(lang.LANG_CONF_RADIUS_ERR3);
+            return;
+        }
+        if(secret.value.length == 0)
+        {
+            alert(lang.LANG_CONF_RADIUS_ERR4);
+            return;
+        }
+    }
+
+    var enRADIUS;
+    if(var_en_RADIUS.checked == true)
+        enRADIUS = 'on';
+    else
+        enRADIUS = 'off';
+
+    var ajax_url = '/cgi/config_radius.cgi';
+    var ajax_param = 'enable=' + enRADIUS  +
+            '&ip=' + var_ip_address.value +
+            '&secret=' + secret.value +
+            '&port=' + var_port_no.value;
+
+    var ajax_obj = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post', parameters:ajax_param, onComplete: RADIUSConfigSettingResp}//reigister callback function
+                 );
+
+}
+
+function DisableFunc()
+{
+    var_port_no.disabled = true;
+    var_ip_address.disabled = true;
+    secret.disabled = true;
+
+    var_port_no.enabled = false;
+    var_ip_address.enabled = false;
+    secret.enabled = false;
+}
+
+function EnableFunc()
+{
+    var_port_no.disabled = false;
+    var_ip_address.disabled = false;
+    secret.disabled = false;
+
+    var_port_no.enabled = true;
+    var_ip_address.enabled = true;
+    secret.enabled = true;
+
+    var_port_no.focus();
+}
+
+function CheckFunc()
+{
+    if (var_en_RADIUS.checked == true)
+    {
+        GetLDAPConfig();
+        GetADConfig();
+    }
+    else
+        DisableFunc();
+}
+
+function GetADConfig()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'ACTIVE_DIRECTORY.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_obj = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete:  GetADConfigResp}//reigister callback function
+                 );
+}
+
+function  GetADConfigResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+        var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+        var xml_obj=GetResponseXML(response);
+        if(xml_obj == null)
+        {
+            SessionTimeout();
+            return;
+        }
+        var IPMIRoot=xml_obj.documentElement;
+        var ad_info=IPMIRoot.getElementsByTagName("AD_INFO");
+        var ad_server=IPMIRoot.getElementsByTagName("AD_SERVER");
+        if (ad_info.length > 0){
+            if(parseInt(ad_info[0].getAttribute("EN"), 10))
+            {
+                var_en_RADIUS.checked = false;
+                alert(lang.LANG_CONF_RADIUS_ERR5);
+                DisableFunc();
+            }
+            else
+            {
+                EnableFunc();
+            }
+
+        }
+    }
+}
+
+function GetLDAPConfig()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_obj = new Ajax.Request(
+             ajax_url,
+             {method: 'post',parameters:ajax_param, onComplete:GetLDAPConfigResp}//reigister callback function
+             );
+}
+
+function GetLDAPConfigResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+        var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+        var xml_obj=GetResponseXML(response);
+        if(xml_obj == null)
+        {
+            SessionTimeout();
+            return;
+        }
+        var IPMIRoot=xml_obj.documentElement;
+        var config_elm=IPMIRoot.getElementsByTagName("CONFIG_INFO");
+        var ldap_server=config_elm[0].getElementsByTagName('LDAP');
+        if (ldap_server.length > 0)
+        {
+            if(parseInt(ldap_server[0].getAttribute("LDAP_EN"), 10))
+            {
+                var_en_RADIUS.checked = false;
+                alert(lang.LANG_CONF_RADIUS_ERR6);
+                DisableFunc();
+            }
+            else
+            {
+                EnableFunc();
+            }
+        }
+    }
+}
+
+	</script>
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_CONF_RADIUS_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_CONF_RADIUS_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+				<div>
+					<div>
+						<table cellspacing="0" cellpadding="5" border="0" width="450">
+							<tr><td colspan="2">
+						    <input type="checkbox" id="en_RADIUS" value="1" $(TAG_DISABLE)/>
+					        <span class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_RADIUS_EN);</script>
+							</span>
+						    </td></tr>
+							<tr><td class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_RADIUS_PORT);</script>
+							</td>
+						    <td><input type="text" id="port_num" disabled style="width:60px;" $(TAG_DISABLE) onBlur='CheckPortNumber(this)' /></td></tr>
+							<tr><td class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_RADIUS_IPADDR);</script>
+							</td>
+						    <td><input type="text" id="ip_addr" maxlength="15"  disabled style="width:110px;" $(TAG_DISABLE) onBlur='CheckIPAddr(this)' /></td></tr>
+							<tr><td class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_RADIUS_SECRET);</script>
+							</td>
+						    <td><input type="password" id="secret_item" maxlength="31"  disabled style="width:170px;" onBlur='CheckInputValue(this)' /></td></tr>
+						</table>
+				    </div>
+				 </div>
+
+				<div class="btnStyle" style="width: 360px;">
+					<input type="button" class="btnStyle" id="save_btn" $(TAG_DISABLE)/>
+				</div>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

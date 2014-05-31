@@ -1,0 +1,20 @@
+#pragma locale ( "en_US" )
+
+#pragma include("test2.mof")
+
+qualifier description : string;
+qualifier association : boolean;
+
+[description("nice class")] class test_a {
+uint8 charlie ="";  
+[description("nice property")]uint16 hugo;
+string f();
+};
+
+[association]class test_b {
+	test_a ref refvar;
+	test_c ref defvar;
+};
+
+class test_e : test_d {
+};

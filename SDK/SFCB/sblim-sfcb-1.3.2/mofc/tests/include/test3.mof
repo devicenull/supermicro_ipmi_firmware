@@ -1,0 +1,10 @@
+// ====
+// to be preloaded
+// ====
+
+/* yes - we can have nassty commentses my preciouss **
+:-) **/
+
+class test_d {
+   datetime gollum;
+};

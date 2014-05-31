@@ -1,0 +1,418 @@
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+        <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">      
+        <link rel="stylesheet" type="text/css" href="../yui/build/reset-fonts-grids/reset-fonts-grids.css">
+        <!-- CSS for Menu -->
+        <link rel="stylesheet" type="text/css" href="../yui/build/menu/assets/skins/sam/menu.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/basic.css" />
+        <link rel="stylesheet" type="text/css" href="../css/topmenu.css" />
+        <!-- Page-specific styles -->
+        <style type="text/css">
+            div.yui-b p {
+            
+                margin: 0 0 .5em 0;
+                color: #999;
+            
+            }
+            
+            div.yui-b p strong {
+            
+                font-weight: bold;
+                color: #000;
+            
+            }
+            
+            div.yui-b p em {
+
+                color: #000;
+            
+            }            
+            
+            h1 {
+
+                font-weight: bold;
+                margin: 0 0 1em 0;
+                padding: .25em .5em;
+                background-color: #ccc;
+
+            }
+
+            #productsandservices {
+
+                margin: 0 0 10px 0;
+            
+            }
+
+        </style>
+
+        <!-- Dependency source files -->
+        <script type="text/javascript" src="../yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+        <script type="text/javascript" src="../yui/build/container/container_core.js"></script>
+		<script src="../js/prototype.js"></script>
+		<script src="../js/utils.js"></script>
+		<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+        <!-- Menu source file -->
+        <script type="text/javascript" src="../yui/build/menu/menu.js"></script>
+
+        <!-- Page-specific script -->
+        <script type="text/javascript">
+<!--
+            /*
+                 Initialize and render the MenuBar when its elements are ready 
+                 to be scripted.
+            */        
+            submenu_obj = [            
+                    {
+                        id: "sys", 
+                        index: "system",
+                        label: lang.LANG_TOPMENU_SYSTEM,
+                        itemdata: [            
+                        ]
+                    },
+
+                    {
+                    	id: "server_health",
+                        index: "health", 
+                        label: lang.LANG_TOPMENU_SERVER_HEALTH,
+                        itemdata: [                         
+                        ]    
+                    },
+                    
+                    {
+                    	id: "config",
+                        index: "configuration", 
+                        label: lang.LANG_TOPMENU_CONFIGURATION,
+                        itemdata: [            
+                        ] 
+                    },
+                    
+                    {
+                        id: "remote_control",
+                        index: "remote",
+                        label: lang.LANG_TOPMENU_REMOTE_CONTROL,
+                        itemdata: [
+						]
+                    },
+                    {
+                        id: "virtual_media",
+                        index: "vmedia",
+                        label: lang.LANG_TOPMENU_VIRTUAL_MEDIA,
+                        itemdata: [
+						]
+                    },
+                    {
+                        id: "mainten",             
+                        index: "maintenance",
+                        label: lang.LANG_TOPMENU_MAINTENANCE,
+                        itemdata: [
+						]
+                    },
+                    {
+                        id: "misc",
+                        index: "miscellaneous",
+                        label: lang.LANG_TOPMENU_MISCELLANEOUS,
+                        itemdata: [
+						]
+                    },                    
+                ];
+
+            		YAHOO.util.Event.onContentReady("productsandservices", function () {
+
+                /*
+								Instantiate a MenuBar:  The first argument passed to the constructor
+								is the id for the Menu element to be created, the second is an 
+								object literal of configuration properties.
+                */
+
+                var oMenuBar = new YAHOO.widget.MenuBar("productsandservices", { 
+                                                            autosubmenudisplay: true, 
+                                                            hidedelay: 750, 
+                                                            lazyload: true });
+
+                /*
+                     Define an array of object literals, each containing 
+                     the data necessary to create a submenu.
+                */
+
+                var aSubmenuData = submenu_obj;
+
+
+                /*
+                     Subscribe to the "beforerender" event, adding a submenu 
+                     to each of the items in the MenuBar instance.
+                */
+
+                oMenuBar.subscribe("beforeRender", function () {
+
+								var nSubmenus = aSubmenuData.length,
+										i;
+
+
+                    if (this.getRoot() == this) {
+
+											for (i = 0; i < nSubmenus; i++) {	
+					                        	this.getItem(i).cfg.setProperty("submenu", aSubmenuData[i]);
+											}
+
+                    }
+
+                });
+
+
+                /*
+                     Call the "render" method with no arguments since the 
+                     markup for this MenuBar instance is already exists in 
+                     the page.
+                */
+
+                oMenuBar.render();         
+            
+            });
+      
+		    /*global variable*/
+			var isUID = 0;  
+			var c_mainpage, c_subpage;
+			    
+			function do_loggout() 
+			{   
+			}
+			function do_refresh()
+			{
+				MainFrame.location.reload();				
+			}
+			function do_change_lan()
+			{
+			}
+			
+			function page_mapping(mainpage, subpage)
+			{						
+			}	
+			function PageInit()
+			{			    
+			    RefreshSystemHealth();
+			}	
+			function RefreshSystemHealth()
+			{
+				var url = '/cgi/ipmi.cgi';
+			    var pars = '?SENSOR_INFO_FOR_SYS_HEALTH.XML=(1,ff)&time_stamp='+(new Date());
+			   	var myAjax = new Ajax.Updater(
+			   				'table1',
+			                url,
+			                {method: 'post', parameters: pars, onComplete: RefreshSystemHealthIsDone}
+			                );
+			}
+			function RefreshSystemHealthIsDone(originalRequest)
+			{
+				if (originalRequest.readyState == 4 && originalRequest.status == 200){
+					var sys_health_green = 0; 	
+					var sys_health_yellow = 0;
+					var sys_health_red = 0;
+					var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+					var xmldoc=GetResponseXML(response);			
+				   	var IPMI = xmldoc.documentElement;//point to IPMI
+					var SENSOR_INFO = IPMI.getElementsByTagName("SENSOR_INFO"); //point to SENSOR_INFO
+					var SENSOR_ptr = SENSOR_INFO[0].getElementsByTagName('SENSOR');
+					
+					$A(SENSOR_INFO[0].getElementsByTagName('SENSOR') ).each(function (node){
+				 		var sensor_type = node.getAttribute("STYPE");
+				 		var xml_sensor_reading = node.getAttribute("READING");
+						var event_reading_type_code = parseInt(node.getAttribute("ERTYPE"), 16);
+						var option = parseInt(node.getAttribute("OPTION"), 16);
+				 		if(event_reading_type_code == 0x01)
+				 		{
+				                	
+							SensorFormula(node,0,0);
+							var compare_flag = SensorFormula.NeedCompare;
+				 			var sensor_unr = SensorFormula.SensorUNR;
+				 			var sensor_uc  = SensorFormula.SensorUC;
+				 			var sensor_unc = SensorFormula.SensorUNC;
+				 		    var sensor_lnc = SensorFormula.SensorLNC;
+				 			var sensor_lc  = SensorFormula.SensorLC;
+				 			var sensor_lnr = SensorFormula.SensorLNR;
+				 			var sensor_reading = SensorFormula.SensorReading;
+				 	 	 		if(compare_flag == 1)
+								{
+									if((sensor_reading <= sensor_unc) &&(sensor_reading >= sensor_lnc)){
+										sys_health_green = 1;
+									}
+									else if(sensor_reading > sensor_unr){
+										sys_health_red = 1;
+									}
+									else if(sensor_reading > sensor_uc){
+										sys_health_red = 1;
+									}
+									else if(sensor_reading > sensor_unc){
+										sys_health_yellow = 1;
+									}
+									else if(sensor_reading >= sensor_lc){
+										sys_health_yellow = 1;
+									}
+									else if(sensor_reading >= sensor_lnr){
+										sys_health_red = 1;
+									}
+									else{
+										sys_health_red = 1;
+									}										
+									compare_flag = 0;
+				 			}
+				 		}
+						else
+				 		{
+				 			/*	discrete state of sensor type 05	*/
+				 			var reading_l = parseInt(xml_sensor_reading.substr(0, 2), 16);
+				 	 		var sensor_d = parseInt(xml_sensor_reading.substr(2, 2), 16);
+				     	 	var sensor_d_MSB = parseInt(xml_sensor_reading.substr(4, 2), 16);
+				 			var sensor_state = '';
+				
+				 			if(!(option & 0x40)){// Ignore on reading	
+				            }
+				            else{
+				            	if(node.getAttribute("STYPE") == "05")
+					  	 		{   /*chassis*/	  
+					  	 			sensor_state += ShowDiscStateAPI("05", reading_l);	
+					  	 			if(ShowDiscStateAPI.SensorHealth == 'bgcolor=green')
+					  	 				sys_health_green = 1;
+					  	 			else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=yellow')
+										sys_health_yellow = 1;
+									else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=red')
+										sys_health_red = 1;
+					  	 		}
+					  	 		else if(node.getAttribute("STYPE") == "08" ||
+					  	 				node.getAttribute("STYPE") == "c0" ||
+					  	 				node.getAttribute("STYPE") == "c2")
+					  	 		{
+					  	 			sensor_state += ShowDiscStateAPI(node.getAttribute("STYPE"), sensor_d);
+					  	 		    if(ShowDiscStateAPI.SensorHealth == 'bgcolor=green')
+					  	 				sys_health_green = 1;
+					  	 			else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=yellow')
+										sys_health_yellow = 1;
+									else if(ShowDiscStateAPI.SensorHealth == 'bgcolor=red')
+										sys_health_red = 1;
+					  	 		} 	 					  	 			
+							}
+				 		}						
+					});
+					sys_health_lamp = document.getElementById("img_sys_health_lamp");
+					sys_health_desc = document.getElementById("text_sys_health_desc");
+					if(sys_health_red == 1){
+						sys_health_lamp.src = '../images/red.gif';
+						sys_health_desc.innerHTML = 'Critical';		
+					}else if (sys_health_yellow == 1){
+						sys_health_lamp.src = '../images/yellow.gif';
+						sys_health_desc.innerHTML = 'Warning';		
+					}else if (sys_health_green == 1){
+						sys_health_lamp.src = '../images/green.gif';	
+						sys_health_desc.innerHTML = 'Normal';	
+					}else{
+						sys_health_lamp.src = '../images/green.gif';
+						sys_health_desc.innerHTML = 'Normal';	
+					}
+				}
+			}
+-->
+		</script>
+    </head>
+    <body class="yui-skin-sam" id="header-com" onload= 'PageInit()'>
+		<div style="text-align: left; height: 100%; width: 100%;">
+		<table style="height: 100%; width: 100%;" border="0" cellpadding="0" cellspacing="0"> 
+			<tr>
+          	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 45px">
+          		<table width="100%" border="0" cellpadding="0" cellspacing="0">
+		        <tr>
+		          <td>
+		            <a href="http://www.supermicro.com" target="_top"><img src="../images/logo.gif" alt="" border="0"></a>
+		          </td>
+                  <td width="100%" align="right">
+                     <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                           <td width="25" align="center"><img id="img_sys_health_lamp" align="right"/></td>
+                           <td align="left" valign="middle" width="50"><span id="text_sys_health_desc" class="t_head_sys_health"></span></td>
+                           <td width="24" align="center"><img src="../images/t_refresh.gif" width="16" height="16" /></td>
+                           <td align="left" valign="middle" width="50"><a href="javascript:do_refresh()" class="t_head">Refresh</a></td>                                                       
+                           <td width="24" align="center"><img src="../images/t_logout.gif" width="16" height="16" /></td>
+                           <td align="left" valign="middle" width="50"><a href="javascript:do_loggout()" class="t_head">Logout</a></td>
+                           <td align="center">
+                           	<select id="lang_select" disabled="true">
+                           	<option id="lang_en" value="en">English</option>
+                           	</select>
+                           </td>                           
+                        </tr>            
+                     </table>                       
+                  </td>
+		        </tr>
+		      </table> 
+		    </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 20px">
+		    	<table style="height: 100%; width: 100%;" border="0"><tr><td background="../images/hdr_bk.jpg">&nbsp</td></tr></table>
+		    	</td>
+		    </tr>
+		    <tr>
+          	<td style="padding-left: 26px; padding-right: 26px; vertical-align: top;">
+            	<div id="bd">
+                   <div id="productsandservices" class="yuimenubar yuimenubarnav">
+                       <div class="bd">
+                           <ul class="first-of-type">
+                               <li class="yuimenubaritem first-of-type">
+                                   <a id="system" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_SYSTEM)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="health" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_SERVER_HEALTH)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="configuration" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_CONFIGURATION)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="remote" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_REMOTE_CONTROL)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="vmedia" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_VIRTUAL_MEDIA)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="maintenance" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_MAINTENANCE)</script></a>
+                               </li>
+                               <li class="yuimenubaritem">
+                                   <a id="miscellaneous" class="yuimenubaritemlabel" href="#" style="font-weight:bold;"><script>document.writeln(lang.LANG_TOPMENU_MISCELLANEOUS)</script></a>
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+            	</div>
+            </td>
+		    </tr>
+		    <tr>
+		      <td style="padding-left: 26px; padding-right: 26px; vertical-align: top; height: 100%;">
+		      <table border="0" width=100% height=100%><tr>
+			      <td width="165px" height="100%">
+			      <table border="0" id="sidebar" height=100% width=100% style="margin-left: 13px; margin-top: 13px">
+			      </table>
+			      </td>
+			      <td background="../images/line.gif" width="35px" height="100%">
+					<img src="../images/pixel.gif" alt="" border="0">
+				  </td>
+				  <td valign="top" align="top" height="100%">
+			      	<iframe src="../cgi/url_redirect.cgi?url_name=main_fw_upload" align="top" frameborder="0" width="100%" height="100%" scrolling="auto" src="#" name="MainFrame" id="frame_main"></iframe>
+			      </td>
+		      </tr></table>
+		      </td>
+		    </tr>
+		    <tr><td style="padding-left: 26px; padding-right: 26px; height: 5px"></td></tr>
+		    <tr>
+		    	<td style="padding-left: 26px; padding-right: 26px; vertical-align: bottom; height:20px;">
+		    		<table style="background-color:#959595; text-align: center; width: 100%" border="0">
+		    			<tr><td>
+		      			<span class="copyright"><script>document.writeln(lang.LANG_COMMON_COPYRIGHT)</script></span>
+		      			</td></tr>
+		      		</table>
+		      	</td>
+		    </tr>
+		</table> 
+		</div>  
+    </body>
+</html>

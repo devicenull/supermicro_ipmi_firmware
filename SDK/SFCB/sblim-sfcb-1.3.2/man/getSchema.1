@@ -1,0 +1,68 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH getSchema 1 "August 2005" "getSchema Version 1.3.2"
+.SH NAME
+getSchema \- Script to download DMTF CIM Schema for Small-Footprint CIM Broker (sfcb)
+.SH SYNOPSIS
+.B getSchema
+[\fB-f\fR]
+\fIschemadir\fR
+.SH DESCRIPTION
+getSchema is a small script to automatically downlaod and install the latest
+CIM Schema from the DMTF website. The CIM Schema is required by the
+Small-Footprint CIM Broker (sfcb) to be able to install and register new classes.
+getSchema uses curl to fetch the CIM Schema tarball.
+.SH OPTIONS
+Supported command line options are:
+.TP
+\fIschemadir\fR
+Path to download the CIM Schema tarball and extract all the CIM classes.
+Default is \fI/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb\fR
+.TP
+\fB\-f\fR
+Force option. Without this option you will be prompted if an existing schema
+is already found in the target \fIschemadir\fR. Setting this option will
+reinstall the new CIM Schema without prompting.
+.SH FILES
+.TP
+\fI/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb/getSchema.sh\fR
+The getSchema script.
+.TP
+\fI/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/SFCB/SFCB/local/share/sfcb/CIM/CIM_Schema.mof\fR
+CIM Schema
+.SH PREQUISITES
+.PP
+Requires curl
+.SH AUTHOR
+Adrian Schuur <schuur@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd (1)

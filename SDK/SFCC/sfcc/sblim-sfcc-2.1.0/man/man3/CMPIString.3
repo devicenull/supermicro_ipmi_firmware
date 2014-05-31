@@ -1,0 +1,37 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIString \- CMPIString class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl;\fP
+.br
+.RI "\fIOpaque pointer to class instance data. \fP"
+.ti -1c
+.RI "\fBCMPIStringFT\fP * \fBft;\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.in -1c
+.SH METHODS
+.in +1c
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBrelease\fP (\fBCMPIString\fP *string)"
+.br
+.ti -1c
+.RI "\fBCMPIString\fP * \fBclone\fP (\fBCMPIString\fP *string, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "char * \fBgetCharPtr\fP (\fBCMPIString\fP *string, \fBCMPIStatus\fP *rc)"
+.br
+.in -1c
+.SH DESCRIPTION
+.PP 
+CMPIString class implementation, representing the Encapsulated String object. 
+
+This is the native CMPIString implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIString, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

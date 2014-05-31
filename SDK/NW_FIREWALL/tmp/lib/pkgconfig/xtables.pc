@@ -1,0 +1,12 @@
+
+prefix=/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/NW_FIREWALL/tmp
+exec_prefix=/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/NW_FIREWALL/tmp
+libdir=${exec_prefix}/lib
+xtlibdir=${exec_prefix}/libexec/xtables
+includedir=${prefix}/include
+
+Name:		xtables
+Description:	Shared Xtables code for extensions and iproute2
+Version:	1.4.9.1
+Cflags:		-I${includedir}
+Libs:		-L${libdir} -lxtables

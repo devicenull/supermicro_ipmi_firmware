@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- Page-specific styles -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!-- Dependency source files -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		var dataTabObj;
+		var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";
+		//var resetPage = "../cgi/url_redirect.cgi?url_name=main_fw_reset";
+		var upgradePage = "../cgi/url_redirect.cgi?url_name=main_bios_update";
+		function PageInit() {	 
+			BtnUpgrade = document.getElementById("btn_upgrade");
+			BtnUpgrade.value = lang.LANG_FW_CHECK_VERSION_START;
+			BtnCancel = document.getElementById("btn_cancel");
+			BtnCancel.value = lang.LANG_FW_CHECK_VERSION_CANCEL;
+			nverase = document.getElementById("nve_check");
+			meupd            = document.getElementById("me_check");
+			smbios_check     = document.getElementById("smbios_checkid");
+			firmwareList=document.getElementById("div_fw_list");
+			
+			initFWTab();
+			$(TAG_ALERT)
+			$(TAG_MAINPAGE)		
+			CheckUpdateStatus();
+			BtnUpgrade.onclick = UpgradeFW;
+			BtnCancel.onclick = doCancel;
+			
+			nverase.disabled = true;
+			nverase.checked 	  = false
+			smbios_check.disabled = true;
+			smbios_check.checked  = true;
+			BtnUpgrade.disabled = true;
+			BtnCancel.disabled = true;
+		}
+		function initFWTab()
+		{
+			var myColumns = [
+			["Module Name", "30%", "center"],
+			["Existing Date", "35%", "center"],
+			["New Date", "35%", "left"]
+			];
+			rowSelEnable = 1;
+			dataTabObj = LWC.getElement('datagrid',document);
+		    dataTabObj.setColumns(myColumns);
+		    
+		    dataTabObj.init('dataTabObj',firmwareList);
+		}
+					 
+		function CheckUpdateStatus()
+		{
+            var url = '/cgi/ipmi.cgi';
+            var pars = 'BIOS_UPDATE_CHECK.XML=(0,0)&time_stamp='+(new Date()) ;
+            var myAjax = new Ajax.Request(
+                         url,
+                         {method: 'post',parameters:pars, onComplete: CheckUpdateStatusResp}//reigister callback function
+                         );
+		}
+
+        function CheckUpdateStatusResp(originalRequest)
+        {
+            if (originalRequest.readyState == 4 && originalRequest.status == 200){
+                var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+                var xmldoc=GetResponseXML(response);				
+                if(xmldoc == null)
+                {
+                    SessionTimeout();
+                    return;
+                }
+                var root=xmldoc.documentElement;
+                var status_elm=root.getElementsByTagName("BIOS_UPDATE_CHECK");
+                var res=status_elm[0].getAttribute("RES");
+                if(res == "00")
+				{
+					//top.frames.topmenu.location = disableTopFrame;
+					GetFirmwareVersion();
+					return;
+				}
+
+				if(res == "01")
+					alert(lang.LANG_BIOS_UPDATE_FAIL1);
+				else if(res == "02")
+					alert(lang.LANG_BIOS_UPDATE_FAIL2);
+				else if(res == "03")
+                    alert(lang.LANG_BIOS_UPDATE_FAIL3);
+                else if(res == "04")
+                    alert(lang.LANG_BIOS_UPDATE_FAIL4);
+                else if(res == "05")
+                	alert(lang.LANG_BIOS_UPDATE_FAIL5);
+                else if(res == "06")
+                	alert(lang.LANG_BIOS_UPDATE_FAIL6);        
+                else if(res == "07")
+                	alert(lang.LANG_BIOS_UPDATE_FAIL7);                  	        	
+				else
+					alert("[unknown] " + lang.LANG_BIOS_UPDATE_FAIL1);
+			
+				location.href = mainPage;
+			}
+        }
+		
+		function GetFirmwareVersion()
+		{
+			Loading(true);
+			var url = '/cgi/ipmi.cgi';
+			var pars = 'BIOS_REV.XML&time_stamp='+(new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: GetFirmwareVersionBack}
+		                 ); 
+		}
+		
+		function GetFirmwareVersionBack(originalRequest)
+		{
+			Loading(false);
+			if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}	    
+				var root=xmldoc.documentElement;	
+				var status_elm=root.getElementsByTagName("BIOS_Rev"); 	
+				var new_ver=status_elm[0].getAttribute("NewRev");
+				var new_fw_version = new_ver.substring(10);	
+				var old_ver=status_elm[0].getAttribute("OldRev");
+				var old_fw_version = old_ver.substring(10);// + '.' + old_ver.substring(2); 
+		
+				var module_name = "BIOS_FW";
+				var myData = [];
+				myData.push([1,
+							module_name,
+							old_fw_version,
+							new_fw_version]
+							);
+				dataTabObj.show(myData);
+
+				nverase.disabled = false;
+				smbios_check.disabled = false;
+				BtnUpgrade.disabled = false;
+				BtnCancel.disabled = false;
+			}
+		}
+		
+		function UpgradeFW()
+		{
+			BtnUpgrade.disabled = true;
+			BtnCancel.disabled = true;  
+			Loading(true);    
+	
+			var url = '/cgi/ipmi.cgi';			
+			var pars = 'BIOS_OPTION.XML';
+
+			
+			if(meupd.checked==false)
+				pars += '&me_en=1';
+		
+			if(nverase.checked == false)
+			{	
+				pars += '&nve_en=1';
+			}
+			
+			if(smbios_check.checked == false)	
+			{
+				pars += '&smbios_en=1';
+			}
+				
+			pars += '&time_stamp=' + ( new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: doUpgradeFW}//reigister callback function
+		                 ); 
+
+		}
+		function doUpgradeFW()
+		{
+			
+			Loading(false); 
+
+			location.href = upgradePage;
+			
+		}
+		function doCancel()
+		{ 
+			if(confirm(lang.LANG_FW_UPLOAD_CONFIRM))
+			{
+				var url = '/cgi/ipmi.cgi';			
+				var pars = 'BIOS_UNLOCK.XML=(0,0)';
+				pars += '&time_stamp='+(new Date()) ;
+				
+				var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: UnLockUploadBIOS}//reigister callback function
+		                 );
+			}
+		}
+		
+		function UnLockUploadBIOS(originalRequest)
+		{
+			if (originalRequest.readyState == 4 && originalRequest.status == 200)
+			{
+				location.href = mainPage;
+			}
+		}
+		
+		function check_func()
+		{
+			if (nverase.checked == true)
+			{
+				smbios_check.checked  = true;
+				smbios_check.disabled = true; 
+			}
+			else 
+			{
+				smbios_check.disabled = false;
+			}
+		}
+		
+		</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_BIOS_UPLOAD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_FW_CHECK_VERSION_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+        	  <div id="div_fw_list"></div>
+			  <br>
+                <input type="checkbox" id="me_check" value="0" $(TAG_DISABLE/>
+                <label class="labelhead"><strong>
+					<script>document.writeln(lang.LANG_BIOS_UPLOAD_ME_UPD);</script>
+					 </strong></label>
+                <br>
+                 <input type="checkbox" id="nve_check" value="0" onclick="check_func()"  $(TAG_DISABLE/> 
+                <label class="labelhead"><strong>
+			  	 <script>document.writeln(lang.LANG_BIOS_UPLOAD_NVERASE);</script>
+					 </strong></label>
+                <br>
+                   <input type="checkbox" id="smbios_checkid" value="1" $(TAG_DISABLE/>
+			  <label class="labelhead"><strong>
+					<script>document.writeln(lang.LANG_BIOS_UPLOAD_SMBIOS);</script>
+			  </strong></label>
+        	 
+			  <br>
+        	  <input type="button" class="btnStyle" id="btn_upgrade" $(TAG_DISABLE/>
+			  <input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE/>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

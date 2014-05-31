@@ -1,0 +1,91 @@
+[$ClassProvider$]
+   provider: ClassProvider
+   location: sfcClassProviderGz
+   type: class method
+   unload: never
+   namespace: *
+#
+[$DefaultProvider$]
+   provider: InternalProvider
+   location: sfcInternalProvider
+   type: instance association method
+   unload: never
+   namespace: *
+#
+[$InterOpProvider$]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[$ProfileProvider$]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[$QualifierProvider$]
+   provider: QualifierProvider
+   location: sfcQualifierProvider
+   type: qualifier
+   unload: never
+   namespace: *
+#
+[CIM_IndicationHandlerCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   namespace: root/interop
+#
+[CIM_ListenerDestinationCIMXML]
+   provider: IndCIMXMLHandler
+   location: sfcIndCIMXMLHandler
+   type: instance method
+   namespace: root/interop
+#
+[CIM_IndicationSubscription]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   namespace: root/interop
+#
+[CIM_IndicationFilter]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   namespace: root/interop
+#
+[CIM_RegisteredProfile]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[CIM_Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[__Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: *
+#
+[CIM_ObjectManager]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[CIM_ObjectManagerCommunicationMechanism]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+

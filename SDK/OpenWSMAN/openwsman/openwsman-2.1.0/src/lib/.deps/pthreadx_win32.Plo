@@ -1,0 +1,4 @@
+pthreadx_win32.lo pthreadx_win32.o: u/pthreadx_win32.c \
+  ../../wsman_config.h
+
+../../wsman_config.h:

@@ -1,0 +1,40 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.createInstance() \- Create class instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIObjectPath *
+.BI CMCIClientFT.createInstance (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIInstance* inst,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Create class instance using \fIop\fP as reference.
+.PP
+Arguments are the client object pointer \fIcl\fP, ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components,
+\fIinst\fP is a complete instance object pointer, and \fIrc\fP the
+CMPI operation  status (suppressed when NULL).
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.createInstance()\fP function returns
+a pointer to a CMPIObjectPath object with the new instance reference and 
+sets a successful status code for \fIrc\fR.
+When unsuccessful it returns NULL and sets the \fIrc\fP argument with the
+error code and and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIObjectPath(3), CMPIInstance(3), CMPIStatus(3)

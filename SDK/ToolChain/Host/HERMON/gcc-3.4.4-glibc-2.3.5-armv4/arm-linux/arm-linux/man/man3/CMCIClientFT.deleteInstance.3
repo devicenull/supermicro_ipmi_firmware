@@ -1,0 +1,35 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClientFT.deleteInstance() \- Delete class instance
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIStatus
+.BI CMCIClientFT.deleteInstance (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Delete a class instance using \fIop\fP as the instance reference. 
+.PP
+Arguments are the client object pointer \fIcl\fP and an ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components.
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.deleteInstance()\fP function returns a
+CMPIStatus object with a successful operation status code.
+When unsuccessful it returns the operation error code and 
+corresponding error string in the CMPIStatus object.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.sp
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIStatus(3), CMPIObjectPath(3)

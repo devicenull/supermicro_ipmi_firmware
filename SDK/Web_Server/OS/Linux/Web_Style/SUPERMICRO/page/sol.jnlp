@@ -1,0 +1,26 @@
+<jnlp spec="1.0+" codebase="%s">
+  <information>
+    <title>Java SOL Viewer</title>
+    <vendor>ATEN</vendor>
+    <description>Java Web Start Application</description>
+  </information>
+
+  <security>
+   <all-permissions/>
+  </security>
+
+  <resources>
+    <j2se version="1.6.0+" initial-heap-size="32M" max-heap-size="32M"/>
+    <jar href="%s"  main="true"   />
+    <property name="jnlp.packEnabled" value="true"/>
+  </resources>
+
+  <application-desc main-class="S_O_L">
+    <argument>%s</argument>
+    <argument>%d</argument>
+    <argument>%s</argument>
+    <argument>%s</argument>
+    <argument>%d</argument>
+  </application-desc>
+ <update check="background"/>
+</jnlp>

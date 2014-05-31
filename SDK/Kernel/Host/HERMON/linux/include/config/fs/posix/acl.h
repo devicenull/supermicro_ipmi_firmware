@@ -1,0 +1,1 @@
+#define CONFIG_FS_POSIX_ACL 1

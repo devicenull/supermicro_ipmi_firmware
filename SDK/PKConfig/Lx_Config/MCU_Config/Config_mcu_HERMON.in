@@ -1,0 +1,2 @@
+config CONFIG_CPU_WINBOND_HERMON
+    bool "HERMON"

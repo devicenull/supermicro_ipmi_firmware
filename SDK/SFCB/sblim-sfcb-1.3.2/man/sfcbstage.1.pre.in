@@ -1,0 +1,73 @@
+.ig
+(C) Copyright IBM Corp. 2004, 2005
+                                                                                
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+                                                                                
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the
+entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+..
+
+.TH sfcbstage 1 "August 2005" "sfcbstage Version @PACKAGE_VERSION@"
+.SH NAME
+sfcbstage \- Script to copy provider MOF and registration files to the 
+Small-Footprint CIM Broker (sfcb) staging area
+.SH SYNOPSIS
+.B sfcbstage
+[\fIoptions\fR] [\fImof...\fR]
+.SH DESCRIPTION
+sfcbstage copies provider mof and registration files to the sfcb staging area.
+Used to add classes to sfcb offline. The class repository must be rebuilt with
+sfcbrepos and the sfcb CIMOM restarted before changes take effect.
+.SH OPTIONS
+.TP
+\fB\-n\fR \fInamespace\fR
+Namespace for which the class MOFs are to be registered.
+Default is \fIroot/cimv2\fR
+.TP
+\fB\-s\fR \fIstagingdir\fR
+Path to sfcb staging area containing class MOFs and registration files
+Default is \fI@localstatedir@/lib/sfcb/stage\fR
+.TP
+\fB\-r\fR \fIregistrationfile\fR
+Path to the provider registration file.
+.TP
+\fB\-h
+Display usage information and exit.
+.TP
+\fImof\fR
+Path(s) to one or more class MOF files containing the CIM class definitions
+for the class(es) implemented by the provider.
+.SH ENVIRONMENT
+.TP
+.B DESTDIR
+If set, the value of this variable is prepended to the registration directory 
+names. This can be useful to store the repository in a different location, i.e.
+when cross-compiling providers.
+.SH AUTHOR
+Viktor Mihajlovski <MIHAJLOV@de.ibm.com>
+.SH BUGS
+.PP
+The SBLIM project maintains a mailing list to which you should direct all
+questions regarding sfcb, sfcc, wbemcli, or any of the SBLIM providers.
+To subscribe to this mailing list visit
+.IP
+http://lists.sourceforge.net/lists/listinfo/sblim-issues
+.PP
+The SBLIM Project Bug tracking page can be found at
+.IP
+http://sourceforge.net/tracker/?group_id=128809&atid=712784
+.SH COPYRIGHT
+(C) Copyright IBM Corp. 2004, 2005
+.SH AVAILABILITY
+The Small-Footprint CIM Broker (sfcb) is a part of the SBLIM project.
+The most recent version is available on the web at
+.IP
+http://sblim.sourceforge.net/
+.SH "SEE ALSO"
+.BR sfcbd (1),
+.BR sfcbrepos (1),
+.BR sfcbunstage (1)

@@ -1,0 +1,8 @@
+CIMCCLIENT_1.0 {
+    global:
+        NewCIMCEnv;
+        ReleaseCIMCEnv;
+    local:
+        *;
+};
+

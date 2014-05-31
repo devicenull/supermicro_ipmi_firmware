@@ -1,0 +1,1 @@
+#define CONFIG_FLATMEM 1

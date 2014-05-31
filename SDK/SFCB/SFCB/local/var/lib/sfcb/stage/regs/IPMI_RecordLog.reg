@@ -1,0 +1,6 @@
+[IPMI_RecordLog]   
+   provider: IPMI_RecordLogProvider
+   location: cmpiIPMI_RecordLogProvider
+   type: instance method
+   namespace: root/cimv2
+#

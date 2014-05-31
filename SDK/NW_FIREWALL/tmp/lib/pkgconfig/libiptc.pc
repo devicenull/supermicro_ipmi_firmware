@@ -1,0 +1,11 @@
+
+prefix=/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/NW_FIREWALL/tmp
+exec_prefix=/root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/NW_FIREWALL/tmp
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name:		libiptc
+Description:	iptables ruleset ADT and kernel interface
+Version:	1.4.9.1
+Libs:		-L${libdir} -liptc
+Cflags:		-I${includedir}

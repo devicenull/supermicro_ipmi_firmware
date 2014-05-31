@@ -1,0 +1,135 @@
+test_cpp.o test_cpp.o: test_cpp.cpp \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/stdlib.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/features.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/cdefs.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/gnu/stubs.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/include/stddef.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/waitflags.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/waitstatus.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/endian.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/endian.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/xlocale.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/types.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/types.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/wordsize.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/typesizes.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/time.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/select.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/select.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sigset.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/time.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/sysmacros.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/pthreadtypes.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sched.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/alloca.h \
+  ./../frontend/sfcc/cmci.h ./../frontend/sfcc/cmcidt.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/stdio.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/libio.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/_G_config.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/wchar.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/wchar.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/gconv.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/include/stdarg.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/stdio_lim.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sys_errlist.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/stdio.h \
+  ./../frontend/sfcc/cmcift.h ./../frontend/sfcc/cmcimacs.h \
+  ./../frontend/sfcc/native.h ./../frontend/sfcc/cmci.h \
+  ./../frontend/sfcc/cmcimacs.h show.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/unistd.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/posix_opt.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/environments.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/confname.h \
+  /home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/getopt.h
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/stdlib.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/features.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/cdefs.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/gnu/stubs.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/include/stddef.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/waitflags.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/waitstatus.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/endian.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/endian.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/xlocale.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/types.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/types.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/wordsize.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/typesizes.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/time.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/select.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/select.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sigset.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/time.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/sys/sysmacros.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/pthreadtypes.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sched.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/alloca.h:
+
+./../frontend/sfcc/cmci.h:
+
+./../frontend/sfcc/cmcidt.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/stdio.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/libio.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/_G_config.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/wchar.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/wchar.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/gconv.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/include/stdarg.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/stdio_lim.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/sys_errlist.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/stdio.h:
+
+./../frontend/sfcc/cmcift.h:
+
+./../frontend/sfcc/cmcimacs.h:
+
+./../frontend/sfcc/native.h:
+
+./../frontend/sfcc/cmci.h:
+
+./../frontend/sfcc/cmcimacs.h:
+
+show.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/unistd.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/posix_opt.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/environments.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/bits/confname.h:
+
+/home/zawa/ToolChain/gcc-3.4.2-glibc-2.3.3/arm-aspeed-linux-gnu/bin/../lib/gcc/arm-aspeed-linux-gnu/3.4.2/../../../../arm-aspeed-linux-gnu/sys-include/getopt.h:

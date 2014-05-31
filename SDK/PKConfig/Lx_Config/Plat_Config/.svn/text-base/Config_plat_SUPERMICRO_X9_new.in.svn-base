@@ -1,0 +1,5 @@
+config CONFIG_PLATFORM_SUPERMICRO_SUBVERSION_X9_new
+    depends on CONFIG_PLATFORM_SUPERMICRO_X7SB3
+    bool "Supermicro Platform X9 Series- New GPIO"
+    default n
+

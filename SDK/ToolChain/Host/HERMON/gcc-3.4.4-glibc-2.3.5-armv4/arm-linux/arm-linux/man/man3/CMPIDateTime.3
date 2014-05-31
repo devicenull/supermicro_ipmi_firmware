@@ -1,0 +1,60 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIDateTime \- CMPIDateTime class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+
+.in +1c
+.in -1c
+.SH METHODS
+
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl;\fP
+.br
+.RI "\fIOpaque pointer to class instance data. \fP"
+.ti -1c
+.RI "\fBCMPIDateTimeFT\fP * \fBft;\fP"
+.br
+.RI "\fIPointer to the Function Table. \fP"
+.in -1c
+.SH Methods
+.in +1c
+.ti -1c
+.RI "void \f\fP (\fBCMPIType\fP type, \fBCMPIDateTime\fP *val)"
+.br
+.ti -1c
+.RI "\fBCMPIDateTime\fP \fBnative_clone_CMPIDateTime\fP (\fBCMPIType\fP type, \fBCMPIDateTime\fP *val, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "char * \fBpathToChars\fP (\fBCMPIObjectPath\fP *cop, \fBCMPIStatus\fP *rc, char *str, int uri)"
+.br
+.ti -1c
+.RI "char * \fBvalue2CharsUri\fP (\fBCMPIType\fP type, \fBCMPIDateTime\fP *value, int uri)"
+.br
+.ti -1c
+.RI "char * \fBvalue2Chars\fP (\fBCMPIType\fP type, \fBCMPIDateTime\fP *value)"
+.br
+.ti -1c
+.RI "char * \fBkeytype2Chars\fP (\fBCMPIType\fP type)"
+.br
+.ti -1c
+.RI "\fBCMPIDateTime\fP * \fBgetKeyValueTypePtr\fP (char *type, char *value, \fBXtokValueReference\fP *ref, \fBCMPIDateTime\fP *val, \fBCMPIType\fP *typ)"
+.br
+.ti -1c
+.RI "\fBCMPIType\fP \fBguessType\fP (char *val)"
+.br
+.ti -1c
+.RI "\fBCMPIDateTime\fP \fBstr2CMPIDateTime\fP (\fBCMPIType\fP type, char *val, \fBXtokValueReference\fP *ref)"
+.br
+.in -1c
+.SH DESCRIPTION
+.PP 
+CMPIDateTime class implementation, representing the Encapsulated value objects. 
+
+This is the native CMPIDateTime implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIDateTime, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

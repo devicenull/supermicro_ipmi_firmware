@@ -1,0 +1,95 @@
+#!/usr/bin/perl 
+# ============================================================================
+# wbemcat
+#
+# (C) Copyright IBM Corp. 2005
+#
+# THIS FILE IS PROVIDED UNDER THE TERMS OF THE ECLIPSE PUBLIC LICENSE
+# ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+# CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+#
+# You can obtain a current copy of the Eclipse Public License from
+# http://www.opensource.org/licenses/eclipse-1.0.php
+#
+# Author:       Adrian Schuur, <schuur@de.ibm.com>
+# Contributors: Dr. Gareth S. Bestor, <bestorga@us.ibm.com>
+# Description:
+#    Utility to send CIM-XML request file to a CIMOM and display
+#    the response/results. Default CIMOM is localhost:5988.
+#    If no input file is specified then get XML data from stdin.
+# ============================================================================
+
+use strict;
+use Getopt::Long;
+use IO::Socket;
+
+# Defaults
+my $port = 5988;
+my $host = "localhost";
+
+# Usage description
+sub usage {
+   print "Usage: wbemcat [OPTION]... [FILE]\n";
+   print "Send FILE containing CIM-XML data to CIMOM and display returned data.\n";
+   print "If no input FILE specified then read the data from stdin.\n";
+   print "\nOptions:\n";
+   print "  -h, --host=HOSTNAME\tName of host running the CIMOM. Default=$host\n";
+   print "  -p, --port=PORT\tPort that the CIMOM is listening on. Default=$port\n";
+   print "  -?, --help\t\tDisplay this help and exit\n";
+   exit;
+}
+
+# Process command line options, if any
+GetOptions("host|h=s" => \$host,
+	   "port|p=i" => \$port,
+           "help|?" => sub{usage}) || usage;
+my $file = @ARGV[0];
+
+# Read all the XML data from the input file
+my @xml;
+if ($file) {
+  open(XMLFILE,"<$file") || die "Cannot open $file: $!";
+  @xml = (<XMLFILE>);
+  close(XMLFILE) || warn "Cannot close $file: $!";
+} else {
+  # If no input file specified then read XML data from stdin
+  @xml = (<STDIN>);
+}
+
+# Calculate size of XML data
+my $size = 0;
+foreach $_ (@xml) {
+  $size += length($_);
+}
+if ($size == 0) {
+  die "No CIM-XML data";
+}
+
+# Necessary preamble specifying the length of the CIM-XML data 
+my @preamble = ("POST /cimom HTTP/1.1\n", "Host:\n",
+            "Content-Type: application/xml; charset=\"utf-8\"\n",
+            "Content-Length: ", $size, "\nCIMProtocolVersion: 1.0\n",
+	    "CIMOperation: MethodCall\n", "\n");
+
+# Pipe STDOUT to nc command
+# DEBUG: Comment out this line to see what data gets sent to the CIMOM
+
+# since nc not supported on all distributions it is not used anymore
+# open(STDOUT, "| nc $host $port") || die "Cannot fork nc command: $!";
+
+my ($socket, $answer);
+$socket=IO::Socket::INET->new(PeerAddr => $host, PeerPort => $port,
+                              Proto    => "tcp", Type => SOCK_STREAM) 
+     or die "Could not connect to $host:$port : $@\n"; 
+
+# Send preamble and XML data to CIMOM to $socket
+print $socket @preamble;
+print $socket @xml;
+
+# Get the answer
+$answer = "";
+while (defined ($answer = <$socket>)) {
+   print $answer;
+}  
+ 
+close($socket);

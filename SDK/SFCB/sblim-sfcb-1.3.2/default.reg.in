@@ -1,0 +1,91 @@
+[$ClassProvider$]
+   provider: ClassProvider
+   location: sfcClassProviderGz
+   type: class method
+   unload: never
+   namespace: *
+#
+[$DefaultProvider$]
+   provider: InternalProvider
+   location: sfcInternalProvider
+   type: instance association method
+   unload: never
+   namespace: *
+#
+[$InterOpProvider$]
+   provider: InteropProvider
+   location: sfcInteropProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[$ProfileProvider$]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+@LOAD_QUALIFIER_PROVIDER@[$QualifierProvider$]
+@LOAD_QUALIFIER_PROVIDER@   provider: QualifierProvider
+@LOAD_QUALIFIER_PROVIDER@   location: sfcQualifierProvider
+@LOAD_QUALIFIER_PROVIDER@   type: qualifier
+@LOAD_QUALIFIER_PROVIDER@   unload: never
+@LOAD_QUALIFIER_PROVIDER@   namespace: *
+#
+@LOAD_INDICATION_PROVIDER@[CIM_IndicationHandlerCIMXML]
+@LOAD_INDICATION_PROVIDER@   provider: IndCIMXMLHandler
+@LOAD_INDICATION_PROVIDER@   location: sfcIndCIMXMLHandler
+@LOAD_INDICATION_PROVIDER@   type: instance method
+@LOAD_INDICATION_PROVIDER@   namespace: root/interop
+#
+@LOAD_INDICATION_PROVIDER@[CIM_ListenerDestinationCIMXML]
+@LOAD_INDICATION_PROVIDER@   provider: IndCIMXMLHandler
+@LOAD_INDICATION_PROVIDER@   location: sfcIndCIMXMLHandler
+@LOAD_INDICATION_PROVIDER@   type: instance method
+@LOAD_INDICATION_PROVIDER@   namespace: root/interop
+#
+@LOAD_INDICATION_PROVIDER@[CIM_IndicationSubscription]
+@LOAD_INDICATION_PROVIDER@   provider: InteropProvider
+@LOAD_INDICATION_PROVIDER@   location: sfcInteropProvider
+@LOAD_INDICATION_PROVIDER@   type: instance method
+@LOAD_INDICATION_PROVIDER@   namespace: root/interop
+#
+@LOAD_INDICATION_PROVIDER@[CIM_IndicationFilter]
+@LOAD_INDICATION_PROVIDER@   provider: InteropProvider
+@LOAD_INDICATION_PROVIDER@   location: sfcInteropProvider
+@LOAD_INDICATION_PROVIDER@   type: instance method
+@LOAD_INDICATION_PROVIDER@   namespace: root/interop
+#
+[CIM_RegisteredProfile]
+   provider: ProfileProvider
+   location: sfcProfileProvider
+   type: instance method
+   unload: never
+   namespace: root/interop
+#
+[CIM_Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[__Namespace]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: *
+#
+[CIM_ObjectManager]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+[CIM_ObjectManagerCommunicationMechanism]
+   provider: ServerProvider
+   location: sfcInteropServerProvider
+   type: instance
+   namespace: root/interop
+#
+

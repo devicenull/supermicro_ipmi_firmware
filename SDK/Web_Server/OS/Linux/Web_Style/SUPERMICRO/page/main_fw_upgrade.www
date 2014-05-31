@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		var http_request = false;
+		var xmlHttp = false;
+		var pollfreq = 200;
+		var apaddr = location.protocol;
+		function PageInit()
+		{				
+			Loading(true);		
+			progress = document.getElementById("progress_line");
+			pollServer();		
+		}
+		function pollServer() 
+		{
+			var url = '/cgi/upgrade_process.cgi';
+			var pars = 'time_stamp='+(new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: pollCallback}//reigister callback function
+		                 ); 
+		}
+		function pollCallback(originalRequest) 
+		{
+			//alert(xmlHttp.readyState);
+		    if (originalRequest.readyState == 4 && originalRequest.status == 200){  
+		    	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}	
+			    var root=xmldoc.documentElement;
+				if(browser_ie)
+				{
+					percent_complete=root.text;		
+				}
+				else
+					percent_complete=root.textContent;		
+					            
+		        var pc_index = processResult(percent_complete);
+		        if(100 != percent_complete)
+		        {
+		        	progress.innerHTML = "Upgrade progress : " + percent_complete + "%";
+		            setTimeout("pollServer()", pollfreq);
+		        } 
+				else if(100 ==percent_complete)
+		        {
+		        	progress.innerHTML = "Upgrade progress : " + percent_complete + "%";
+		            setTimeout("delay()", 6000);
+		        }
+		    }	
+		}
+		function delay()
+		{      
+		    alert('Upgrade complete: Please wait for 1 minute');
+		    progress.innerHTML = "Rebooting ....."; 
+		    setTimeout('redirect()',45000);	
+		}
+		function redirect()
+		{
+			getipaddr();
+			top.location.href = apaddr;
+		}
+		function getipaddr()
+		{
+			var ipaddr = "";
+			var linkaddress = location.href;
+			var lheader = "://";
+			var lend = "/cgi";
+			var cookiestart = linkaddress.indexOf(lheader,0);
+			var cookieend = linkaddress.indexOf(lend,0);
+			if(cookiestart != -1)
+			{
+				ipaddr = linkaddress.substring((cookiestart + lheader.length),cookieend);
+			}
+			apaddr += "//";
+			apaddr += ipaddr;	
+		}
+		function processResult(percent_complete) 
+		{
+		    var ind;
+		    ind = Math.floor(percent_complete)/10;
+		    return ind;
+		}
+	</script>
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_FW_UPLOAD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	<td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_FW_UPLOAD_DESC1);</script>
+					<br> 
+					<script>document.writeln(lang.LANG_FW_UPLOAD_DESC2);</script>
+					 <br> 
+					<script>document.writeln(lang.LANG_FW_UPLOAD_DESC3);</script>
+               		</div></td><tr>
+               	</table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	<td></td>
+        	<td>
+				<table border="0" width="100%">
+				   <tr><td>
+				   <strong><span class="labeltext" id="progress_line"></span></strong>		   
+				   </td></tr>
+				   <tr><td align=center id="complete"></td></tr>
+				</table>
+        	</td>
+        <tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCICLientFT.enumClassNames() \- Enumerate class names
+.SH SYNOPSIS
+.nf
+.B #include <cmci.h>
+.sp
+.BI CMPIEnumeration *
+.BI CMCIClientFT.enumClassNames (CMCIClient* cl,
+.br
+.BI				CMPIObjectPath* op,
+.br
+.BI				CMPIFlags flags,
+.br
+.BI				CMPIStatus* rc);
+.br
+.sp
+.fi
+.SH DESCRIPTION
+Get Class using \fIop\fP as reference. The content of the returned
+class structure can be controled using the \fIflags\fP parameter.
+.PP
+Arguments are the client object pointer \fIcl\fP, ObjectPath object 
+pointer \fIop\fP that contains namespace and classname components,
+\fIflags\fP to affect the returned class structure content, 
+and \fIrc\fP the CMPI return status (suppressed when NULL).
+.PP
+The \fIflags\fP argument is a bit mask that can contain the flag 
+\fICMPI_FLAG_DeepInheritance\fP.
+.PP
+.SH "RETURN VALUE"
+When successful the \fBCMCIClientFT.enumClassNames()\fP function returns
+a pointer to a CMPIEnumeration object that contains each class name found
+and sets a successful status code in \fIrc\fR.
+When unsuccessful it returns NULL and sets the \fIrc\fP argument with the
+error code and and corresponding error string.
+.SH "ERRORS"
+.sp
+.SH "EXAMPLES"
+.nf
+   CMCIClient *cc;
+   CMPIObjectPath * objectpath;
+   CMPIEnumeration * enumeration;
+   CMPIStatus status;
+
+   /* Setup a conncetion to the CIMOM */   
+   cc = cmciConnect("localhost", NULL, NULL, NULL, NULL, NULL);
+
+   objectpath = newCMPIObjectPath("root/cimv2", NULL, NULL);
+   enumeration = cc->ft->enumClassNames(cc, objectpath, 0, &status);
+
+   if (!status.rc) {
+	fprintf(stderr, "op error code %d description %s\n",
+			 status.rc, status.msg->hdl);
+	abort();
+   }
+.fi
+.SH "CONFORMING TO"
+.sp
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClient(3), CMPIEnumeration(3), CMPIObjectPath(3), CMPIFlags(3),
+CMPIStatus(3)

@@ -1,0 +1,6 @@
+[IPMI_TextRedirectionService]   
+   provider: IPMI_TextRedirectionServiceProvider
+   location: cmpiIPMI_TextRedirectionServiceProvider
+   type: instance method
+   namespace: root/cimv2
+#

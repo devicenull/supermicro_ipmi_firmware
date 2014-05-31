@@ -1,0 +1,25 @@
+STYLE_EXTRACT_TARGET=css \
+page \
+yui \
+images \
+js \
+Makefile \
+jnlp \
+*.bin
+
+ifneq ($(SUBBOARD),)
+STYLE_EXTRACT_TARGET += ./$(SUBBOARD)
+endif
+
+extract:
+	@echo "******************** extract web-style ********************"
+	@if [ ! -d $(SDK_WEBPATH_WEB_STYLE) ]; then mkdir -p $(SDK_WEBPATH_WEB_STYLE); \
+	echo "STYLE_EXTRACT_TARGET = $(STYLE_EXTRACT_TARGET)"; \
+	cd $(WEB_STYLE_PATH); cp -af $(STYLE_EXTRACT_TARGET) $(SDK_WEBPATH_WEB_STYLE)/; \
+	fi
+	@cat Makefile | sed -e '/extract/d' > $(SDK_WEBPATH_WEB_STYLE)/Makefile
+	@chmod 744 $(SDK_WEBPATH_WEB_STYLE)/Makefile
+	@if [ -d $(WEB_STYLE_PATH)/cgi_src ];then \
+	make -C $(WEB_STYLE_PATH)/cgi_src extract; \
+	fi
+

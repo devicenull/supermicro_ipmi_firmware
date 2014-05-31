@@ -1,0 +1,16 @@
+<html>
+<head>
+	
+<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+<script language="javascript" src="../js/utils.js"></script>
+
+<script language="JavaScript" type="text/JavaScript">
+	function logout_alert()
+	{
+		SessionTimeout();
+	}
+</script>		
+</head>
+<body onload= 'logout_alert()'>
+</body>
+</html>

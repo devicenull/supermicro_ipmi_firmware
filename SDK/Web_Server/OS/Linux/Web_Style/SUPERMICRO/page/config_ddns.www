@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+    <script type="text/javascript">
+
+    //declare all global variables
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+
+function PageInit()
+{
+	document.getElementById("ddns_enable").setAttribute("value", lang.LANG_CONF_DDNS_ENABLE);
+    document.getElementById("ddns_disable").setAttribute("value", lang.LANG_CONF_DDNS_DISABLE);
+    document.getElementById("save_btn").setAttribute("value", lang.LANG_CONF_DDNS_SAVE);
+
+    var_ddns_enable=document.getElementById("ddns_enable");
+    var_ddns_disable=document.getElementById("ddns_disable");
+    var_dns_serverip=document.getElementById("dns_server_ip");
+    var_bmc_hostname=document.getElementById("bmc_hostname");
+    var_ddns_pubkey=document.getElementById("ddns_pub_key");
+    var_ddns_privkey=document.getElementById("ddns_priv_key");
+	var_ddns_en_auth=document.getElementById("ddns_en_auth");
+    save=document.getElementById("save_btn");
+
+    var_ddns_disable.onclick = DDNSDisableFunc;
+    var_ddns_enable.onclick = DDNSEnableFunc;
+	var_ddns_en_auth.onclick = auth_detect;
+    save.onclick = DDNSConfigSetting;
+
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)	
+	GetDateTimeReq();
+}
+
+function GetDateTimeReq()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'GET_DATE_TIME.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete: GetDateTimeResp}//reigister callback function
+                 );
+}
+
+function GetDateTimeResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var IPMIroot=xml_obj.documentElement;
+    var config_elm=IPMIroot.getElementsByTagName("TIME");
+    var date_time_info=config_elm[0].getElementsByTagName('INFO');
+
+    if (date_time_info.length > 0)
+    {
+        if(date_time_info[0].getAttribute("NTP") == "1")
+        {
+            //NTP enabled
+            GetDDNSConfig();
+        }
+        else
+        {
+            //NTP disabled
+            alert(lang.LANG_CONF_DDNS_NTP_WARNING);
+            location.href = mainPage;
+        }
+    }
+    else
+        alert (lang.LANG_CONF_DATE_TIME_GETVAL);
+    }
+}
+
+function GetDDNSConfig()
+{
+     Loading(true);
+     var ajax_url = '/cgi/ipmi.cgi';
+     var ajax_param = 'DDNS_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+     var ajax_req = new Ajax.Request(
+                  ajax_url,
+                  {method: 'post',parameters:ajax_param, onComplete: GetDDNSConfigResp}//reigister callback function
+                  );
+}
+
+function GetDDNSConfigResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    DDNSDisableFunc();
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var root=xml_obj.documentElement;
+    var ddns_elm=root.getElementsByTagName("DDNS");
+    var ddns_enable =   ddns_elm[0].getAttribute("enable");
+	var ddns_auth_en = ddns_elm[0].getAttribute("enable_auth"); 
+
+    var_dns_serverip.value = ddns_elm[0].getAttribute("dns_server");
+    if(var_dns_serverip.value == "null")
+        var_dns_serverip.value = "";
+
+    var_bmc_hostname.value = ddns_elm[0].getAttribute("hostname");
+    if(var_bmc_hostname.value == "null")
+        var_bmc_hostname.value = "";
+
+	if(ddns_auth_en == "true")	
+		var_ddns_en_auth.checked = true;
+	else	
+		var_ddns_en_auth.checked = false;
+
+    if(ddns_enable == "true")
+    {
+        DDNSEnableFunc();
+    }
+    else
+    {
+        DDNSDisableFunc();
+    }
+    }
+}
+
+function DDNSConfigSetting()
+{
+    var err = 0;
+    var str = '';
+    /* Disable the button here till the request is served */
+    save.disabled=true;
+
+    if(var_ddns_enable.checked == true)
+    {
+        if (!CheckIP(var_dns_serverip.value))
+        {
+            err = 1;
+            str += '\n- '+ lang.LANG_CONF_DDNS_ERR1;
+        }
+
+        var hn_var = new String(Trim(var_bmc_hostname.value));
+        if(hn_var.length == 0 || hn_var.length > 64)
+        {
+            err = 1;
+            str += '\n- '+ lang.LANG_CONF_DDNS_ERR2;
+        }
+
+        var keyfile_var = new String(var_ddns_pubkey.value);
+        if(keyfile_var.length > 0 && !CheckExtName(keyfile_var, ".key"))
+        {
+            err = 1;
+            str += '\n- '+lang.LANG_CONF_DDNS_ERR3;
+        }
+
+        var privfile_var = new String(var_ddns_privkey.value);
+        if(privfile_var.length > 0 && !CheckExtName(privfile_var, ".private"))
+        {
+            err = 1;
+            str += '\n- '+lang.LANG_CONF_DDNS_ERR4;
+        }
+
+        if (err) {
+            alert(lang.LANG_CONF_NETWORK_ERR4 + str);
+            save.disabled = false;
+            return;
+        }
+    }
+
+    document.ddns_form.action = '/cgi/config_ddns.cgi';
+    document.ddns_form.submit();
+
+}
+
+function DDNSDisableFunc()
+{
+    var_ddns_disable.checked = true;
+    var_ddns_enable.checked = false;
+
+    var_dns_serverip.disabled = true;
+    var_bmc_hostname.disabled = true;
+	auth_detect();
+
+}
+
+function DDNSEnableFunc()
+{
+    var_ddns_disable.checked = false;
+    var_ddns_enable.checked = true;
+
+    var_dns_serverip.disabled = false;
+    var_bmc_hostname.disabled = false;
+
+    if(Trim(var_dns_serverip.value) == "")
+        var_dns_serverip.value = "0.0.0.0";
+
+    if(Trim(var_bmc_hostname.value) == "")
+        var_bmc_hostname.value = "#host.#domain";
+
+	auth_detect();
+    var_dns_serverip.focus();
+}
+
+function AUTH_Enable()
+{
+    var_ddns_pubkey.disabled = false;
+    var_ddns_privkey.disabled = false;
+}
+
+function AUTH_Disable()
+{
+    var_ddns_pubkey.disabled = true;
+    var_ddns_privkey.disabled = true;
+}
+
+function auth_detect()
+{
+	if(var_ddns_en_auth.checked == true)
+	{
+		AUTH_Enable();
+	}
+	else
+	{
+		AUTH_Disable();
+	}
+}
+
+	</script>
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_CONF_DDNS_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td><div class="textA"><script>document.writeln(lang.LANG_CONF_DDNS_DESC)</script></div></td>
+                	</tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+		<div>
+	    <div>
+			<form name="ddns_form" method="POST" action="" enctype="multipart/form-data">
+
+		    <table cellspacing="0" cellpadding="5" border="0" width="450">
+
+			    <tr><td colspan="2" class="labelhead">
+				    <input type="radio" name="opt_ddns" id="ddns_enable" $(TAG_DISABLE)/>
+	                <script>document.writeln(lang.LANG_CONF_DDNS_ENABLE_EXP);</script>
+		            <input type="radio" name="opt_ddns" id="ddns_disable" $(TAG_DISABLE)/>
+			        <script>document.writeln(lang.LANG_CONF_DDNS_DISABLE_EXP);</script>
+	            </td></tr>
+
+		        <tr><td class="labelhead">
+			        <label>
+				    <script>document.writeln(lang.LANG_CONF_DDNS_DNS_IP);</script>
+					</label>
+	            </td><td>
+		            <input type="text" name="dns_server" maxlength="15" id="dns_server_ip" $(TAG_DISABLE) onBlur='CheckIPAddr(this)' />
+			    </td></tr>
+
+	            <tr><td class="labelhead">
+		            <label>
+			        <script>document.writeln(lang.LANG_CONF_DDNS_HOSTNAME);</script>
+				    </label>
+	            </td><td>
+		            <input type="text" name="hostname" maxlength="63" id="bmc_hostname" $(TAG_DISABLE) onBlur='CheckInputValue(this)' />
+			    </td></tr>
+
+				<tr><td class="labelhead">
+					<input type="checkbox" name="enable_auth" id="ddns_en_auth" value="true" $(TAG_DISABLE)/>
+                    <label>
+                    <script>document.writeln(lang.LANG_CONF_DDNS_EN_AUTH);</script>
+                    </label>
+                </td></tr>			
+
+				<tr><td class="labelhead">
+	                <label>
+		            <script>document.writeln(lang.LANG_CONF_DDNS_PUBKEY);</script>
+			        </label>
+				</td><td>
+	                <input type="file" name="keyfile" id="ddns_pub_key" style="width:220px;" $(TAG_DISABLE)/>
+		        </td></tr>
+
+	            <tr><td class="labelhead">
+		            <label>
+			        <script>document.writeln(lang.LANG_CONF_DDNS_PRIVKEY);</script>
+				    </label>
+	            </td><td>
+		            <input type="file" name="privatefile" id="ddns_priv_key" style="width:220px;" $(TAG_DISABLE)/>
+			    </td></tr>
+	        </table>
+			</form>
+	</div>
+	<div class="btnStyle" style="width: 360px;"><input type="button" class="btnStyle" id="save_btn" $(TAG_DISABLE)/></div>
+	</div>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

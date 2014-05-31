@@ -1,0 +1,77 @@
+// Copyright (c) 2007 DMTF.  All rights reserved.
+// <change cr="CIMCoreCR00786.001" type ="change">Add write qualifier
+// to LowerThresholdNonCritical, UpperThresholdNonCritical,
+// LowerThresholdCritical, UpperThresholdCritical, LowerThresholdFatal,
+// UpperThresholdFatal.</
+// <change cr="ArchCR00066.004" type="add">Add UmlPackagePath
+// qualifier values to CIM Schema.</change>
+// <change cr="ArchCR00089.003" type="add">Add PUnit qualifier values
+// to Units qualifier values.</change>
+// <change cr="CIMCoreCR942" type="add">Added Pascals to BaseUnit </change>
+// ==================================================================
+//  CIM_NumericSensor
+// ==================================================================
+   [Version ( "2.16.0" ), 
+    UMLPackagePath ( "CIM::Device::Sensors" ), 
+    Description ( 
+       "A Numeric Sensor is capable of returning numeric readings and "
+       "optionally supports thresholds settings." )]
+class Threshold_Sensor : CIM_NumericSensor {
+	//From CIM_LogicalDevice.mof
+	[Key, Description ( "The scoping System\'s CreationClassName." ), 
+       MaxLen ( 256 ), 
+       Propagated ( "CIM_System.CreationClassName" )]
+   	string SystemCreationClassName;
+
+	[Key, Description ( "The scoping System\'s Name." ), 
+       MaxLen ( 256 ), 
+       Propagated ( "CIM_System.Name" )]
+   	string SystemName;
+
+	//From CIM_System.mof
+	[Key, Description ( 
+          "CreationClassName indicates the name of the class or the "
+          "subclass used in the creation of an instance. When used "
+          "with the other key properties of this class, this "
+          "property allows all instances of this class and its "
+          "subclasses to be uniquely identified." ), 
+       MaxLen ( 256 )]
+   	string CreationClassName;
+
+	//From CIM_LogicalDevice.mof
+    [Key, Description ( 
+          "An address or other identifying information to uniquely "
+          "name the LogicalDevice." ), 
+       MaxLen ( 64 )]
+   	string DeviceID;
+
+
+		//From CIM_System.mof
+	[Description ( 
+          "The inherited Name serves as the key of a System "
+          "instance in an enterprise environment." ), 
+       MaxLen ( 256 )]
+   	string Name;
+
+   
+	//New
+	[Description ( 
+          "The current state indicated by the Sensor. This is "
+          "always one of the \"PossibleStates\"." ), 
+       MaxLen ( 128 )]
+   	string HealthState;
+
+    [Description ( 
+          "OperationStates enumerates the string outputs of the "
+          "Sensor. For example, a \"Switch\" Sensor may output the "
+          "states \"On\", or \"Off\". Another implementation of the "
+          "Switch may output the states \"Open\", and \"Close\". "
+          "Another example is a NumericSensor supporting "
+          "thresholds. This Sensor can report the states like "
+          "\"Normal\", \"Upper Fatal\", \"Lower Non-Critical\", "
+          "etc. A NumericSensor that does not publish readings and "
+          "thresholds, but stores this data internally, can still "
+          "report its states." ), 
+       MaxLen ( 128 )]
+   	string OperationStates[];
+};

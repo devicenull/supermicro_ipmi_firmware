@@ -1,0 +1,47 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMPIEnumeration \- CMPIEnumeration class implementation
+.SH SYNOPSIS
+.br
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "int \fBvoid * hdl\fP
+.br
+Opaque pointer to class instance data.
+.ti -1c
+.RI "\fBCMPIEnumerationFT\fP * \fBft\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.in -1c
+.SH METHODS
+.ti -1c
+.RI "\fBCMPIStatus\fP(* \fBrelease\fP )(\fBCMPIEnumeration\fP *en)"
+.br
+.RI "\fIThe Enumeration object will not be used any further and may be freed by CMPI run time system. \fP"
+.ti -1c
+.RI "\fBCMPIEnumeration\fP *(* \fBclone\fP )(\fBCMPIEnumeration\fP *en, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fICreate an independent copy of this Enumeration object. \fP"
+.ti -1c
+.RI "\fBCMPIData\fP(* \fBgetNext\fP )(\fBCMPIEnumeration\fP *en, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIGet the next element of this Enumeration. \fP"
+.ti -1c
+.RI "\fBCMPIBoolean\fP(* \fBhasNext\fP )(\fBCMPIEnumeration\fP *en, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fITest for any elements left in this Enumeration. \fP"
+.ti -1c
+.RI "\fBCMPIArray\fP *(* \fBtoArray\fP )(\fBCMPIEnumeration\fP *en, \fBCMPIStatus\fP *rc)"
+.br
+.RI "\fIConvert this Enumeration into an Array. \fP"
+.in -1c
+.SH DESCRIPTION
+.PP 
+Native CMPIEnumeration implementation. 
+
+This is the native CMPIEnumeration implementation as used for remote providers. It reflects the well-defined interface of a regular CMPIEnumeration, however, it works independently from the management broker.
+.PP
+It is part of a native broker implementation that simulates CMPI data types rather than interacting with the entities in a full-grown CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup

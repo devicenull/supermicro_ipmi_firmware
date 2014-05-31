@@ -1,0 +1,197 @@
+2008-04-16  Sean Swehla
+
+		* configure.ac:
+		Fixed problem related to 1828500: CMPI 2.0 Support.
+
+2007-08-28  Sven Schuetz
+
+		* backend_sfcb.c:
+		Fixed 1685254: sfcb does not return REFERENCECLASS in GetClass
+
+2007-08-01  Sven Schuetz
+
+        * backend_sfcb.c:
+        Fixed 1763178: GetClass operation failure
+
+2007-06-22  Tyrel Datwyler <tyreld@us.ibm.com>
+
+	* mofs.l:
+	Fixed 1741211 cleanup compiler warnings
+
+2007-05-03  Chris Abbey
+
+	* configure.ac:
+	Fixed 1709042: added dependency to sfcUtil
+
+2007-03-23  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* configure.ac: 
+	Addition for 1686170: instance comparison not supported.
+	Needed to adjust the include path for the sfcb backend case.
+
+2007-03-20  Viktor Mihajlovski  <mihajlov@dyn-9-152-210-57.boeblingen.de.ibm.com>
+
+	* hash.h: 
+	Fixed 1683860: Error compiling CIM v2.14Experimental
+	The symbol hashtable was too small for 2.14e, has been increased
+	by factor 4.
+
+2007-02-22  Sven Schuetz
+
+	* backend_sfcb.c:
+	Adopted change in sfcb function name (normalizeObjectpath)
+
+2007-01-04  Sven Schuetz
+
+	* backend_sfcb.c:
+	Fixed 1624528: sfcb getclass doesn't return methods
+
+2007-01-04  Sven Schuetz
+
+	* backend_sfcb.c, symtab.c:
+	Fixed 1616463: mofc doesn't process REF type properties
+
+2007-01-03  Sven Schuetz
+
+	* backend_sfcb.c:
+	Partially fixed 1624528: sfcb getclass doesn't return methods
+
+2006-12-20  Viktor Mihajlovski  <mihajlov@localhost.localdomain>
+
+	* backend_sfcb.c, configure.ac, symtab.c: 
+	Combined fix for 1601274, 1614898: new option --enable-namespace-kludge
+	for the support of legacy __namespace class compilation.
+
+2006-12-15  Sven Schuetz
+
+	* backend_sfcb.c, symtab.c:
+	Fixed 1614898: coredumps for instance of undefined class
+
+2006-11-30  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* configure.ac: 
+	Fixed 1605522: added warning if no yacc or lex found.
+	
+2006-11-20  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* symtab.c: 
+	Fixed 1599675: endless loop after class redefinition.
+
+2006-11-07  Sven Schuetz
+	* backend_sfcb.c:
+	Fixed 1587752: support for qualifier and instance swapping
+
+2006-10-27  Sven Schuetz
+	* backend_sfcb.c, backend_print.c, configure.ac, mofparse.c, symtab.h,
+	symtab.c, mofc.y, mofs.l, backend.h:
+	Fixed 1585788: support for instances and qualifiers
+
+2006-08-23  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* symtab.c: 
+	Fixed 1532423: allow class redefinition (upgrade) if a version
+	qualifier is specified.
+
+2006-07-25  Viktor Mihajlovski  <mihajlov@dyn-9-152-143-50.boeblingen.de.ibm.com>
+
+	* configure.ac, mofc.y, symtab.c, symtab.h: 
+	Fixed 1528352: now the compiler can support forward declarations.
+	The old behaviour can be established using --enable-onepass.
+
+2006-07-19 sschuetz
+	* backend_sfcb.c:
+	Fixed 1525280: changed some function calls due to sfcb changes
+
+2006-01-31    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* backend_sfcb.c:
+	Related to 1420604: adapted to cmpidt.h changes.
+
+	* mofs.l: 
+	Fixed 1420397: close include files after EOF. Added support for
+	backslash-delimited pathes.
+
+2006-01-26  mihajlov
+
+	* mofparse.c: Enhancement: allow multiple backend options to be
+	specified.
+
+2006-01-26    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* configure.ac, Makefile.am: 
+	Fixed 1414767 vpath build failure. Made xFLAGS processing
+	more standards compliant.
+
+2006-01-23  a3schuur
+
+	* configure.ac: [ 1408327 ] sfcbmof does not support big/little
+	endian in cross-compile Fixing offset problems in P32 mode Setting
+	default alignment to 4 Updating configure.ac by removing
+	objectImplSwapEndian references
+
+2006-01-23  a3schuur
+
+	* backend_sfcb.c: [ 1408327 ] sfcbmof does not support big/little
+	endian in cross-compile Previous fix did not correctly anticipate
+	Power32 alignment rules.  objectImplSwapEndian.c has been removed
+	because totally inadequate.  objectImpiI32toP32.c has been created
+	instead. It recreates classSchemas files for Power32 systems.
+	sfcbmof now requires -b P32 to invoke the cross compile support.
+	-b P32 only works one way only: It must be executed on a ix86
+	machine and it will only generate classSchemas files for Power32.
+
+2006-01-17  a3schuur
+
+	* backend_sfcb.c, configure.ac: fix for [ 1408327 ] sfcbmof does
+	not support big/little endian in cross-compile
+
+2006-01-12  mihajlov
+
+	* mofparse.c: Minor fix for redundant error message.
+
+2006-01-02    <mihajlov@dyn-9-152-143-45.boeblingen.de.ibm.com>
+
+	* configure.ac: 
+	Fixed 1395350. Evaluate $srcdir for SFCB source directory location.
+
+2005-11-20  bestorga-oss
+
+	* COPYING, backend.h, backend_print.c, backend_sfcb.c, hash.c,
+	hash.h, mofc.y, mofdecl.h, mofparse.c, mofs.l, symtab.c, symtab.h:
+	Bug: 1362805. changed all license references to new Eclipse Public license
+
+2005-09-05  mihajlov
+
+	* configure.ac: Upgraded version number to 0.7.3.
+
+2005-08-02  a3schuur
+
+	* configure.ac: Added -fsigned-char compile flag to ensure ppc gcc
+	treats char the same way as gcc on ix86
+
+2005-08-02  a3schuur
+
+	* mofparse.c: fixed [ 1250128 ] sfcbmof fails on ppc
+
+	char opt; on line 49 changed to int opt;
+
+2005-06-14    <mihajlov@dyn-9-152-143-42.boeblingen.de.ibm.com>
+
+	* mofc.y: 
+	* mofc.l:
+	Bug 1220394: Syntax Support for char literals.
+
+	* symtab.c:
+	* symtab.h:
+	Bug 1220394: Helper functions for char literal extraction added.
+
+2005-06-13    <schuur@localhost.localdomain>
+
+	* backend_sfcb.c:
+	Bug 122035 fixed: incorrect handling of qualifier values.
+
+2005-06-07    <mihajlov@localhost.localdomain>
+
+	* backend_sfcb.c (make_cmpi_data):
+	Bug 1216246 fixed: incorrect handling of array values.
+

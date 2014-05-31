@@ -1,0 +1,1180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+	  <link rel="stylesheet" href="../css/basic.css" type="text/css">
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script> 
+    <script language="javascript" src="../js/utils.js"></script> 
+  
+  
+
+<!-- power javascript start -->
+<script type="text/javascript">
+	
+var browser_ie = (((navigator.userAgent.indexOf('MSIE') >= 0) && (navigator.userAgent.indexOf('Opera') < 0))?true:false);
+	
+var mainPage = "../cgi/url_redirect.cgi?url_name=health";	//[Croy] 08/01/13
+
+var PSItems    	= new Array();
+var BBPSettingItems = new Array();
+var BBPTimeoutItem = new Array();
+
+// Jack:
+// 0: Battery Type Not Present
+// 1: Battery Type Present
+var SlotStatus = new Array();
+
+function GetStatus(val)
+{
+	switch (val)
+	{
+		case 2: 
+			return "Battery failed";
+		case 3: 
+			return "Power failed";
+		case 0xb: 
+			return "Power AC lost";
+		case 1:
+			return "Power Supply OK";
+		case 4: 
+			return "Battery OK";
+		case 0xff:
+			return "Not present";		
+		default:
+			return "Error";	
+		
+	}
+}
+
+function GetEngaged(val)
+{
+	switch (val)
+	{
+		case 0:
+			return " Not engaged"
+		case 1: 
+			return " Engaged";
+		case 2:
+			return " Error";	
+	}
+}
+
+function GetEnable(val)
+{
+	switch (val)
+	{
+		case 0:
+			return " Disable"
+		case 1: 
+			return " Enable";
+		case 2:
+			return " Error";	
+	}
+}
+
+function ButtonSaveTimeoutValue()
+{
+//   console.log("ButtonSaveTimeoutValue()");
+
+  if (confirm(lang.LANG_MISC_BBP_POWER_GRACEFUL_SHUTDOWN_CONFIRM))
+  {
+    if( ! ValidateBBPTimeoutValue() )
+    {
+      alert("BBP Timeout value is not valid!");
+      BBPTimeoutItem[1][4].select();
+      return;
+    }
+
+//     console.log("BBPTimeoutItem[1][2].checked = " + BBPTimeoutItem[1][2].checked);
+
+    if(BBPTimeoutItem[1][2].checked==true)
+      var_timeout_value_enable =1;
+    else
+      var_timeout_value_enable =0;
+    
+    // Jack: Save Button
+    BBPTimeoutItem[1][5].disabled = true;
+
+    autoDischargeTimerEnable = new Array();
+    manualDischargeTimerEnable = new Array();
+    autoTimerSetting = new Array();
+
+    for(i=0;i<4;++i)
+    {
+      autoDischargeTimerEnable[i]	= 9;
+      manualDischargeTimerEnable[i]	= 9;
+      autoTimerSetting[i] 		= 9;
+
+//       console.log("SlotStatus["+i+"] = "+ SlotStatus[i] );
+
+      //Jack: NaN return from this call: if(parseInt( PSItems[i][1][1],16) == 2 )
+      if( SlotStatus[i] == 1 )
+      // Tony: if(parseInt( BBPItemsObj[i].getAttribute("PowerStatus"),16)==2)
+      {
+	// Jack: Use BBPSettingItems
+	autoDischargeTimerEnable[i] = (BBPSettingItems[i][1][2].checked==true && BBPSettingItems[i][1][3].checked==false)?1:0;
+	manualDischargeTimerEnable[i] = (BBPSettingItems[i][1][4].checked==true && BBPSettingItems[i][1][5].checked==false)?1:0;
+	autoTimerSetting[i]= BBPSettingItems[i][1][6].value;
+
+// 	console.log("autoTimerSetting["+i+"] = " + autoTimerSetting[i]);
+
+	/*Tony:	Save Code
+	autoDischargeTimerEnable[i] = (BBPItems[i][1][7].checked==true && BBPItems[i][1][8].checked==false)?1:0;
+	manualDischargeTimerEnable[i] = (BBPItems[i][1][9].checked==true && BBPItems[i][1][10].checked==false)?1:0;
+	autoTimerSetting[i]= BBPItems[i][1][11].value;*/
+      }
+
+    }//for(i=0;i<4;++i)
+
+    var ajax_url = '/cgi/config_set_bbp_timeout_value.cgi';
+
+    var ajax_param =  'timeout_value=' + BBPTimeoutItem[1][4].value +
+		      '&timeout_value_enable=' + var_timeout_value_enable + 
+		      '&auto_timer0=' + autoDischargeTimerEnable[0] +
+		      '&manual_timer0=' + manualDischargeTimerEnable[0] +
+		      '&setting0=' + autoTimerSetting[0] +
+		      '&auto_timer1=' + autoDischargeTimerEnable[1] +
+		      '&manual_timer1=' + manualDischargeTimerEnable[1] +
+		      '&setting1=' + autoTimerSetting[1] +
+		      '&auto_timer2=' + autoDischargeTimerEnable[2] +
+		      '&manual_timer2=' + manualDischargeTimerEnable[2] +
+		      '&setting2=' + autoTimerSetting[2] +
+		      '&auto_timer3=' + autoDischargeTimerEnable[3] +
+		      '&manual_timer3=' + manualDischargeTimerEnable[3] +
+		      '&setting3=' + autoTimerSetting[3];
+
+//     var ajax_param =  'timeout_value=' + elm_bbp_timeout_value.value +
+// 			      '&timeout_value_enable=' + var_timeout_value_enable; 
+
+    var ajax_req = new Ajax.Request(
+		    ajax_url,
+		    {method: 'post',parameters:ajax_param, onComplete: SetBBPTimeoutValueResp}//reigister callback function
+		    );
+    }
+}
+
+function SetBBPTimeoutValueResp(originalRequest)
+{
+    if (originalRequest.readyState == 4 && originalRequest.status == 200)
+    {
+	alert(lang.LANG_MISC_BBP_POWER_DISCHARGE_CHARGE_CONFIRM_OK);
+    }
+    else
+    {
+      alert(lang.LANG_COMMON_UNSAVE);
+    }
+
+    // Jack: Save Button
+    BBPTimeoutItem[1][5].disabled = false;
+}
+
+
+function ValidateBBPTimeoutValue()
+{
+//    console.log("BBPTimeoutItem[1][4].value = " + BBPTimeoutItem[1][4].value);
+
+  if( ! CheckNumber( parseInt(BBPTimeoutItem[1][4].value, 10) ) )
+  {
+//     console.log("False");
+    return false;    
+  }
+  else if( BBPTimeoutItem[1][4].value <= 0 || BBPTimeoutItem[1][4].value > 600 )
+    return false;
+  else
+    return true;
+}
+
+
+function PageInit()
+{
+// 	console.group("Power Source");
+
+	for(i=0;i<4;++i)
+	{
+		PSItems[i] = new Array();
+		j=0;
+		PSItems[i][j]  = new Array();
+		
+		for(k=0;k<24;++k)
+			PSItems[i][j][k]  = "id_psinfo_"+ i + "_" + k ;
+
+		j=1;
+		PSItems[i][j]  = new Array();
+
+		for(k=0;k<24;++k)
+			PSItems[i][j][k]  = document.getElementById(PSItems[i][j-1][k]);
+
+	}//for(i=0;i<4;++i)
+
+	//Initialize the bbp setting block
+	for(i=0;i<4;++i)
+	{
+		BBPSettingItems[i]		= new Array();
+		j=0;
+		BBPSettingItems[i][j]  = new Array();
+		
+		for(k=0;k<2;++k)
+			BBPSettingItems[i][j][k]  = "id_bbp_setting_"+ i + "_" + k ;
+
+		for(k=0;k<4;++k)
+			BBPSettingItems[i][j][k+2]  = "id_radio_"+ i + "_" + k ;
+
+		BBPSettingItems[i][j][6]  = "id_select_"+ i;
+
+
+		j=1;
+		BBPSettingItems[i][j]  = new Array();
+
+		for(k=0;k<7;++k)
+			BBPSettingItems[i][j][k]  = document.getElementById(BBPSettingItems[i][j-1][k]);
+		
+	}//for(i=0;i<4;++i)
+
+
+	//Initialize the bbp timeout selection	
+
+	//Initialize the bbp timeout selection, when j=0
+
+	j=0;
+	BBPTimeoutItem[j]  = new Array();
+
+	for(k=0;k<2;++k)
+		BBPTimeoutItem[j][k]  = "id_bbp_timeout_"+ k;
+	for(k=0;k<2;++k)
+		BBPTimeoutItem[j][k+2]  = "id_radio_bbp_timeout_"+ k;
+
+	BBPTimeoutItem[j][4]  = "id_text_bbp_timeout";
+	BBPTimeoutItem[j][5]  = "id_button_save";
+	
+	BBPTimeoutItem[j][6]  = "id_pwc_timeout";
+	
+	j=1;
+	BBPTimeoutItem[j]  = new Array();
+
+	for(k=0;k<7;++k)
+		BBPTimeoutItem[j][k]  = document.getElementById(BBPTimeoutItem[j-1][k]);
+		
+	BBPTimeoutItem[1][5].onclick = ButtonSaveTimeoutValue;
+
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'UID_SUPPORT.XML=(0,0)&time_stamp='+(new Date());
+	var myAjax = new Ajax.Request(
+			     url,
+			     {method: 'post',parameters:pars, onComplete: PageInit2}//reigister callback function
+			      );
+}
+
+
+function PageInit2(originalRequest)
+{	
+//   console.log("PageInit2()");
+
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var IPMIRoot=xmldoc.documentElement;//point to IPMI
+			
+		UID=IPMIRoot.getElementsByTagName('UID');//point to SENSOR_INFO
+		isUID = UID[0].getAttribute("EN");
+			
+		//[Croy] 08/01/13		
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)	
+		powerRef();
+	}
+	else 
+	{
+			Alert ("Oops! Please reconnect due to the network problem!")			
+			
+	}
+}
+
+function powerRef() 
+{
+//   console.log("powerRef()");
+
+  var url = '/cgi/ipmi.cgi';
+  var pars = '?Get_PSInfoReadings.XML=(0,0)&time_stamp='+(new Date());
+  var myAjax = new Ajax.Request(
+	  url,
+	  {method: 'post',parameters:pars, onComplete: powerRefResult}//reigister callback function
+	  );
+//Tony test, stop polling
+//    setTimeout(powerRef,3000);
+}
+
+
+function powerRefResult(originalRequest) 
+{
+// 	console.log("powerRefResult()");
+
+ 	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+	var xmldoc=GetResponseXML(response);
+	if(xmldoc == null)
+	{
+		SessionTimeout();
+		return;
+	}
+	}
+
+	var IPMIRoot=xmldoc.documentElement;//point to IPMI
+
+	var PSInfoObj	=	IPMIRoot.getElementsByTagName("PSInfo");
+
+	PSItemsObj	=	PSInfoObj[0].getElementsByTagName("PSItem");
+
+	for(i=0;i<4;++i)
+	{
+		PSItems[i][1][0].innerHTML  = "Status";
+		PSItems[i][1][1].innerHTML  = GetStatus(parseInt( PSItemsObj[i].getAttribute("a_b_PS_Status_I2C"),16));
+		SlotStatus[i] = 0;
+
+		if(parseInt( PSItemsObj[i].getAttribute("a_b_PS_Status_I2C"),16)!=0xff)
+		{
+			
+			// 0 = power supply
+			if(parseInt( PSItemsObj[i].getAttribute("at_b_PSType"),16)==0)
+			{
+
+				PSItems[i][1][2].innerHTML  = "AC Input Voltage";
+
+				PSItems[i][1][3].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_1_0"),16)+" (V)";
+
+				PSItems[i][1][4].innerHTML  = "AC Input Current";
+				PSItems[i][1][5].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_2_0"),16) / 100 +" (A)";
+
+				PSItems[i][1][6].innerHTML  = "DC 12V Output Voltage";
+				PSItems[i][1][7].innerHTML  = (parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_3_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_3_1"),16)*255) / 100 + " (V)";
+
+				PSItems[i][1][8].innerHTML  = "DC 12V Output Current";
+				PSItems[i][1][9].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_4_0"),16) / 10 +" (A)";
+
+				c = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_5_0"),16);
+				f = 9 * c / 5+ 32;
+				PSItems[i][1][10].innerHTML  = "Temperature 1";
+				PSItems[i][1][11].innerHTML  = (c + " C/ " + f + " F");
+
+				c = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_6_0"),16);
+				f = 9 * c / 5+ 32;
+
+				PSItems[i][1][12].innerHTML  = "Temperature 2";
+				PSItems[i][1][13].innerHTML  = (c + " C/ " + f + " F");
+
+				PSItems[i][1][14].innerHTML  = "Fan 1";
+				PSItems[i][1][15].innerHTML  = (parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_1"),16)*255) * 100 +" RPM";
+
+				// PSItems[i][1][15].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_0"),16)+" RPM";
+
+				PSItems[i][1][16].innerHTML  = "Fan 2";
+				PSItems[i][1][17].innerHTML  = (parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_8_0"),16)+ parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_8_1"),16)*255) * 100 +" RPM";
+				// PSItems[i][1][17].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_8_0"),16)+" RPM";
+
+				PSItems[i][1][18].innerHTML  = "DC 12V Output Power";
+				PSItems[i][1][19].innerHTML  = (parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_9_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_9_1"),16) * 255) + " (W)"
+
+				PSItems[i][1][20].innerHTML  = "AC Input Power";
+				PSItems[i][1][21].innerHTML  = (parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_a_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_a_1"),16) * 255) + " (W)"
+
+				PSItems[i][1][22].innerHTML  = "PWS Serial Number";
+				PSItems[i][1][23].innerHTML  = PSItemsObj[i].getAttribute("at_bb_PSInfoName");
+
+
+			}else
+			{
+				SlotStatus[i] = 1;
+				PSItems[i][1][2].innerHTML  = "Temperature";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_1_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_1_1"),16) * 256;
+				PSItems[i][1][3].innerHTML  = parseInt( test)+" (C)";
+
+				PSItems[i][1][4].innerHTML  = "Remaining Energy";
+				PSItems[i][1][5].innerHTML  = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_2_0"),16)+" (%)";
+
+				PSItems[i][1][6].innerHTML  = "Voltage";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_3_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_3_1"),16) * 256;
+				PSItems[i][1][7].innerHTML  = parseInt( test)+" (mV)";
+// Jack: 
+// Correction: Current is in 2's 
+//
+				PSItems[i][1][8].innerHTML  = "Current";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_4_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_4_1"),16) * 256;
+		  
+				if((test & 0x8000) == 0x8000)
+				{
+				  test = ( (0xFFFF - test) + 1);
+					PSItems[i][1][9].innerHTML  = "-" + ( test * 10 ) +" (mA)";
+				}else
+				{
+				  PSItems[i][1][9].innerHTML  = ( test * 10 ) +" (mA)";
+				}
+
+ 				console.log("after current value test=%d", test);
+
+				// PSItems[i][1][9].innerHTML  = parseInt( test) * 10 +" (mA)";
+
+				PSItems[i][1][10].innerHTML  = "Cycle Count";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_5_0"),16) + parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_5_1"),16) * 256;
+				PSItems[i][1][11].innerHTML  = parseInt( test) * 10 +" (Times)";
+
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_6_0"),16);
+				test1 = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_0"),16);
+				var test_ret, test1_ret;
+				
+				PSItems[i][1][12].innerHTML  = "Auto Discharge Timer";
+
+				if((test & 0x80) == 0x80)
+					test_ret = 1;
+				else
+					test_ret = 0;
+
+				if((test1 & 0x80) == 0x80)
+					test1_ret = 1;
+				else
+					test1_ret = 0;
+
+				PSItems[i][1][13].innerHTML = GetEnable(test1_ret)+" , " + GetEngaged(test_ret);
+
+
+				PSItems[i][1][14].innerHTML  = "Manual Discharge";
+
+				if((test & 0x40) == 0x80)
+					test_ret = 1;
+				else
+					test_ret = 0;
+
+				if((test1 & 0x40) == 0x80)
+					test1_ret = 1;
+				else
+					test1_ret = 0;
+
+				PSItems[i][1][15].innerHTML = GetEnable(test1_ret)+" , " + GetEngaged(test_ret);
+
+
+				PSItems[i][1][16].innerHTML  = "Remaining days before auto-discharge";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_6_0"),16);
+				PSItems[i][1][17].innerHTML  = parseInt(test & 0x3F)+ " Days ( Default:30 , Max:63 )";
+
+				PSItems[i][1][18].innerHTML  = "Auto Timer Setting";
+				test = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_0"),16);
+				PSItems[i][1][19].innerHTML  = parseInt(test & 0x3F)+ " Days";
+
+			}//if(parseInt( PSItemsObj[i].getAttribute("at_b_PSType"),16)==0)
+		}//if(parseInt( PSItemsObj[i].getAttribute("a_b_PS_Status_I2C"),16)!=0xff)
+		
+		//Setup the bbp setting block
+
+		//
+		// Check if PSS ITEM is Battery or Power Supply
+		//
+		BBPSettingItems[i][1][0].innerHTML  = "Audio Discharge Timer "+ i;
+		BBPSettingItems[i][1][1].innerHTML  = "Manual Discharge "+ i
+
+		if(parseInt( PSItemsObj[i].getAttribute("at_b_PSType"),16)==1)
+		{
+			test1 = parseInt( PSItemsObj[i].getAttribute("at_bb_PSInfoValue_7_0"),16);
+
+// 			console.log("i = " + i + " at_bb_PSInfoValue_7_0 value = " + test1);
+
+			if((test1 & 0x80) == 0x80)
+			{
+				BBPSettingItems[i][1][2].checked =true;
+				BBPSettingItems[i][1][3].checked =false;
+			}else
+			{
+				BBPSettingItems[i][1][2].checked =false;
+				BBPSettingItems[i][1][3].checked =true;
+			}
+
+			if((test1 & 0x40) == 0x40)
+			{
+				BBPSettingItems[i][1][4].checked =true;
+				BBPSettingItems[i][1][5].checked =false;
+			}else
+			{
+				BBPSettingItems[i][1][4].checked =false;
+				BBPSettingItems[i][1][5].checked =true;
+ 			}
+
+
+			var var_min_dd = 0;
+			var var_max_dd = 63;
+			var var_num;
+			var var_index;
+			var tmp_opt_obj;
+
+			for(var_num = var_min_dd; var_num <= var_max_dd; var_num++)
+			{
+				if(browser_ie) var_index = var_num - var_min_dd;
+				else var_index = null;
+				tmp_opt_obj = new Option(var_num, var_num);
+
+				BBPSettingItems[i][j][6].add(tmp_opt_obj, var_index);
+			}
+
+			BBPSettingItems[i][1][6].value = parseInt(test1 & 0x3F);
+			
+		}
+		else
+		{
+
+		  BBPSettingItems[i][1][0].disabled = true;
+		  BBPSettingItems[i][1][1].disabled = true;
+
+		  BBPSettingItems[i][1][2].checked = false;
+		  BBPSettingItems[i][1][2].disabled = true;
+
+		  BBPSettingItems[i][1][3].checked =false;
+		  BBPSettingItems[i][1][3].disabled = true;
+
+		  BBPSettingItems[i][1][4].checked =false;
+		  BBPSettingItems[i][1][4].disabled = true;
+
+		  BBPSettingItems[i][1][5].checked =false;
+		  BBPSettingItems[i][1][5].disabled = true;
+		  
+
+		  // Select
+		  BBPSettingItems[i][1][6].disabled = true;
+		}
+	}//for(i=0;i<4;++i)
+
+
+
+		//Setup the bbp setting block
+
+		BBPTimeoutItem[1][0].innerHTML  = "Timeout Value for graceful shutdown";
+		BBPTimeoutItem[1][1].innerHTML  = " (Seconds)";
+
+		if(parseInt( PSInfoObj[0].getAttribute("at_b_PSTimeoutEnable"),16)==1)
+		{
+			BBPTimeoutItem[1][2].checked =true;
+			BBPTimeoutItem[1][3].checked =false;
+		}else
+		{
+			BBPTimeoutItem[1][2].checked =false;
+			BBPTimeoutItem[1][3].checked =true;
+		}
+
+		BBPTimeoutItem[1][4].value = parseInt( PSInfoObj[0].getAttribute("at_w_PSTimeoutValue"),16);
+		BBPTimeoutItem[1][6].innerHTML =parseInt( PSInfoObj[0].getAttribute("BBP_TIMEOUT_VALUE"),16) + " sec";
+		
+
+		document.getElementById(BBPTimeoutItem[0][5]).setAttribute("value", lang.LANG_CONF_NETWORK_SAVE);
+
+// 		console.groupEnd();
+}
+
+</script>
+  	<!-- power javascript start -->
+</head>
+
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_MISC_PSINFO_POWER_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_MISC_PSINFO_POWER_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>
+			&nbsp;</td></tr>
+<!--bbp time out setting-->
+		<tr><td>&nbsp;</td><td>
+<!--
+				<fieldset style="width: 600px;">				
+				<legend>BBP Timeout Setting</legend>
+				<table border="0" width="100%" id="table1">
+					<tr><span>
+						<td class="labelhead" width="250">&nbsp;<script>document.writeln(lang.LANG_MISC_BBP_POWER_GRACEFUL_SHUTDOWN_TITLE)</script></td>
+						<td colspan="1" class="labelhead">
+					    	<input type="radio" name="radio_bbp_timeout_value" id="id_radio_bbp_timeout_value_enable">
+					    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+					    	<input type="radio" name="radio_bbp_timeout_value" id="id_radio_bbp_timeout_value_disable">						
+					    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;&nbsp;						
+						<br><input type="text" name="text_bbp_timeout_value" id="id_bbp_timeout_value" /> &nbsp;&nbsp;
+					    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_GRACEFUL_SHUTDOWN_SECONDS)</script>&nbsp;&nbsp;						
+-->
+						<!-- <select id="id_bbp_timeout_value"></select> &nbsp;&nbsp; -->						
+						<!-- <input type="button" class="btnStyle" id="save_timeout_value_btn" />
+		            	</td></span>
+					</tr>
+				</table>
+				</fieldset> -->
+		</td></tr>
+<!--1st bbp settting  --->
+        <tr><td>&nbsp;</td><td>
+			<fieldset style="width: 600px;">
+			<legend>BBP Setting</legend>
+			<table border="0" width="100%" id="table1">
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_0_0" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_0_0" id="id_radio_0_0" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_0_0" id="id_radio_0_1" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_IN)</script>&nbsp;
+						<select id="id_select_0"></select>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_DAYS)</script>
+	            	</td></span>
+				</tr>
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_0_1" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_0_1" id="id_radio_0_2" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_0_1" id="id_radio_0_3" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+	            	</td></span>
+				</tr>
+<!--2nd bbp settting  --->
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_1_0" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_1_0" id="id_radio_1_0" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_1_0" id="id_radio_1_1" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_IN)</script>&nbsp;
+						<select id="id_select_1"></select>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_DAYS)</script>
+	            	</td></span>
+				</tr>
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_1_1" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_1_1" id="id_radio_1_2" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_1_1" id="id_radio_1_3" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+	            	</td></span>
+				</tr>
+<!--3rd bbp settting  --->
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_2_0" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_2_0" id="id_radio_2_0" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_2_0" id="id_radio_2_1" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_IN)</script>&nbsp;
+						<select id="id_select_2"></select>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_DAYS)</script>
+	            	</td></span>
+				</tr>
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_2_1" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_2_1" id="id_radio_2_2" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_2_1" id="id_radio_2_3" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+	            	</td></span>
+				</tr>
+<!--4th bbp settting  --->
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_3_0" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_3_0" id="id_radio_3_0" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_3_0" id="id_radio_3_1" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_IN)</script>&nbsp;
+						<select id="id_select_3"></select>&nbsp;
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_DAYS)</script>
+	            	</td></span>
+				</tr>
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_setting_3_1" class="labelhead"></span>
+	            	</td>
+	            	<td colspan="1" class="labelhead">
+				    	<input type="radio" name="name_radio_3_1" id="id_radio_3_2" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="name_radio_3_1" id="id_radio_3_3" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;
+	            	</td></span>
+				</tr>
+<!--Timeout value for graceful shutdown --->
+				<tr><span>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_bbp_timeout_0" class="labelhead"></span>
+	            	</td>
+					<td colspan="1" class="labelhead">
+				    	<input type="radio" name="radio_bbp_timeout" id="id_radio_bbp_timeout_0" $(TAG_DISABLE)/>
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_ENABLE)</script>&nbsp;
+				    	<input type="radio" name="radio_bbp_timeout" id="id_radio_bbp_timeout_1" $(TAG_DISABLE)/>						
+				    	<script>document.writeln(lang.LANG_MISC_BBP_POWER_TIMER_DISABLE)</script>&nbsp;&nbsp;						
+					<input type="text" style="text_bbp_timeout" id="id_text_bbp_timeout" size="2" $(TAG_DISABLE)/> &nbsp;&nbsp;
+	                	&nbsp;<span id="id_bbp_timeout_1" style="font-weight:bold;" class="labelhead"></span>
+				        <input type="button" class="btnStyle" id="id_button_save" $(TAG_DISABLE)/>
+					</td>					
+					</span>
+				</tr>
+				<tr>
+				<td colspan="2" class="labelhead">
+				<script>document.writeln(lang.LANG_MISC_PWC_TIMEOUT_DESC)</script>
+				<span id="id_pwc_timeout" style="font-weight:bold;" class="labelhead"></span></td>
+				</tr>
+				
+<!--Timeout value for graceful shutdown --->
+			</table>
+			</fieldset>
+			</td></tr>
+<!--1st ps info --->
+        <tr><td>&nbsp;</td><td>
+			<fieldset style="width: 600px;">
+			<legend>Slot 1 Status</legend>
+			<table border="0" width="100%" id="table1">
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_0" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_1" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_2" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_3" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_4" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_5" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_6" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_7" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_8" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_9" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_10" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_11" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_12" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_13" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_14" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_15" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_16" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_17" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_18" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_19" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_20" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_21" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_22" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_0_23" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+			</table>
+			</fieldset>
+			</td></tr>
+<!--2nd psinfo --->
+        <tr><td>&nbsp;</td><td>
+			<fieldset style="width: 600px;">
+			<legend>Slot 2 Status</legend>
+			<table border="0" width="100%" id="table1">
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_0" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_1" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_2" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_3" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_4" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_5" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_6" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_7" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_8" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_9" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_10" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_11" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_12" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_13" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_14" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_15" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_16" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_17" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_18" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_19" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_20" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_21" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_22" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_1_23" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+			</table>
+			</fieldset>
+			</td></tr>
+<!--3rd psinfo --->
+        <tr><td>&nbsp;</td><td>
+			<fieldset style="width: 600px;">
+			<legend>Slot 3 Status</legend>
+			<table border="0" width="100%" id="table1">
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_0" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_1" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_2" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_3" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_4" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_5" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_6" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_7" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_8" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_9" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_10" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_11" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_12" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_13" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_14" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_15" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_16" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_17" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_18" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_19" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_20" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_21" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_22" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_2_23" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+			</table>
+			</fieldset>
+			</td></tr>
+<!--4th psinfo --->
+        <tr><td>&nbsp;</td><td>
+			<fieldset style="width: 600px;">
+			<legend>Slot 4 Status</legend>
+			<table border="0" width="100%" id="table1">
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_0" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_1" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_2" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_3" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_4" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_5" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_6" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_7" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_8" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_9" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_10" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_11" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_12" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_13" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_14" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_15" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_16" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_17" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_18" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_19" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_20" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_21" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_22" class="labelhead"></span>
+	            	</td>
+	            	<td class="labelhead">
+	                	&nbsp;<span id="id_psinfo_3_23" style="font-weight:bold;" class="labelhead"></span>
+	            	</td>
+	            </tr>
+			</table>
+			</fieldset>
+			</td></tr>
+<!--psinfo end --->
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+
+        	 
+        	  <!--<input type="button" class="btnStyle" id="ButtonRef" onclick="powerRef()"/>-->
+        	  <!-- end of this area -->
+        	  </td>
+        </table>
+</body>
+</html>

@@ -1,0 +1,10 @@
+mainmenu "SDK Wizard  Configuration"
+config CONFIG_PRJNAME
+    string "Project name"
+    default""
+config CONFIG_DTK_PATH
+    string "DTK Source Path"
+    default""
+
+source MODConfig.in 
+source DRVConfig.in

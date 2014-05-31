@@ -1,0 +1,96 @@
+.TH  3  2005-06-09 "sfcc" "SFCBroker Client Library"
+.SH NAME
+CMCIClient \- CIMOM Client Library object
+.SH SYNOPSIS
+.nf
+.PP
+\fC#include <cmci.h>\fP
+.PP
+.SS "Public Attributes"
+.in +1c
+.ti -1c
+.RI "void * \fBhdl\fP"
+.br
+.RI "\fIOpaque pointer to specific implementation data. \fP"
+.br
+.ti -1c
+.RI "\fBCMCIClientFT\fP * \fBft\fP"
+.br
+.RI "\fIPointer to the Args Function Table. \fP"
+.SH "Class methods"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBenumInstanceNames\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIInstance\fP * \fBgetInstance\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIFlags\fP flags, char **properties, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIObjectPath\fP * \fBcreateInstance\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIInstance\fP *inst, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBsetInstance\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIInstance\fP *inst, \fBCMPIFlags\fP flags, char **properties)"
+.br
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBdeleteInstance\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBexecQuery\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *query, const char *lang, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBenumInstances\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIFlags\fP flags, char **properties, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBassociators\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *assocClass, const char *resultClass, const char *role, const char *resultRole, \fBCMPIFlags\fP flags, char **properties, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBassociatorNames\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *assocClass, const char *resultClass, const char *role, const char *resultRole, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBreferences\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *resultClass, const char *role, \fBCMPIFlags\fP flags, char **properties, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBreferenceNames\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *resultClass, const char *role, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIData\fP \fBinvokeMethod\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *method, \fBCMPIArgs\fP *in, \fBCMPIArgs\fP *out, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIStatus\fP \fBsetProperty\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *name, \fBCMPIValue\fP *value, \fBCMPIType\fP type)"
+.br
+.ti -1c
+.RI "\fBCMPIData\fP \fBgetProperty\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, const char *name, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIConstClass\fP * \fBgetClass\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIFlags\fP flags, char **properties, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBenumClassNames\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIFlags\fP flags, \fBCMPIStatus\fP *rc)"
+.br
+.ti -1c
+.RI "\fBCMPIEnumeration\fP * \fBenumClasses\fP (\fBCMCIClient\fP *mb, \fBCMPIObjectPath\fP *cop, \fBCMPIFlags\fP flags, \fBCMPIStatus\fP *rc)"
+.br
+.SH DESCRIPTION
+Client library class that provides the methods for connecting to and 
+accessing the CIMOM.
+.SH "SEE ALSO"
+Common Manageability Programming Interface (CMPI) - OpenGroup,
+.br
+CMCIClientFT.associatorNames(3), CMCIClientFT.associators(3),
+.br
+CMCIClientFT.createInstance(3), CMCIClientFT.deleteInstance(3),
+.br
+CMCIClientFT.enumClasses(3), CMCIClientFT.enumClassNames(3),
+.br
+CMCIClientFT.enumInstanceNames(3), CMCIClientFT.enumInstances(3),
+.br
+CMCIClientFT.execQuery(3), CMCIClientFT.getClass(3),
+.br
+CMCIClientFT.getInstance(3), CMCIClientFT.getProperty(3),
+.br
+CMCIClientFT.invokeMethod(3), CMCIClientFT.referenceNames(3),
+.br
+CMCIClientFT.references(3), CMCIClientFT.setInstance(3),
+.br
+CMCIClientFT.setProperty(3), cmciConnect(3)
+

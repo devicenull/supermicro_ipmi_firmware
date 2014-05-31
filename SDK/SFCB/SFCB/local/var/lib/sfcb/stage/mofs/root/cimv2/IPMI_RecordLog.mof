@@ -1,0 +1,44 @@
+//
+// Linux_Base.mof
+//
+// (C) Copyright IBM Corp. 2002
+//
+// THIS FILE IS PROVIDED UNDER THE TERMS OF THE COMMON PUBLIC LICENSE
+// ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+// CONSTITUTES RECIPIENTS ACCEPTANCE OF THE AGREEMENT.
+//
+// You can obtain a current copy of the Common Public License from
+// http://www.opensource.org/licenses/cpl1.0.txt
+//
+// Author:       Heidi Neumann <heidineu@de.ibm.com>
+// Contributors:
+//
+// Description:
+// CIM classes for Linux Base System Instrumentation
+//
+
+
+#pragma locale ("en_US")
+//#pragma namespace ("root/cimv2")
+
+
+// -------------------------------------------------------------------
+// *******************************************************************
+// 	Classes
+// *******************************************************************
+// -------------------------------------------------------------------
+
+
+// ===================================================================
+// 	Linux_ComputerSystem
+// ===================================================================
+
+[ Provider("cmpi:cmpiIPMI_RecordLogProvider"),
+  Description ("A class derived from ComputerSystem"
+  " to represent the GNU/Linux OS on a Desktop, Mobile, NetPC,"
+  " Server or other type of a single node Computer System ." )
+]
+class IPMI_RecordLog : CIM_RecordLog
+{ 
+};
+

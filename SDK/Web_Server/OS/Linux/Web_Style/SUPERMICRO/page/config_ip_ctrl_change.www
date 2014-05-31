@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+    <title></title>
+    <!-- common css -->
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+    <script type="text/javascript">
+
+	var PreviousURL = "../cgi/url_redirect.cgi?url_name=config_ip_ctrl"
+	var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+
+    function PageInit()
+    {		
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)	
+
+		mode_var = GetVars("mode");
+		index_var = GetVars("index");
+		ipaddr_var = GetVars("ipaddr");
+		policy_var = GetVars("policy");
+
+		title_obj = document.getElementById("ipctrl_title");
+		ruleno_obj = document.getElementById("ruleno");
+		ipinfo_obj = document.getElementById("ipinfo");
+
+		btnsav_obj = document.getElementById("btn_save");
+		btnsav_obj.setAttribute("value",lang.LANG_CHIPCTRL_BTNSAV);
+		btncan_obj = document.getElementById("btn_cancel");
+		btncan_obj.setAttribute("value",lang.LANG_CHIPCTRL_BTNCAN);
+
+		policy_obj = document.getElementById("PolicyOption");
+
+		if(mode_var == "add")
+			title_obj.innerHTML = lang.LANG_CHIPCTRL_CAPTION_ADD;
+		else
+			title_obj.innerHTML = lang.LANG_CHIPCTRL_CAPTION_MOD;
+
+		ruleno_obj.innerHTML = index_var;
+
+        if(mode_var == "modify")
+            ipinfo_obj.setAttribute("value", ipaddr_var);
+
+		policy_obj.options[0] = new Option(lang.LANG_CONFIPCTRL_ACCEPTOPT, lang.LANG_CONFIPCTRL_ACCEPTOPT);
+		policy_obj.options[1] = new Option(lang.LANG_CONFIPCTRL_DROPOPT, lang.LANG_CONFIPCTRL_DROPOPT);
+			
+		if(policy_var == "DROP")
+			policy_obj.options[1].selected = true; //DROP Policy
+		else
+			policy_obj.options[0].selected = true; //ACCEPT Policy
+
+		btnsav_obj.onclick = function()
+		{
+			save_func();
+		}
+
+		btncan_obj.onclick = function()
+		{
+			cancel_func();
+		}
+	}
+
+	function save_func()
+	{
+		var mode = mode_var;
+		var idx = index_var;
+		var ip_tmp = Trim(ipinfo_obj.value);
+		var policy_tmp = Trim(policy_obj.value); 
+
+	    var url =   '/cgi/op.cgi';
+		var pars =	'op=ip_ctrl' + 
+					'&mode=' + mode +
+				   '&ruleno=' + idx +
+				   '&ipinfo=' + ip_tmp +
+				   '&policy=' + policy_tmp +
+				   '&time_stamp='+(new Date());    //(0,0) ask for privilege
+
+		var myAjax = new Ajax.Request(
+			url,
+	        {method: 'post',parameters:pars, onComplete: CompleteChangeOperation}//reigister callback function
+		);
+
+	}
+
+	function cancel_func()
+	{
+		location.href = PreviousURL;
+	}
+
+    function CompleteChangeOperation(originalRequest)
+    {
+
+
+        if (originalRequest.readyState == 4 && originalRequest.status == 200)
+        {
+            location.href = PreviousURL;
+        }
+        else
+        {
+            alert(lang.LANG_CHIPCTRL_OPFAILED)
+        }
+
+    }
+
+	function CheckIPInfo(input){
+
+		var addr 	= (new String(input.value)).split("/");
+		var status  = false;
+
+		if(addr.length == 2)
+		{
+			if ( CheckIP(addr[0]) == true ){
+
+				if (addr[1].match(/[.]/) ){
+					status = CheckIP(addr[1]);
+					if (status == false){
+						alert ("the netmask format is illegal!")
+						return status;
+					}
+				}
+				else {
+					var val = addr[1];
+					if( parseInt(val) < 0 || parseInt(val) > 32  || isNaN(val)){
+						alert ("the netmask should be 0 and 32!");
+						return false;
+					}
+					status = true;
+				}
+
+			}
+			else {
+				alert ("IP format is illegal!")
+				return status;
+			}
+		}
+		if (status == false){
+			alert ("The format must be \"ip address/netmask\"");
+			window.setTimeout( function(){input.focus(); },0);
+			return false;
+		}
+	}
+
+    </script>
+
+</head>
+
+<body onload="PageInit()" >
+<span class="LoadingStyle" id="loading"></span>
+   <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+		<td><div class="mtitle" id="ipctrl_title"></div></td>
+
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+              <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+					<script>document.writeln(lang.LANG_CHIPCTRL_DESC)</script></div></td><tr>
+				</table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td><td>
+            <table>
+            <tr><td class="labelhead"><strong><script>document.writeln(lang.LANG_CHIPCTRL_RULENO);</script></strong></td><td><span id="ruleno" class="labeltext"></span></td></tr>
+
+           <tr><td class="labelhead" ><strong><script>document.writeln(lang.LANG_CHIPCTRL_IPINFO);</script></strong></td><td ><input type="text" id="ipinfo" maxlength="31"  $(TAG_DISABLE) onBlur='CheckIPInfo(this)' /></td></tr>
+
+            <tr><td class="labelhead"><strong><script>document.writeln(lang.LANG_CHIPCTRL_POLICY);</script></strong></td><td>
+            <select id="PolicyOption" >
+            </select>
+            </td></tr>
+            </table>
+        </td></tr>
+        <tr><td>
+
+            </td>
+              <td>
+
+              <!-- below area is needed to modify by yourself -->
+              <br>
+              <input type="button" class="btnStyle" id="btn_save" $(TAG_DISABLE)/>
+              <input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)/>
+              <!-- end of this area -->
+              </td>
+        <tr>
+    </table>
+</body>
+

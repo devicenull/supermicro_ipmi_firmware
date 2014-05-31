@@ -1,0 +1,24 @@
+# $Id: sfcb.cfg.pre.in,v 1.13 2008/09/12 23:51:32 mchasal Exp $
+# Sample Configuration for Small Footprint CIM Broker
+httpPort:       5988
+enableHttp:     @SFCB_CONF_HTTP@
+enableUds:      false
+httpProcs:      8
+httpsPort:      5989
+enableHttps:    @SFCB_CONF_HTTPS@
+httpsProcs:     8
+provProcs:      32
+doBasicAuth:    @SFCB_CONF_DOBASICAUTH@
+doUdsAuth:      true
+basicAuthLib:   @SFCB_CONF_BASICAUTHLIB@
+useChunking:    true
+keepaliveTimeout: 1
+keepaliveMaxRequest: 10
+sslKeyFilePath: @sysconfdir@/sfcb/file.pem
+sslCertificateFilePath: @sysconfdir@/sfcb/server.pem
+sslClientTrustStore: @sysconfdir@/sfcb/client.pem
+sslClientCertificate: ignore
+certificateAuthLib:   sfcCertificateAuthentication
+registrationDir: @localstatedir@/lib/sfcb/registration
+providerDirs: @libdir@ @libdir@/cmpi
+enableInterOp:  true

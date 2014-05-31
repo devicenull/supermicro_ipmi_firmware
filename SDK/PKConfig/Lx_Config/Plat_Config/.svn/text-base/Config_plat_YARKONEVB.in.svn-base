@@ -1,0 +1,3 @@
+config CONFIG_PLATFORM_YARKONEVB
+    depends on CONFIG_CPU_NUVOTON_YARKON
+    bool "YARKON EVB Platform"
