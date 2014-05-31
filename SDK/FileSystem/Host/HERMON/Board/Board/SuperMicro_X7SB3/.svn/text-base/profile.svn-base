@@ -1,2 +1,0 @@
-alias ifconfig="hook ifconfig"
-alias ip="hook ip"

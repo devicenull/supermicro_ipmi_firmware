@@ -1,3 +1,0 @@
-config CONFIG_SUPERMICRO_2010
-    bool "SUPERMICRO WEB 2010"
-    default y

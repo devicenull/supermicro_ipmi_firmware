@@ -1,3 +1,0 @@
-config CONFIG_PLATFORM_HW_STG2SMCA
-    depends on CONFIG_CPU_ASPEED_2050
-    bool "Huawei STG2SMCA Platform"

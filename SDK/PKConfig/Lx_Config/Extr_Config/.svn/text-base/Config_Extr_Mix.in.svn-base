@@ -1,4 +1,0 @@
-config CONFIG_EXTRACT_SRC_AND_OBJ
-	bool "Extract source codes & object files"
-	default n
-

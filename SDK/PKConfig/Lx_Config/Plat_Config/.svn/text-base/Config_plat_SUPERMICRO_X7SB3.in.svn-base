@@ -1,3 +1,0 @@
-config CONFIG_PLATFORM_SUPERMICRO_X7SB3
-    depends on CONFIG_CPU_WINBOND_HERMON
-    bool "Supermicro X7SB3 Platform"

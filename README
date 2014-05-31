@@ -10,3 +10,10 @@ The cross compiler provided is a i386 binary, so you need to install the necessa
 dpkg --add-architecture i386
 aptitude update
 aptitude install ia32-libs
+
+== Subversion ==
+Whoever packaged this didn't bother to remove their .svn directories.  These refereneced the following svn server:
+
+svn://66.120.31.113/ATEN_X9/Branch/STD_X9_237_Security_X10/
+
+Sadly, this server is down (and would probably require authentication anyway).  I've removed all the .svn content.

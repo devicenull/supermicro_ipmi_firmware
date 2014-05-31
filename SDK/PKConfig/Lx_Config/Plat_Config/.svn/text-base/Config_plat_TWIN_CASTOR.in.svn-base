@@ -1,3 +1,0 @@
-config CONFIG_PLATFORM_TWIN_CASTOR
-    depends on CONFIG_CPU_ASPEED_2050
-    bool "T-Win CASTOR Platform"

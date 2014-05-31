@@ -1,3 +1,0 @@
-config CONFIG_SAMPLE_ATEN_NEW
-    bool "ATEN WEB 2010"
-    default y

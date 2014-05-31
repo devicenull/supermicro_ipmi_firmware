@@ -1,4 +1,0 @@
-config CONFIG_EXTRACT_ALL_OBJ
-	bool "Extract all object files"
-	default n
-

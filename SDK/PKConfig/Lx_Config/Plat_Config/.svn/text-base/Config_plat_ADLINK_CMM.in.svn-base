@@ -1,3 +1,0 @@
-config CONFIG_PLATFORM_ADLINK_CMM
-    depends on CONFIG_CPU_ASPEED_2050
-    bool "ADLINK_CMM"

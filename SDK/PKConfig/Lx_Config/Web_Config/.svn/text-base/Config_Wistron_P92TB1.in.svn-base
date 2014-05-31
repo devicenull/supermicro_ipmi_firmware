@@ -1,3 +1,0 @@
-config CONFIG_WISTRON_P92TB1
-    bool "WISTRON P92TB1"
-    default y

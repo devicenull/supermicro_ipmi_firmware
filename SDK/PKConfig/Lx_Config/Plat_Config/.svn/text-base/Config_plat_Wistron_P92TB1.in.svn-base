@@ -1,3 +1,0 @@
-config CONFIG_PLATFORM_WISTRON_P92TB1
-    depends on CONFIG_CPU_WINBOND_HERMON
-    bool "Wistron P92TB1"

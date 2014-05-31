@@ -1,3 +1,0 @@
-config CONFIG_ADLINK_CMM
-    bool "ADLINK CMM WEB"
-    default y

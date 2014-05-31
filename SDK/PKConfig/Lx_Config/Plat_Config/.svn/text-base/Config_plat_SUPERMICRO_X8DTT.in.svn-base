@@ -1,5 +1,0 @@
-config CONFIG_PLATFORM_SUPERMICRO_SUBVERSION_X8DTT
-    depends on CONFIG_PLATFORM_SUPERMICRO_X7SB3
-    bool "Supermicro Platform OEM Version X8DTT"
-    default n
-
