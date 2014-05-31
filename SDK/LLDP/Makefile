@@ -19,7 +19,8 @@ override INCLUDEDIR =
 all:
 	$(Q)echo "******************** build LLDP Agent ********************"
 	cd $(LLDP_LIBDIR)
-	./configure --host=$(BUILD_HOST); make; fi
+	./configure --host=$(BUILD_HOST)
+	make
 
 install:
 	$(Q)echo "********************Copy LLDP Agent ********************"

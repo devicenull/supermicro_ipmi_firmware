@@ -23,8 +23,6 @@ override INCLUDEDIR =
 
 ntp_program:
 	$(Q)echo "================ make NTP ==================="
-	$(Q)if [ ! -d  $(NTP_TOOL_DIR) ];then \
-	cd $(NTP_TOOL_ROOTDIR); tar -zxf $(NTP_VERSION).tar.gz ;fi
 	$(Q)cd $(NTP_TOOL_DIR); ./configure --prefix=/local --host=$(MY_CFG_HOST); make; $(STRIP) ./ntpdate/ntpdate ;\
 	$(STRIP) ./ntpd/ntpd; cp -f ./ntpdate/ntpdate $(NTP_BIN_DIR)/; cp -f ./ntpd/ntpd $(NTP_BIN_DIR)/
 	$(Q)echo "================ make NTP done ==================="
