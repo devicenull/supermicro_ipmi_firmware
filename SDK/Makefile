@@ -368,10 +368,11 @@ install:
 SDK_FOLDER_PATH=$(strip $(EXTRPATH_tmp))
 
 clean: 
-	$(Q)for i in $(FW_ELEMENT_DIR); do (cd $$i && make CC=$(CC) clean); done
-	$(Q)rm -rf $(BINPATH) $(LIBPATH) $(IMAGE_PATH);
-	$(Q)rm -rf .config autoconfig.h .tmpconfig.h  
-	$(Q)if [ ! -z $(SDK_FOLDER_PATH) ];then rm -rf $(SDK_FOLDER_PATH); echo "Delete SDK Folder : $(SDK_FOLDER_PATH)";fi
+	echo "make clean disabled, it removes important source files"
+#	$(Q)for i in $(FW_ELEMENT_DIR); do (cd $$i && make CC=$(CC) clean); done
+#	$(Q)rm -rf $(BINPATH) $(LIBPATH) $(IMAGE_PATH);
+#	$(Q)rm -rf .config autoconfig.h .tmpconfig.h  
+#	$(Q)if [ ! -z $(SDK_FOLDER_PATH) ];then rm -rf $(SDK_FOLDER_PATH); echo "Delete SDK Folder : $(SDK_FOLDER_PATH)";fi
 	
 clean_all: 
 	$(Q)for i in $(FW_ELEMENT_DIR); do (cd $$i && make CC=$(CC) clean); done
