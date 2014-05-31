@@ -1,6 +1,5 @@
 -include $(PRJ_PATH)/.SDKPath
 HTTPD_SRCDIR = $(PRJ_PATH)/Web_Server/httpd
-HTTPD_ZIP    = $(wildcard $(HTTPD_SRCDIR)/lighttpd*.tar.gz)
 
 LIGHTTPD_HOST   = --host=$(subst -gcc,,$(notdir $(CROSS_COMPILE)gcc))
 LIGHTTPD_PREFIX = --prefix=$(HTTPD_SRCDIR)/lighttpd/local --exec-prefix=$(HTTPD_SRCDIR)/lighttpd/local
@@ -22,7 +21,6 @@ all:
 install:
 #copy httpd
 	$(Q)echo "******************** make httpd ********************"
-	$(Q)if [ ! -d $(HTTPD_SRCDIR)/lighttpd ];then cd $(HTTPD_SRCDIR); tar zxvf $(HTTPD_ZIP); fi
 	$(Q)set -e;\
 	if [ ! -d $(HTTPD_SRCDIR)/lighttpd/local ]; then \
 	cd $(HTTPD_SRCDIR)/lighttpd; \

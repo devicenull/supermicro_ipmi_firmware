@@ -2,7 +2,6 @@
 -include $(PRJ_PATH)/.config
 -include $(PRJ_PATH)/.machine
 KERNEL_SRCDIR = $(PRJ_PATH)/Kernel/Host/$(MYMCU)
-KERNEL_ZIP = $(wildcard $(KERNEL_SRCDIR)/*.tar.gz)
 
 DTKKERNEL_DIR = $(DTKPATH)/Kernel
 
@@ -17,8 +16,6 @@ override LDFLAGS =
 
 all:
 	$(Q)echo "Build Kernel ........"
-	$(Q)cd $(KERNEL_SRCDIR);if [ ! -d $(KERNEL_SRCDIR)/linux ];then \
-	mkdir linux;cd linux ;tar zxf $(KERNEL_ZIP); cp ../Board/$(BOARD)/config .config; cp ../Board/$(BOARD)/config ../;fi
 ifeq ($(MYMCU),HERMON)
 	$(Q)cp $(KERNEL_SRCDIR)/head.S $(KERNEL_SRCDIR)/linux/arch/arm/kernel
 	if [ ! -f $(KERNEL_SRCDIR)/linux/.patched ] ;then \

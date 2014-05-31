@@ -27,3 +27,25 @@ This is pretty self contained, so there aren't really a whole lot of requirement
     cd SDK
     make
 
+## Software Versions
+
+    Linux Kernel 2.6.17.13
+    Lighttpd 1.4.32
+    pcre 8.31
+    pcre 8.33
+    msmtp 1.4.16
+    tree 1.5.2.2
+    flex 2.5.35
+    readline 5.2
+    termcap 1.3.1
+    BIND 9.8.1-P1
+    busybox 1.12.0
+    ntp 4.2.4p4
+    openssl 0.9.8h
+    openlldp 0.3alpha
+    wide-dhcpv6 20080615
+    openldap 2.4.11
+    zlib 1.2.3
+    glibc 2.3.5
+    gcc 3.4.4
+    
