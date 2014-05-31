@@ -28,9 +28,7 @@ DTKlibXML2_DIR = $(DTKPATH)/libXML2
 all:
 	@echo "Build libxml2 ........"
 	$(Q)if [ ! -d $(LIBXML2_DIR)/../local ]; then \
-	tar zxf libxml2.tar.gz ;\
-	cp $(LIBXML2_DIR)/../../patch/* $(LIBXML2_DIR);cd $(LIBXML2_DIR) ;\
-	patch -p2 < xpath.patch; \
+	cd ${LIBXML2_DIR}; \
 	./configure $(XML2_CFG) ; \
 	make; make install; make install-strip;\
 	fi
