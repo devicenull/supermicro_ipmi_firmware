@@ -3,3 +3,10 @@ This is the source code to the SuperMicro IPMI Firmware.  Apparently, not all of
 This was originally extracted from ftp://ftp.supermicro.com/GPL/SMT/SDK_SMT_X9_317.tar.gz
 
 I removed the SDK/ToolChain/Host/x86_64 directory.  This was apparently for building this against an x86_64 target, which doesn't seem to be a useful thing.
+
+== Compiling on a Debian 7 x86_64 Machine ==
+The cross compiler provided is a i386 binary, so you need to install the necessary i386 libs:
+
+dpkg --add-architecture i386
+aptitude update
+aptitude install ia32-libs

@@ -357,8 +357,6 @@ PreBuildTask:
 	cd $(PRJ_PATH)/ToolChain/Host/$(MYMCU); tar zxf $(TOOLCHAIN_ZIP); fi
 	$(Q)if [ ! -d $(X86_CROSS_COMPILE_BIN_DIR) ]; then \
 	cd $(PRJ_PATH)/ToolChain/Host/i386; tar zxf $(X86_TOOLCHAIN_ZIP); fi
-	$(Q)if [ ! -d $(X86_64_CROSS_COMPILE_BIN_DIR) ]; then \
-	cd $(PRJ_PATH)/ToolChain/Host/x86_64; mkdir mingw-w64; tar jxf $(X86_64_TOOLCHAIN_ZIP) -C mingw-w64; fi
 	$(Q)if [ ! -d $(BINPATH) ];then  mkdir $(BINPATH); fi
 	$(Q)if [ ! -d $(MODULEPATH) ];then  mkdir $(MODULEPATH); fi
 	$(Q)if [ ! -d $(LIBPATH) ];then  mkdir $(LIBPATH); fi
