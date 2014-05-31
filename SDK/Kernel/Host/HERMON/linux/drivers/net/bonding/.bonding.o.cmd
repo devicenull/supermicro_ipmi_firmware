@@ -1,1 +1,0 @@
-cmd_drivers/net/bonding/bonding.o := /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ld   -r -o drivers/net/bonding/bonding.o drivers/net/bonding/bond_main.o drivers/net/bonding/bond_3ad.o drivers/net/bonding/bond_alb.o drivers/net/bonding/bond_sysfs.o

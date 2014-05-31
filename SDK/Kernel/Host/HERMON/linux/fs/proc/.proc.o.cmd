@@ -1,1 +1,0 @@
-cmd_fs/proc/proc.o := /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ld   -r -o fs/proc/proc.o fs/proc/mmu.o fs/proc/task_mmu.o fs/proc/inode.o fs/proc/root.o fs/proc/base.o fs/proc/generic.o fs/proc/array.o fs/proc/kmsg.o fs/proc/proc_tty.o fs/proc/proc_misc.o

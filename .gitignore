@@ -1,0 +1,21 @@
+*.o
+*.cmd
+
+# Kernel output files
+SDK/Kernel/Host/HERMON/image
+SDK/Kernel/Host/HERMON/linux/.kernelrelease
+SDK/Kernel/Host/HERMON/linux/.version
+SDK/Kernel/Host/HERMON/linux/System.map
+SDK/Kernel/Host/HERMON/linux/arch/arm/boot/Image
+SDK/Kernel/Host/HERMON/linux/arch/arm/boot/compressed/piggy.gz
+SDK/Kernel/Host/HERMON/linux/arch/arm/boot/compressed/vmlinux
+SDK/Kernel/Host/HERMON/linux/arch/arm/boot/zImage
+SDK/Kernel/Host/HERMON/linux/arch/arm/kernel/asm-offsets.s
+SDK/Kernel/Host/HERMON/linux/arch/arm/lib/lib.a
+SDK/Kernel/Host/HERMON/linux/drivers/net/bonding/bonding.ko
+SDK/Kernel/Host/HERMON/linux/include/asm-arm/asm-offsets.h
+SDK/Kernel/Host/HERMON/linux/include/linux/compile.h
+SDK/Kernel/Host/HERMON/linux/include/linux/version.h
+SDK/Kernel/Host/HERMON/linux/lib/lib.a
+SDK/Kernel/Host/HERMON/linux/vmlinux
+

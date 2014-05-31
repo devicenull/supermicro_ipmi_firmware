@@ -1,1 +1,0 @@
-cmd_fs/smbfs/smbfs.o := /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ld   -r -o fs/smbfs/smbfs.o fs/smbfs/proc.o fs/smbfs/dir.o fs/smbfs/cache.o fs/smbfs/sock.o fs/smbfs/inode.o fs/smbfs/file.o fs/smbfs/ioctl.o fs/smbfs/getopt.o fs/smbfs/symlink.o fs/smbfs/smbiod.o fs/smbfs/request.o

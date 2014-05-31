@@ -1,1 +1,0 @@
-cmd_fs/ext2/ext2.o := /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ld   -r -o fs/ext2/ext2.o fs/ext2/balloc.o fs/ext2/bitmap.o fs/ext2/dir.o fs/ext2/file.o fs/ext2/fsync.o fs/ext2/ialloc.o fs/ext2/inode.o fs/ext2/ioctl.o fs/ext2/namei.o fs/ext2/super.o fs/ext2/symlink.o
