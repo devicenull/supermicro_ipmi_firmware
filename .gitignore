@@ -1,5 +1,9 @@
 *.o
+*.lo
+*.la
 *.cmd
+config.log
+config.status
 
 # Kernel output files
 SDK/Kernel/Host/HERMON/image
@@ -22,3 +26,36 @@ SDK/Kernel/Host/HERMON/linux/arch/arm/kernel/vmlinux.lds
 SDK/Kernel/Host/HERMON/linux/include/linux/autoconf.h
 SDK/Kernel/Host/HERMON/linux/.config.old
 SDK/Kernel/Host/HERMON/linux/.config
+
+#libxml2
+SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/arm-linux/lib/pkgconfig/libxml-2.0.pc
+SDK/libXML2/libxml2/libxml2-2.6.32/.deps/
+SDK/libXML2/libxml2/libxml2-2.6.32/.libs/
+SDK/libXML2/libxml2/libxml2-2.6.32/Makefile
+SDK/libXML2/libxml2/libxml2-2.6.32/*/Makefile
+SDK/libXML2/libxml2/libxml2-2.6.32/*/*/Makefile
+SDK/libXML2/libxml2/libxml2-2.6.32/libtool
+SDK/libXML2/libxml2/libxml2-2.6.32/libxml-2.0.pc
+SDK/libXML2/libxml2/libxml2-2.6.32/libxml2.spec
+SDK/libXML2/libxml2/libxml2-2.6.32/python/setup.py
+SDK/libXML2/libxml2/libxml2-2.6.32/runsuite
+SDK/libXML2/libxml2/libxml2-2.6.32/runtest
+SDK/libXML2/libxml2/libxml2-2.6.32/testAutomata
+SDK/libXML2/libxml2/libxml2-2.6.32/testC14N
+SDK/libXML2/libxml2/libxml2-2.6.32/testHTML
+SDK/libXML2/libxml2/libxml2-2.6.32/testModule
+SDK/libXML2/libxml2/libxml2-2.6.32/testReader
+SDK/libXML2/libxml2/libxml2-2.6.32/testRegexp
+SDK/libXML2/libxml2/libxml2-2.6.32/testRelax
+SDK/libXML2/libxml2/libxml2-2.6.32/testSAX
+SDK/libXML2/libxml2/libxml2-2.6.32/testSchemas
+SDK/libXML2/libxml2/libxml2-2.6.32/testThreads
+SDK/libXML2/libxml2/libxml2-2.6.32/testURI
+SDK/libXML2/libxml2/libxml2-2.6.32/testXPath
+SDK/libXML2/libxml2/libxml2-2.6.32/testapi
+SDK/libXML2/libxml2/libxml2-2.6.32/xml2-config
+SDK/libXML2/libxml2/libxml2-2.6.32/xml2Conf.sh
+SDK/libXML2/libxml2/libxml2-2.6.32/xmlcatalog
+SDK/libXML2/libxml2/libxml2-2.6.32/xmllint
+SDK/libXML2/libxml2/local/
+
