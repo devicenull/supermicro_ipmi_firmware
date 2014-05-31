@@ -4,6 +4,7 @@
 *.cmd
 config.log
 config.status
+config.guess
 
 # Kernel output files
 SDK/Kernel/Host/HERMON/image

@@ -8,7 +8,6 @@ endif
 LLDP_VERSION = openlldp-0.3alpha
 LLDP_SRCDIR = $(PRJ_PATH)/LLDP
 LLDP_LIBDIR = $(PRJ_PATH)/LLDP/$(LLDP_VERSION)
-LLDP_ZIP    = $(wildcard $(LLDP_SRCDIR)/*.tar.gz)
 
 export	LLDP_LIBDIR
 
@@ -19,7 +18,7 @@ override INCLUDEDIR =
 
 all:
 	$(Q)echo "******************** build LLDP Agent ********************"
-	if [ ! -d $(LLDP_LIBDIR) ];then mkdir $(LLDP_LIBDIR);cd $(LLDP_LIBDIR);tar zxf $(LLDP_ZIP);\
+	cd $(LLDP_LIBDIR)
 	./configure --host=$(BUILD_HOST); make; fi
 
 install:
