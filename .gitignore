@@ -28,7 +28,7 @@ SDK/Kernel/Host/HERMON/linux/include/linux/autoconf.h
 SDK/Kernel/Host/HERMON/linux/.config.old
 SDK/Kernel/Host/HERMON/linux/.config
 
-#libxml2
+# libxml2
 SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/arm-linux/lib/pkgconfig/libxml-2.0.pc
 SDK/libXML2/libxml2/libxml2-2.6.32/.deps/
 SDK/libXML2/libxml2/libxml2-2.6.32/.libs/
@@ -60,8 +60,40 @@ SDK/libXML2/libxml2/libxml2-2.6.32/xmlcatalog
 SDK/libXML2/libxml2/libxml2-2.6.32/xmllint
 SDK/libXML2/libxml2/local/
 
-#NTP
+# NTP
 NTP/tools/ntp-4.2.4p4/*/Makefile
 NTP/tools/ntp-4.2.4p4/*/version.c
 NTP/tools/ntp-4.2.4p4/*/.version
 NTP/tools/ntp-4.2.4p4/Makefile
+SDK/NTP/bin/
+SDK/NTP/tools/ntp-4.2.4p4/libntp/libntp.a
+SDK/NTP/tools/ntp-4.2.4p4/libopts/.libs/
+SDK/NTP/tools/ntp-4.2.4p4/ntpd/libntpd.a
+SDK/NTP/tools/ntp-4.2.4p4/ntpd/ntpd
+SDK/NTP/tools/ntp-4.2.4p4/ntpdate/ntpdate
+SDK/NTP/tools/ntp-4.2.4p4/ntpdc/ntpdc
+SDK/NTP/tools/ntp-4.2.4p4/ntpq/ntpq
+SDK/NTP/tools/ntp-4.2.4p4/sntp/libopts/.libs/
+SDK/NTP/tools/ntp-4.2.4p4/sntp/sntp
+SDK/NTP/tools/ntp-4.2.4p4/util/ntp-keygen
+SDK/NTP/tools/ntp-4.2.4p4/util/ntptime
+SDK/NTP/tools/ntp-4.2.4p4/util/tickadj
+
+# LLDP
+SDK/LLDP/openlldp-0.3alpha/src/lldpd
+
+# Misc utils
+SDK/PKConfig/MDInfo/mdinfo
+
+# Image output files
+SDK/FileSystem/rootfs
+SDK/FileSystem/rootfs_tmp
+SDK/FileSystem/webfs
+SDK/FileSystem/webfs_tmp
+SDK/Kernel/Host/HERMON/linux/linux.bin.gz
+SDK/images/HERMONEVB_all.bin
+SDK/images/No0.bin
+SDK/images/out_kernel.bin
+SDK/images/out_rootfs_img.bin
+SDK/images/out_webfs_img.bin
+SDK/FileSystem/Host/HERMON/Board/SuperMicro_X7SB3/SDRBlock.tar.gz

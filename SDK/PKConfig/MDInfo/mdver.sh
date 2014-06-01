@@ -1,4 +1,7 @@
 #!/bin/bash
+# Disabled: We don't want to play with firmware versions right now!
+exit 0
+
 # note: if cpu is yarkon, it will exit mdinfo script
 [ "$1" == "2" ] && exit0
 echo "Modify version in XML files"

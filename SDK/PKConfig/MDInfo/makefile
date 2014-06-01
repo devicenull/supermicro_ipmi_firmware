@@ -1,4 +1,4 @@
-OBJ=mdinfo.o 
+OBJ=mdinfo.c
 OUTNAME=mdinfo
 all:$(OBJ)
 	$(Q)echo "================  Build MDInfo ================"

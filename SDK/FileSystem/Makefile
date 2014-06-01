@@ -65,6 +65,7 @@ ifeq ($(CONFIG_DEBUG_NETCONSOLE),y)
 	$(Q) $(ECHO_CMD) "telnetd -p 1206" >> $(ETCPath)/init.d/rcS 
 endif
 #handle  platform independent files here
+	pwd
 	make install --directory=Host/$(MYMCU)/Board/$(BOARD)/
 	$(Q)$(CP_CMD) $(PRJ_PATH)/bin/* $(FS_PATH)/bin/ -rf
 ifeq ($(BUILD_OPTION),1)
@@ -73,6 +74,7 @@ ifeq ($(BUILD_OPTION),1)
 endif
 #umount
 	$(Q)$(ECHO_CMD) " Gen WWW Filesystem (CRAMFS).........."
+	$(PRJ_PATH)/make_webfs.sh
 	$(Q)cd $(WEBFS_PATH); \
 	$(FIND_CMD) ./ | grep "$(VERSION_CTRL_KEYWORD)" | xargs -n 1 rm -rf; cd $(PRJ_PATH)/FileSystem
 	$(Q)if [ -d $(WEBFS_PATH_FINAL) ];then umount $(WEBFS_PATH_FINAL); rm -rf $(WEBFS_PATH_FINAL); fi
@@ -80,7 +82,7 @@ endif
 	$(Q)dd if=/dev/zero of=$(WEB_FS_NAME)_tmp bs=1024K count=$(WEB_FS_SIZE) >>/dev/null 2>&1
 	$(Q)/sbin/mke2fs -F -m0 $(WEB_FS_NAME)_tmp >>/dev/null 2>&1
 	$(Q)mount -o loop $(WEB_FS_NAME)_tmp $(WEBFS_PATH_FINAL)
-	$(Q)$(CP_CMD) -af $(WEBFS_PATH)/* $(WEBFS_PATH_FINAL)/
+	$(CP_CMD) -af $(WEBFS_PATH)/* $(WEBFS_PATH_FINAL)/
 	$(call SHOW_FSSIZE,$(WEB_FS_SIZE),$(WEBFS_PATH_FINAL),$(WEB_FS_NAME))
 	$(Q)/sbin/mkfs.cramfs $(WEBFS_PATH_FINAL) $(PRJ_PATH)/FileSystem/$(WEB_FS_NAME)
 	$(Q)umount $(WEBFS_PATH_FINAL)

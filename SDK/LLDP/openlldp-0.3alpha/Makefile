@@ -13,7 +13,7 @@
 # PARTICULAR PURPOSE.
 
 
-SHELL = /bin/sh
+SHELL = /bin/bash
 
 srcdir = .
 top_srcdir = .
@@ -38,10 +38,10 @@ pkglibdir = $(libdir)/lldpd
 pkgincludedir = $(includedir)/lldpd
 top_builddir = .
 
-ACLOCAL = ${SHELL} /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/missing --run aclocal-1.6
-AUTOCONF = ${SHELL} /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/missing --run autoconf
-AUTOMAKE = ${SHELL} /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/missing --run automake-1.6
-AUTOHEADER = ${SHELL} /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/missing --run autoheader
+ACLOCAL = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run aclocal-1.6
+AUTOCONF = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run autoconf
+AUTOMAKE = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run automake-1.6
+AUTOHEADER = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run autoheader
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = /usr/bin/install -c
@@ -65,9 +65,9 @@ host_triplet = arm-unknown-linux-gnu
 EXEEXT = 
 OBJEXT = o
 PATH_SEPARATOR = :
-AMTAR = ${SHELL} /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/missing --run tar
-AWK = gawk
-CC = /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-gcc
+AMTAR = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run tar
+AWK = mawk
+CC = /home/devicenull/ipmi/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-gcc
 CORELIBS = 
 DARWININCS = 
 DARWINLIBS = 
@@ -80,12 +80,12 @@ MOREDEFS =
 MORELIBS =  -lm
 PACKAGE = lldpd
 PREFIX = 
-RANLIB = /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ranlib
-STRIP = /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-strip
+RANLIB = /home/devicenull/ipmi/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-ranlib
+STRIP = /home/devicenull/ipmi/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-strip
 VERSION = 0.3
 am__include = include
 am__quote = 
-install_sh = /root/ATEN/source/OEM/STD_V317_LOGO/STD_X9_237_Security_X10/SDK/LLDP/openlldp-0.3alpha/install-sh
+install_sh = /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/install-sh
 UTOMAKE_OPTIONS = foreign no-dependencies
 
 SUBDIRS = src

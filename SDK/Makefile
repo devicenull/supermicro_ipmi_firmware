@@ -291,7 +291,7 @@ TOOLS-y := Tools/
 
 OTHER_FOLDERS_FOR_EXTRACT := $(PRJ_PATH)/MKIMG_Tool/ $(PRJ_PATH)/PKConfig/ $(PRJ_PATH)/Project_File/
 
-#Build Kernel,Bootloader,IPMI firmware and Common libary 
+#The order of $(JAVAAP-y) must put before $(WEB_PAGE-y)
 FW_ELEMENT_DIR = $(TOOLS-y) \
 		 $(KERNEL-y)\
  		 $(LIBMQUEUE-y) \
@@ -303,35 +303,32 @@ FW_ELEMENT_DIR = $(TOOLS-y) \
 		 $(IKVM_MODULE-y) \
 		 $(STATE_MACHINE-y) \
 		 $(UTILS-y) \
-		 $(CHASSIS_MANAGER-y)
+		 $(CHASSIS_MANAGER-y) \
+		 $(BUSYBOX-y) \
+                 $(DHCPV6-y) \
+                 $(WEB_SERVER-y) \
+                 $(SNMP-y) \
+                 $(SFCC-y) \
+                 $(SFCB-y) \
+                 $(OPENWSMAN-y) \
+                 $(SMASH-y) \
+                 $(SMTP-y) \
+                 $(DDNS-y) \
+                 $(NTP-y) \
+                 $(TFTP-y) \
+                 $(UPNP-y) \
+                 $(LLDP-y) \
+                 $(NW_FIREWALL-y) \
+                 $(WEB_PAGE-y) \
+                 $(MDINFO-y) \
 
-#Build or Install the following packages under Filesystem
-#The order of $(JAVAAP-y) must put before $(WEB_PAGE-y)
-FS_ELEMENT_DIR = $(BUSYBOX-y) \
-		 $(DHCPV6-y) \
-		 $(WEB_SERVER-y) \
-		 $(SNMP-y) \
-		 $(SFCC-y) \
-		 $(SFCB-y) \
-		 $(OPENWSMAN-y) \
-		 $(SMASH-y) \
-		 $(SMTP-y) \
-		 $(DDNS-y) \
-		 $(NTP-y) \
-		 $(TFTP-y) \
-		 $(UPNP-y) \
-		 $(LLDP-y) \
-		 $(NW_FIREWALL-y) \
-		 $(JAVAAP-y) \
-		 $(WEB_PAGE-y) \
-		 $(MDINFO-y) 
-
-export  FW_ELEMENT_DIR FS_ELEMENT_DIR FS-y OUTPUT_IMG-y
+                 #$(JAVAAP-y) 
+export  FW_ELEMENT_DIR FS-y OUTPUT_IMG-y
 LxSYSTEM=$(addprefix _lxSYSTEM_,$(FW_ELEMENT_DIR))
 ################################################################################
 .PHONY: $(LxSYSTEM) PreBuildTask STRIPOBJS
 
-all: PreBuildTask $(LxSYSTEM)
+all: PreBuildTask  $(LxSYSTEM)
 ifeq ($(STRIP_OPTION),1)
 	$(Q)$(MAKE) STRIPOBJS
 endif

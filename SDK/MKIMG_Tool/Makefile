@@ -36,15 +36,17 @@ FWVERSION=$(ver)
 #IMAGE_PATH
 install:
 	$(Q)echo "HOSTCC mkbin"
-	$(Q)$(call CONDITION_HOSTCC,mkbin.c,$(HOST_CC_CFLAG), )
+	# no source code provided, mkbin will not compile under x86_64
+#	$(Q)$(call CONDITION_HOSTCC,mkbin.c,$(HOST_CC_CFLAG), )
 
 ifeq ($(MYMCU),AST2050)
 	$(Q)cd $(IMAGE_PATH); mv uImage.bin kernel.bin;
 endif
 ifeq ($(MYMCU),HERMON)
-	$(Q)cd $(TOOL_PATH)/../..;$(call CONDITION_HOSTCC,mkimage.c,,) 
+	# no source code provided, mkimage will not compile under x86_64
+	#$(Q)cd $(TOOL_PATH)/../..;$(call CONDITION_HOSTCC,mkimage.c,,) 
 	$(Q)cd $(TOOL_PATH)/../..;cp -rf mkimage $(TOOL_PATH)
-	$(Q)cd $(IMAGE_PATH); mv image.bin kernel.bin;
+	cd $(IMAGE_PATH); mv image.bin kernel.bin;
 endif
 ifeq ($(BOARD),SuperMicro_X7SB3)
 	$(Q)cd $(TOOL_PATH); chmod 744 ./BTL_diff_test.sh; \
