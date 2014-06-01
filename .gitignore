@@ -2,9 +2,9 @@
 *.lo
 *.la
 *.cmd
+*.Po
 config.log
 config.status
-config.guess
 
 # Kernel output files
 SDK/Kernel/Host/HERMON/image
@@ -60,3 +60,8 @@ SDK/libXML2/libxml2/libxml2-2.6.32/xmlcatalog
 SDK/libXML2/libxml2/libxml2-2.6.32/xmllint
 SDK/libXML2/libxml2/local/
 
+#NTP
+NTP/tools/ntp-4.2.4p4/*/Makefile
+NTP/tools/ntp-4.2.4p4/*/version.c
+NTP/tools/ntp-4.2.4p4/*/.version
+NTP/tools/ntp-4.2.4p4/Makefile
