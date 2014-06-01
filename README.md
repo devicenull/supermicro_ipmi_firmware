@@ -27,10 +27,12 @@ This is pretty self contained, so there aren't really a whole lot of requirement
     cd SDK
     make
     sudo make install
-    
+
 `make install` needs to be run as root, as the image filesystem contains some files that can only be read as root.  This should not install anything to the host machine, it just generates the final image.
 
-    
+The original firmware tool used a closed-source tool named `mkbin` to generate the final image.  This tool appeared to be broken (it just hung indefinitely, looking for some kind of input on stdin).  I replaced it with my python utilities for generating an image: https://github.com/devicenull/ipmi_firmware_tools .  This lives in SDK/MKIMG_Tool/ipmi_firmware_tools
+
+
 ## Software Versions
 
     Linux Kernel 2.6.17.13
@@ -53,9 +55,10 @@ This is pretty self contained, so there aren't really a whole lot of requirement
     glibc 2.3.5
     gcc 3.4.4
     libxml2 2.6.32
-    
+
 ## Important Locations
 
     SDK/Web_Server/OS/Linux/ # Contains the CGI files for the web interface (no source code)
     SDK/Web_Server/OS/Linux/Web_Style/SUPERMICRO/page/ # Contains the HTML templates for the web server
+
 
