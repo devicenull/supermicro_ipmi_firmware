@@ -86,6 +86,7 @@ SDK/LLDP/openlldp-0.3alpha/src/lldpd
 SDK/PKConfig/MDInfo/mdinfo
 
 # Image output files
+SDK/MKIMG_Tool/ipmi_firmware_tools/data/
 SDK/FileSystem/rootfs
 SDK/FileSystem/rootfs_tmp
 SDK/FileSystem/webfs
