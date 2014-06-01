@@ -357,7 +357,11 @@ endif
 	
 	
 ################################################################################
+USERID=$(shell id -u)
 install:
+ifneq ($(USERID),0)
+	$(error make install must be run as root)
+endif
 	$(Q)cd $(KERNEL-y); make install
 	$(Q)cd $(FS-y); make install
 
