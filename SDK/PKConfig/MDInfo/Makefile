@@ -1,8 +1,8 @@
 OBJ=mdinfo.c
 OUTNAME=mdinfo
 all:$(OBJ)
-	$(Q)echo "================  Build MDInfo ================"
-	$(Q)gcc -o $(OUTNAME) $(OBJ) -Wall 
+#	$(Q)echo "================  Build MDInfo ================"
+#	$(Q)gcc -o $(OUTNAME) $(OBJ) -Wall 
 clean:
 	-rm -f $(OUTNAME) $(OBJ) *.bak No*
 %.o:%.c
