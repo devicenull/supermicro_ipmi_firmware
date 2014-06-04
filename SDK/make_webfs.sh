@@ -5,6 +5,7 @@
 
 WEBFS_DIR="/home/devicenull/ipmi/SDK/FileSystem/Host/HERMON/webfs/"
 
+cd /home/devicenull/ipmi/SDK/
 cp -r Web_Server/OS/Linux/Web_Style/SUPERMICRO/* $WEBFS_DIR
 rm $WEBFS_DIR/HTTPCMDTable.o $WEBFS_DIR/Makefile $WEBFS_DIR/multi_language_table.o $WEBFS_DIR/extract.in
 mkdir -p $WEBFS_DIR/cgi

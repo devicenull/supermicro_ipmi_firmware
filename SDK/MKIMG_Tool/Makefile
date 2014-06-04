@@ -8,6 +8,7 @@ WORK_PATH   = $(TOOL_PATH)/data/
 
 install:
 	$(Q)echo ==== in MKIMG_Tool ====
+	mkdir -p $(WORK_PATH)
 	cp $(IMAGE_PATH)/out_kernel.bin $(WORK_PATH)/kernel.bin
 	cp $(IMAGE_PATH)/bootloader_pcb_rev_b.bin $(WORK_PATH)/bootloader.bin
 	cp $(IMAGE_PATH)/out_rootfs_img.bin $(WORK_PATH)/1stFS.bin
