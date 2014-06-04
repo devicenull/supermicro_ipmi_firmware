@@ -115,7 +115,7 @@ endif
 	$(Q)$(CP_CMD) -f $(ROOT_FS_NAME) $(WEB_FS_NAME) $(IMAGE_PATH)
 	$(Q)rm -rf $(FS_PATH) $(WEBFS_PATH) $(FS_PATH_FINAL) $(WEBFS_PATH_FINAL)
 	$(Q)$(ECHO_CMD) " Gen All-in-one image & mdinfo .........."
-	$(Q)cd ../$(OUTPUT_IMG-y); make install
+	$(Q)cd $(OUTPUT_IMG-y) && make install
 	
 clean:
 	$(Q)echo "******************** clean File System ********************"

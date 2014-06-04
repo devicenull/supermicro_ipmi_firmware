@@ -41,9 +41,8 @@ install:
 	#******************************do nothing***************************
 
 CLEAN_FILES = libxml2/
-include $(PRJ_PATH)/PKConfig/Lx_Script/clean.mk
+
 #================= SDK param  ===================
 SDK_FEATURE_NAME = libXML2
 SDK_FILE_CP_LIST = libxml2.tar.gz  Makefile
 #================= end of SDK param ===================
-include $(PRJ_PATH)/PKConfig/Lx_Script/Extract.mk

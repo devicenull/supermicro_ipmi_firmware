@@ -61,4 +61,6 @@ The original firmware tool used a closed-source tool named `mkbin` to generate t
     SDK/Web_Server/OS/Linux/ # Contains the CGI files for the web interface (no source code)
     SDK/Web_Server/OS/Linux/Web_Style/SUPERMICRO/page/ # Contains the HTML templates for the web server
 
+## Makefile
 
+The default Makefile they included is pretty terrible (as are most Makefiles)
