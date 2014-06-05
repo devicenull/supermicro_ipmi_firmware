@@ -29,7 +29,7 @@ Q = @
 export BASEDIR SRCDIR PRJ_PATH BINPATH LIBPATH IMAGE_PATH MODULEPATH OUTPUT_IMG-y Q FS_PATH
 
 LIBS += -lcgi -lipmi -lchnl  -lm -lsol  -lutility -lnvram  -lipmicrypt -lcommon -lsys -lrt -luart -lupdate -lnet -lmqueue -lgpio -lxml2 -lldap_client -lradius_client -lwdt
-LDFLAGS += -L$(BASEDIR)/OpenSSL/openssl/local/lib -L$(BASEDIR)/lib -lcrypto -lssl $(LIBS)
+LDFLAGS += -L$(SRCDIR)/openssl/openssl/local/lib -L$(BASEDIR)/lib -lcrypto -lssl $(LIBS)
 export LDFLAGS
 
 MYMCU=HERMON
@@ -56,7 +56,7 @@ openssl:
 	$(Q)echo
 	$(Q)echo =================== openssl ===================
 	$(Q)echo
-	cd $(BASEDIR)/OpenSSL && make
+	cd $(SRCDIR)/openssl && make
 
 openldap:
 	$(Q)echo
