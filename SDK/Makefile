@@ -14,6 +14,8 @@ STRIP = $(CROSS_COMPILE)strip
 export CC LD AR CXX NM RANLIB OBJCOPY OBJDUMP STRIP CROSS_COMPILE
 
 BASEDIR = $(shell pwd)
+# The plan is to move all the source code to this directory, to prevent conflicts with make targets
+SRCDIR = $(BASEDIR)/src
 OUTPUT_PATH = $(BASEDIR)/output
 FS_PATH = $(OUTPUT_PATH)/filesystem/
 # legacy defines :(
@@ -24,7 +26,7 @@ LIBPATH = $(BASEDIR)/lib
 IMAGE_PATH = $(BASEDIR)/images
 OUTPUT_IMG-y = $(BASEDIR)/MKIMG_Tool/
 Q = @
-export BASEDIR PRJ_PATH BINPATH LIBPATH IMAGE_PATH MODULEPATH OUTPUT_IMG-y Q FS_PATH
+export BASEDIR SRCDIR PRJ_PATH BINPATH LIBPATH IMAGE_PATH MODULEPATH OUTPUT_IMG-y Q FS_PATH
 
 LIBS += -lcgi -lipmi -lchnl  -lm -lsol  -lutility -lnvram  -lipmicrypt -lcommon -lsys -lrt -luart -lupdate -lnet -lmqueue -lgpio -lxml2 -lldap_client -lradius_client -lwdt
 LDFLAGS += -L$(BASEDIR)/OpenSSL/openssl/local/lib -L$(BASEDIR)/lib -lcrypto -lssl $(LIBS)
@@ -84,7 +86,7 @@ busybox:
 	$(Q)echo
 	$(Q)echo =================== busybox ===================
 	$(Q)echo
-	cd $(BASEDIR)/busybox && make
+	cd $(BASEDIR)/src/busybox && make
 
 dhcpv6:
 	$(Q)echo
