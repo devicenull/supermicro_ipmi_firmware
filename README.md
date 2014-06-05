@@ -63,4 +63,4 @@ The original firmware tool used a closed-source tool named `mkbin` to generate t
 
 ## Makefile
 
-The default Makefile they included is pretty terrible (as are most Makefiles)
+The default Makefile they included is pretty terrible (as are most Makefiles).  I've replaced it entirely, with one I hope is more readable.  I am far from done though, the new one is better but still invokes some other nasty makefiles to get the job done.  The standard makefile is preserved in Makefile.bak, because it needs to be easily accessible for reference.

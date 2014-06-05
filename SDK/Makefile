@@ -11,7 +11,7 @@ RANLIB=$(CROSS_COMPILE)ranlib
 OBJCOPY=$(CROSS_COMPILE)objcopy
 OBJDUMP=$(CROSS_COMPILE)objdump 
 STRIP = $(CROSS_COMPILE)strip
-export CC LD AR CXX NM RANLIB OBJCOPY OBJDUMP STRIP CROSS_COMPILE
+export CC LD AR CXX NM RANLIB OBJCOPY OBJDUMP STRIP CROSS_COMPILE CROSS_COMPILE_INCLUDE
 
 BASEDIR = $(shell pwd)
 # The plan is to move all the source code to this directory, to prevent conflicts with make targets
@@ -122,7 +122,7 @@ smash:
 	$(Q)echo
 	$(Q)echo =================== smash ===================
 	$(Q)echo
-	cd $(BASEDIR)/SMASH && make
+	cd $(SRCDIR)/smash && make
 
 smtp:
 	$(Q)echo

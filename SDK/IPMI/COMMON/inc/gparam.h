@@ -42,6 +42,7 @@
 #include <UARTLib.h>
 #include <flash.h>
 #include "OEMgparam.h"
+#include "IPMI/IPMI_CMDS/RMCP+_Payload/inc/RMCPplus.h"
 
 typedef struct IPCKeyVarStruct
 {
