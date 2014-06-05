@@ -14,17 +14,14 @@ SDK_WEBPATH_BOARD_SPECIFIC_CGI = $(SDK_WEBPATH_WEB_STYLE)/cgi_src
 export SDK_WEBPATH SDK_WEBPATH_CGI SDK_WEBPATH_WEB_STYLE SDK_WEBPATH_BOARD_SPECIFIC_CGI #SDK_WEBPATH_CGI_LIB
 
 all:
-	@echo "******************** build web server ********************"
 	@make -C OS/Linux/
 	
 install:
 #copy WEB pages/CGI/Java
-	@echo "******************** install web server ********************"
 	@if [ ! -d $(WEBFS_PATH) ];then mkdir -p $(WEBFS_PATH);fi
 	make install --directory=$(WEB_PATH)/OS/Linux/Web_Style/$(WEBSTYLE-y)
 	
 clean:
-	@echo "******************** clean webserver ********************"
 	@make -C OS/Linux/ clean
 
 clean_all: clean

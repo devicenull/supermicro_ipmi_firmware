@@ -17,11 +17,9 @@ override LIBS =
 override INCLUDEDIR =
 
 all:
-	$(Q)echo "******************** build LLDP Agent ********************"
 	cd $(LLDP_LIBDIR); ./configure --host=$(BUILD_HOST); make
 
 install:
-	$(Q)echo "********************Copy LLDP Agent ********************"
 	$(Q)cp -f $(LLDP_LIBDIR)/src/lldpd $(FS_PATH)/bin/
 
 	

@@ -13,10 +13,8 @@ SDK_FILE_CP_LIST = ./Makefile ./busybox*.tar.gz ./Host/$(MYMCU)/config patch/dec
 #================= end of SDK param ===================
 
 all:
-	
-install:
 	$(Q)echo "******************** build busybox ********************"
-#copy busybox
+	#copy busybox
 	$(Q)cp $(CONFIG_FILE_NAME) busybox/.config
 	if [ ! -f $(BUSY_SRCDIR)/busybox/decompress_uncompress.patch ] ;then \
 	cp $(BUSY_SRCDIR)/patch/* $(BUSY_SRCDIR)/busybox;cd $(BUSY_SRCDIR)/busybox ;\

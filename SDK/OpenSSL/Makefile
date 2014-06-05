@@ -11,14 +11,12 @@ override CFLAGS =
 override LDFLAGS =
 
 all:
-	$(Q)echo "******************** make OpenSSL ********************"
 	$(Q)cd $(SSL_SRCDIR); \
 	if [ ! -d openssl ];then mkdir openssl; cd openssl;tar zxf $(SSL_ZIP); mkdir lib; fi
 	$(Q)cd $(SSL_SRCDIR)/openssl; if [ ! -f $(SSL_SRCDIR)/openssl/local/lib/libssl.so ];then ./config $(SSL_CFG); make $(SSL_MFG);\
 	make install; $(STRIP) local/lib/*.so.*; $(STRIP) apps/openssl; cp libcrypto.so libssl.so lib; fi;\
 	if [ ! -d $(TC_LOCAL)/lib/pkgconfig ];then mkdir $(TC_LOCAL)/lib/pkgconfig;fi;\
 	cp -f local/lib/pkgconfig/* $(TC_LOCAL)/lib/pkgconfig/ 
-	$(Q)echo "******************** copy OpenSSL ********************"
 	$(Q)rm -f $(PRJ_PATH)/lib/libcrypto.so.0.9.8 $(PRJ_PATH)/lib/libssl.so
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libcrypto.so.0.9.8 $(PRJ_PATH)/lib/
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libssl.so $(PRJ_PATH)/lib/

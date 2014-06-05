@@ -25,7 +25,6 @@ override CFLAGS =
 override LDFLAGS = 
 override LIBS =
 all:
-	$(Q)echo "******************** make OpenLDAP ********************"
 	$(Q)cd $(LDAP_SRCDIR); \
 	if [ ! -d openldap ];then mkdir openldap;cd openldap;tar zxf $(LDAP_ZIP);fi
 	$(Q)cd $(LDAP_SRCDIR)/openldap;if [ ! -f $(LDAP_SRCDIR)/openldap/libraries/libldap/.libs/libldap.a ];then \

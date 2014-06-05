@@ -11,7 +11,6 @@ override LDFLAGS =
 override LIBS =
 
 all:
-	$(Q)echo "******************** make SMTP ********************"
 	$(Q)echo "CC=" $(CC)
 	$(Q)echo "AR=" $(AR)
 	$(Q)cd $(SMTP_SRCDIR); \
@@ -21,6 +20,7 @@ all:
 	$(CROSS_COMPILE)strip $(SMTP_SRCDIR)/smtp/src/msmtp
 	$(Q)cp $(SMTP_SRCDIR)/smtp/src/msmtp $(BINPATH)/msmtp
 	$(Q)cp $(SMTP_SRCDIR)/smtpclient.sh $(BINPATH)/
+
 install:
 	#******************************do nothing***************************
 	
