@@ -88,8 +88,6 @@ LIBS=
 export CMPI_BASE_STAGE_REG CMPI_BASE_STAGE_MOF
 
 all:
-
-install:
 	@echo "**********************Build curlx86*****************************"
 	if [ -f $(CURL_SRC_DIR)/Makefile ];then \
 	cd $(CURL_SRC_DIR); \

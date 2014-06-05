@@ -31,6 +31,10 @@ SDK/Kernel/Host/HERMON/linux/.config
 # busybox
 SDK/src/busybox/busybox/_install/
 
+# dhcpv6
+SDK/src/dhcpv6/wide-dhcpv6/dhcp6c
+SDK/src/dhcpv6/wide-dhcpv6/dhcp6s
+
 # libxml2
 SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/arm-linux/lib/pkgconfig/libxml-2.0.pc
 SDK/libXML2/libxml2/libxml2-2.6.32/.deps/

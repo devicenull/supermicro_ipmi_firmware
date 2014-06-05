@@ -86,13 +86,13 @@ busybox:
 	$(Q)echo
 	$(Q)echo =================== busybox ===================
 	$(Q)echo
-	cd $(BASEDIR)/src/busybox && make
+	cd $(SRCDIR)/busybox && make
 
 dhcpv6:
 	$(Q)echo
 	$(Q)echo =================== dhcpv6 ===================
 	$(Q)echo
-	cd $(BASEDIR)/DHCPV6 && make
+	cd $(SRCDIR)/dhcpv6 && make
 
 lighttpd:
 	$(Q)echo
