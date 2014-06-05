@@ -1,6 +1,6 @@
 -include $(PRJ_PATH)/.SDKPath
 HOST = $(subst -gcc,,$(notdir $(CROSS_COMPILE)gcc))
-SMTP_SRCDIR = $(PRJ_PATH)/SMTP
+SMTP_SRCDIR = $(SRCDIR)/smtp
 SMTP_ZIP    = $(wildcard $(SMTP_SRCDIR)/*.tar.gz)
 SMTP_CFG    = --host=${HOST} -with-ssl=openssl --libdir=$(PRJ_PATH)/OpenSSL/openssl/lib/
 
@@ -18,11 +18,9 @@ all:
 	$(Q)cd $(SMTP_SRCDIR)/smtp;if [ ! -f $(SMTP_SRCDIR)/smtp/src/msmtp ];then \
 	./configure $(SMTP_CFG);make;fi
 	$(CROSS_COMPILE)strip $(SMTP_SRCDIR)/smtp/src/msmtp
-	$(Q)cp $(SMTP_SRCDIR)/smtp/src/msmtp $(BINPATH)/msmtp
-	$(Q)cp $(SMTP_SRCDIR)/smtpclient.sh $(BINPATH)/
+	$(Q)cp $(SMTP_SRCDIR)/smtp/src/msmtp $(FS_PATH)/bin/msmtp
+	$(Q)cp $(SMTP_SRCDIR)/smtpclient.sh $(FS_PATH)/bin/
 
-install:
-	#******************************do nothing***************************
 	
 CLEAN_FILES = smtp
 include $(PRJ_PATH)/PKConfig/Lx_Script/clean.mk

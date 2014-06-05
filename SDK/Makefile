@@ -128,7 +128,7 @@ smtp:
 	$(Q)echo
 	$(Q)echo =================== smtp ===================
 	$(Q)echo
-	cd $(BASEDIR)/SMTP && make
+	cd $(SRCDIR)/smtp && make
 
 ddns:
 	$(Q)echo
