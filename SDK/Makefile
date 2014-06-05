@@ -38,7 +38,7 @@ export MYMCU
 all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman smash smtp ddns ntp lldp nwfirewall webpage mdinfo
 
 outputdir:
-	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d
+	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d $(FS_PATH)/usr/local/etc/ntp
 
 kernel:
 	$(Q)echo
@@ -140,7 +140,7 @@ ntp:
 	$(Q)echo
 	$(Q)echo =================== ntp ===================
 	$(Q)echo
-	cd $(BASEDIR)/NTP && make
+	cd $(SRCDIR)/ntp && make
 
 lldp:
 	$(Q)echo

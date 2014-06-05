@@ -68,23 +68,19 @@ SDK/libXML2/libxml2/libxml2-2.6.32/xmllint
 SDK/libXML2/libxml2/local/
 
 # NTP
-NTP/tools/ntp-4.2.4p4/*/Makefile
-NTP/tools/ntp-4.2.4p4/*/version.c
-NTP/tools/ntp-4.2.4p4/*/.version
-NTP/tools/ntp-4.2.4p4/Makefile
-SDK/NTP/bin/
-SDK/NTP/tools/ntp-4.2.4p4/libntp/libntp.a
-SDK/NTP/tools/ntp-4.2.4p4/libopts/.libs/
-SDK/NTP/tools/ntp-4.2.4p4/ntpd/libntpd.a
-SDK/NTP/tools/ntp-4.2.4p4/ntpd/ntpd
-SDK/NTP/tools/ntp-4.2.4p4/ntpdate/ntpdate
-SDK/NTP/tools/ntp-4.2.4p4/ntpdc/ntpdc
-SDK/NTP/tools/ntp-4.2.4p4/ntpq/ntpq
-SDK/NTP/tools/ntp-4.2.4p4/sntp/libopts/.libs/
-SDK/NTP/tools/ntp-4.2.4p4/sntp/sntp
-SDK/NTP/tools/ntp-4.2.4p4/util/ntp-keygen
-SDK/NTP/tools/ntp-4.2.4p4/util/ntptime
-SDK/NTP/tools/ntp-4.2.4p4/util/tickadj
+SDK/src/ntp/bin/
+SDK/src/ntp/tools/ntp-4.2.4p4/libntp/libntp.a
+SDK/src/ntp/tools/ntp-4.2.4p4/libopts/.libs/
+SDK/src/ntp/tools/ntp-4.2.4p4/ntpd/libntpd.a
+SDK/src/ntp/tools/ntp-4.2.4p4/ntpd/ntpd
+SDK/src/ntp/tools/ntp-4.2.4p4/ntpdate/ntpdate
+SDK/src/ntp/tools/ntp-4.2.4p4/ntpdc/ntpdc
+SDK/src/ntp/tools/ntp-4.2.4p4/ntpq/ntpq
+SDK/src/ntp/tools/ntp-4.2.4p4/sntp/libopts/.libs/
+SDK/src/ntp/tools/ntp-4.2.4p4/sntp/sntp
+SDK/src/ntp/tools/ntp-4.2.4p4/util/ntp-keygen
+SDK/src/ntp/tools/ntp-4.2.4p4/util/ntptime
+SDK/src/ntp/tools/ntp-4.2.4p4/util/tickadj
 
 # SMTP
 SDK/src/smtp/smtp/src/msmtp
