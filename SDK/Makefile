@@ -146,7 +146,7 @@ lldp:
 	$(Q)echo
 	$(Q)echo =================== lldp ===================
 	$(Q)echo
-	cd $(BASEDIR)/LLDP && make
+	cd $(SRCDIR)/lldp && make
 
 nwfirewall:
 	$(Q)echo

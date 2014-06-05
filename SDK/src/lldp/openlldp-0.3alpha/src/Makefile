@@ -38,10 +38,10 @@ pkglibdir = $(libdir)/lldpd
 pkgincludedir = $(includedir)/lldpd
 top_builddir = ..
 
-ACLOCAL = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run aclocal-1.6
-AUTOCONF = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run autoconf
-AUTOMAKE = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run automake-1.6
-AUTOHEADER = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run autoheader
+ACLOCAL = ${SHELL} /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/missing --run aclocal-1.6
+AUTOCONF = ${SHELL} /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/missing --run autoconf
+AUTOMAKE = ${SHELL} /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/missing --run automake-1.6
+AUTOHEADER = ${SHELL} /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/missing --run autoheader
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = /usr/bin/install -c
@@ -65,7 +65,7 @@ host_triplet = arm-unknown-linux-gnu
 EXEEXT = 
 OBJEXT = o
 PATH_SEPARATOR = :
-AMTAR = ${SHELL} /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/missing --run tar
+AMTAR = ${SHELL} /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/missing --run tar
 AWK = mawk
 CC = /home/devicenull/ipmi/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-armv4/arm-linux/bin/arm-linux-gcc
 
@@ -86,7 +86,7 @@ STRIP = /home/devicenull/ipmi/SDK/ToolChain/Host/HERMON/gcc-3.4.4-glibc-2.3.5-ar
 VERSION = 0.3
 am__include = include
 am__quote = 
-install_sh = /home/devicenull/ipmi/SDK/LLDP/openlldp-0.3alpha/install-sh
+install_sh = /home/devicenull/ipmi/SDK/src/lldp/openlldp-0.3alpha/install-sh
 AUTOMAKE_OPTIONS = foreign no-dependencies
 INCLUDES =  
 DEFS = -DPACKAGE_NAME=\"\" -DPACKAGE_TARNAME=\"\" -DPACKAGE_VERSION=\"\" -DPACKAGE_STRING=\"\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE=\"lldpd\" -DVERSION=\"0.3\" -DSTDC_HEADERS=1 -DLILENDIAN=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DLINUX=1 -DLINUX_FRAMER=1  $(MOREDEFS)

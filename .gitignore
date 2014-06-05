@@ -86,8 +86,8 @@ SDK/NTP/tools/ntp-4.2.4p4/util/ntp-keygen
 SDK/NTP/tools/ntp-4.2.4p4/util/ntptime
 SDK/NTP/tools/ntp-4.2.4p4/util/tickadj
 
-# LLDP
-SDK/LLDP/openlldp-0.3alpha/src/lldpd
+# lldp
+SDK/src/lldp/openlldp-0.3alpha/src/lldpd
 
 # Misc utils
 SDK/PKConfig/MDInfo/mdinfo

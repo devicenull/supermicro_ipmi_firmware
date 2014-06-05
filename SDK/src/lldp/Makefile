@@ -6,8 +6,8 @@ BUILD_HOST = arm-linux
 endif
 
 LLDP_VERSION = openlldp-0.3alpha
-LLDP_SRCDIR = $(PRJ_PATH)/LLDP
-LLDP_LIBDIR = $(PRJ_PATH)/LLDP/$(LLDP_VERSION)
+LLDP_SRCDIR = $(SRCDIR)/lldp
+LLDP_LIBDIR = $(SRCDIR)/lldp/$(LLDP_VERSION)
 
 export	LLDP_LIBDIR
 
@@ -17,9 +17,7 @@ override LIBS =
 override INCLUDEDIR =
 
 all:
-	cd $(LLDP_LIBDIR); ./configure --host=$(BUILD_HOST); make
-
-install:
+	cd $(LLDP_LIBDIR) && ./configure --host=$(BUILD_HOST); make
 	$(Q)cp -f $(LLDP_LIBDIR)/src/lldpd $(FS_PATH)/bin/
 
 	
