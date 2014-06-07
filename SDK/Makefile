@@ -35,7 +35,7 @@ export LDFLAGS
 MYMCU=HERMON
 export MYMCU
 
-all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman smash smtp ddns ntp lldp nwfirewall webpage mdinfo
+all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage mdinfo
 
 outputdir:
 	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d $(FS_PATH)/usr/local/etc/ntp
@@ -118,11 +118,11 @@ openwsman:
 	$(Q)echo
 	cd $(BASEDIR)/OpenWSMAN && make
 
-smash:
+dropbear:
 	$(Q)echo
-	$(Q)echo =================== smash ===================
+	$(Q)echo =================== dropbear ===================
 	$(Q)echo
-	cd $(SRCDIR)/smash && make
+	cd $(SRCDIR)/dropbear && make
 
 smtp:
 	$(Q)echo
