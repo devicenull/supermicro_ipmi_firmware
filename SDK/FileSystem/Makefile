@@ -1,14 +1,12 @@
 -include $(PRJ_PATH)/.config
 -include $(PRJ_PATH)/.machine
 include $(PRJ_PATH)/PKConfig/Lx_Script/Makefile.lib
-FS_PATH    = $(PRJ_PATH)/FileSystem/Host/$(MYMCU)/rootfs
 FS_PATH_FINAL = $(PRJ_PATH)/FileSystem/Host/$(MYMCU)/rootfs_final
 WEBFS_PATH = $(PRJ_PATH)/FileSystem/Host/$(MYMCU)/webfs
 WEBFS_PATH_FINAL = $(PRJ_PATH)/FileSystem/Host/$(MYMCU)/webfs_final
 FS_SRCDIR = $(PRJ_PATH)/FileSystem/Host/$(MYMCU)/
 FS_ZIP     = $(wildcard $(FS_SRCDIR)/*.tar.gz)
 ETCPath  = $(FS_PATH)/etc/
-
 
 ROOT_FS_SIZE	= 22
 ROOT_FS_NAME	= rootfs
@@ -35,9 +33,8 @@ BUILD_FS: $(FS_ELEMENT)
 
 install:
 	$(Q)bash $(PRJ_PATH)/PKConfig/MDInfo/mdver.sh $(FS_SRCDIR) $(ver) 
-	$(Q)if [ -d $(FS_PATH) ];then rm -rf $(FS_PATH) ; fi
-	$(Q)mkdir -p $(FS_PATH)
 	$(Q)cd $(FS_PATH); tar zxf $(FS_ZIP) 
+	cp -nP $(LIBPATH)/* $(FS_PATH)/lib/
 	$(Q)if [ ! -d $(FS_PATH)/bin/ ];then mkdir -p $(FS_PATH)/bin/; fi
 	$(Q)if [ -d $(WEBFS_PATH) ];then rm -rf $(WEBFS_PATH); fi
 	$(Q)mkdir -p $(WEBFS_PATH)
@@ -76,7 +73,6 @@ endif
 	$(Q)$(ECHO_CMD) " Gen WWW Filesystem (CRAMFS).........."
 	$(PRJ_PATH)/make_webfs.sh
 	$(Q)cd $(WEBFS_PATH); \
-	$(FIND_CMD) ./ | grep "$(VERSION_CTRL_KEYWORD)" | xargs -n 1 rm -rf; cd $(PRJ_PATH)/FileSystem
 	$(Q)if [ -d $(WEBFS_PATH_FINAL) ];then umount $(WEBFS_PATH_FINAL); rm -rf $(WEBFS_PATH_FINAL); fi
 	$(Q)mkdir -p $(WEBFS_PATH_FINAL)
 	$(Q)dd if=/dev/zero of=$(WEB_FS_NAME)_tmp bs=1024K count=$(WEB_FS_SIZE) >>/dev/null 2>&1
@@ -87,8 +83,7 @@ endif
 	$(Q)/sbin/mkfs.cramfs $(WEBFS_PATH_FINAL) $(PRJ_PATH)/FileSystem/$(WEB_FS_NAME)
 	$(Q)umount $(WEBFS_PATH_FINAL)
 	$(Q)$(ECHO_CMD) " Gen Root Filesystem (CRAMFS).........."
-	$(Q)cd $(FS_PATH); \
-	$(FIND_CMD) ./ | grep "$(VERSION_CTRL_KEYWORD)" | xargs -n 1 rm -rf; \
+	cd $(FS_PATH); \
 	$(FIND_CMD) ./bin | grep "\.sh" | xargs -n 1 -r chmod u+x,g+x,o+x; \
 	$(FIND_CMD) ./usr/bin | grep "\.sh" | xargs -n 1 -r chmod u+x,g+x,o+x; \
 	$(FIND_CMD) ./sbin | grep "\.sh" | xargs -n 1 -r chmod u+x,g+x,o+x; \
@@ -102,34 +97,18 @@ endif
 	chmod u+x,g+x,o+x ./etc/init.d/httpd; \
 	chmod u+x,g+x,o+x ./bin/htpasswd; \
 	cd $(PRJ_PATH)/FileSystem
-	$(Q)if [ -d $(FS_PATH_FINAL) ];then umount $(FS_PATH_FINAL); rm -rf $(FS_PATH_FINAL) ; fi
-	$(Q)mkdir -p $(FS_PATH_FINAL)
-	$(Q)dd if=/dev/zero of=$(ROOT_FS_NAME)_tmp bs=1024K count=$(ROOT_FS_SIZE) >>/dev/null 2>&1
-	$(Q)/sbin/mke2fs -F -m0 $(ROOT_FS_NAME)_tmp >>/dev/null 2>&1
-	$(Q)mount -o loop $(ROOT_FS_NAME)_tmp $(FS_PATH_FINAL)
-	$(Q)$(CP_CMD) -af $(FS_PATH)/* $(FS_PATH_FINAL)/
+	if [ -d $(FS_PATH_FINAL) ];then umount $(FS_PATH_FINAL); rm -rf $(FS_PATH_FINAL) ; fi
+	mkdir -p $(FS_PATH_FINAL)
+	dd if=/dev/zero of=$(ROOT_FS_NAME)_tmp bs=1024K count=$(ROOT_FS_SIZE) >>/dev/null 2>&1
+	/sbin/mke2fs -F -m0 $(ROOT_FS_NAME)_tmp >>/dev/null 2>&1
+	mount -o loop $(ROOT_FS_NAME)_tmp $(FS_PATH_FINAL)
+	$(CP_CMD) -af $(FS_PATH)/* $(FS_PATH_FINAL)/
 	$(call SHOW_FSSIZE,$(ROOT_FS_SIZE),$(FS_PATH_FINAL),$(ROOT_FS_NAME))
-	$(Q)/sbin/mkfs.cramfs $(FS_PATH_FINAL) $(PRJ_PATH)/FileSystem/$(ROOT_FS_NAME)
-	$(Q)umount $(FS_PATH_FINAL)
-	$(Q)if [ ! -d $(IMAGE_PATH) ]; then mkdir -p $(IMAGE_PATH); fi
-	$(Q)$(CP_CMD) -f $(ROOT_FS_NAME) $(WEB_FS_NAME) $(IMAGE_PATH)
-	$(Q)rm -rf $(FS_PATH) $(WEBFS_PATH) $(FS_PATH_FINAL) $(WEBFS_PATH_FINAL)
+	/sbin/mkfs.cramfs $(FS_PATH_FINAL) $(PRJ_PATH)/FileSystem/$(ROOT_FS_NAME)
+	umount $(FS_PATH_FINAL)
+	if [ ! -d $(IMAGE_PATH) ]; then mkdir -p $(IMAGE_PATH); fi
+	$(CP_CMD) -f $(ROOT_FS_NAME) $(WEB_FS_NAME) $(IMAGE_PATH)
+	$(Q)rm -rf $(FS_PATH_FINAL) $(WEBFS_PATH_FINAL)
 	$(Q)$(ECHO_CMD) " Gen All-in-one image & mdinfo .........."
 	$(Q)cd $(OUTPUT_IMG-y) && make install
-	
-clean:
-	$(Q)echo "******************** clean File System ********************"
-	$(Q)rm -rf  rootfs  rootfs_tmp  webfs  webfs_tmp	
-	$(Q)for i in $(FS_ELEMENT_DIR); do make -C $$i clean; done
-#	$(Q)for i in $(BB_ELEMENT_DIR); do make -C $$i clean; done
-	$(Q)rm -rf $(TMPFS_PATH) $(FS_PATH) $(FS_PATH_FINAL) $(WEBFS_PATH) $(WEBFS_PATH_FINAL)
 
--include $(PRJ_PATH)/.SDKPath
-include $(PRJ_PATH)/PKConfig/Lx_Script/Makefile.lib
-DTKFS_PATH = $(DTKPATH)/FileSystem
-
-FILE_LIST = $(wildcard ./Host/$(MYMCU)/*.tar.gz) ./Makefile Host/$(MYMCU)/Board
-
-extract:
-	$(Q)$(ECHO_CMD) " Extract File System "
-	$(Q)$(call SDK_CP_TASK,$(FILE_LIST),$(DTKFS_PATH))

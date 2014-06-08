@@ -11,8 +11,8 @@ install:
 	mkdir -p $(WORK_PATH)
 	cp $(IMAGE_PATH)/out_kernel.bin $(WORK_PATH)/kernel.bin
 	cp $(IMAGE_PATH)/bootloader_pcb_rev_b.bin $(WORK_PATH)/bootloader.bin
-	cp $(IMAGE_PATH)/out_rootfs_img.bin $(WORK_PATH)/1stFS.bin
-	cp $(IMAGE_PATH)/out_webfs_img.bin $(WORK_PATH)/2ndFS.bin
+	cp $(IMAGE_PATH)/rootfs $(WORK_PATH)/1stFS.bin
+	cp $(IMAGE_PATH)/webfs $(WORK_PATH)/2ndFS.bin
 	cd $(TOOL_PATH); python rebuild_image.py
 	cp -f $(WORK_PATH)/rebuilt_image.bin $(IMAGE_PATH)/HERMONEVB_all.bin
 	$(Q)echo

@@ -19,8 +19,8 @@ all:
 	$(Q)rm -f $(PRJ_PATH)/lib/libcrypto.so.0.9.8 $(FS_PATH)/lib/libssl.so
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libcrypto.so.0.9.8 $(FS_PATH)/lib/
 	$(Q)cp $(SSL_SRCDIR)/openssl/local/lib/libssl.so $(FS_PATH)/lib/
-	$(Q)ln -s $(FS_PATH)/lib/libssl.so $(FS_PATH)/lib/libssl.so.0.9.8
-	$(Q)ln -s $(FS_PATH)/lib/libcrypto.so.0.9.8 $(FS_PATH)/lib/libcrypto.so
+	rm -f $(FS_PATH)/lib/libssl.so.0.9.8; cd $(FS_PATH)/lib && ln -s libssl.so libssl.so.0.9.8
+	rm -f $(FS_PATH)/lib/libcrypto.so; cd $(FS_PATH)/lib && ln -s lib/libcrypto.so.0.9.8 libcrypto.so
 	$(Q)cp $(SSL_SRCDIR)/openssl/apps/openssl $(FS_PATH)/bin
 
 

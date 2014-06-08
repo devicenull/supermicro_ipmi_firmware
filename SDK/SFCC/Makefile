@@ -49,6 +49,9 @@ export PKG_CONFIG_PATH LIBS_SUITE_DIR
 PKG_LIST = $(CURL_DIR) $(SFCC_DIR)
 
 all: 
+	cp -af $(SFCC_DIR)/../local/lib/*.so* $(FS_PATH)/lib
+	cp -af $(CURL_DIR)/../local/lib/*.so* $(FS_PATH)/lib
+
 
 install: CHECK_FOLDER $(PKG_LIST) CP_TASK
 

@@ -30,6 +30,12 @@ SDK/Kernel/Host/HERMON/linux/.config
 
 # busybox
 SDK/src/busybox/busybox/_install/
+SDK/src/busybox/busybox.log
+SDK/src/busybox/busybox/.config
+SDK/src/busybox/busybox/include/autoconf.h
+SDK/src/busybox/busybox/libbb/lib.a
+SDK/src/busybox/busybox/miscutils/lib.a
+
 
 # dhcpv6
 SDK/src/dhcpv6/wide-dhcpv6/dhcp6c

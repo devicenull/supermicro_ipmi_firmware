@@ -35,7 +35,7 @@ export LDFLAGS
 MYMCU=HERMON
 export MYMCU
 
-all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage mdinfo
+all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage baselibs mdinfo
 
 outputdir:
 	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d $(FS_PATH)/usr/local/etc/ntp
@@ -160,6 +160,12 @@ webpage:
 	$(Q)echo
 	cd $(BASEDIR)/Web_Server && make
 
+baselibs:
+	$(Q)echo
+	$(Q)echo =================== baselibs ===================
+	$(Q)echo
+	cd $(SRCDIR)/baselibs && make
+
 mdinfo:
 	$(Q)echo
 	$(Q)echo =================== mdinfo ===================
@@ -176,3 +182,7 @@ endif
 	$(Q)echo
 	cd $(BASEDIR)/Kernel/Host/HERMON/linux && LDFLAGS="" make install
 	cd $(BASEDIR)/FileSystem && make install
+
+test:
+	cp `which qemu-arm-static` $(FS_PATH)/
+	cd $(FS_PATH); sudo chroot . ./qemu-arm-static ./linuxrc
