@@ -64,3 +64,7 @@ The original firmware tool used a closed-source tool named `mkbin` to generate t
 ## Makefile
 
 The default Makefile they included is pretty terrible (as are most Makefiles).  I've replaced it entirely, with one I hope is more readable.  I am far from done though, the new one is better but still invokes some other nasty makefiles to get the job done.  The standard makefile is preserved in Makefile.bak, because it needs to be easily accessible for reference.
+
+## Removed Features
+
+* SMASH - This is a mess, they hacked up the Dropbear source code to build this.. I can't seem to get it to build cleanly.  I cannot find any references to people actually using SMASH (only enterprisely blogs talking about how wonderful it is because it's "standard", and people reporting security holes in it).  I replaced this with an unmodified (but still old) Dropbear.
