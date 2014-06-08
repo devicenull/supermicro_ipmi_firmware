@@ -35,7 +35,7 @@ export LDFLAGS
 MYMCU=HERMON
 export MYMCU
 
-all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage baselibs mdinfo
+all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage baselibs closed_source mdinfo
 
 outputdir:
 	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d $(FS_PATH)/usr/local/etc/ntp
@@ -50,7 +50,7 @@ libxml2:
 	$(Q)echo
 	$(Q)echo =================== libxml2 ===================
 	$(Q)echo
-	cd $(BASEDIR)/libXML2 && make
+	cd $(SRCDIR)/libxml2 && make
 
 openssl:
 	$(Q)echo
@@ -69,6 +69,7 @@ ipmi:
 	$(Q)echo =================== ipmi ===================
 	$(Q)echo
 	cd $(BASEDIR)/IPMI && make
+	cd $(BASEDIR)/IPMI/INIT && make
 
 vusb:
 	$(Q)echo
@@ -171,6 +172,13 @@ mdinfo:
 	$(Q)echo =================== mdinfo ===================
 	$(Q)echo
 	cd $(BASEDIR)/PKConfig/MDInfo && make
+
+closed_source:
+	$(Q)echo
+	$(Q)echo =================== closed_source ===================
+	$(Q)echo
+	cd $(SRCDIR)/closed_source && make
+
 
 # This really just generates the output image.  Called install for legacy reasons :)
 install:

@@ -8,7 +8,7 @@ all: $()
 	@echo " LD getobcl"
 	$(Q)$(CC) $(CFLAGS) obcl.o -o ${FS_PATH}/bin/obcl $(LDFLAGS)
 	@echo " LD getprelanconf"
-	$(Q)$(CC) $(CFLAGS) prelanconf.o -o ${FS_PATH}/prelanconf $(LDFLAGS)
+	$(Q)$(CC) $(CFLAGS) prelanconf.o -o ${FS_PATH}/bin/prelanconf $(LDFLAGS)
 
 
 

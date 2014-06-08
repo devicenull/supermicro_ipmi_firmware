@@ -68,3 +68,8 @@ The default Makefile they included is pretty terrible (as are most Makefiles).  
 ## Removed Features
 
 * SMASH - This is a mess, they hacked up the Dropbear source code to build this.. I can't seem to get it to build cleanly.  I cannot find any references to people actually using SMASH (only enterprisely blogs talking about how wonderful it is because it's "standard", and people reporting security holes in it).  I replaced this with an unmodified (but still old) Dropbear.
+* DDNS - This should be updated to use some kind of standard DDNS client, rather then the (apparently) entirely custom one used here.  This feature isn't terribly important to me, so it's been removed for now.
+
+## Closed Source Content
+
+The directory SDK/src/closed_source contains modules that were not actually provided with the open source IPMI SDK.  They had to be extracted from a firmware update file.
