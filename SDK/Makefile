@@ -99,7 +99,7 @@ lighttpd:
 	$(Q)echo
 	$(Q)echo =================== lighttpd ===================
 	$(Q)echo
-	cd $(BASEDIR)/Web_Server/httpd && make
+	cd $(SRCDIR)/lighttpd && make
 
 sfcc:
 	$(Q)echo
