@@ -11,4 +11,8 @@ all:
 	$(STRIP) --strip-unneeded $(FS_PATH)/bin/dropbearkey;
 	$(STRIP) --strip-unneeded $(FS_PATH)/bin/dbclient;
 	$(STRIP) --strip-unneeded $(FS_PATH)/sbin/dropbear;
+	mkdir -p $(FS_PATH)/etc/init.d $(FS_PATH)/etc/dropbear/;
+	cp smashd $(FS_PATH)/etc/init.d/
+	cd $(FS_PATH)/etc/dropbear/; ln -fs /nv/dropbear_rsa_host_key dropbear_rsa_host_key
+	cd $(FS_PATH)/etc/dropbear/; ln -fs /nv/dropbear_dss_host_key dropbear_dss_host_key
 

@@ -1,0 +1,64 @@
+#! /bin/sh
+
+RESOLV_CONF="/etc/resolv.conf"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+case "$1" in
+        deconfig)
+                /sbin/ifconfig $interface 0.0.0.0
+                ;;
+
+        renew|bound)
+                /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+
+                if [ -n "$router" ] ; then
+                        echo "deleting routers"
+                        while route del default gw 0.0.0.0 dev $interface ; do
+                                :
+                        done
+			echo "adding router....."
+                        for i in $router ; do
+                                route add default gw $i dev $interface
+                        done
+                fi
+
+               echo > $RESOLV_CONF
+                [ -n "$domain" ] && echo search $domain >> $RESOLV_CONF
+                for i in $dns ; do
+                        echo adding dns $i
+                        echo nameserver $i >> $RESOLV_CONF
+                done
+                ;;
+	leasefail)		
+		echo "udhcpc leasefail"
+		;;
+	nak)
+		echo "udhcpc nak"
+esac
+
+exit 0
+
+
+#        deconfig: This argument is used when udhcpc starts, and
+#       when a leases is lost. The script must put the interface in an
+#        up, but deconfigured state, ie: ifconfig $interface 0.0.0.0.
+
+#        bound: This argument is used when udhcpc moves from an
+#        unbound, to a bound state. All of the paramaters are set in
+#        enviromental variables, The script should configure the interface,
+#        and set any other relavent parameters (default gateway, dns server,
+#        etc).
+
+#        renew: This argument is used when a DHCP lease is renewed. All of
+#        the paramaters are set in enviromental variables. This argument is
+#        used when the interface is already configured, so the IP address,
+#        will not change, however, the other DHCP paramaters, such as the
+#        default gateway, subnet mask, and dns server may change.
+                                                                                
+#        nak: This argument is used with udhcpc receives a NAK message.
+#        The script with the deconfig argument will be called directly
+#        afterwards, so no changes to the network interface are neccessary.
+#        This hook is provided for purely informational purposes (the
+#        message option may contain a reason for the NAK).
+

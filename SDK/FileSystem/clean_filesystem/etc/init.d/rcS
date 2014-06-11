@@ -1,0 +1,9 @@
+#! /bin/sh
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+export PATH
+mount -a
+export LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib"
+cd /bin
+./kcs_sysinit 
+./sys2fork
+

@@ -1,0 +1,6 @@
+busybox $@
+if [ ifconfig = $1 ] && [ 3 -le $# ];then
+	/bin/prelanconf > /dev/null &
+elif [ ip = $1 ] && [ link = $2 ] && [ set = $3 ] && [ up != $5 ] && [ down != $5 ] && [ 5 -eq $# ]; then
+	/bin/prelanconf > /dev/null &
+fi
