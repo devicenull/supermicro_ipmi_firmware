@@ -73,3 +73,7 @@ The default Makefile they included is pretty terrible (as are most Makefiles).  
 ## Closed Source Content
 
 The directory SDK/src/closed_source contains modules that were not actually provided with the open source IPMI SDK.  They had to be extracted from a firmware update file.
+
+## Default SSH login
+
+root / atenuser
