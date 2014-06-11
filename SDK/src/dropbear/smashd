@@ -1,0 +1,67 @@
+#!/bin/sh
+SSH_PATH=/usr/local/dropbear
+SSH_EXE=$SSH_PATH/sbin/dropbear
+RSA_KEY=/nv/dropbear/dropbear_rsa_host_key
+DSS_KEY=/nv/dropbear/dropbear_dss_host_key
+KEY_STATUS=/tmp/dropbear.st
+
+SSH_OPTION="-p 22 -j -k -d $DSS_KEY -r $RSA_KEY -I 600 "
+
+create_smash_key()
+{
+  mkdir -p /nv/dropbear
+  if [ ! -f $RSA_KEY ];then
+    echo "Generating Dropbear RSA key. Please wait."
+    $SSH_PATH/bin/dropbearkey -t rsa -f $RSA_KEY >/dev/null 2>&1
+  fi
+  if [ ! -f $DSS_KEY ];then
+    echo "Generating Dropbear DSS key. Please wait."
+    $SSH_PATH/bin/dropbearkey -t dss -f $DSS_KEY >/dev/null 2>&1
+  fi
+}
+verify_ssh_key()
+{
+  if [ -f $1 ];then
+    echo "Verify the ssh key-$1. Please wait."
+    $SSH_PATH/bin/dropbearkey -y -f $1 > $KEY_STATUS 2>&1
+    if [ -z "`cat /tmp/dropbear.st | grep \"Fingerprint:\"`" ];then
+      echo "The ssh key-$1 is bad and will be deleted!"
+      rm $1
+    fi
+    #rm $KEY_STATUS
+  fi
+}
+verify_ssh_allkeys()
+{
+  verify_ssh_key $RSA_KEY
+  verify_ssh_key $DSS_KEY
+  create_smash_key
+}
+
+start_smash()
+{
+  verify_ssh_allkeys
+  echo "Starting SMASH daemon ....."
+    $SSH_EXE $SSH_OPTION>/dev/null 2>&1
+}
+stop_smash()
+{
+    killall -9 dropbear > /dev/null 2>&1 
+    killall -9 msh > /dev/null 2>&1     
+}
+
+
+case $1 in 
+    start)
+	start_smash 
+    ;;
+    stop)
+	stop_smash && echo "Stop SMASH daemon .............."
+    ;;
+    restart)
+	stop_smash
+	start_smash
+    ;;
+    *)
+    ;;
+esac

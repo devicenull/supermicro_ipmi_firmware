@@ -1,0 +1,12 @@
+#!/bin/bash
+TMP_DIR=tmp_sdr
+
+if [ ! -d $TMP_DIR ];then mkdir $TMP_DIR;fi
+cd $TMP_DIR
+cat $1 |while read line
+do
+ln -s `echo $line | awk '{print $2}'` `echo $line | awk '{print $1}'`
+done
+tar zcf ../SDRBlock.tar.gz *
+cd -
+rm -rf $TMP_DIR
