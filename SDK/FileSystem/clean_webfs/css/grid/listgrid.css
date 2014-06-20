@@ -1,0 +1,47 @@
+table.listgrid{
+	border:0px;
+	border-bottom: 0px solid #aaa;
+	padding:0px;
+  margin:0px;
+  font-family:Arial, Verdana, Sans-serif;
+  font-size:1em;
+}
+
+
+
+html>body table.listgrid tbody{
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+
+th.head, th.headHover{
+	background-color:#F2F6FF;
+	font-weight:bold;
+	font-size :12px;
+}
+
+th.headHover{
+  background-color:#AAAAAA;
+  cursor:pointer;
+  cursor:hand;
+}
+
+
+
+
+table.listgrid tr.normal td{
+  border-bottom: 1px solid #ccc;
+  background:transparent;
+  cursor:default;
+  height:1.6em;
+  font-size :12px;
+}
+
+table.listgrid tr.selected td{
+  background-color:#245DB7;
+  color:#fff;
+  margin:0px;
+  height:1.6em;
+  font-size :12px;
+}
+

@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <!-- common css -->
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+    <script type="text/javascript">
+
+    //declare all global variables
+var browser_ie = (((navigator.userAgent.indexOf('MSIE') >= 0) && (navigator.userAgent.indexOf('Opera') < 0))?true:false);
+var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+
+var timezone_array = [
+	["-43200" , "UTC-12:00"], ["-39600" , "UTC-11:00"], ["-36000" , "UTC-10:00"],
+	["-34200" , "UTC-09:30"], ["-32400" , "UTC-09:00"], ["-28800" , "UTC-08:00"],
+	["-25200" , "UTC-07:00"], ["-21600" , "UTC-06:00"], ["-18000" , "UTC-05:00"],
+	["-16200" , "UTC-04:30"], ["-14400" , "UTC-04:00"], ["-12600" , "UTC-03:30"],
+	["-10800" , "UTC-03:00"], ["-9000" , "UTC-02:30"], ["-7200" , "UTC-02:00"],
+	["-3600" , "UTC-01:00"], ["0" , "UTC+00:00"], ["3600" , "UTC+01:00"],
+	["7200" , "UTC+02:00"], ["10800" , "UTC+03:00"], ["12600" , "UTC+03:30"],
+	["14400" , "UTC+04:00"], ["16200" , "UTC+04:30"], ["18000" , "UTC+05:00"],
+	["19800" , "UTC+05:30"], ["20700" , "UTC+05:45"], ["21600" , "UTC+06:00"],
+	["23400" , "UTC+06:30"], ["25200" , "UTC+07:00"], ["28800" , "UTC+08:00"],
+	["32400" , "UTC+09:00"], ["34200" , "UTC+09:30"], ["36000" , "UTC+10:00"],
+	["37800" , "UTC+10:30"], ["39600" , "UTC+11:00"], ["41400" , "UTC+11:30"],
+	["43200" , "UTC+12:00"], ["46800" , "UTC+13:00"], ["50400" , "UTC+14:00"]
+];
+
+function PageInit()
+{
+    document.getElementById("refresh_btn").setAttribute("value", lang.LANG_CONF_DATE_TIME_REFRESH);
+    document.getElementById("save_btn").setAttribute("value", lang.LANG_CONF_DATE_TIME_SAVE);
+
+    var_timezone=document.getElementById("timezone");
+    var_ntp_enable=document.getElementById("ntp_enable");
+    var_ntp_disable=document.getElementById("ntp_disable");
+    var_ntp_server_pri=document.getElementById("ntp_server_pri");
+    var_ntp_server_2nd=document.getElementById("ntp_server_2nd");
+    fMonth=document.getElementById("mon_field");
+    fDate=document.getElementById("dd_field");
+    fYear=document.getElementById("yy_field");
+    fHour=document.getElementById("hh_field");
+    fMin=document.getElementById("min_field");
+    fSec=document.getElementById("ss_field");
+    var_refresh_btn=document.getElementById("refresh_btn");
+    var_save_btn=document.getElementById("save_btn");
+	var_check_dst=document.getElementById("check_dst");
+
+    $(TAG_ALERT)
+    $(TAG_MAINPAGE)		
+
+    GetDateTimeReq();
+
+    var month = [   'January', 'February', 'March', 'April',
+                    'May', 'June', 'July', 'August',
+                    'September', 'October', 'November', 'December'];
+
+    var var_min_dd = 1;
+    var var_min_mm = 0;
+    var var_min_yy = 2005;
+	var var_max_dd = 31;
+	var var_max_mm = 12;
+	var var_max_yy = 2050;
+	var var_num;
+	var var_index;
+	var tmp_opt_obj;
+
+	/*dd-mm-yyyy settings*/
+	for(var_num = var_min_dd; var_num <= var_max_dd; var_num++)
+	{
+		if(browser_ie) var_index = var_num - var_min_dd;
+		else var_index = null;
+		tmp_opt_obj = new Option(var_num, var_num);
+		fDate.add(tmp_opt_obj, var_index);
+	}
+
+    for(var_num = var_min_mm; var_num < var_max_mm; var_num++)
+    {
+        if(browser_ie) var_index = var_num;
+        else var_index = null;
+        tmp_opt_obj = new Option(month[var_num], var_num);
+        fMonth.add(tmp_opt_obj, var_index);
+    }
+
+    for(var_num = var_min_yy; var_num <= var_max_yy; var_num++)
+    {
+        if(browser_ie) var_index = var_num - var_min_yy;
+        else var_index = null;
+        tmp_opt_obj = new Option(var_num, var_num);
+        fYear.add(tmp_opt_obj, var_index);
+    }
+
+    var_save_btn.onclick = SaveTask;
+    var_refresh_btn.onclick = GetDateTimeReq;
+    var_ntp_enable.onclick = NTPEnableFunc;
+    var_ntp_disable.onclick = NTPDisableFunc;
+}
+
+function NTPDisableFunc()
+{
+    var_timezone.disabled = true;
+    fMonth.disabled = false;
+    fDate.disabled = false;
+    fYear.disabled = false;
+    fHour.disabled = false;
+    fMin.disabled = false;
+    fSec.disabled = false;
+    var_ntp_server_pri.disabled = true;
+    var_ntp_server_2nd.disabled = true;
+}
+
+function NTPEnableFunc()
+{
+    var_timezone.disabled = false;
+    fMonth.disabled = true;
+    fDate.disabled = true;
+    fYear.disabled = true;
+    fHour.disabled = true;
+    fMin.disabled = true;
+    fSec.disabled = true;
+    var_ntp_server_pri.disabled = false;
+    var_ntp_server_2nd.disabled = false;
+}
+
+function GetDateTimeReq()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'GET_DATE_TIME.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete: GetDateTimeResp}//reigister callback function
+                 );
+}
+
+function GetDateTimeResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var IPMIroot=xml_obj.documentElement;
+    var config_elm=IPMIroot.getElementsByTagName("TIME");
+    var date_time_info=config_elm[0].getElementsByTagName('INFO');
+
+    if (date_time_info.length > 0)
+    {
+        if(date_time_info[0].getAttribute("NTP") == "1")
+        {
+            var_ntp_enable.checked = true;
+            var_ntp_disable.checked = false;
+            NTPEnableFunc();
+        }
+        else
+        {
+            var_ntp_enable.checked = false;
+            var_ntp_disable.checked = true;
+            NTPDisableFunc();
+        }
+        var_ntp_server_pri.value = date_time_info[0].getAttribute("NTP_SERVER_PRI");
+        var_ntp_server_2nd.value = date_time_info[0].getAttribute("NTP_SERVER_2ND");
+
+        var targetOptId = "tz_"+date_time_info[0].getAttribute("TIME_ZONE");
+        document.getElementById(targetOptId).selected=true;
+
+		var dst_tmp = date_time_info[0].getAttribute("DST_EN");
+		if(dst_tmp != "0")
+			var_check_dst.checked = true;
+		else
+			var_check_dst.checked = false;			
+
+        fHour.value = date_time_info[0].getAttribute("HOUR");
+        fMin.value = date_time_info[0].getAttribute("MIN");
+        fSec.value = date_time_info[0].getAttribute("SEC");
+        fDate.value = parseInt(date_time_info[0].getAttribute("DAY"), 10);
+        fMonth.value = parseInt(date_time_info[0].getAttribute("MONTH"), 10) - 1;
+        fYear.value = parseInt(date_time_info[0].getAttribute("YEAR"));
+
+    }
+    else
+        alert (lang.LANG_CONF_DATE_TIME_GETVAL);
+    }
+}
+
+function SaveTask()
+{
+	var dst_tmp = 0;
+
+    if ($(TAG_ADMIN_ACTION))
+    {
+        if(var_ntp_enable.checked==true)
+        {
+            if(Trim(var_ntp_server_pri.value)=="" && Trim(var_ntp_server_2nd.value)=="")
+            {
+                alert(lang.LANG_CONF_DATE_TIME_ERR1);
+                return;
+            }
+        }
+
+		if(var_check_dst.checked == true)
+			dst_tmp = 1;
+
+        if(!CheckNumber(parseInt(fHour.value, 10))||(23 < parseInt(fHour.value, 10))||(0 > parseInt(fHour.value, 10)))
+        {
+            alert(lang.LANG_CONF_DATE_TIME_ERR2);
+            return;
+        }
+        if(!CheckNumber(parseInt(fMin.value, 10))||(59 < parseInt(fMin.value, 10))||(0 > parseInt(fMin.value, 10)))
+        {
+            alert(lang.LANG_CONF_DATE_TIME_ERR3);
+            return;
+        }
+        if(!CheckNumber(parseInt(fSec.value, 10))||(59 < parseInt(fSec.value, 10))||(0 > parseInt(fSec.value, 10)))
+        {
+            alert(lang.LANG_CONF_DATE_TIME_ERR4);
+            return;
+        }
+
+        if((fMonth.value)== 1)
+        {
+            if((fYear.value)%4 ==0)
+            {
+                if((fDate.value)> 29)
+                {
+                    alert(lang.LANG_CONF_DATE_TIME_ERR5);
+                    return;
+                }
+            }
+            else
+            {
+                if((fDate.value)> 28)
+                {
+                    alert(lang.LANG_CONF_DATE_TIME_ERR6);
+                    return;
+                }
+            }
+        }
+        else if(((fMonth.value)== 3)  || ((fMonth.value)== 5) ||((fMonth.value)== 8) ||((fMonth.value)== 10))
+        {
+            if((fDate.value)> 30)
+            {
+                alert(lang.LANG_CONF_DATE_TIME_ERR7);
+                return;
+            }
+        }
+
+		var ntp_stat;
+        if(var_ntp_enable.checked == true)
+            ntp_stat = 'on';
+        else
+            ntp_stat = 'off';
+
+        Loading(true);
+        var ajax_url = '/cgi/config_date_time.cgi';
+        var ajax_param =  'timezone=' + var_timezone.value +
+					'&dst_en=' + dst_tmp +
+                    '&ntp=' + ntp_stat +
+                    '&ntp_server_pri=' + var_ntp_server_pri.value +
+                    '&ntp_server_2nd=' + var_ntp_server_2nd.value +
+                    '&year=' + fYear.value +
+                    '&month=' + (parseInt(fMonth.value, 10) + 1) +
+                    '&day=' + fDate.value +
+                    '&hour=' + fHour.value +
+                    '&min=' + fMin.value +
+                    '&sec=' + fSec.value;   //(0,0) ask for privilege
+
+        var ajax_req = new Ajax.Request(
+                     ajax_url,
+                     {method: 'post',parameters:ajax_param, onComplete: SetDateTimeResp}//reigister callback function
+                     );
+    }
+    else
+        alert(lang.LANG_CONF_DATE_TIME_ERR8);
+}
+
+function SetDateTimeResp(originalRequest)
+{
+      Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+      alert (lang.LANG_CONF_DATE_TIME_SUCC);
+    GetDateTimeReq();
+    }
+  else{
+    alert(lang.LANG_COMMON_UNSAVE);
+  }
+}
+
+function CreateTimezoneTable()
+{
+	var tmp_table = '<select name="timezone_list" id="timezone">';
+
+	for(var i = 0; i < timezone_array.length; i++)
+	{
+		tmp_table += '<option value="' + timezone_array[i][0] + '" id="tz_' + timezone_array[i][0]+ '">';
+		tmp_table += timezone_array[i][1]+'</option>';
+	}
+
+	tmp_table += '</select>';
+
+	document.writeln(tmp_table);
+}
+	
+	</script>
+
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_CONF_DATE_TIME_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_CONF_DATE_TIME_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+				<div style="margin-top: 3px; margin-left: 3px;">
+			        <table cellspacing="2" cellpadding="5" border="0" width="500" align="left">
+						<tr><td class="labelhead">
+			                <script>document.writeln(lang.LANG_CONF_DATE_TIME_TIMEZONE);</script>
+						</td>
+			            <td colspan="2">
+							<script>CreateTimezoneTable();</script>
+			            </td>
+						</tr>
+			            <tr><td class="labelhead">
+			                <script>document.writeln(lang.LANG_CONF_DATE_TIME_NTP);</script>
+			            </td>
+			            <td colspan="2" class="labelhead">
+						    <input type="radio" name="opt_ntp" id="ntp_enable" $(TAG_DISABLE)/>
+			                <script>document.writeln(lang.LANG_CONF_DATE_TIME_NTP_ENABLE);</script>
+			                <input type="radio" name="opt_ntp" id="ntp_disable" $(TAG_DISABLE)/>
+			                <script>document.writeln(lang.LANG_CONF_DATE_TIME_NTP_DISABLE);</script>
+			            </td>
+			            </tr>
+	
+				        <tr>
+			            <td class="labelhead">
+			                <script>document.writeln(lang.LANG_CONF_DATE_TIME_NTP_SERVER_PRI);</script>
+			            </td>
+			            <td>
+			                <input type="text" id="ntp_server_pri" $(TAG_DISABLE) maxlength="127" onBlur='CheckDomainName(this)' />
+			            </td>
+			            </tr>
+
+			            <tr>
+			            <td class="labelhead">
+							<script>document.writeln(lang.LANG_CONF_DATE_TIME_NTP_SERVER_SEC);</script>
+			            </td>
+			            <td>
+						    <input type="text" id="ntp_server_2nd" $(TAG_DISABLE) maxlength="127" onBlur='CheckDomainName(this)'/>
+			            </td>
+			            </tr>
+			            <tr>
+						    <td class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_DATE_TIME_DATE);</script>
+							</td>
+						    <td>
+			                    <select id="mon_field"></select> &nbsp;&nbsp;
+						        <select id="dd_field"></select> &nbsp;&nbsp;
+			                    <select id="yy_field"></select>
+						    </td>
+			            </tr>
+			            <tr>
+						    <td class="labelhead">
+								<script>document.writeln(lang.LANG_CONF_DATE_TIME_TIME);</script>
+							<em>
+								<script>document.writeln(lang.LANG_CONF_DATE_TIME_TM_FMT);</script>
+							</em></td>
+					        <td>
+								<input type="text" style="text-align:center;" id="hh_field" size="2" $(TAG_DISABLE)/> &nbsp;:&nbsp;
+			                    <input type="text" style="text-align:center;" id="min_field" size="2" $(TAG_DISABLE)/> &nbsp;:&nbsp;
+			                    <input type="text" style="text-align:center;" id="ss_field" size="2" $(TAG_DISABLE)/>
+			                </td>
+			            </tr>
+                        <tr><td colspan="3" class="labelhead">
+                            <input type="checkbox" id="check_dst" value="1" $(TAG_DISABLE)/>
+                            <script>document.writeln(lang.LANG_CONF_DATE_TIME_DST);</script>
+                        </td></tr>
+						<tr><td colspan="3">
+	                        <input type="button" class="btnStyle" id="refresh_btn" $(TAG_DISABLE)/> &nbsp;&nbsp;
+		                    <input type="button" class="btnStyle" id="save_btn" $(TAG_DISABLE)/>				
+						</td></tr>
+			        </table>
+			        <br>
+			    </div>
+
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body { 
+	margin-top: 0px;
+	padding-left: 0px; 
+	padding-right: 0px; 	
+	padding-top: 0px; 
+	padding-left: 0px; 
+	padding-right: 0px; 
+/*	height: 100%; */
+/*	width: 100%; */
+}
+
+.submenu_position{
+	vertical-align: top;
+	text-align: left;
+	height:95%;
+}
+
+.submenu_header{
+	vertical-align: top; 
+	font-weight: bold; 
+	font-size: 12px;
+	padding-left: 30px; 
+	line-height: 25px;
+	background-image:url(../images/bullet_blue.gif);
+	background-repeat: no-repeat;
+ 	background-position: 10px;	
+	color: #336699; 
+	font-family: Arial, Helvetica, sans serif;
+	text-decoration: none
+}
+
+.submenu_header:hover{
+	text-decoration:underline
+}
+
+.submenu_header_select
+{
+	vertical-align: top; 
+	font-weight: bold; 
+	font-size: 12px;
+	padding-left: 30px; 
+	line-height: 25px;
+	background-image:url(../images/bullet_red.gif);
+	background-repeat: no-repeat;
+ 	background-position: 10px;	
+	color: #003366; 
+	font-family: Arial, Helvetica, sans serif;
+	text-decoration: none
+}
+
+.submenu_item{
+	vertical-align: top; 
+	font-weight: bold; 
+	font-size: 12px; 
+	padding-left: 30px; 
+	line-height: 25px;
+	background-image:url(../images/bullet_blue.gif);
+	background-repeat: no-repeat;
+	background-position: 10px; 
+	color: #336699; 
+	font-family: Arial, Helvetica, sans serif;
+	text-decoration: none
+}
+
+.submenu_item_select{
+	vertical-align: top; 
+	font-weight: bold; 
+	font-size: 12px; 
+	padding-left: 30px; 
+	line-height: 25px;
+	background-image:url(../images/bullet_red.gif);
+	background-repeat: no-repeat;
+	background-position: 10px; 
+	color: #003366; 
+	font-family: Arial, Helvetica, sans serif;
+	text-decoration: none
+}
+.submenu_item:hover{	
+	text-decoration:underline
+}
+
+.submenu_line {
+	margin-top: 6px; 
+	margin-bottom: 4px; 
+	border-bottom: #cccccc 1px solid;
+}
+
+.t_head {
+	font-weight: bold; 
+	font-size: 12px; 
+	line-height: 20px;
+	color: #002776; 
+	font-family: Arial, Verdana, Georgia, sans serif;
+}
+
+.t_head_sys_health {
+	font-weight: bold; 
+	font-size: 12px; 
+	line-height: 20px;
+	padding-left: 4px; 
+	color: #002776; 
+	font-family: Arial, Verdana, Georgia, sans serif;
+}
+.copyright {
+	font-weight: bold;
+	font-size: 12px! important; 
+	font-family: Arial, Verdana, Georgia, sans serif;
+	color: #FFFFFF;
+	text-align: center;
+}

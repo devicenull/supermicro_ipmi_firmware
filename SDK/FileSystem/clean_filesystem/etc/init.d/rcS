@@ -1,9 +1,159 @@
-#! /bin/sh
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+#!/bin/sh
+
+PATH=/SMASH:/SFCB/local/bin:/SFCB/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
 export PATH
 mount -a
-export LD_LIBRARY_PATH="/lib:/usr/lib:/usr/local/lib"
-cd /bin
-./kcs_sysinit 
-./sys2fork
 
+export LD_LIBRARY_PATH="/SFCB/local/lib:/SFCB/zlib/lib:/SFCB/curl/lib:/lib:/usr/lib:/usr/local/lib"
+
+#mkdir /nv
+mount -t jffs2 /dev/mtdblock1 /nv
+if [ $? -ne 0 ];then
+echo "format partition......"
+/bin/flash_eraseall /dev/mtd1
+mount -t jffs2 /dev/mtdblock1 /nv
+fi
+
+mount -t tmpfs /tmp -o size=36m
+cp /bin/busybox /tmp
+
+# delete debug log
+rm /nv/system_log
+
+if [ -f /bin/module/bonding.ko ]; then
+	echo "***** load kernel module for bonding channel *****"
+	insmod /bin/module/bonding.ko miimon=100 mode=1
+fi
+
+if [ ! -f /nv/resolv.conf ]
+then
+touch /nv/resolv.conf
+fi
+
+#IPv6 setting
+if [ ! -d "/nv/network" ]; then
+    mkdir /nv/network
+fi
+
+if [ ! -f "/nv/network/netconfig0" ]; then
+#eth0
+    cp /etc/network/netconfig.default /nv/network/netconfig0
+fi
+if [ ! -f "/nv/network/netconfig1" ]; then
+#eth1
+   cat /etc/network/netconfig.default | sed -e 's/0=/1=/g' -e 's/eth0/eth1/g' > /nv/network/netconfig1
+fi
+if [ ! -f "/nv/network/netconfig2" ]; then
+#bond0
+   cat /etc/network/netconfig.default | sed -e 's/0=/2=/g' -e 's/eth0/bond0/g' > /nv/network/netconfig2
+fi
+
+#Firewall
+/etc/init.d/Firewall.sh
+
+#DDNS env [start]
+if [ -d "/usr/local/etc/ddns/tmp" ]
+then
+if [ ! -d /nv/ddns ]; then mkdir /nv/ddns ; fi
+cd /usr/local/etc/ddns/tmp
+if [ ! -f /nv/ddns/DDNS_CONFIG ]; then cp ./DDNS_CONFIG /nv/ddns/  ; fi
+if [ ! -f /nv/ddns/ddns.key ]; then cp ./ddns.key /nv/ddns/  ; fi
+if [ ! -f /nv/ddns/ddns.private ]; then cp ./ddns.private /nv/ddns/  ; fi
+fi
+
+if [ ! -f /nv/bmc_hostname ]; then echo "localhost" > /nv/bmc_hostname  ; fi
+if [ ! -f /nv/hostname_for_dhcp ]; then touch /nv/hostname_for_dhcp; fi
+#DDNS env [end]
+
+#NTP env [start]
+if [ -d /usr/local/etc/ntp ]
+then
+    if [ ! -d /nv/ntp ]; then mkdir /nv/ntp ; fi
+    if [ ! -f /nv/ntp/ntp.conf ]; then cp /usr/local/etc/ntp/ntp.conf /nv/ntp/ntp.conf ; fi
+	if [ ! -f /nv/timezone ]; then echo "0" > /nv/timezone ; fi	
+fi
+#NTP env [end]
+
+#rm -f /dev/keyboard
+#rm -f /dev/mouse
+
+##################################
+## USB HID Module
+##################################
+## Insert module
+/sbin/insmod /bin/module/usb_hid.ko
+## USB HID 1.1
+#/bin/mknod /dev/keyboard c 154 0
+#/bin/mknod /dev/mouse c 154 1
+## USB HID 2.0
+##/bin/mknod /dev/keyboard c 222 2
+##/bin/mknod /dev/mouse c 222 3
+##################################
+
+#/bin/mknod /dev/vcd c 25 0
+
+#UPNP START
+if [ ! -f /nv/IPMIdevicedesc_sample.xml ]; then cp /etc/IPMIdevicedesc_sample.xml /nv/ ; fi
+#if [ -e /bin/upnp_dev ]
+#then
+#    /bin/upnp_dev &
+#fi
+#UPNP END
+if [ ! -f /nv/chksum_info ]
+then
+/bin/BTL_UPDATE
+fi
+#copy  enSSL.config for LDAP and AD
+if [ ! -f /nv/enSSL.config ]
+then 
+cp /etc/defaults/enSSL.config /nv/
+fi
+
+cd /bin
+./sysinit
+ifconfig lo up
+./LanNotifier&
+/sbin/insmod /bin/module/vcddev.ko
+
+cd /bin
+./usb&
+./uima&
+./uiso&
+./ikvmserver&
+
+if [ -x /sbin/snmpd ]
+then
+/sbin/snmpd -c /etc/snmpd.conf
+fi
+mount -t cramfs /dev/mtdblock4 /web
+
+/etc/init.d/httpd start
+
+if [ -d /wsman/openwsman/sbin ]; then
+	if [ ! -d /nv/wsman ]; then
+		mkdir /nv/wsman
+	fi
+	if [ ! -f /nv/wsman/simple_auth.passwd ]; then
+#		htpasswd -bc /nv/wsman/simple_auth.passwd ADMIN ADMIN
+		touch /nv/wsman/simple_auth.passwd
+	fi
+	cd /wsman/openwsman/sbin
+	./openwsmand -d &
+fi
+
+sfcbd -d
+/etc/init.d/smashd start &
+
+
+/bin/calfwcrc16 &
+
+touch /tmp/datetime_sem_tmp
+if [ -d /nv/ntp ]
+then
+    /bin/ntp_service.sh &
+fi
+
+cp /etc/ResetIP.sh /nv/
+PWSnrTask&
+HDDTask&
+bbptask&

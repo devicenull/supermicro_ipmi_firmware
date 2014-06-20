@@ -25,17 +25,18 @@ MODULEPATH = $(BASEDIR)/bin/module
 LIBPATH = $(BASEDIR)/lib
 IMAGE_PATH = $(BASEDIR)/images
 OUTPUT_IMG-y = $(BASEDIR)/MKIMG_Tool/
+BOARD = test
 Q = @
-export BASEDIR SRCDIR PRJ_PATH BINPATH LIBPATH IMAGE_PATH MODULEPATH OUTPUT_IMG-y Q FS_PATH
+export BASEDIR SRCDIR PRJ_PATH BINPATH LIBPATH IMAGE_PATH MODULEPATH OUTPUT_IMG-y Q FS_PATH BOARD
 
 LIBS += -lcgi -lipmi -lchnl  -lm -lsol  -lutility -lnvram  -lipmicrypt -lcommon -lsys -lrt -luart -lupdate -lnet -lmqueue -lgpio -lxml2 -lldap_client -lradius_client -lwdt
-LDFLAGS += -L$(SRCDIR)/openssl/openssl/local/lib -L$(BASEDIR)/lib -lcrypto -lssl $(LIBS)
+LDFLAGS += -L$(SRCDIR)/openssl/openssl/local/lib -L$(BASEDIR)/lib -L$(BASEDIR)/FileSystem/clean_filesystem/lib/ -lcrypto -lssl $(LIBS)
 export LDFLAGS
 
 MYMCU=HERMON
 export MYMCU
 
-all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ddns ntp lldp nwfirewall webpage baselibs closed_source mdinfo
+all: outputdir kernel libxml2 openssl openldap ipmi vusb ikvm busybox dhcpv6 lighttpd sfcc sfcb openwsman dropbear smtp ntp lldp nwfirewall webpage baselibs closed_source mdinfo utils
 
 outputdir:
 	mkdir -p  $(FS_PATH)/bin $(FS_PATH)/sbin $(FS_PATH)/lib $(FS_PATH)/etc/init.d $(FS_PATH)/usr/local/etc/ntp
@@ -178,6 +179,13 @@ closed_source:
 	$(Q)echo =================== closed_source ===================
 	$(Q)echo
 	cd $(SRCDIR)/closed_source && make
+
+utils:
+	$(Q)echo
+	$(Q)echo =================== closed_source ===================
+	$(Q)echo
+	cd $(BASEDIR)/Utils && make
+
 
 
 # This really just generates the output image.  Called install for legacy reasons :)

@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <!-- common css -->
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+    <script type="text/javascript">
+
+//declare all global variables
+var mainPage = "../cgi/url_redirect.cgi?url_name=vmedia";
+
+function PageInit()
+{
+    var_sav_btn=document.getElementById("save_btn");
+    var_sav_btn.setAttribute("value", lang.LANG_VM_CDROM_SAVE);
+    var_mount_btn=document.getElementById("mount_btn");
+    var_mount_btn.setAttribute("value", lang.LANG_VM_CDROM_MOUNT);
+    var_umount_btn=document.getElementById("unmount_btn");
+    var_umount_btn.setAttribute("value", lang.LANG_VM_FLOPPY_UMOUNT);
+    var_refresh_btn = document.getElementById("refresh_status_btn");
+    var_refresh_btn.setAttribute("value", lang.LANG_VM_FLOPPY_REFRESH);
+
+    var_dev1_stat = document.getElementById("dev1_stat");
+    var_dev2_stat = document.getElementById("dev2_stat");
+
+    var_share_host=document.getElementById("share_host");
+    var_path_arg=document.getElementById("path_argument");
+    var_user_arg=document.getElementById("user_argument");
+    var_pwd_arg=document.getElementById("pwd_argument");
+
+    var_sav_btn.onclick = SetSharedImageConfig;
+    var_mount_btn.onclick = MountSharedImage;
+    var_umount_btn.onclick=UnmountTask;
+    var_refresh_btn.onclick=GetUSBStatus;
+
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)	
+        GetUSBStatus();
+        Func_Enable();
+        GetVMCDROMConfig();
+    }
+
+function MountSharedImage()
+{
+    var ajax_url = '/cgi/uisopin.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;   
+    var ajax_req = new Ajax.Request(
+                                ajax_url,
+                                {method: 'post',parameters:ajax_param, onComplete: GetUSBStatus2}//reigister callback function
+                                 );
+}
+function UnmountTask()
+{
+    var ajax_url = '/cgi/uisopout.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;    
+    var ajax_req = new Ajax.Request(
+                                ajax_url,
+                                {method: 'post',parameters:ajax_param, onComplete: GetUSBStatus2}//reigister callback function
+                                 );
+}
+function GetUSBStatus2(originalRequest)
+{
+    alert(lang.LANG_VM_FLOPPY_CONFIRM1);
+    Loading(true);
+    var ajax_url = '/cgi/vmstatus.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;    
+    var ajax_req = new Ajax.Request(
+                                    ajax_url,
+                                    {method: 'post',parameters:ajax_param, onComplete: USBStatusResponse}//reigister callback function
+                                 );
+}
+
+function GetUSBStatus()
+{
+    Loading(true);
+    var ajax_url = '/cgi/vmstatus.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;    
+    var ajax_req = new Ajax.Request(
+                                    ajax_url,
+                                    {method: 'post',parameters:ajax_param, onComplete: USBStatusResponse}//reigister callback function
+                                 );
+}
+
+function USBStatusResponse(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    var IPMIRoot=xml_obj.documentElement;
+    var err=IPMIRoot.getElementsByTagName("CODE")[0].getAttribute("NO");
+    if(err == '1')
+    {
+        var dev1 = parseInt(IPMIRoot.getElementsByTagName("DEVICE")[0].getAttribute("STATUS"), 10);
+        var dev2 = parseInt(IPMIRoot.getElementsByTagName("DEVICE")[1].getAttribute("STATUS"), 10);
+
+        if(dev1 == 0xff)
+            Dev1_Status = lang.LANG_VM_FLOPPY_NO_DISK;
+        else
+            Dev1_Status = lang.LANG_VM_FLOPPY_HAS_DISK;
+
+        if(dev2 == 0xff)
+        {
+            Dev2_Status = lang.LANG_VM_FLOPPY_NO_DISK;
+            if($(TAG_ADMIN_ACTION)){
+                var_mount_btn.disabled = false;
+                var_umount_btn.disabled = true;
+            }
+        }
+        else
+        {
+            Dev2_Status = lang.LANG_VM_FLOPPY_HAS_DISK;
+            if($(TAG_ADMIN_ACTION)){
+                var_mount_btn.disabled = true;
+                var_umount_btn.disabled = false;
+            }
+        }
+    }
+    else
+    {
+        alert(lang.LANG_VM_FLOPPY_ERR1);
+        Dev1_Status = 'unknow';
+        Dev2_Status = 'unknow';
+        if($(TAG_ADMIN_ACTION)){
+            var_sav_btn.disabled = true;
+            var_mount_btn.disabled = true;
+            var_umount_btn.disabled = true;
+        }
+    }
+
+    var_dev1_stat.innerHTML = Dev1_Status;
+    var_dev2_stat.innerHTML = Dev2_Status;
+    }
+}
+
+function GetVMCDROMConfig()
+{
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'VIRTUAL_MEDIA_SHARE_IMAGE.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete:  GetVMCDROMConfigResp}//reigister callback function
+                 );
+}
+function  GetVMCDROMConfigResp(originalRequest)
+{
+    Loading(false);
+    if (originalRequest.readyState == 4 && originalRequest.status == 200){
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    if(xml_obj == null)
+    {
+        SessionTimeout();
+        return;
+    }
+    var IPMI=xml_obj.documentElement;//point to IPMI
+    var virtual_media = IPMI.getElementsByTagName('VM');
+    var_share_host.value = virtual_media[0].getAttribute("HOST");
+    var_path_arg.value = virtual_media[0].getAttribute("PATH");
+    var_user_arg.value = virtual_media[0].getAttribute("USER");
+    var_pwd_arg.value = virtual_media[0].getAttribute("PWD");
+    }
+}
+
+function Func_Enable()
+{
+    if($(TAG_ADMIN_ACTION))
+    {
+      var_share_host.disabled = false;
+      var_path_arg.disabled = false;
+      var_user_arg.disabled = false;
+      var_pwd_arg.disabled = false;
+      var_share_host.focus();
+
+    }
+}
+
+function SetSharedImageConfig()
+{
+    var path_str;
+    if(Trim(var_share_host.value) == "")
+    {
+        alert(lang.LANG_VM_FLOPPY_ERR4);
+        return;
+    }
+    path_str = var_path_arg.value;
+    if(Trim(path_str) == "")
+    {
+        alert(lang.LANG_VM_FLOPPY_ERR5);
+        return;
+    }
+    else
+    {
+        if(CheckPath(path_str) == false)
+        {
+            alert(lang.LANG_VM_FLOPPY_ERR6);
+            return;
+        }
+    }
+
+    var ajax_url = '/cgi/virtual_media_share_img.cgi';
+    var ajax_param = 'host=' + var_share_host.value  +
+            '&path=' + path_str +
+            '&user=' + var_user_arg.value +
+            '&pwd=' + var_pwd_arg.value;
+
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post', parameters:ajax_param, onComplete: SetSharedImageConfigResp}//reigister callback function
+                 );
+}
+
+function SetSharedImageConfigResp(originalRequest)
+{
+    alert(lang.LANG_VM_FLOPPY_SUCC);
+
+    Loading(true);
+    var ajax_url = '/cgi/ipmi.cgi';
+    var ajax_param = 'VIRTUAL_MEDIA_SHARE_IMAGE.XML=(0,0)&time_stamp='+(new Date()) ;
+    var ajax_req = new Ajax.Request(
+                 ajax_url,
+                 {method: 'post',parameters:ajax_param, onComplete:  GetVMCDROMConfigResp}//reigister callback function
+                 );
+}
+
+
+	</script>
+
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0"style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_VM_CDROM_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_VM_CDROM_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+ <div>
+    <div>
+        <table cellspacing="0" cellpadding="3" border="0" width="80%">
+            <tr>
+                <td align="left" width="170px" class="labelhead">
+					<script>document.writeln(lang.LANG_VM_DEVICE1);</script>
+				</td>
+                <td align="left"><label id="dev1_stat" class="labelhead"></label></td>
+            </tr>
+            <tr>
+                <td align="left" width="170px" class="labelhead">
+					<script>document.writeln(lang.LANG_VM_DEVICE2);</script>
+				</td>
+                <td align="left"><label id="dev2_stat" class="labelhead"></label></td>
+            </tr>
+			<tr><td><input type="button" class="btnStyle" id="refresh_status_btn" /></td></tr>
+			<tr><td colspan="2"><hr></td></tr>
+        </table>
+
+        <table cellspacing="0" cellpadding="3" border="0" width="80%">
+            <tr>
+                <td width="120px" class="labelhead">
+					<script>document.writeln(lang.LANG_VM_CDROM_HOST);</script>
+				</td>
+                <td><input type="text" id="share_host" maxlength="128" disabled style="width:280px;" $(TAG_DISABLE)/></td>
+            </tr>
+        <tr>
+            <td width="120px" class="labelhead">
+				<script>document.writeln(lang.LANG_VM_CDROM_PATH);</script>
+			</td>
+            <td><input type="text" id="path_argument" maxlength="128" disabled style="width:280px;" $(TAG_DISABLE)/>
+            </td>
+        </tr>
+        <tr>
+            <td width="120px" class="labelhead">
+				<script>document.writeln(lang.LANG_VM_CDROM_USER);</script>
+			</td>	
+            <td><input type="text" id="user_argument" maxlength="128" disabled style="width:280px;" $(TAG_DISABLE)/></td>
+        </tr>
+        <tr>
+            <td width="120px" class="labelhead">
+				<script>document.writeln(lang.LANG_VM_CDROM_PWD);</script>
+			</td>
+            <td><input type="password" id="pwd_argument" maxlength="128" disabled style="width:280px;" $(TAG_DISABLE)/></td>
+        </tr>
+        </table>
+
+		<div style="margin-top: 10px;">
+			<input type="button" class="btnStyle" id="save_btn" $(TAG_DISABLE)/>
+			<input type="button" class="btnStyle" id="mount_btn" $(TAG_DISABLE)/>
+			<input type="button" class="btnStyle" id="unmount_btn" $(TAG_DISABLE)/>
+		</div>
+
+
+ </div>
+ </div>
+ 
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

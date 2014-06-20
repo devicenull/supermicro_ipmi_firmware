@@ -80,7 +80,7 @@ INSTALL=install
 CPPFLAGS=-I/home/devicenull/ipmi/SDK/SFCB/zlib-1.2.3/zlib/include
 CFLAGS+=-I. -I$(srcdir) $(CPPFLAGS) -Os -W -Wall
 LIBS+=-lutil -lz 
-LDFLAGS=-L/home/devicenull/ipmi/SDK/src/openssl/openssl/local/lib -L/home/devicenull/ipmi/SDK/lib -lcrypto -lssl -lcgi -lipmi -lchnl  -lm -lsol  -lutility -lnvram  -lipmicrypt -lcommon -lsys -lrt -luart -lupdate -lnet -lmqueue -lgpio -lxml2 -lldap_client -lradius_client -lwdt -L/home/devicenull/ipmi/SDK/SFCB/zlib-1.2.3/zlib/lib
+LDFLAGS=-L/home/devicenull/ipmi/SDK/src/openssl/openssl/local/lib -L/home/devicenull/ipmi/SDK/lib -L/home/devicenull/ipmi/SDK/FileSystem/clean_filesystem/lib/ -lcrypto -lssl -lcgi -lipmi -lchnl  -lm -lsol  -lutility -lnvram  -lipmicrypt -lcommon -lsys -lrt -luart -lupdate -lnet -lmqueue -lgpio -lxml2 -lldap_client -lradius_client -lwdt -L/home/devicenull/ipmi/SDK/SFCB/zlib-1.2.3/zlib/lib
 
 EXEEXT=
 

@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	var mainPage = "../cgi/url_redirect.cgi?url_name=config_ad";
+	
+	function PageInit()
+	{
+		// Get multi-language string
+		document.title = lang.LANG_AD_ADV_TITLE;
+		document.getElementById("saveBtn").value = lang.LANG_AD_ADV_SAVE;
+		document.getElementById("cancelBtn").value = lang.LANG_AD_ADV_CANCEL;
+
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)		
+		getAdConfig();
+	}
+	
+	function getAdConfig()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'ACTIVE_DIRECTORY.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: getAdConfigHandler}//reigister callback function
+	                 ); 
+	}
+	
+	function getAdConfigHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			var IPMIRoot = xmldoc.documentElement;
+			var ad_info = IPMIRoot.getElementsByTagName("AD_INFO");
+			var ad_server = IPMIRoot.getElementsByTagName("AD_SERVER");
+			if (ad_info.length > 0){
+				if(parseInt(ad_info[0].getAttribute("EN"), 10))
+				{
+					enableAd();
+				}
+				else
+				{
+					disableAd();
+				}
+				if(parseInt(ad_info[0].getAttribute("EN_SSL"), 10) == 1)
+					document.getElementById("enableSSL").checked = true;		
+				else
+					document.getElementById("enableSSL").checked = false;
+				document.getElementById("ad_port").value = ad_info[0].getAttribute("PORT");						
+				document.getElementById("userDomain").value = ad_info[0].getAttribute("DN");
+				document.getElementById("timeout").value = ad_info[0].getAttribute("TimeOut");
+				document.getElementById("adServer1").value = ad_server[0].getAttribute("IP1");
+				document.getElementById("adServer2").value = ad_server[0].getAttribute("IP2");
+				document.getElementById("adServer3").value = ad_server[0].getAttribute("IP3");			
+			}else {
+				alert (lang.LANG_AD_ADV_GET_FAIL);
+			}
+		}
+	}
+	
+	function enableAd()
+	{
+		document.getElementById("enableAD").checked = true;
+		document.getElementById("enableSSL").disabled = false;
+		document.getElementById("ad_port").disabled = false;
+		document.getElementById("userDomain").disabled = false;
+		document.getElementById("timeout").disabled = false;
+		document.getElementById("adServer1").disabled = false;
+		document.getElementById("adServer2").disabled = false;
+		document.getElementById("adServer3").disabled = false;
+	}
+	
+	function disableAd()
+	{
+		document.getElementById("enableAD").checked = false;
+		document.getElementById("enableSSL").disabled = true;
+		document.getElementById("ad_port").disabled = true;
+		document.getElementById("userDomain").disabled = true;
+		document.getElementById("timeout").disabled = true;
+		document.getElementById("adServer1").disabled = true;
+		document.getElementById("adServer2").disabled = true;
+		document.getElementById("adServer3").disabled = true;
+	}
+	
+	function checkSSL()
+	{
+		if(document.getElementById("enableSSL").checked == true) 
+			document.getElementById("ad_port").value = '636';
+		else
+			document.getElementById("ad_port").value = '389';
+	}
+	
+	function checkAd()
+	{
+		if (document.getElementById("enableAD").checked == true)
+		{
+			getRadiusConfig();
+			getLdapConfig();
+		}
+		else
+			disableAd();
+	}
+	
+	function getRadiusConfig()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'RADIUS_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	             						url,
+	             						{method: 'post',parameters:pars, onComplete: getRadiusConfigHandler}//reigister callback function
+	             					 ); 
+	}
+	
+	function getRadiusConfigHandler(originalRequest)
+	{	
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var IPMIRoot = xmldoc.documentElement;
+			var radius = IPMIRoot.getElementsByTagName("RADIUS");
+		
+			if (radius.length > 0)
+			{
+				if(parseInt(radius[0].getAttribute("enable"), 10))
+				{
+					document.getElementById("enableAD").checked = false;
+					alert(lang.LANG_AD_ADV_DISABLE_RADIUS);
+					disableAd();
+				}
+				else
+				{
+					enableAd();
+				}
+			}
+		}
+		
+	}
+	
+	function getLdapConfig()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	             url,
+	             {method: 'post',parameters:pars, onComplete: getLdapConfigHandler}//reigister callback function
+	             );
+		
+	}
+	
+	function getLdapConfigHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var IPMIRoot = xmldoc.documentElement;
+			var config_elm = IPMIRoot.getElementsByTagName("CONFIG_INFO");
+			var ldap_server = config_elm[0].getElementsByTagName('LDAP');
+			if (ldap_server.length > 0)
+			{
+				if(parseInt(ldap_server[0].getAttribute("LDAP_EN"), 10))
+				{
+					document.getElementById("enableAD").checked = false;
+					alert(lang.LANG_AD_ADV_DISABLE_LDAP);
+					disableAd();
+				}
+				else
+				{
+					enableAd();
+				}
+			}
+		}
+	}
+	
+	function saveAdConfig()
+	{
+		var enable_ad = 0;
+		var user_domain = Trim(document.getElementById("userDomain").value);
+		var str_time_out = Trim(document.getElementById("timeout").value);
+		var time_out = 0;
+		var server_ip1 = Trim(document.getElementById("adServer1").value);
+		var server_ip2 = Trim(document.getElementById("adServer2").value);
+		var server_ip3 = Trim(document.getElementById("adServer3").value);
+		var ADport = parseInt(Trim(document.getElementById("ad_port").value), 10);
+		if(document.getElementById("enableSSL").checked == true) 
+			enSSL = 1;
+		else
+			enSSL = 0;
+			
+		if (document.getElementById("enableAD").checked == true) 
+		{
+			enable_ad = 1;
+			
+			if(ADport.length == 0 || (enSSL == 1 && (ADport != 636 && ADport != 3269)) ||
+			  (enSSL == 0 && (ADport != 389 && ADport != 3268)))
+			{
+				alert(lang.LANG_AD_ADV_CHK_PORT);
+				return;
+			}
+			
+			// check userDomain field
+			if(user_domain.length == 0)
+			{
+				alert(lang.LANG_AD_ADV_CHK_USERDOMAIN);
+				return;
+			}
+			else if (!CheckSpeficChar(user_domain))		
+			{
+				alert(lang.LANG_AD_ERR_INPUT);
+				return;
+			}
+			// check timeout field
+			if (str_time_out.length == 0) 
+			{
+				time_out = 0;
+			}
+			else{
+				time_out = parseInt(str_time_out, 10);
+				if(time_out == 'NaN'){
+					alert(lang.LANG_AD_ADV_INVALID_TIMEOUT1);
+					return;
+				}
+				if(time_out > 65535 || time_out < 0){
+					alert(lang.LANG_AD_ADV_INVALID_TIMEOUT2);
+					return;
+				}				
+			}
+			// check adServer1 field
+			if((server_ip1.length == 0 && server_ip2.length == 0 && server_ip3.length == 0) ||
+			   (server_ip1 == '0.0.0.0' && server_ip2 == '0.0.0.0' && server_ip3 == '0.0.0.0'))
+			{
+				alert(lang.LANG_AD_ADV_CHK_SRVIP);
+				return;
+			}
+			if (server_ip1.length > 0) 
+			{
+				if(!CheckIP(server_ip1)){
+					alert(lang.LANG_AD_ADV_INVALID_IP);
+					return;
+				}
+			}
+			// check adServer2 field
+			if (server_ip2.length > 0) 
+			{
+				if(!CheckIP(server_ip2)){
+					alert(lang.LANG_AD_ADV_INVALID_IP);
+					return;
+				}
+			}
+			// check adServer3 field
+			if (server_ip3.length > 0) 
+			{
+				if(!CheckIP(server_ip3)){
+					alert(lang.LANG_AD_ADV_INVALID_IP);
+					return;
+				}
+			}
+		}
+		Loading(true);
+		var url = '/cgi/config_ad.cgi';
+		var pars = 'enable_ad=' + enable_ad  + 
+				'&enable_ssl=' + enSSL +
+				'&port=' + ADport +
+				'&user_domain=' + user_domain +
+				'&time_out=' + time_out +  
+				'&server_ip1=' + server_ip1 + 
+				'&server_ip2=' + server_ip2 +
+				'&server_ip3=' + server_ip3 ;   
+				
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post', parameters:pars, onComplete: saveAdConfigHandler}//reigister callback function
+	                 ); 
+	}
+	
+	function saveAdConfigHandler()
+	{
+		Loading(false);
+		alert(lang.LANG_AD_ADV_SET_SUCCUSS);
+		location.href = mainPage;
+	}
+	
+	function cancelAdConfig()
+	{
+		location.href = mainPage;
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td>
+        		<div class="mtitle">
+        			<script>document.writeln(lang.LANG_AD_ADV_CAPTION)</script>
+        		</div>
+        	</td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_AD_ADV_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        		<table border="0">
+  				<tr>
+  					<td colspan="2"><span class="labelhead"><input type="checkbox" name="enableAD" id="enableAD" onclick="checkAd()" $(TAG_DISABLE)/><script>document.writeln(lang.LANG_AD_ADV_ENABLE);</script></span></td>
+    			</tr>
+    			<tr>
+  					<td colspan="2"><span class="labelhead">
+  					<input type="checkbox" name="enableSSL" id="enableSSL"" onclick="checkSSL()" $(TAG_DISABLE)/>
+  					<script>document.writeln(lang.LANG_AD_ADV_SSL);</script>
+  					</span></td>
+    			</tr>
+    			<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANB_AD_ADV_PORT);</script></span></td>
+    				<td><input type="text" id="ad_port" maxlength="10" name="ad_port" $(TAG_DISABLE) onBlur='CheckPortNumber(this)' /></td>
+  				</tr>
+  				<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_USERDOMAIN);</script></span></td>
+    				<td><input type="text" id="userDomain" maxlength="127" name="userDomain" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+  				</tr>
+  				<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_TIMEOUT);</script></span></td>
+    				<td><input type="text" id="timeout" name="timeout" $(TAG_DISABLE) onBlur='CheckValue(this,0,30)' /></td>
+  				</tr>
+  				<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_SRV1);</script></span></td>
+    				<td><input type="text" id="adServer1" maxlength="127"  name="adServer1" $(TAG_DISABLE) onBlur='CheckDomainName(this)' /></td>
+  				</tr>
+  				<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_SRV2);</script></span></td>
+    				<td><input type="text" id="adServer2" maxlength="127" name="adServer2" $(TAG_DISABLE) onBlur='CheckDomainName(this)' /></td>
+  				</tr>
+  				<tr>
+    				<td><span class="labelhead"><script>document.writeln(lang.LANG_AD_ADV_SRV3);</script></span></td>
+    				<td><input type="text" id="adServer3" maxlength="127" name="adServer3" $(TAG_DISABLE) onBlur='CheckDomainName(this)' /></td>
+  				</tr>
+				</table>
+        	  	<br>
+        	  	<input type="button" class="btnStyle" id="saveBtn" name="saveBtn" onclick="saveAdConfig()"  $(TAG_DISABLE)/>
+              	<input type="button" class="btnStyle" id="cancelBtn" name="cancelBtn" onclick="cancelAdConfig()"  $(TAG_DISABLE)/>
+        	  	<!-- end of this area -->
+       	  </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script> 
+	<script type="text/javascript">
+		function PageInit() {	 
+				Loading(true);	
+				var url = '/cgi/ipmi.cgi';
+				var pars = 'FRU_INFO.XML=(0,0)&time_stamp='+(new Date());
+				var myAjax = new Ajax.Request(
+			            url,
+			            {method: 'post',parameters:pars, onComplete: GetFRUInfo}//reigister callback function
+			            );
+		}					
+
+		function GetFRUInfo(originalRequest)
+		{
+			Loading(false);
+			if (originalRequest.readyState == 4 && originalRequest.status == 200){
+				var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}
+				var IPMI = xmldoc.documentElement;
+				FRU_INFO=IPMI.getElementsByTagName('FRU_INFO');//point to SENSOR_INFO
+			  	var res = FRU_INFO[0].getAttribute("RES"); 			  	
+			  	if(res == '0')
+			  		alert(lang.LANG_FRU_READ_FAIL);
+			  	DEVICE=FRU_INFO[0].getElementsByTagName('DEVICE');
+			
+			  	var dev_id = DEVICE[0].getAttribute("ID"); 			  	
+			  	CHASSIS=FRU_INFO[0].getElementsByTagName('CHASSIS');
+			  	var chassis_type = parseInt(CHASSIS[0].getAttribute("TYPE"), 16); 
+			  	var chassis_part_num = CHASSIS[0].getAttribute("PART_NUM"); 
+			  	var chassis_serial_num = CHASSIS[0].getAttribute("SERIAL_NUM"); 
+			  	
+			  	BOARD=FRU_INFO[0].getElementsByTagName('BOARD');
+			  	var board_lan = parseInt(BOARD[0].getAttribute("LAN"), 16); 
+			  	var board_mfg_date= BOARD[0].getAttribute("MFG_DATE"); 
+			  	var board_mfc_name= BOARD[0].getAttribute("MFC_NAME"); 
+			  	var board_prod_name= BOARD[0].getAttribute("PROD_NAME"); 
+			  	var board_serial_num= BOARD[0].getAttribute("SERIAL_NUM"); 
+			  	var board_part_num= BOARD[0].getAttribute("PART_NUM"); 
+			  	
+			  	PRODUCT=FRU_INFO[0].getElementsByTagName('PRODUCT');
+			  	var prod_lan = parseInt(PRODUCT[0].getAttribute("LAN"), 16); 
+			  	var prod_mfc_name = PRODUCT[0].getAttribute("MFC_NAME"); 
+			  	var prod_prod_name = PRODUCT[0].getAttribute("PROD_NAME"); 
+			  	var prod_part_num = PRODUCT[0].getAttribute("PART_NUM");
+			  	var prod_version = PRODUCT[0].getAttribute("VERSION");
+			  	var prod_serail_num = PRODUCT[0].getAttribute("SERIAL_NUM");
+			  	var prod_asset_tag = PRODUCT[0].getAttribute("ASSET_TAG");			  	
+			  	document.getElementById("devID").innerHTML 					= dev_id;
+			    document.getElementById("chassisType").innerHTML 			= eval('lang.LANG_FRU_CHASSIS_TYPE_' + IntegerToHexString(chassis_type));
+			    document.getElementById("chassisPartNo").innerHTML 			= chassis_part_num;
+			    document.getElementById("chassisSerialNo").innerHTML 		= chassis_serial_num;
+			    document.getElementById("boardLanguage").innerHTML 			= eval('lang.LANG_FRU_LANG_CODE_' + IntegerToHexString(board_lan));
+			    //document.getElementById("boardMfgDateTime").innerHTML		= board_mfg_date;	
+			    document.getElementById("boardMfcName").innerHTML        = board_mfc_name;
+			    
+			    document.getElementById("boardProductName").innerHTML		= board_prod_name;
+			    document.getElementById("boardSerialNo").innerHTML			= board_serial_num;
+			    document.getElementById("boardPartNo").innerHTML			= board_part_num;
+			    document.getElementById("proLanguage").innerHTML			= eval('lang.LANG_FRU_LANG_CODE_' + IntegerToHexString(prod_lan));	
+			    document.getElementById("proMfcName").innerHTML				= prod_mfc_name;
+			    document.getElementById("proProductName").innerHTML			= prod_prod_name;
+			    document.getElementById("proPartNo").innerHTML				= prod_part_num;
+			    document.getElementById("proVersion").innerHTML				= prod_version;
+			    document.getElementById("proSerialNo").innerHTML			= prod_serail_num;
+			    document.getElementById("proAssetTag").innerHTML			= prod_asset_tag;   				
+			}  
+		}
+	</script>	
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr>
+        	<td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_FRU_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	<td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_FRU_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+        	  	<table>		
+					<tr><td>
+						<table width="400" border="0" cellspacing="0" cellpadding="0">	
+							<tr><td align="left">
+								<label class="label">
+								<strong><script>document.writeln(lang.LANG_FRU_TITLE);</script></strong>
+				 				</label>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<strong><script>document.writeln(lang.LANG_FRU_DEV_ID);</script></strong>
+				 				</label>
+				 				<span id="devID" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<strong><script>document.writeln(lang.LANG_FRU_CHASSIS_INFO);</script></strong>
+				 				</label>
+				 			</td></tr>
+				 			<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_CHASSIS_TYPE);</script>
+				 				</label>
+				 				<span id="chassisType" class="labeltext"></span>
+							</td></tr>									
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_CHASSIS_PART_NUMBER);</script>
+				 				</label>
+				 				<span id="chassisPartNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_CHASSIS_SERIAL_NUMBER);</script>
+				 				</label>
+				 				<span id="chassisSerialNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<strong><script>document.writeln(lang.LANG_FRU_BOARD_INFO);</script></strong>
+				 				</label>
+				 			</td></tr>
+				 			<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_LAN);</script>
+				 				</label>
+				 				<span id="boardLanguage" class="labeltext"></span>
+							</td></tr>
+<!--
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_MFG_DATE_TIME);</script>
+				 				</label>
+				 				<span id="boardMfgDateTime" class="labeltext"></span>
+							</td></tr>
+-->
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_MFC_NAME);</script>
+				 				</label>
+				 				<span id="boardMfcName" class="labeltext"></span>
+							</td></tr>
+							
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_PRODUCT_NAME);</script>
+				 				</label>
+				 				<span id="boardProductName" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_SERIAL_NUM);</script>
+				 				</label>
+				 				<span id="boardSerialNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_BOARD_PART_NUM);</script>
+				 				</label>
+				 				<span id="boardPartNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<strong><script>document.writeln(lang.LANG_FRU_PRODUCT_INFO);</script></strong>
+				 				</label>
+				 			</td></tr>
+				 			<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_LAN);</script>
+				 				</label>
+				 				<span id="proLanguage" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_MFG_NAME);</script>
+				 				</label>
+				 				<span id="proMfcName" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_NAME);</script>
+				 				</label>
+				 				<span id="proProductName" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_PART_NUM);</script>
+				 				</label>
+				 				<span id="proPartNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_VERSION);</script>
+				 				</label>
+				 				<span id="proVersion" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_SERIAL_NUM);</script>
+				 				</label>
+				 				<span id="proSerialNo" class="labeltext"></span>
+							</td></tr>
+							<tr><td align="left">
+								<label class="labeltitle">
+								<script>document.writeln(lang.LANG_FRU_PRODUCT_ASSET_TAG);</script>
+				 				</label>
+				 				<span id="proAssetTag" class="labeltext"></span>
+							</td></tr>					
+						</table>
+					</td></tr>
+				</table>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

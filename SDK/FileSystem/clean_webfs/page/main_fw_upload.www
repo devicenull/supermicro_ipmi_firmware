@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- Page-specific styles -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<!-- Dependency source files -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		var chkPage = "../cgi/url_redirect.cgi?url_name=fw_upload_chk1";
+		var resetPage = "../cgi/url_redirect.cgi?url_name=main_fw_reset";
+		var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";
+		function PageInit() {	 
+			BtnUpload = document.getElementById("btn_upload");
+			BtnUpload.value = lang.LANG_FW_UPLOAD_BTN;
+			BtnCancel = document.getElementById("btn_cancel");
+			BtnCancel.value = lang.LANG_FW_UPLOAD_CANCEL;	
+			FileUploaded=document.getElementById("file_upload");			
+					
+			$(TAG_ALERT)
+			$(TAG_MAINPAGE)	
+				BtnUpload.onclick=checkFile;
+				BtnCancel.onclick=doCancel;
+			}
+
+		function checkFile()
+		{	
+
+			var file_name = FileUploaded.value;
+			if(file_name.length == 0)
+			{
+				alert(lang.LANG_FW_UPLOAD_ERR1);
+				return;
+			}
+			var file_subname = file_name.substr(file_name.lastIndexOf(".")+1, file_name.length);
+			if(file_subname != 'bin')
+			{
+			   alert(lang.LANG_FW_UPLOAD_ERR2);
+			   return;
+			}
+			
+			BtnUpload.disabled = true;
+			//allow only one user to do f/w update
+			//we check whether another user is updating now
+			//if not lock the usage
+			var url = '/cgi/ipmi.cgi';
+			var pars = 'LOCK_UPLOAD_FW.XML=(0,0)&time_stamp='+(new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: LockUploadFW}//reigister callback function
+		                 );
+		}
+		function LockUploadFW(originalRequest)
+		{
+			if (originalRequest.readyState == 4 && originalRequest.status == 200){
+		    	var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}	    
+				var root=xmldoc.documentElement;	
+				var status_elm=root.getElementsByTagName("LOCK_FW_UPLOAD"); 	
+				var res=status_elm[0].getAttribute("RES");
+				if(res == '1')
+				{
+					document.getElementById("upload_status").innerHTML = lang.LANG_FW_UPLOAD_STATUS;
+					Loading(true);
+					FileUploaded.form.submit();
+				}	
+				else{
+					location.href = chkPage;
+				}
+			}
+		}
+		function doCancel()
+		{
+			if(confirm(lang.LANG_FW_UPLOAD_CONFIRM))
+				location.href = resetPage;
+		}
+	</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_FW_UPLOAD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA">
+					<script>document.writeln(lang.LANG_FW_UPLOAD_DESC1);</script>
+					<br> 
+					<script>document.writeln(lang.LANG_FW_UPLOAD_DESC2);</script>
+					<br>
+					<script>document.writeln(lang.LANG_FW_UPLOAD_DESC3);</script>							
+                </div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->        	  
+        	  <span class ="label" id="upload_status"></span> 
+        	  <p>
+        	  <form name="form1" action="/cgi/oem_firmware_upload.cgi" method="post" enctype="multipart/form-data"> 
+				<span class="labeltext" style="margin: 0px; padding: 0px;"><script>document.writeln(lang.LANG_FW_UPLOAD_SELECT_FILE);</script></span>
+				<br>
+				<input type="file" name="form1" id="file_upload" $(TAG_DISABLE)/>				 
+				<p>							 
+				<input type="button" class="btnStyle" id="btn_upload" $(TAG_DISABLE)/>
+				<input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)/>
+			    </p>
+			  </form>
+        	  <br>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

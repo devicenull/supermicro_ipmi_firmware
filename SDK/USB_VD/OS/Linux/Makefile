@@ -5,13 +5,13 @@ LIBNAME = libusb.a
 
 all: $(OBJS)
 	@echo " LD usb"
-	$(Q)$(CC) $(CFLAGS) USB.o  -o $(BINPATH)/usb $(LDFLAGS)
+	$(Q)$(CC) $(CFLAGS) USB.o  -o $(FS_PATH)/bin/usb $(LDFLAGS)
 	$(Q)$(STRIP) $(BINPATH)/usb
 	@echo " LD uima"
-	$(Q)$(CC) $(CFLAGS) uima.o  -o ${BINPATH}/uima $(LDFLAGS)
+	$(Q)$(CC) $(CFLAGS) uima.o  -o ${FS_PATH}/bin/uima $(LDFLAGS)
 	$(Q)$(STRIP) ${BINPATH}/uima
 	@echo " LD uiso"
-	$(Q)$(CC) $(CFLAGS) uiso.o  -o ${BINPATH}/uiso $(LDFLAGS)
+	$(Q)$(CC) $(CFLAGS) uiso.o  -o ${FS_PATH}/bin//uiso $(LDFLAGS)
 	$(Q)$(STRIP) ${BINPATH}/uiso
 
 CLEAN_PATTERN = '*.o' '*.d'

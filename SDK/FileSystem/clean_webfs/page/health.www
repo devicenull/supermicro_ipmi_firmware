@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+    <title></title>
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+</head>
+    	<script language="javascript" src="../js/utils.js"></script> 
+<script type="text/javascript">
+	function PageInit()
+	{
+		ShowPowerPage();
+	 	OutputPower=document.getElementById("power_page");
+		PwConsumption=document.getElementById("pw_consumption_page");
+	 	OutputBBPPower=document.getElementById("bbp_power_page");
+		ShowHDDDescription=document.getElementById("lsi_hdd_page");
+	 	PSInfo=document.getElementById("psinfo_page");		
+	}
+
+
+function ShowPowerPage() 
+{
+	
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'Get_PlatformCap.XML=(0,0)&time_stamp='+(new Date());
+	var myAjax = new Ajax.Request(
+			         url,
+			         {method: 'post',parameters:pars, onComplete: ShowPowerPageResult}//reigister callback function
+			         );
+}
+
+function ShowPowerPageResult(originalRequest) 
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var IPMIRoot=xmldoc.documentElement;//point to IPMI
+		CapObj = IPMIRoot.getElementsByTagName('Platform');
+		CapValue = CapObj[0].getAttribute("Cap");
+		PlatformCapability = parseInt(CapValue,16);
+
+		EnStoragePageValue = CapObj[0].getAttribute("EnStorage");
+		EnStoragePage  		   = parseInt(EnStoragePageValue,16);
+
+		if (PlatformCapability & 0x2 )
+		{
+			OutputPower.innerHTML = "<li class=\"desc\"><span class=\"subdesc\">"+ lang.LANG_MISC_POWER +
+			"</span>:<span class=\"subdesc\">"+lang.LANG_MISC_POWER_DESC+"</span></li>";			
+		}
+
+                if(EnBBP)
+                {
+			OutputBBPPower.innerHTML = "<li class=\"desc\"><span class=\"subdesc\">"+ lang.LANG_MISC_BBP_POWER +
+			"</span>:<span class=\"subdesc\">"+lang.LANG_MISC_BBP_POWER_DESC+"</span></li>";
+		}
+
+		if (EnStoragePage)
+		{
+			ShowHDDDescription.innerHTML = "<li class=\"desc\"><span class=\"subdesc\">"+ lang.LANG_SERVER_HEALTH_STORAGE +
+			"</span>:<span class=\"subdesc\">"+lang.LANG_SERVER_HEALTH_STORAGE_DESC+"</span></li>";
+		}
+
+	}
+}
+</script>
+
+
+<body onload="PageInit()">
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_SERVER_HEALTH_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="headerA"><script>document.writeln(lang.LANG_SERVER_HEALTH_DESC)</script></div>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+            <td>
+            <!-- below area is needed to modify by yourself -->
+                <ul>
+                    <!-- Sensor Readings -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_READING)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_READING_DESC)</script></span></li>
+
+                    <!-- Storage 
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_DESC)</script></span></li>
+                    -->
+
+		    <!-- Event Log -->
+                    <li class="desc"><span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_LOG)</script></span>:<span class="subdesc"><script>document.writeln(lang.LANG_SERVER_HEALTH_LOG_DESC)</script></span></li>
+                    
+                    <!-- Power Monitoring --><!-- power chip -->
+                    <div id="power_page"> </div>
+					
+					 <!-- Power cunsumption -->
+                    <div id="pw_consumption_page"> </div>
+					
+                    <!-- BBP Power Monitoring --><!-- Add bpp info -->
+                    <div id="bbp_power_page"> </div>
+
+                    <!-- LSI HDD Monitoring --><!-- LSI HDD monitoring -->
+                    <div id="lsi_hdd_page"> </div>
+
+                    <!-- PS info --><!-- LSI HDD monitoring -->
+                    <div id="psinfo_page"> </div>
+
+		</ul>
+        	<!-- end of this area -->
+        	</td>
+        <tr>
+    </table>
+</body>
+</html>

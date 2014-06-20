@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	  <title></title>
+	  <link rel="stylesheet" href="../css/basic.css" type="text/css">
+
+	  <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script> 
+    <script language="javascript" src="../js/utils.js"></script> 
+<style type="text/css">  
+.tbl { 
+  	border:0; 
+  	border-collpase:collpase; 
+  	width: 400px
+} 
+.table_th { 
+ 	background-color:#F2F6FF;
+	font-weight:bold;
+	cursor:default;
+   	height:1.6em;
+	font-size :12px; 
+	text-align:left;	 
+}
+
+.table_tr { 
+   	border-bottom: 1px solid #ccc;
+   	background:transparent;
+   	cursor:default;
+   	height:1.6em;
+   	font-size :12px;
+} 
+.table_td
+{
+	border-bottom: 1px solid #ccc;
+  	background:transparent;
+  	cursor:default;
+  	height:1.6em;
+  	font-size :12px;	
+}
+.last_tr
+{
+	text-align:right;	
+	border-bottom: none;
+	font-size :10px;
+}
+</style>
+<!-- power javascript start -->
+<script type="text/javascript">
+	
+var expand 				= new Array();	
+var honrizon_num 		= 1;
+var vertical_num 		= 24;
+var select_group_idx 	= 0;
+
+var PhysicalHDD_dev    	= new Array();
+var LogicalHDD_dev		= new Array();
+var max_physical_hdd 	= 0;
+var Whichview  			= 0;
+var max_logical_hdd 	= 0;
+
+var mainPage 	= "../cgi/url_redirect.cgi?url_name=health";
+
+function ShowStatusColor(dev_obj,dev_num)
+{
+	
+	var tbl  = document.createElement("table");
+	var row  = document.createElement("tr");
+	var cell  = document.createElement("td");
+	tbl.setAttribute('width',"20");
+	tbl.setAttribute('height',"20");
+	//tbl.setAttribute('border',"1");
+	if (isHDDExisted(dev_obj,dev_num))
+	{
+		switch(isPhysicalHDDErr(dev_obj,dev_num))
+		{
+			case 0:
+				cell.setAttribute('bgcolor',"green");
+				break;
+			case 3:
+				cell.setAttribute('bgcolor',"yellow");
+				break;
+			default:
+			cell.setAttribute('bgcolor',"red");
+				break;
+		}		
+	}
+	else 
+		cell.setAttribute('bgcolor',"#F2F6FF");
+	
+	row.appendChild(cell);
+	tbl.appendChild(row);
+	return tbl;
+}
+
+function add_row(dev_obj,tbl_obj,attr,content,value)
+{
+	var row,row1;   
+	var cell,cell;
+	var textNode;
+	
+	var dev_num = tbl_obj.id;
+	row  = document.createElement("tr");
+	if (attr.indexOf("th") != -1)
+	{	
+		cell = document.createElement("th");
+		cell.setAttribute('width',"100px");
+		cell.setAttribute('class',"table_th");
+		cell.appendChild(ShowStatusColor(dev_obj,dev_num));
+		row.appendChild(cell);
+				
+		cell  = document.createElement("th");
+		cell.setAttribute('colspan',"2");
+		//cell.setAttribute('width',"95%");
+		cell.setAttribute('class',"table_th");
+		textNode = document.createTextNode(content);
+		cell.appendChild(textNode);
+		row.appendChild(cell);
+	    }
+	else 
+	    {
+		cell = document.createElement(attr);
+		cell.setAttribute('colspan',"2");
+		cell.setAttribute('class',"table_td");
+		cell.setAttribute('width',"120px");
+		textNode = document.createTextNode(content);
+		cell.appendChild(textNode);
+	row.appendChild(cell);
+	
+	cell  = document.createElement(attr);
+	cell.setAttribute('class',"table_td");
+		textNode = document.createTextNode(value);
+		cell.appendChild(textNode);
+	row.appendChild(cell);
+	}
+	return row;
+}
+function show_more(devObj,tblobj)
+{
+	var hdd_info1 = new Array("Vendor:","ModelName:","Revision:","LinkSpeed:",
+							  "firmware state:","Other Error Count:","Predicted Fail Count:",
+							  "Media Error Count:");
+	var tbl_obj = tblobj.parentNode.parentNode;
+	var dev_num = tbl_obj.id;
+	if ( expand[dev_num] == 0)
+	{
+	   	tbl_obj.deleteRow(-1);
+	   	for (i = 0; i < hdd_info1.length ; i++)
+	   	{
+	    	var new_row = add_row(devObj,tbl_obj,"td",hdd_info1[i],PhysicalHDD_dev[dev_num][3+i]); 
+	    	tbl_obj.appendChild(new_row)
+	   	}
+	   	new_row = add_lastrow(PhysicalHDD_dev,"less");
+	   	tbl_obj.appendChild(new_row);
+	   	expand[dev_num]  = 1;
+	}
+	else
+	{ 
+	   	var row_count = tbl_obj.rows.length;
+	   	//skip temperature
+	   	for (i = 3; i < row_count ; i++)
+	    {
+	    	tbl_obj.deleteRow(-1);
+	    }
+	    new_row = add_lastrow(devObj,"more");
+	   	tbl_obj.appendChild(new_row);
+	    expand[dev_num]  = 0;
+	 }
+}
+function add_lastrow(devObj,content)
+{
+	var row,cell;
+	row  = document.createElement("tr");
+	cell = document.createElement("td");
+	cell.setAttribute("class","last_tr");
+	cell.setAttribute('colspan',"3"); 
+	cell.innerHTML = "<a href='javascript:void(0)'>"+content+"</a>";
+	cell.onclick= function ()
+	{
+		show_more(devObj,this);
+	}
+	row.appendChild(cell);	
+	return row;
+}
+function create_table(table_id)
+{
+	var table=document.createElement('table');
+	table.setAttribute('id',table_id);
+	table.setAttribute('class',"tbl");
+	//table.setAttribute('border',"1");
+	table.setAttribute('style','border-collapse:collapse');
+	return table;
+}
+
+function create_select_box()
+{
+	var select2    = document.form1.hdd_select; 
+	var hdd_nums   = (Whichview == 0)? max_physical_hdd : max_logical_hdd;
+	var pages_num  = Math.floor( hdd_nums / (vertical_num * honrizon_num));
+	var reminder   = hdd_nums % (vertical_num * honrizon_num);
+	
+	
+	var drive_name = (Whichview == 0) ? lang.LANG_SERVER_HEALTH_STORAGE_PHYDRIVE:lang.LANG_SERVER_HEALTH_STORAGE_LOGDRIVE;
+	
+	pages_num 	  = (reminder != 0 ) ? pages_num + 1 : pages_num;
+	select_group_idx = 0;
+	for ( i = 0;i < pages_num ; i++)
+	{
+		
+		var num_start = (i == 0) ? 0 : i * (honrizon_num * vertical_num) ;
+		
+		if ( i == (pages_num - 1) && reminder )
+		{
+			var num_end   =  num_start + reminder - 1;
+		}
+		else 
+			var num_end   =  num_start + (honrizon_num * vertical_num) - 1;
+		select2.options[i] = new Option(drive_name+' ' + num_start + '~' + num_end ); 
+	}
+	document.form1.hdd_select.onchange = function()
+	{
+		select_group_idx = this.selectedIndex;
+		document.getElementById("table1").innerHTML="";
+		if (Whichview == 0)
+			ShowPhysicalHDDinfo();
+		else 
+			ShowLogicalHDDinfo();	
+	}	
+	
+}
+function DelAlloptionsSelectBox()
+{
+	var select2    = document.form1.hdd_select; 
+	for (i = select2.length - 1; i>=0; i--) {
+      	select2.remove(i);
+  	}
+}
+function GetPhysicalHDDView()
+{
+	Whichview = 0;
+	HDDViewObj1.checked = true;
+	HDDViewObj2.checked = false;
+	Clear_page();
+	//create_select_box();
+	GetPhysicalHDDInfo();
+	
+}
+function GetLogicalHDDView()
+{
+	Whichview = 1;
+	HDDViewObj2.checked = true;
+	HDDViewObj1.checked = false;
+	Clear_page();
+	//create_select_box();
+	GetLogicalHDDInfo();
+}
+function GetPhysicalHDDInfo()
+{
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'Get_PhysicalHDDInfo.XML=(0,0) & time_stamp='+(new Date()) ; //(0,0) ask for privilege
+	var myAjax = new Ajax.Request(
+	    url,
+	    {method: 'post',parameters:pars, onComplete: PhysicalHDDinfoResp}//reigister callback function
+	    );
+}
+function GetLogicalHDDInfo()
+{
+	var url = '/cgi/ipmi.cgi';
+	var pars = 'Get_LogicalHDDInfo.XML=(0,0) & time_stamp='+(new Date()) ; //(0,0) ask for privilege
+	var myAjax = new Ajax.Request(
+	    url,
+	    {method: 'post',parameters:pars, onComplete: LogicalHDDInfoResp}//reigister callback function
+	    );
+}
+
+function GetfwState(val)
+{
+	switch (val)
+	{
+		case 0x00:
+			return "Unconfigured good drive";
+		case 0x01:
+			return "Unconfigured bad drive";
+		case 0x02:
+			return "Hot spare drive";
+		case 0x10:
+			return "Drive is offline";
+		case 0x11:
+			return "Configured-bad drive (data invalid)";
+		case 0x14:
+			return "Configured-drive is rebuilding";
+		case 0x18:
+			return "Configured-drive is online";
+		case 0x20:
+			return "drive is getting copied";
+		case 0x40: 
+			return "drive is exposed and controlled by host" ;
+		case 0x80:
+			return "UnConfigured - shielded";
+		case 0x82:
+			return "Hot Spare - shielded";
+		case 0x90:
+			return "Configured - shielded";
+	}	
+}
+function GetLinkSpeed(val)
+{
+	switch(val)
+	{
+		case 0:
+			return "Uknown Speed";
+		case 1:
+			return "1.5 Gb/s";
+		case 2:
+			return "3.0 Gb/s";
+		case 3:
+			return "6.0 Gb/s";
+		case 4:
+			return "12.0 Gb/s";
+		
+	}
+}
+function GetStatus(val)
+{
+	switch (val)
+	{
+		case 0:
+			return "Not present"
+		case 1: 
+			return "Present";
+		case 2:
+			return "Error";	
+		case 3:
+			return "Warning";	
+	}
+}
+function GetStripSize(val)
+{
+	switch (val)
+	{
+		case 4:
+			return "8K";
+		case 5: 
+			return "16K";
+		case 7:
+			return "64K";
+		case 11:
+			return "1MB";
+		default:
+		     return "Unknown";
+		
+	}
+}
+
+function getLogicalState(val)
+{
+	switch (val)
+	{
+		case 0:
+			return "Offine"
+		case 1: 
+			return "Partially Degraded";
+		case 2:
+			return "Degraded";	
+		case 3:
+			return "Optimal";	
+		
+	}
+	
+}
+function PhysicalHDDinfoResp(originalRequest)
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc=GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var Root			= xmldoc.documentElement;
+   		var HDDIndoNode		= Root.getElementsByTagName('HDDInfo');
+   		var HDDNode 		= HDDIndoNode[0].getElementsByTagName('HDD');
+   		var HDDsize			= 0;
+   		max_physical_hdd		    = HDDIndoNode[0].getAttribute("num");
+   		
+   		
+   		for (i = 0 ; i < max_physical_hdd ;i++ )
+   		{
+			   			
+   			PhysicalHDD_dev[i] 	    = new Array(); 
+   			PhysicalHDD_dev[i][0]   = GetStatus(parseInt( HDDNode[i].getAttribute("status"),16));
+   			var temp = parseInt(HDDNode[i].getAttribute("temperature"),16);
+   			if (temp == 0 || temp == 255)
+   				PhysicalHDD_dev[i][1]   = "N/A";
+   			else 
+   				PhysicalHDD_dev[i][1]   = parseInt(HDDNode[i].getAttribute("temperature"),16)+ " degrees C"; 
+   			HDDsize = 	 parseInt(HDDNode[i].getAttribute("CoercedSize"),16);
+   			PhysicalHDD_dev[i][2]   =(HDDsize > 1024) ? ( (HDDsize/1024).toFixed(2) + " TB"): (HDDsize + " GB");
+   			
+   			PhysicalHDD_dev[i][3]   = HDDNode[i].getAttribute("Vendor");
+   			PhysicalHDD_dev[i][4]   = HDDNode[i].getAttribute("ModelName");
+   			PhysicalHDD_dev[i][5]   = HDDNode[i].getAttribute("Revision");
+   			PhysicalHDD_dev[i][6]   = GetLinkSpeed(parseInt(HDDNode[i].getAttribute("LinkSpeed"),16));
+   			PhysicalHDD_dev[i][7]   = GetfwState(parseInt( HDDNode[i].getAttribute("fwState"),16));
+   			PhysicalHDD_dev[i][8]   = parseInt(HDDNode[i].getAttribute("OtherErrCount"),16);
+   			PhysicalHDD_dev[i][9]   = parseInt(HDDNode[i].getAttribute("PredFailCount"),16);
+   			PhysicalHDD_dev[i][10]  = parseInt(HDDNode[i].getAttribute("MediaErrCount"),16);
+   			PhysicalHDD_dev[i][11]  = parseInt(HDDNode[i].getAttribute("LastPredFailEventSeqNum"),16);
+   			PhysicalHDD_dev[i][12]  = parseInt(HDDNode[i].getAttribute("enclosureID"),16);
+   			expand[i]	    = 0;
+   		}
+   		create_select_box();
+		ShowPhysicalHDDinfo();
+	}
+	
+}
+
+function LogicalHDDInfoResp(originalRequest)
+{
+	if (originalRequest.readyState == 4 && originalRequest.status == 200)
+	{
+		var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+		var xmldoc	 = GetResponseXML(response);
+		if(xmldoc == null)
+		{
+			SessionTimeout();
+			return;
+		}
+		var Root			= xmldoc.documentElement;
+   		var HDDIndoNode		= Root.getElementsByTagName('LogicHDDInfo');
+   		var HDDNode 		= HDDIndoNode[0].getElementsByTagName('LogicHDD');
+   		var HDDsize			= 0;
+   		
+   		max_logical_hdd		= HDDIndoNode[0].getAttribute("num");
+   		
+   		
+   		for (i = 0 ; i < max_logical_hdd ;i++ )
+   		{
+			   			
+   			LogicalHDD_dev[i] 	   = new Array(); 
+   			LogicalHDD_dev[i][0]   = GetStatus(parseInt (HDDNode[i].getAttribute("status"),16));
+ 			HDDsize = 	 parseInt(HDDNode[i].getAttribute("size"),16);
+			LogicalHDD_dev[i][1]   =(HDDsize > 1024) ? ( (HDDsize/1024).toFixed(2) + " TB"): (HDDsize + " GB");
+
+   			LogicalHDD_dev[i][2]   = parseInt (HDDNode[i].getAttribute("PRL"),16);
+   			LogicalHDD_dev[i][3]   = parseInt (HDDNode[i].getAttribute("RLQ"),16);
+   			LogicalHDD_dev[i][4]   = parseInt (HDDNode[i].getAttribute("SRL"),16);
+   			LogicalHDD_dev[i][5]   = GetStripSize(parseInt (HDDNode[i].getAttribute("StripeSize"),16));
+   			LogicalHDD_dev[i][6]   = parseInt (HDDNode[i].getAttribute("NumDrives"),16);
+   			LogicalHDD_dev[i][7]   = parseInt (HDDNode[i].getAttribute("SpanDepth"),16);
+   			LogicalHDD_dev[i][8]   = getLogicalState(parseInt (HDDNode[i].getAttribute("state"),16));
+   		}
+   		create_select_box();
+		ShowLogicalHDDinfo();
+	}
+	
+}
+function isHDDExisted(HDD_dev,dev_num)
+{
+	 return (HDD_dev[dev_num][0].indexOf("Not present") == -1	) ? 1 : 0;
+}
+function isPhysicalHDDErr(HDD_dev,dev_num)
+{
+	if(HDD_dev[dev_num][0].indexOf("Warning") != -1)
+		return 3;
+	else
+	 return (HDD_dev[dev_num][0].indexOf("Error") != -1) ? 1 : 0;
+}
+
+
+function PageInit()
+{
+	
+	HDDViewObj1 = document.getElementById('HDD_view1');
+	HDDViewObj2 = document.getElementById('HDD_view2');
+	
+	Whichview   = 0;
+	HDDViewObj1.checked = true;
+
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)		
+	GetPhysicalHDDInfo();
+	
+}
+function ShowPhysicalHDDinfo()
+{
+	var tbl,row,cell,newNode;
+	var outer_cell;
+	var dev_num;
+	var hdd_info  = new Array("Status:","Temperature:","Capacity:");
+							
+	
+	var outer_tbl  = create_table("outer_tbl");
+	var outer_row  = document.createElement("tr");
+	dev_num        = select_group_idx * vertical_num;
+	for (k = 0 ;k < honrizon_num; k++)
+	{
+		outer_cell = document.createElement("td");
+		if ( k != 0)
+		{
+			outer_cell.innerText =" ";
+			outer_row.appendChild(outer_cell);
+		}
+		outer_cell = document.createElement("td");
+		
+		for (i = 0 ;i < vertical_num;i++,dev_num++)
+		{
+			if (dev_num >= max_physical_hdd)
+				break;
+			
+			tbl  = create_table(dev_num);
+			if (isHDDExisted(PhysicalHDD_dev,dev_num))
+			{
+				row  = add_row(PhysicalHDD_dev,tbl,"th",lang.LANG_SERVER_HEALTH_STORAGE_PHYDRIVE + dev_num + " Enclosure ID: " + PhysicalHDD_dev[dev_num][12],"");
+			}
+			else
+				row  = add_row(PhysicalHDD_dev,tbl,"th",lang.LANG_SERVER_HEALTH_STORAGE_PHYDRIVE + dev_num,"");
+			tbl.appendChild(row);
+			
+			for ( j = 0;j < hdd_info.length;j++ )
+			{
+				//skip temperature here
+				if ( j == 1)
+					continue;
+				row = add_row(PhysicalHDD_dev,tbl,"td",hdd_info[j],PhysicalHDD_dev[dev_num][j] );
+				tbl.appendChild(row);
+				//if the hdd doesn't exist, more info doesn't show on web.
+				if (!isHDDExisted(PhysicalHDD_dev,dev_num))
+					break;
+			}
+			//if the hdd exists, web shows link to show more info.
+			if (isHDDExisted(PhysicalHDD_dev,dev_num))
+			{
+				row = add_lastrow(PhysicalHDD_dev,"more");
+				tbl.appendChild(row);
+			}
+			outer_cell.appendChild(tbl);
+			newNode   = document.createElement("p");
+			outer_cell.appendChild(newNode);
+			outer_row.appendChild(outer_cell);
+			
+		}
+ 	}
+ 	outer_tbl.appendChild(outer_row);
+ 	document.getElementById("table1").appendChild(outer_tbl);
+}
+function ShowLogicalHDDinfo()
+{
+	var tbl,row,cell,newNode;
+	var outer_cell;
+	var dev_num;
+	var hdd_info  = new Array("Status:","Capacity:","Primary Raid Level:","Raid Level Qualifier:",
+							  "Secondary Raid Level:","LD strip size:","The num of Drives:","SpanDepth:",
+							  "State:");
+							
+	
+	var outer_tbl  = create_table("outer_tbl");
+	var outer_row  = document.createElement("tr");
+	dev_num        = select_group_idx * vertical_num;
+	for (k = 0 ;k < honrizon_num; k++)
+	{
+		outer_cell = document.createElement("td");
+		if ( k != 0)
+		{
+			outer_cell.innerText =" ";
+			outer_row.appendChild(outer_cell);
+		}
+		outer_cell = document.createElement("td");
+		
+		for (i = 0 ;i < vertical_num;i++,dev_num++)
+		{
+			if (dev_num >= max_logical_hdd)
+				break;
+			
+			tbl  = create_table(dev_num);
+			row  = add_row(LogicalHDD_dev,tbl,"th",lang.LANG_SERVER_HEALTH_STORAGE_LOGDRIVE + dev_num ,"");
+			tbl.appendChild(row);
+			
+			for ( j = 0;j < hdd_info.length;j++ )
+			{
+				//if the hdd doesn't exist, more info doesn't show on web.
+				row = add_row(LogicalHDD_dev,tbl,"td",hdd_info[j],LogicalHDD_dev[dev_num][j] );
+				tbl.appendChild(row);
+				if (!isHDDExisted(LogicalHDD_dev,dev_num))
+				{
+					break;
+				}
+			}
+			
+			outer_cell.appendChild(tbl);
+			newNode   = document.createElement("p");
+			outer_cell.appendChild(newNode);
+			outer_row.appendChild(outer_cell);
+			
+		}
+ 	}
+ 	outer_tbl.appendChild(outer_row);
+ 	document.getElementById("table1").appendChild(outer_tbl);
+}
+
+function Clear_page()
+{
+	document.getElementById("table1").innerHTML="";	
+	DelAlloptionsSelectBox();
+}
+</script>
+  	<!-- power javascript start -->
+</head>
+
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_CAPTION)</script></div></td></tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td>&nbsp;</td><td>
+			&nbsp;</td></tr>
+        <tr><td>
+        	</td><td>
+        	<form name="form1" id="name1">	
+        	<INPUT TYPE=RADIO NAME="HDD_view1" id="HDD_view1" VALUE="0" onclick="GetPhysicalHDDView()" $(TAG_DISABLE)/><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_PHYDRIVE_VIEW)</script>
+        	<INPUT TYPE=RADIO NAME="HDD_view2" id="HDD_view2" VALUE="1" onclick="GetLogicalHDDView()" $(TAG_DISABLE)/><script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_LOGDRIVE_VIEW)</script></br>
+        	<label class="Categorytext">
+				<script>document.writeln(lang.LANG_SERVER_HEALTH_STORAGE_SEL);</script>
+			</label>
+        	
+        	<select name="hdd_select">
+				<option selected value="0">
+				
+				</option>
+			</select>
+			</form>
+        	<div id="table1"></div>
+			
+			</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+
+        	 
+        	  <!--<input type="button" class="btnStyle" id="ButtonRef" onclick="powerRef()"/>-->
+        	  <!-- end of this area -->
+        	  </td>
+        </table>
+</body>
+</html>

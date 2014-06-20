@@ -1,0 +1,1067 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script>
+	<script language="javascript" src="../js/grid/LWfactory.js"></script>
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+	<script language="javascript" src="../js/utils.js"></script>
+
+
+	<script type="text/javascript">
+
+	//declare all global variables
+	var BID_X9SCM="624";
+	var BID_X9SCL="61e";
+	var BID_X9SCA="631";
+	var BID_X9SCM_II="640";
+	var BID_X9SCD="634";
+	var BID_X9SBAA="651";
+
+	var BID_X9DB3="722";
+	var BID_X9DBU="637";
+	var BID_X9DBL="703";
+	var BID_X9SCV="641";
+	var BID_X9SPU="643";
+
+	var BID;  //Linda
+
+
+var SEL_Fragment_Size = 0xc0;
+
+var ETN;
+var ETN_flag=0;
+var sel_buf = new Array();
+
+var current_group = 0;
+var GridTable;
+var var_event_type;
+
+var TableTitles = [
+    ["Event ID", "7%", "center"],
+    ["Time Stamp", "18%", "center"],
+    ["Sensor Name", "21%", "left"],
+    ["Sensor Type", "15%", "left"],
+    ["Description", "35%", "left"]
+];
+
+var mainPage = "../cgi/url_redirect.cgi?url_name=health";
+
+function PageInit()
+{
+    document.title = lang.LANG_EVENT_LOG_TITLE;
+    document.getElementById("sel_clear_log_btn").setAttribute("value", lang.LANG_EVENT_CLEARBTN);
+
+    var_event_type = document.getElementById("sel_evt_type");
+
+	Event_Type_Init();
+	document.getElementById("sel_clear_log_btn").onclick = SELClearTaskCheck;
+
+	GetBID();	//Linda
+	
+	$(TAG_ALERT)
+	$(TAG_MAINPAGE)		
+	SELTableInit();
+	SELQueryPreTask();	
+}
+
+
+	//--- begin --- Linda added GetBordID
+	function GetBID()
+	{
+	    var url = '/cgi/ipmi.cgi';
+	    var pars = 'Get_BoradID_XML.XML=(0,0)&time_stamp='+(new Date()) ; //(0,0) ask for privilege
+	    var myAjax = new Ajax.Request(
+	    url,
+	    {method: 'post',parameters:pars, onComplete: doGetBoardID}//reigister callback function
+	    );
+	}
+
+	function doGetBoardID(originalRequest)
+	{
+
+		if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+		    var root=xmldoc.documentElement;
+		    var BoardID_elm=root.getElementsByTagName("BoardID");
+		    BID=BoardID_elm[0].getAttribute("ID");
+		}
+	}
+	//--- end --- Linda added GetBordID
+
+
+
+function Event_Type_Init()
+{
+	if(browser_ie)
+	{
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_SENSOR_EVENT, 1), 0);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_BIOS_EVENT, 2), 1);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_SYS_MAN_SW_EVENT, 3), 2);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_ALL, 4), 3); //linda add All Events category 05-05-11
+ }
+	else
+	{
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_SENSOR_EVENT, 1), null);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_BIOS_EVENT, 2), null);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_SYS_MAN_SW_EVENT, 3), null);
+	    var_event_type.add(new Option(lang.LANG_EVENT_OPTION_ALL, 4), null); //linda add All Events category 05-05-11
+	}
+      var_event_type.options[3].selected = true;      //linda modified All Event category as default
+}
+
+function SELTableInit()
+{
+	SELTablePlace=document.getElementById("sel_tbl_place");
+    GridTable=LWC.getElement('datagrid',document);
+    GridTable.setColumns(TableTitles);
+	GridTable.init('GridTable',SELTablePlace);
+}
+
+function SELQueryPreTask()
+{
+    var_event_type.onchange = RefreshAlarm;
+    current_group = 0;
+    ETN_flag=0;
+    SELQueryMainTask();
+}
+
+function SELQueryMainTask()
+{
+    Loading(true);
+
+    var url = '/cgi/ipmi.cgi';
+    var pars = 'SEL_INFO.XML=('+
+				((current_group*SEL_Fragment_Size)+1).toString(16)+','+((current_group+1)*SEL_Fragment_Size).toString(16) +
+				') &time_stamp='+(new Date()) ;
+    var myAjax = new Ajax.Request(
+		url,
+		{method: 'post', parameters: pars, onComplete: SELQueryResponse}//reigister callback function
+		);
+}
+
+function SELDataArrayInit()
+{
+    var i,j;
+	var SEL_ELEMENT_NUMBER = 5;
+	var SEL_BYTES_WACUS_USED = 7;
+
+    for(i = 0; i < ETN; i ++)
+    {
+	sel_buf[i] = new Array(SEL_ELEMENT_NUMBER + SEL_BYTES_WACUS_USED);
+
+	for(j = 0; j < (SEL_ELEMENT_NUMBER + SEL_BYTES_WACUS_USED); j ++)
+	    sel_buf[i][j] = "";
+    }
+}
+
+function SELQueryResponse(originalRequest)
+{
+   var DESCRIPT;
+   var DIRECT;
+   var sensorid;
+   var selrd ;
+   var tmp_str;
+   var showtable ;
+   var stype;                   //SEL TOTAL_NUMBER
+   var i,j,No,m,n;
+   var sensornum ;   // timep
+
+   if (originalRequest.readyState == 4 && originalRequest.status == 200){
+   var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+   var xmldoc=GetResponseXML(response);
+
+   if(xmldoc == null)
+   {
+      SessionTimeout();
+      return;
+   }
+
+   var IPMIRoot=xmldoc.documentElement;
+   var sel_elm=IPMIRoot.getElementsByTagName('SEL_INFO');
+   var sel = sel_elm[0].getElementsByTagName('SEL');
+
+   if(ETN_flag == 0)
+   {
+    ETN = parseInt(sel[0].getAttribute("TOTAL_NUMBER"),16);
+    ETN_flag=1;
+   }
+
+   if(current_group == 0)
+	   SELDataArrayInit();
+
+   j = 0;
+   for(i=( (current_group*SEL_Fragment_Size)+1 );(i<=ETN)&&(i<=(current_group+1)*SEL_Fragment_Size);i++)
+   {
+	j++;
+	//No = i;             //no page
+
+	var ch = new Array(16);
+	//var bit = new Array(2);
+	var tohex , thshd , pt ;
+	var evttype ;
+	var sensor_type;
+	evttype ="" ;
+	sensorid = sel[j].getAttribute("SENSOR_ID") ;
+	selrd = sel[j].getAttribute("SEL_RD") ;
+
+	if((sensorid == null)||(selrd == null))
+	{
+	    alert("null case happen on i="+i+", j="+j);
+	    break;
+	}
+
+	for(m=0;m<=15;m++)
+	{
+	   ch[m] = selrd.substr(2*(15-m),2);     //ch[0] is LSB
+	}
+
+	stype = parseInt(ch[5],16) ;              // take 11th Byte
+	tohex = parseInt(ch[3],16) ;              // take 13th Byte
+	thshd = (parseInt(ch[2],16)) & 0x0f ;     // take 14th Byte
+	No = (parseInt(ch[14],16) << 8) + parseInt(ch[15],16);
+	//alert(No);
+	if(parseInt(ch[13],16) >= 0xc0)
+	{
+	    sensorid = 'OEM Record Type 0x' + ch[13];
+
+	    stype = 0xff;
+	}
+
+	//////////////////////////////  judge DIRECTION /////////////////////////
+	if(tohex <= 0x80)      // if( parseInt(bit[1],10)==0 )
+	{
+	    DIRECT = "Assertion" ;
+	}
+	else
+	{
+	      tohex -= 0x80;
+	      DIRECT = "Deassertion" ;
+	}
+
+    DESCRIPT=""; // please add this line to make sure DESCRIPT is clean in each loop and not appending from the last event.
+
+	switch(tohex)
+	{
+	     case 0x01:
+	     {
+		switch(thshd)
+		{
+		case 0x00:
+		    DESCRIPT = "LNC Going Low" ;
+		    break;
+		case 0x01:
+		    DESCRIPT = "LNC Going High" ;
+		    break;
+		case 0x02:
+		    DESCRIPT = "LC Going Low" ;
+		    break;
+		case 0x03:
+		    DESCRIPT = "LC Going High" ;
+		    break;
+		case 0x04:
+		    DESCRIPT = "LNR Going Low" ;
+		    break;
+		case 0x05:
+		    DESCRIPT = "LNR Going High" ;
+		    break;
+		case 0x06:
+		    DESCRIPT = "UNC Going Low" ;
+		    break;
+		case 0x07:
+		    DESCRIPT = "UNC Going High" ;
+		    break;
+		case 0x08:
+		    DESCRIPT = "UC Going Low" ;
+		    break;
+		case 0x09:
+		    DESCRIPT = "UC Going High" ;
+		    break;
+		case 0x0a:
+		    DESCRIPT = "UNR Going Low" ;
+		    break;
+		case 0x0b:
+		    DESCRIPT = "UNR Going High" ;
+		    break;
+		    default:
+		    break;
+	    }
+	 }
+	 default:
+	    break;
+	}
+
+	sel_buf[i-1][0] = No.toString(10);                 // Event ID
+	sel_buf[i-1][1] = sel[j].getAttribute("TIME");     // Time
+	sel_buf[i-1][2] = sensorid;                            // Sensor Name
+	sel_buf[i-1][3] = stype;                               // Sensor type          (row data)
+	sel_buf[i-1][4] = DESCRIPT+" "+DIRECT;             // Description
+	sel_buf[i-1][5] = parseInt(ch[8],16);              // wacus : generator ID (bit 8, IPMI Spec. 2.0, Page 415)
+	sel_buf[i-1][6] = parseInt(ch[3],16);              // wacus : EDET         (bit 13, ...
+	sel_buf[i-1][7] = parseInt(ch[2],16);              // wacus : ED1          (bit 14, ...
+	sel_buf[i-1][8] = parseInt(ch[1],16);              // wacus : ED2          (bit 15, ...
+	sel_buf[i-1][9] = ch[4];               // wacus : Sensor number
+	sel_buf[i-1][10] = ch[5]+ch[4]+ch[3]+ch[2]+ch[1]+ch[0]; //OEM SEL Type C0h-DFh: OEM defined
+	sel_buf[i-1][11] = ch[6]+ch[7]+ch[8]; //OEM SEL Type C0h-DFh: manufacturerID
+   }
+
+     if(i == (ETN + 1))
+     {
+	if (ETN == 0)
+	    alert(lang.LANG_EVENT_NO_SEL_STRING);
+	RefreshEventTask();
+     }
+     else
+     {
+	current_group ++;
+	SELQueryMainTask();
+     }
+   }
+
+}
+
+function RefreshEventTask()
+{
+    var tmp_str;
+    var tmp_offset;
+	var tmp_max_offset;
+
+	var j = 0;
+
+    var myData = [];
+    var record_index = 0;
+
+	/*Maximum offet limitation of generic event and reading types which are from type '0x1' to type '0x0c'.*/
+	var max_offset_array = [
+		0x0, 0x0b, 0x3, 0x2, 0x2,
+	//  d0   d1    d2   d3   d4
+		0x2, 0x2,  0x8, 0x2, 0x2,
+	//  d5   d6    d7   d8   d9
+		0x8, 0x7, 0x3
+	];
+
+    /* Maximum offet of generic event and reading types for 0x6f */
+    var max_sensor_specific_offset_array = [
+		0,  0,  0,  0,  0,  6,  5,  12, 6,  7,
+	//  d0  d1  d2  d3  d4  d5  d6  d7  d8  d9
+		0,  0,  10,  8,  0,  2,  6,  7,  5,  11,
+	//  d10 d11 d12 d13 d14 d15 d16 d17 d18 d19
+		4,  0,  0,  0,  0,  0,  0,  0,  0,  7,
+	//  d20 d21 d22 d23 d24 d25 d26 d27 d28 d29
+		4,  6,  5,  9,  13, 8,  3,  2,  0,  1,
+	//  d30 d31 d32 d33 d34 d35 d36 d37 d38 d39
+		5,  2,  3,  7,  7
+	//  d40 d41 d42 d43 d44
+	];
+
+    var evt_count = 0;
+    var evt_type;
+    var evt_dir;
+
+	var evt_type_opt_selected;
+	var tmp_timestamp;
+	var tmp_sensor_type;
+	var tmp_sensor_name;
+	var tmp_sensor_number;
+	var tmp_evt_data;
+	var gen_id;
+	var evt_dir_and_type;
+	var event_rec_id;
+	var sel_traveler;
+	var specific_desc = 0;
+
+    GridTable.empty();
+
+    while (j < ETN)
+    {
+		sel_traveler = sel_buf[j];
+
+	/* generator id Recognition */
+	/*
+			sensor specific : 0x20
+			software generated event : 0x80
+			bios generated event : 0x01 ~ 0x1f
+			system software generated event : 0x41 ~ 0x6f
+		*/
+		evt_type_opt_selected = var_event_type.options[var_event_type.options.selectedIndex].value;
+
+		event_rec_id = sel_traveler[0];
+		tmp_timestamp = sel_traveler[1];
+		tmp_sensor_name = sel_traveler[2];
+		tmp_sensor_type = sel_traveler[3];
+		tmp_sensor_number = sel_traveler[9];
+		gen_id = sel_traveler[5];
+		evt_dir_and_type = sel_traveler[6];
+
+		//alert("[Linda Debug] name= "+tmp_sensor_name+", stpe= "+tmp_sensor_type+", sno= "+tmp_sensor_number+", etpe= "+evt_dir_and_type+", gen_id= "+gen_id);
+
+	//linda add All Events category 05-05-11
+	if (
+			( ((gen_id == 0x20) || (gen_id == 0x80)) && (evt_type_opt_selected == 1) ) ||
+	    ( (gen_id >= 0x01) && (gen_id <= 0x1f) && (evt_type_opt_selected == 2) ) ||
+	    ( (gen_id >= 0x41) && (gen_id <= 0x6f) && (evt_type_opt_selected == 3) ) ||
+	    (evt_type_opt_selected == 4)
+		)
+	{
+		evt_type = GetSubString(evt_dir_and_type, 6, 0);
+		//record_index++;
+		record_index = event_rec_id;
+
+		switch(evt_type)
+		{
+			case 0:
+				break;/* do nothing */
+
+			case 0x6f:
+				// linda begin --- joe --- begin 3-13-2010 for HDD event type
+				if (tmp_sensor_type == 0xc0)
+				{
+					tmp_offset = GetSubString(sel_traveler[7],3,0);
+					// take care the 1st HDD events
+					if (tmp_offset==0)
+					{
+						tmp_str="Disk";
+						tmp_str+=sel_traveler[8];
+						tmp_str+=" SMART failure";
+					}
+					// take care other HDD msg
+					else
+					{
+						tmp_str="Disk";
+						tmp_str+=tmp_offset;
+						tmp_str+=" SMART ";
+
+						tmp_offset=sel_traveler[8];
+						if ((tmp_offset >= 1) && (tmp_offset <= 13))
+						{
+							tmp_str+=gHDDSMART[tmp_offset];
+						}
+						else if (tmp_offset >= 0xbe)
+						{
+							tmp_offset-=0xbe;
+							tmp_str+=gHDDSMART1[tmp_offset];
+						}
+					}
+				}
+				// [Farida] added for MCE error
+				else if (tmp_sensor_type == 0xc1)
+				{
+					//offset=getbits(SEL_DATA[j][7],4,0);
+					tmp_str = "MCE Error at Core";
+					tmp_str += sel_traveler[8]-16;    // CPU core index (event data 2)
+				}
+				else if(tmp_sensor_type == 0xc2) // [Linda] added for CPLD error
+				{
+					//var data1 = sel_traveler[10].substr(6,2);
+					var data2 = sel_traveler[10].substr(8,2);	//linda modifed at rev1.61
+					data2=parseInt(data2, 16);
+					tmp_str = gCPLDEvent[data2];
+				}
+				else if(tmp_sensor_type == 0xc3) // [Linda] added for OEM CPU errors(PCHHot, CPU Error0/1/2)
+				{
+					var data1 = sel_traveler[10].substr(6,2);
+					data1=parseInt(data1, 16);
+					if(data1 == 0)
+						tmp_str = "CPU Error0";
+					else if(data1 == 1)
+						tmp_str = "CPU Error1";
+					else if(data1 == 2)
+						tmp_str = "CPU Error2";
+					else if(data1 == 3)
+						tmp_str = "PCH HOT";
+				}
+				else if(tmp_sensor_type == 0xc6) // linda --- BBP timer expired/OS gracefully shutdown
+				{
+					tmp_str = "BBP Timer expired/OS gracefully shutdown";
+				}
+				else if(tmp_sensor_type == 0xc7) // linda --- GPU
+				{
+					var data1 = parseInt(sel_traveler[10].substr(6,2), 16);
+					var data2 = parseInt(sel_traveler[10].substr(8,2), 16);
+
+					if(data1 == 0x1)	//Xeon Phi throttle
+						tmp_str = "Xeon Phi Throttle";
+					
+					if(data2 == 0x1)
+						tmp_str += " @ Left Zone"
+					else if(data2 == 0x2)
+						tmp_str += " @ Right Zone"
+					else if(data2 == 0x3)
+						tmp_str += " @ Front Zone"
+					else if(data2 == 0x4)
+						tmp_str += " @ Rear Zone"
+				
+				}
+				else if(tmp_sensor_type == 0x02) //   12 V Protection 
+        {
+          var data1 = parseInt(sel_traveler[10].substr(6,2), 16);
+          var data2 = parseInt(sel_traveler[10].substr(8,2), 16);
+
+          if(data1 == 0x1)  
+            tmp_str = "Voltage Protection";
+          
+          if(data2 == 0x0)
+            tmp_str += " Triggered."
+        
+        }
+				else if(tmp_sensor_type == 0xc5) // joe --- 9-18-2012 for HDD (logical drive Degraded)
+				{
+					var data1 = sel_traveler[10].substr(6,2);
+					data1=parseInt(data1, 16);
+					tmp_str = "Logical Drive "+data1+" is Degraded";
+				}
+				else if(tmp_sensor_type == 0xca) // tony --- OOB file build date mis-match/OOB feature initial failure
+				{
+					var data1 = sel_traveler[10].substr(6,2);
+					data1=parseInt(data1, 16);
+					if(data1 == 1)
+						tmp_str = "OOB file build date mis-match";
+					else if(data1 == 2)
+						tmp_str = "OOB feature initial failure";
+				}
+				else if(tmp_sensor_type == 0x0d)	//linda
+				{
+					var oem_data = parseInt(sel_traveler[10].substr(6,2), 16) & 0xf0;
+					var hdd_status = parseInt(sel_traveler[10].substr(6,2), 16) & 0xf;
+					var hdd_slot = parseInt(sel_traveler[10].substr(8,2), 16);
+					var hdd_enclosure_id = parseInt(sel_traveler[10].substr(10,2), 16);
+				
+					if(oem_data == 0x80)
+					{
+						if(hdd_status == 0x1)
+							tmp_str = "Drive Fault @ Slot"+ hdd_slot;
+					}
+					else // if(oem_data == 0xA0)
+					{
+						if (hdd_status == 0x0)
+							tmp_str = "Drive Not Present @ Slot"+ hdd_slot;
+						else if (hdd_status == 0x1)
+							tmp_str = "Drive Fault @ Slot"+ hdd_slot;
+						else // 0x07 Rebuild 
+							tmp_str = "Drive is Rebuilding @ Slot"+ hdd_slot;
+
+						tmp_str += " (EnclosureId "+hdd_enclosure_id +")";
+					}
+				}
+				else
+				{
+					// sensor specific
+					tmp_offset = GetSubString(sel_traveler[7],3,0);
+					tmp_max_offset = max_sensor_specific_offset_array[tmp_sensor_type];
+
+					if(tmp_offset <= tmp_max_offset)
+						tmp_str = eval('lang.LANG_EVENT_SENSOR_SPECIFIC_EVENT_STR'+ tmp_sensor_type +"_"+tmp_offset);
+					else
+					    tmp_str =lang.LANG_EVENT_INVALID_OFFSET;
+				}
+				break;
+				//linda end ---
+			case 0x70:
+				tmp_str = lang.LANG_EVENT_OVERHEAT_MSG;
+				break;
+
+			default:
+				if ((evt_type >= 0x01) && (evt_type <= 0x0c))
+				{
+					tmp_offset = GetSubString(sel_traveler[7],3,0);
+					tmp_max_offset = max_offset_array[evt_type];
+
+					if(tmp_offset <= tmp_max_offset)
+						tmp_str = eval('lang.LANG_EVENT_EVENT_MESSAGE' + evt_type +'_'+ tmp_offset);
+					else
+						tmp_str =lang.LANG_EVENT_INVALID_OFFSET;
+		                
+				}
+		} //end of switch
+
+
+		// System Firmware Progress Checking (POST Event)
+		if (tmp_sensor_type     == 0xf)
+		{
+			if((gen_id >= 0x01) && (gen_id <= 0x1f))
+			{
+				tmp_evt_data = GetSubString(sel_traveler[7], 7, 6);     //event data 1
+
+				if ( (tmp_evt_data == 0xc0) && (tmp_offset >= 0) && (tmp_offset <= 2) )
+				{
+					tmp_str += "-";
+
+					if(tmp_offset == 2)
+						tmp_offset = 1;
+
+					tmp_evt_data = GetSubString(sel_traveler[8],3,0); //event data 2
+					tmp_str += eval('lang.LANG_EVENT_BIOS_POST_EVENT'+ tmp_offset +'_'+ tmp_evt_data);
+				}
+				else
+				{
+					tmp_str += "-" + lang.LANG_EVENT_UNKNOWN;
+				}
+			}
+		}
+
+		var sensor_type_str;
+		var sensor_name_str;
+
+		//linda begin --- modify the logic for OEM event type 05-05-11
+		sensor_type_int = parseInt(tmp_sensor_type, 10) ;
+		//if(sensor_type_int >= 0xc0 && sensor_type_int <= 0xff) //OEM Type
+		if(sensor_type_int > 0xCA && sensor_type_int <= 0xff) //OEM Type; c0-c3, c5-ca: smc defined
+		{
+			sensor_type_str = 'OEM SEL Record';
+			tmp_str = sel_traveler[11] + '|' + sel_traveler[10];
+			/*
+			if ( evt_type != 0x70 ) //skip OEM cpu overheat
+			{
+				tmp_str = sel_traveler[11] + '|' + sel_traveler[10];
+			}
+			*/
+		}
+		 else if(sensor_type_int >= 0 && sensor_type_int<=0x2c)
+			sensor_type_str = eval('lang.LANG_EVENT_SENSOR_TYPE_STR' + tmp_sensor_type);
+		//else
+			//sensor_type_str = 'undefined';
+		//linda end --- modify the logic for OEM event type 05-05-11
+
+		if(tmp_sensor_name.indexOf('NO Sensor String') != -1)
+		{
+
+			switch(tmp_sensor_type)
+			{
+			/*
+			case 0xc2:	// [Linda] added for CPLD error
+				var data2 = sel_traveler[10].substr(8,2);
+				data2=parseInt(data2, 16);
+				tmp_str = gCPLDEvent[data2];
+			break;
+			*/
+
+			case 0x0c: //Memory Sensor Type
+
+			var ECC_errtype = sel_traveler[10].substr(6,2);
+			var bank_id = sel_traveler[10].substr(8,2);
+			var cpu_id = sel_traveler[10].substr(10,2);
+				//alert("[Linda Debug] type= "+ECC_errtype+", bank= "+bank_id+", cpu= "+cpu_id);
+			
+			ECC_errtype = ("0x"+ECC_errtype) & 0x0f;
+			if(ECC_errtype == 0x01)
+				tmp_str = "Uncorrectable Memory ECC";
+			else
+				tmp_str = "Correctable Memory ECC";
+			
+			//X9 Bromolow
+			if(BID.toUpperCase() == BID_X9SCM || BID.toUpperCase() == BID_X9SCL || BID.toUpperCase() ==  BID_X9SCA
+					|| BID.toUpperCase() ==BID_X9SCM_II || BID.toUpperCase() ==BID_X9SCD || BID.toUpperCase() ==BID_X9SPU
+					|| BID.toUpperCase() ==BID_X9SCV || BID.toUpperCase() ==  BID_X9SBAA)
+			{
+				if(("0x"+bank_id)!=0xff && ("0x"+cpu_id)!=0xff)
+				{
+					cpu_id = (cpu_id & 0x03)+1;
+					tmp_str += " @ DIMM" + bank_id.toString(16).toUpperCase();
+					tmp_str += "(CPU" + cpu_id + ")";
+				}
+			}
+			else	//X9 Romley
+			{
+				var bank_high;
+				var bank_x9;
+				//linda begin --- x9 Romley
+
+				if (BID.toUpperCase() ==BID_X9DBU || BID.toUpperCase() ==BID_X9DB3 || BID.toUpperCase() ==BID_X9DBL)	//X9 Romley-EN: 3 channels per CPU
+					bank_high= String.fromCharCode(parseInt(sel_traveler[10].substr(8,1), 16)+0x40+parseInt(cpu_id&0x3, 16)*3);
+				else	
+					bank_high= String.fromCharCode(parseInt(sel_traveler[10].substr(8,1), 16)+0x40+parseInt(cpu_id&0x3, 16)*4);
+
+				var bank_low= String.fromCharCode(parseInt(sel_traveler[10].substr(9,1), 16)+0x27);
+
+				if (BID.toUpperCase() ==BID_X9DBL)
+					bank_x9 = bank_low + bank_high;
+				else	bank_x9 = bank_high + bank_low;
+
+				//linda end --- x9 Romley
+							
+				if(("0x"+bank_id)!=0xff && ("0x"+cpu_id)!=0xff)
+				{
+					cpu_id = (cpu_id & 0x03)+1;
+					tmp_str += " @ DIMM" + bank_x9.toString(16).toUpperCase();
+					tmp_str += "(CPU" + cpu_id + ")";
+				}
+			}
+			break;
+				
+			case 0x13: //Linda added PCI error
+
+				//alert("PCI ERR message detected! value = "+ sel_traveler[10]);
+				var PCI_errtype = sel_traveler[10].substr(7,1);
+				PCI_errtype = "0x" + PCI_errtype;
+				var bus_id = sel_traveler[10].substr(8,2);
+				var fnc_id = sel_traveler[10].substr(10,2);
+
+				sensor_name_str = "Bus" + bus_id.toString(16).toUpperCase();
+				sensor_name_str += "(DevFn" + fnc_id.toString(16).toUpperCase() + ")";
+
+				if(PCI_errtype == 0x4)
+					tmp_str = "PCI PERR";
+				else if(PCI_errtype == 0x5)
+					tmp_str = "PCI SERR";
+				else if(PCI_errtype == 0x7)
+					tmp_str = "PCI-e Correctable Error";
+				else if(PCI_errtype == 0x8)
+					tmp_str = "PCI-e Non-Fatal Error";
+				else if(PCI_errtype == 0xa)
+					tmp_str = "PCI-e Fatal Error";
+				else
+					tmp_str = "PCI ERR";
+
+			break;
+
+			case 0x12: //System Event
+				var sysevt_errtype = sel_traveler[10].substr(6,2);
+				if(sysevt_errtype == 0x5)
+				{
+					sensor_name_str = "System Event - Timestamp Clock Synch";
+					var evtdata = sel_traveler[10].substr(8,2);
+					if(evtdata & 0x80)
+						tmp_str = "Event is second of pair - ";
+					else
+						tmp_str = "Event is first of pair - ";
+
+					switch(evtdata & 0xf) 
+					{
+						case 0:
+							tmp_str += "SEL Timestamp Clock updated.";
+						break;
+						case 1:
+							tmp_str += "SDR Timestamp Clock updated.";
+						break;
+
+						default:
+						tmp_str += "Unknown Timestamp Clock State."; 
+					}
+					specific_desc = 1;
+				}
+			break;
+
+
+			case 0x2a: //Session Audit
+				//sel_buf[i-1][10] = ch[5]+ch[4]+ch[3]+ch[2]+ch[1]+ch[0]; //OEM SEL Type C0h-DFh: OEM defined
+				//sensor_name_str = sensor_type_str + ' #0x' + tmp_sensor_number;
+				tmp_value = parseInt(GetSubString(sel_traveler[7],3,0),16);
+				if (tmp_value == 0x3)
+				{
+				var session_state = sel_traveler[10].substr(6,2);
+				var locked_user = sel_traveler[10].substr(8,2);
+				var locked_chnl = sel_traveler[10].substr(10,2);
+				tmp_str = lang.LANG_EVENT_SENSOR_SPECIFIC_EVENT_STR42_3;
+				tmp_str = "User #"+locked_user+" locked at channel #" + locked_chnl;
+					
+				}
+				specific_desc = 1;
+			break;
+
+			default:
+				//tmp_str = "undefined";
+				sensor_name_str = sensor_type_str + ' #0x'+ tmp_sensor_number; //show the sensor number
+			} //end of switch
+
+		}
+		else
+		{
+			sensor_name_str = tmp_sensor_name;
+		}
+
+		evt_dir = GetSubString(evt_dir_and_type ,7 ,7);  //Event Dir
+		if(!specific_desc)
+		{
+			tmp_str += " - ";
+			tmp_str += (evt_dir== 0)? lang.LANG_EVENT_ASSERTED : lang.LANG_EVENT_DEASSERTED;
+		}
+
+		// linda begin--- joe --- begin 3-13-2010
+		if ((evt_type == 0x6f) && (tmp_sensor_type == 0xc1))
+		{
+			if (tmp_sensor_number == 1)
+			{
+				// sensor number
+				myData.push([j+1, record_index, tmp_timestamp, "CPU1", "APML", tmp_str]);
+			}
+			else
+			{
+				myData.push([j+1, record_index, tmp_timestamp, "CPU2", "APML", tmp_str]);
+			}
+
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0xc2))
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "CPLD", tmp_str]);
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0xc3))
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "CPU", tmp_str]);
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0xc6)) //linda --- bbp event
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "BBP", tmp_str]);
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0xc7)) //linda --- GPU
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "Temperature", tmp_str]);
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0xca)) //tony --- OOB feature initial failed
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "OOB", tmp_str]);
+		}
+		else if ((evt_type == 0x6f) && (tmp_sensor_type == 0x02)) // 12 V Protection
+    {
+      myData.push([j+1, record_index, tmp_timestamp, "OEM", "Voltage", tmp_str]);
+    }
+		else if((evt_type == 0x6f) && (tmp_sensor_type == 0x0c))
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "Memory", tmp_str]);
+		}
+		else if((evt_type == 0x70) && (tmp_sensor_type == 0xc0))	//overheat
+		{
+			myData.push([j+1, record_index, tmp_timestamp, sensor_name_str, "CPU", tmp_str]);
+		}
+		else if((evt_type == 0x6f) && (tmp_sensor_type == 0xc0))
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "OEM", "HDD", tmp_str]);
+		}
+		else if((evt_type == 0x6f) && (tmp_sensor_type == 0x2A))
+		{
+			myData.push([j+1, record_index, tmp_timestamp, "", sensor_type_str, tmp_str]);
+		}
+		else
+		{
+			myData.push([j+1, record_index, tmp_timestamp,
+			sensor_name_str, sensor_type_str, tmp_str]);
+		}
+		// linda end--- joe --- end 3-13-2010
+
+		evt_count++;
+		sensor_type_str="";
+	}
+
+	j++;
+    } //end of while
+
+    GridTable.show(myData);
+    document.getElementById("sel_evtlog_cnt").innerHTML = lang.LANG_EVENT_LOGTXT + evt_count +lang.LANG_EVENT_EVENT_COUNT_STR;
+    Loading(false);
+}
+
+
+function RefreshAlarm()
+{
+    Loading(true, lang.LANG_EVENT_SORTING);
+    setTimeout("RefreshEventTask()",1000);
+}
+
+
+function SELClearTaskCheck()
+{
+    if (confirm(lang.LANG_EVENT_CLEAN_PROMPT))
+{
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)
+		SELClearTask();
+    }else
+	return;
+}
+
+function SELClearTask()
+{
+    var url = '/cgi/ipmi.cgi';
+    var pars = 'SEL_INFO.XML=(0,0) &time_stamp='+(new Date());   ///  use showcount
+
+    current_group = 0;
+    ETN_flag=0;
+    var myAjax = new Ajax.Request(
+	 url,
+	 {method: 'post', parameters: pars, onComplete: SELQueryMainTask}//reigister callback function
+	 );
+}
+
+//linda CPLD begin ---
+gCPLDEvent=[];
+gCPLDEvent[0]="MEM_EVENT_GH";
+gCPLDEvent[1]="MEM_EVENT_GH";
+gCPLDEvent[2]="MEM_EVENT_EF";
+gCPLDEvent[3]="MEM_EVENT_EF";
+gCPLDEvent[4]="MEM_EVENT_CD";
+gCPLDEvent[5]="MEM_EVENT_CD";
+gCPLDEvent[6]="MEM_EVENT_AB";
+gCPLDEvent[7]="MEM_EVENT_AB";
+gCPLDEvent[8]="CPU2_SKTOCC";	//signal; won't log
+gCPLDEvent[9]="SKT2_IVB_OCC";	//signal; won't log	
+gCPLDEvent[10]="PROCHOT_P2";
+gCPLDEvent[11]="MEMHOT_P2";
+gCPLDEvent[12]="MEMHOT_P2";
+gCPLDEvent[13]="VRHOT_P2";
+gCPLDEvent[14]="VRHOT_EF";
+gCPLDEvent[15]="VRHOT_GH";
+gCPLDEvent[16]="CPU1_SKTOCC";	//signal; won't log
+gCPLDEvent[17]="SKT1_IVB_OCC";	//signal; won't log
+gCPLDEvent[18]="PROCHOT_P1";
+gCPLDEvent[19]="MEMHOT_P1";
+gCPLDEvent[20]="MEMHOT_P1";
+gCPLDEvent[21]="VRHOT_P1";
+gCPLDEvent[22]="VRHOT_AB";
+gCPLDEvent[23]="VRHOT_CD";
+gCPLDEvent[24]="CPU1 THERM TRIP";
+gCPLDEvent[25]="CPU2 THERM TRIP";
+gCPLDEvent[26]="";
+gCPLDEvent[27]="";
+gCPLDEvent[28]="CATERR";
+gCPLDEvent[29]="";
+gCPLDEvent[30]="";
+gCPLDEvent[31]="";
+
+//linda CPLD end ---
+
+// linda HDD begin--- joe --- begin 3-13-2010
+gHDDSMART=[];
+gHDDSMART[0]=""
+gHDDSMART[1]="Raw Read Error Rate";
+gHDDSMART[2]="Throughput Performance";
+gHDDSMART[3]="Spin-up Time";
+gHDDSMART[4]="Start/Stop Count";
+gHDDSMART[5]="Reallocated Sectors Count";
+gHDDSMART[6]="Read Channel Margin";
+gHDDSMART[7]="Seek Error Rate";
+gHDDSMART[8]="Seek Time Performance";
+gHDDSMART[9]="Power-on Hours";
+gHDDSMART[10]="Spin Retry Count";
+gHDDSMART[11]="Calibration Retry Count";
+gHDDSMART[12]="Power Cycle Count";
+gHDDSMART[13]="Soft Read Error Rate";
+
+gHDDSMART1=[];
+gHDDSMART1[0]="Temperature Celsius";
+gHDDSMART1[1]="G-sense Error Rate";
+gHDDSMART1[2]="Emergency/Power-off Retract Count";
+gHDDSMART1[3]="Load Cycle Count";
+gHDDSMART1[4]="Temperature Celsius";
+gHDDSMART1[5]="Hardware ECC Recovered";
+gHDDSMART1[6]="Reallocated Event Count";
+gHDDSMART1[7]="Current Pending Sector Count";
+gHDDSMART1[8]="Offline Uncorrectable";
+gHDDSMART1[9]="UDMA CRC Error Count";
+gHDDSMART1[10]="Write Error Rate/Multi Zone Error Rate";
+gHDDSMART1[11]="Detected TA Count/Soft Read Error Rate";
+gHDDSMART1[12]="TA Increase Count/Data Address Mark Errors";
+gHDDSMART1[13]="Run Out Cancel";
+gHDDSMART1[14]="Soft ECC Correction";
+gHDDSMART1[15]="Thermal Asperity Rate(TAR)";
+gHDDSMART1[16]="Flying Height";
+gHDDSMART1[17]="Spin High Current";
+gHDDSMART1[18]="Spin Buzz";
+gHDDSMART1[19]="Offline Seek Performance";
+gHDDSMART1[20]="";
+gHDDSMART1[21]="";
+gHDDSMART1[22]="";
+gHDDSMART1[23]="";
+gHDDSMART1[24]="";
+gHDDSMART1[25]="";
+gHDDSMART1[26]="";
+gHDDSMART1[27]="";
+gHDDSMART1[28]="";
+gHDDSMART1[29]="";
+gHDDSMART1[30]="Disk Shift";
+gHDDSMART1[31]="G-Sense Error Rate";
+gHDDSMART1[32]="Loaded Hours";
+gHDDSMART1[33]="Load/Unload Retry Count";
+gHDDSMART1[34]="Load Friction";
+gHDDSMART1[35]="Load/Unload Cycle Count";
+gHDDSMART1[36]="Load-in Time";
+gHDDSMART1[37]="Torque Amplification Count";
+gHDDSMART1[38]="Power-off Retract Count";
+gHDDSMART1[39]=""
+gHDDSMART1[40]="Head Amplitude";
+gHDDSMART1[41]="Temperature Celsius";
+gHDDSMART1[42]="";
+gHDDSMART1[43]="";
+gHDDSMART1[44]="";
+gHDDSMART1[45]="";
+gHDDSMART1[46]="";
+gHDDSMART1[47]="";
+gHDDSMART1[48]="";
+gHDDSMART1[49]="";
+gHDDSMART1[50]="Head Flying Hours";
+gHDDSMART1[51]="";
+gHDDSMART1[52]="";
+gHDDSMART1[53]="";
+gHDDSMART1[54]="";
+gHDDSMART1[55]="";
+gHDDSMART1[56]="";
+gHDDSMART1[57]="";
+gHDDSMART1[58]="";
+gHDDSMART1[59]="";
+gHDDSMART1[60]="Read Error Retry Rate";
+gHDDSMART1[61]="Failure Prediction Threshold Exceeded";
+gHDDSMART1[62]="";
+gHDDSMART1[63]="";
+gHDDSMART1[64]="";
+gHDDSMART1[65]="unknown Attribute";
+// linda HDD end --- joe --- end 3-13-2010
+
+	</script>
+
+</head>
+<body onload="PageInit()" style="overflow:hidden;overflow:-moz-hidden-unscrollable;"  >
+	<span class="LoadingStyle" id="loading"></span>
+   <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+	<tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td><td><div class="mtitle"><script>document.writeln(lang.LANG_EVENT_HEADING)</script></div></td>
+	</tr>
+	<tr><td><br></td><td colspan="3"><br></td></tr>
+	<tr>
+		  <td></td>
+	    <td colspan="3">
+		<table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_EVENT_DESCRIPTION)</script></div></td><tr></table>
+	    </td>
+	</tr>
+	<tr><td><br></td><td colspan="3"></td></tr>
+	<tr><td></td>
+		  <td colspan="3">
+		  <!-- below area is needed to modify by yourself -->
+				<table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+				<tr><td>
+					<label class="Categorytext">
+						<script>document.writeln(lang.LANG_EVENT_LOG_DESC);</script>
+					</label>
+				</td></tr>
+				<tr><td>
+					<select class="Categorytext" id="sel_evt_type" name="eventType"></select>
+				</td>
+				<td>
+					<label class="TableInfo" style="text-align:right;">
+						 <span id="sel_evtlog_cnt"></span>
+					</label>
+<!--                            <br><br> -->
+				</td></tr>
+
+			<tr><td colspan="3">
+				<div  style="overflow-x:hidden;overflow-y:auto;overflow:-moz-hidden-unscrollable;height:215px;" id="sel_tbl_place"></div>
+				<br>
+				<div><input type="button" class="btnStyle" id="sel_clear_log_btn" $(TAG_DISABLE)/></div>
+			</td></tr>
+			</table>
+		  <!-- end of this area -->
+		  </td>
+	<tr>
+    </table>
+</body>
+</html>

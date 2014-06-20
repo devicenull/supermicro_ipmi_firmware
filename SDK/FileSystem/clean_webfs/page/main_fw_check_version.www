@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- Page-specific styles -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!-- Dependency source files -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">
+		/*
+		global variables
+		*/
+		var dataTabObj;
+		var mainPage = "../cgi/url_redirect.cgi?url_name=maintenance";
+		var resetPage = "../cgi/url_redirect.cgi?url_name=main_fw_reset";
+		var upgradePage = "../cgi/url_redirect.cgi?url_name=main_fw_upgrade";
+		function PageInit() {	 
+			BtnUpgrade = document.getElementById("btn_upgrade");
+			BtnUpgrade.value = lang.LANG_FW_CHECK_VERSION_START;
+			BtnCancel = document.getElementById("btn_cancel");
+			BtnCancel.value = lang.LANG_FW_CHECK_VERSION_CANCEL;
+			
+			preserveConfig=document.getElementById("checkbox_preserve");
+			firmwareList=document.getElementById("div_fw_list");
+			
+			initFWTab();
+			
+			$(TAG_ALERT)
+			$(TAG_MAINPAGE)		
+			BtnUpgrade.onclick = UpgradeFW;
+			BtnCancel.onclick = doCancel;
+			GetFirmwareVersion();	 
+		}
+		function initFWTab()
+		{
+			var myColumns = [
+			["Module Name", "30%", "center"],
+			["Existing Version", "35%", "center"],
+			["New Version", "35%", "left"]
+			];
+			rowSelEnable = 1;
+			dataTabObj = LWC.getElement('datagrid',document);
+		    dataTabObj.setColumns(myColumns);
+		    
+		    dataTabObj.init('dataTabObj',firmwareList);
+		}
+		
+		function GetFirmwareVersion()
+		{
+			Loading(true);
+			var url = '/cgi/ipmi.cgi';
+			var pars = 'UPLOAD_FW_VERSION.XML=(0,0)&time_stamp='+(new Date()) ;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: GetFirmwareVersionBack}
+		                 ); 
+		}
+		
+		function GetFirmwareVersionBack(originalRequest)
+		{
+			Loading(false);
+			if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+				var xmldoc=GetResponseXML(response);
+				if(xmldoc == null)
+				{
+					SessionTimeout();
+					return;
+				}	    
+				var root=xmldoc.documentElement;	
+				var status_elm=root.getElementsByTagName("FW_VERSION"); 	
+				var new_ver=status_elm[0].getAttribute("NEW");
+				var new_fw_version = new_ver.substring(0, 2) + '.' + new_ver.substring(2); 	
+				var old_ver=status_elm[0].getAttribute("OLD");
+				var old_fw_version = old_ver.substring(0, 2) + '.' + old_ver.substring(2); 
+		
+				var module_name = "IPMI_FW";
+				var myData = [];
+				myData.push([1,
+							module_name,
+							old_fw_version,
+							new_fw_version]
+							);
+				dataTabObj.show(myData);
+			}
+		}
+		
+		function UpgradeFW()
+		{
+			BtnUpgrade.disabled = true;
+			BtnCancel.disabled = true;  
+			Loading(true);    
+			if(preserveConfig.checked == true){
+				preserve_config = 1;
+			}
+			else{
+				preserve_config = 0;
+			}
+			var url = '/cgi/oem_firmware_update.cgi';
+			var pars ="preserve_config=" + preserve_config +"&timeStamp="+(new Date());;
+			var myAjax = new Ajax.Request(
+		                 url,
+		                 {method: 'post',parameters:pars, onComplete: doUpgradeFW}//reigister callback function
+		                 ); 
+			setTimeout("doUpgradeFW()", 1000);
+		}
+		function doUpgradeFW()
+		{
+			Loading(false); 
+			location.href = upgradePage;
+		}
+		function doCancel()
+		{ 
+			if(confirm(lang.LANG_FW_UPLOAD_CONFIRM))
+				location.href = resetPage;
+		}
+		</script>
+</head>
+<body onload= 'PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_FW_UPLOAD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA"><script>document.writeln(lang.LANG_FW_CHECK_VERSION_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	  <td>
+        	  <!-- below area is needed to modify by yourself -->
+        	  <div id="div_fw_list"></div>
+        	  <br>
+        	  <input type="checkbox" id="checkbox_preserve" value="1" checked=true $(TAG_DISABLE)/> 
+			  <label class="labelhead"><strong>
+			  <script>document.writeln(lang.LANG_FW_CHECK_VERSION_PRESERVE_CONF);</script>
+			  </strong></label>
+			  <br>
+        	  <input type="button" class="btnStyle" id="btn_upgrade" $(TAG_DISABLE)/>
+			  <input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)/>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

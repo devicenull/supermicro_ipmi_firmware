@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script>
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script type="text/javascript">
+	/*
+	global variables
+	*/
+	var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+	
+	function PageInit()
+	{
+		
+		// Get multi-language string
+		document.title = lang.LANG_SMTP_TITLE;
+		document.getElementById("saveBtn").value = lang.LANG_SMTP_SAVE;
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)		
+		getSmtpConfig();
+	}
+	
+	function getSmtpConfig()
+	{	
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: getSmtpConfigHandler}//reigister callback function
+	                 );
+	    
+	    var url = '/cgi/ipmi.cgi';
+		var pars = 'ALERT_INFO.XML=(0,0)&time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+		var myAjax = new Ajax.Request(
+                 url,
+                 {method: 'post',parameters:pars, onComplete:ShowAlertInfo }//reigister callback function
+                 );
+	                 
+	}
+	function ShowAlertInfo(originalRequest)
+	{
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+	
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+		
+			var IPMIRoot=xmldoc.documentElement;//point to IPMI
+			var AlertElement=IPMIRoot.getElementsByTagName('ALERT');
+   			var SMTPElement=AlertElement[0].getElementsByTagName('SMTP');
+   			document.getElementById("sender").value = SMTPElement[0].getAttribute("FROM0".toString(16));
+			
+			
+		}	
+		
+	}
+	
+	function getSmtpConfigHandler(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200)
+		{
+	
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc = GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+		
+			var IPMIRoot = xmldoc.documentElement;
+			var config_elm = IPMIRoot.getElementsByTagName("CONFIG_INFO");
+			var service = config_elm[0].getElementsByTagName('SERVICE');
+			
+			document.getElementById("smtpSvrIP").value 	 	 = service[0].getAttribute("SMTP_SERVER").trim();
+			document.getElementById("smtpSvrPort").value     = service[0].getAttribute("SMTP_PORT").trim();	
+			if(service[0].getAttribute("MAIL_USR") == '0')
+				document.getElementById("smtpUsrName").value = '';
+			else			
+				document.getElementById("smtpUsrName").value = service[0].getAttribute("MAIL_USR").trim();
+			
+			if(service[0].getAttribute("MAIL_PWD") != ' ')
+				document.getElementById("smtpPwd").value 	 = service[0].getAttribute("MAIL_PWD").trim();
+			
+			if ( service[0].getAttribute("SMTP_SSL") == '0' )
+				document.getElementById("smtpSSL").checked = false;
+			else 
+				document.getElementById("smtpSSL").checked = true;
+		}
+	}
+	
+	function saveSmtpConfig()
+	{
+		// Check IP field
+		//if (!CheckIP(document.getElementById("smtpSvrIP").value))
+		//{
+	    //    alert(lang.LANG_SMTP_INVALID_IP);
+		//	return;
+	    //}
+		// Check port field
+		var port = parseInt(document.getElementById("smtpSvrPort").value, 10);
+		if (port < 1 || port > 65535)
+		{
+			alert(lang.LANG_SMTP_INVALID_PORT);
+			return;
+		}
+		
+		// Check user name & passowrd field
+		var en_auth;
+		var usrName = document.getElementById("smtpUsrName").value.replace(/^\s*\s*$/g, "");
+		var pwd = document.getElementById("smtpPwd").value.replace(/^\s*\s*$/g, "");
+		var Email  = Trim(document.getElementById("sender").value);
+		if( usrName == '' &&  pwd == '')
+		{
+			document.getElementById("auth_en").value = 'off';
+		}
+		else
+		{
+			document.getElementById("auth_en").value = 'on';
+		}
+		
+		
+		Loading(true);
+	    var url = '/cgi/config_smtp.cgi';
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post', parameters:$('form').serialize(true), onComplete: saveSmtpConfigHandler}//reigister callback function
+	                 );
+	}
+	
+	function saveSmtpConfigHandler(originalRequest)
+	{
+		Loading(false);
+		alert(lang.LANG_SMTP_SAVE_SUCCESS);
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+	<table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td>
+        		<div class="mtitle">
+        			<script>document.writeln(lang.LANG_SMTP_CAPTION)</script>
+        		</div>
+        	</td>
+        	<td><div class="LoadingStyle" id="loading"></div></td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+            <td>
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_SMTP_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td><br></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td>
+        		<!-- below area is needed to modify by yourself -->
+        		<form id="form">
+        	  	<table border="0">
+        	  		<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_SSL)</script></div></td>
+						<td><input type="CHECKBOX" name="smtpSSL_en" id="smtpSSL" $(TAG_DISABLE)/></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_SVRIP)</script></div></td>
+						<td><input type="text" name="smtpaddr"  maxlength="127" id="smtpSvrIP" $(TAG_DISABLE) onBlur='CheckDomainName(this)' /></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_SVRPORT)</script></div></td>
+						<td><input type="text" name="smtpport" id="smtpSvrPort" $(TAG_DISABLE) onBlur='CheckPortNumber(this)' /></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_USERNAME)</script></div></td>
+						<td><input type="text" name="user" id="smtpUsrName"  maxlength="63" value="" onclick="this.value=''" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_PASSWORD)</script></div></td>
+						<td><input type="password" name="pwd" id="smtpPwd" maxlength="63"  value="" onclick="this.value=''" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+					</tr>
+					<tr>
+						<td><div class="labelhead"><script>document.writeln(lang.LANG_SMTP_SENDERADDR)</script></div></td>
+						<td><input type="text" name="sender" id="sender" maxlength="127"  $(TAG_DISABLE) onBlur='CheckEMAIL(this)' /></td>
+					</tr>
+				</table>
+				<input type="hidden" name="auth_en" id="auth_en" $(TAG_DISABLE)/>
+				</form>
+        	 	<br>
+        	 	<input type="button" class="btnStyle" id="saveBtn" name="saveBtn" onclick="saveSmtpConfig()" $(TAG_DISABLE)>
+        	  	<!-- end of this area -->
+        	  </td>
+        </tr>
+    </table>
+</body>
+</html>

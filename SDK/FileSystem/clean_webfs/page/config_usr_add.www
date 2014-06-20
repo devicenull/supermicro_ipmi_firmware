@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/utils.js"></script> 
+	<script type="text/javascript">
+	/*global variable*/	
+	var mainPage = "../cgi/url_redirect.cgi?url_name=config_usr";	
+	function PageInit()	
+	{
+		add_btn=document.getElementById("btn_add");
+		cancel_btn=document.getElementById("btn_cancel");
+		add_btn.value = lang.LANG_CONFUSER_ADD_ADD;
+		cancel_btn.value = lang.LANG_CONFUSER_ADD_CANCEL;
+		usr_name=document.getElementById("text_name");
+		usr_pwd=document.getElementById("password_pwd");
+		usr_pwd_check=document.getElementById("password_pwd_check");
+		usr_priv=document.getElementById("select_priv");
+	
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)		
+
+		add_btn.onclick = PreAddUser;	
+		cancel_btn.onclick = function()
+		{	
+			location.href = mainPage;
+		}
+	}
+
+	function PreAddUser()
+	{
+		if (CheckUserName(usr_name.value) == false)
+		{
+			alert(lang.LANG_CONFUSER_ADD_ERR1);
+			return;
+		}
+		if (usr_pwd.value != usr_pwd_check.value)
+		{
+			alert(lang.LANG_CONFUSER_COMMON_ERR2);
+			return;
+		}
+	
+		if (CheckPassword(usr_pwd.value) == false)
+		{
+			alert(lang.LANG_CONFUSER_ADD_ERR3);
+			return;
+		}
+		
+		Loading(true);
+		getUsrInfo();
+	}
+	function getUsrInfo()
+	{
+		/** The user name cannot be duplicate in PS.
+			Check to prevent it.
+			Get all user data from server, and compare one by one.
+		**/	
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: showUsrInfo}//reigister callback function
+	                 );
+	}
+	function showUsrInfo(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}
+			var root=xmldoc.documentElement;
+			var config_elm=root.getElementsByTagName("CONFIG_INFO");
+			var total_num=config_elm[0].getElementsByTagName('TOTAL_NUMBER'); 
+			var user=config_elm[0].getElementsByTagName('USER');
+			var usernum = parseInt(total_num[0].getAttribute("USER"),16);
+			
+			/** The user name cannot be duplicate in PS.
+				Check to prevent it.
+			**/	
+			usr_id = GetVars("usr_id") - 1;
+			for(i=1; i < usernum; i++)
+			{
+				if(i != usr_id){
+					if(Trim(usr_name.value) == Trim(user[i].getAttribute("NAME")))
+					{
+						Loading(false);
+						alert(lang.LANG_CONFUSER_COMMON_ERR4);
+						return;
+					}
+				}
+			}
+			addUser();	
+		}
+	}
+	function addUser()
+	{
+		u_id = GetVars("usr_id") - 1;
+		u_name = Trim(usr_name.value);
+		u_pwd = Trim(usr_pwd.value);
+		var url = '/cgi/config_user.cgi';
+		var pars = 	'username=' + escape(u_name) +
+					'&original_username=' + u_id +
+					'&password=' + escape(u_pwd) +
+					'&new_privilege=' + usr_priv.value;		
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: addUserIsDone}//reigister callback function
+	                 ); 
+	}
+	function addUserIsDone()
+	{	
+		alert(lang.LANG_CONFUSER_ADD_SUCC);
+		location.href = mainPage;
+	}
+	</script>
+</head>
+<body onload="PageInit()">
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_CONFUSER_ADD_CAPTION)</script></div></td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td>
+                	<div class="textA"><script>document.writeln(lang.LANG_CONFUSER_ADD_DESC)</script></div>
+                	</td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr><td></td>
+        	 <td>
+        	 <!-- below area is needed to modify by yourself -->
+        	 <table>
+        	 <tr>
+        	 <td><label class="labelhead">
+        	 	  <strong><script>document.writeln(lang.LANG_CONFUSER_ADD_NAME);</script></strong></label></td>
+	         <td><input type="text" maxlength="15" id="text_name" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+	         </tr>
+	         <tr>
+	         <td><label class="labelhead">
+	         	  <strong><script>document.writeln(lang.LANG_CONFUSER_ADD_PWD);</script></strong></label></td>
+	         <td><input type="password" maxlength="19" id="password_pwd" $(TAG_DISABLE) onBlur='CheckInputValue(this)'/></td>
+			 </tr>
+	         <tr>
+			 <td><label class="labelhead">
+			 	  <strong><script>document.writeln(lang.LANG_CONFUSER_ADD_CONF_PWD);</script></strong></label></td>
+	         <td><input type="password" maxlength="19" id="password_pwd_check" $(TAG_DISABLE) onBlur='CheckInputValue(this)' /></td>
+			 </tr>
+	         <tr>
+			 <td><label class="labelhead">
+			 	 <strong><script>document.writeln(lang.LANG_CONFUSER_ADD_PRIV);</script></strong></label>
+			 </td>
+	         <td>
+				<select id="select_priv">
+					<option value="4"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_ADMIN);</script></option>       
+					<option value="3"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_OPERATOR);</script></option>    
+					<option value="2"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_USER);</script></option>        
+					<option value="0xf"><script>document.writeln(lang.LANG_CONFISER_COMMON_PRIV_NOACCESS);</script></option>  
+				</select>
+	         </td>
+        	 </tr>
+        	 </table>
+        	 <br>
+        	 <input type="button" class="btnStyle" id="btn_add" $(TAG_DISABLE)/>
+        	 <input type="button" class="btnStyle" id="btn_cancel" $(TAG_DISABLE)/>
+        	 <!-- end of this area -->
+        	 </td>
+        <tr>
+    </table>
+</body>
+</html>

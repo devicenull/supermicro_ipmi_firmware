@@ -15,26 +15,19 @@ EXEC = $(OBJS:.o=)
 
 .PHONY: $(EXEC) 
 all: $(EXEC) 
-	$(Q)cd $(BINPATH);if [ ! -f save ] && [ -f savefromPS ]	  ;then ln -s  savefromPS  save	;fi
-	$(Q)cd $(BINPATH);if [ ! -f restore ] && [ -f restoretoPS ] ;then ln -s  restoretoPS restore ;fi
+	$(Q)cd $(FS_PATH)/bin; if [ ! -f save ] && [ -f savefromPS ]	  ;then ln -s  savefromPS  save	;fi
+	$(Q)cd $(FS_PATH)/bin; if [ ! -f restore ] && [ -f restoretoPS ] ;then ln -s  restoretoPS restore ;fi
 	# $(Q)cd $(BINPATH);if [ ! -f savea ]   ;then ln -s  savefromPSa savea ;fi
 	#******************************copy script***************************	
 	$(Q)echo "copy restore_file.sh"
-	$(Q)cp restore_file.sh $(BINPATH)
-ifeq ($(CONFIG_PLATFORM_SUPERMICRO_SUBVERSION_X8DTT),y)
-	$(Q)echo "copy $(SH_DIR)/$(SUBBOARD)/define_var.sh"
-	$(Q)cp $(SH_DIR)/$(SUBBOARD)/define_var.sh $(BINPATH)
-else
-	$(Q)echo "copy $(SH_DIR)/define_var.sh"
-	$(Q)cp $(SH_DIR)/define_var.sh $(BINPATH)
-endif
+	$(Q)cp restore_file.sh $(FS_PATH)/bin
 
 $(EXEC): 
 	$(Q)$(ECHO_CMD) "Build file: "$@ "....."
 	$(Q)$(call CONDITION_CC,$@.c,$(CFLAGS), $(LDFLAGS)) 
 	$(Q)$(ECHO_CMD) "Strip file: "$@"....."
 	$(Q)$(STRIP) $@
-	$(Q)mv $@ ../bin
+	$(Q)mv $@ $(FS_PATH)/bin
 	
 
 CLEAN_FILES = $(OBJS)

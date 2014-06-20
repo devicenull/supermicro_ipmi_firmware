@@ -1,7 +1,5 @@
--include $(PRJ_PATH)/.SDKPath
-
 HOST = $(subst -gcc,,$(notdir $(CROSS_COMPILE)gcc))
-LIBXML2_DIR = $(PRJ_PATH)/libXML2/libxml2/libxml2-2.6.32
+LIBXML2_DIR = $(SRCDIR)/libxml2/libxml2/libxml2-2.6.32
 unexport CC LD AR CXX NM RANLIB OBJCOPY OBJDUMP \
 STRIP CFLAGS LDFLAGS LIBS
 

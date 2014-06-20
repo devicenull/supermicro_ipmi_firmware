@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<!-- common css -->
+	<link rel="stylesheet" href="../css/basic.css" type="text/css">
+	<link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+	<!--common javascipt library -->
+	<script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+	<script language="javascript" src="../js/grid/LWbase.js"></script> 
+	<script language="javascript" src="../js/grid/LWfactory.js"></script> 
+	<script language="javascript" src="../js/grid/LWdatagrid.js"></script> 
+	<script language="javascript" src="../js/utils.js"></script> 
+	<script type="text/javascript">
+	/*
+	global variables
+	*/	
+	var dataTabObj;
+	var aryusername = new Array();
+	var aryUserAccess = new Array();
+	var mainPage = "../cgi/url_redirect.cgi?url_name=configuration";
+	var usrPage = "../cgi/url_redirect.cgi?url_name=config_usr";
+	var usrAddPage = "../cgi/url_redirect.cgi?url_name=config_usr_add";
+	var usrModPage = "../cgi/url_redirect.cgi?url_name=config_usr_mod";
+	
+	function PageInit()	
+	{
+		add_user=document.getElementById("btn_add");
+		modify_user=document.getElementById("btn_modify");
+		del_user=document.getElementById("btn_del");
+		user_list = document.getElementById("div_user_list");
+		user_list_info = document.getElementById("text_user_list_info");
+		add_user.value = lang.LANG_CONFUSR_ADD;
+		modify_user.value = lang.LANG_CONFUSR_MOD;
+		del_user.value = lang.LANG_CONFUSR_DEL;	
+		initUsrTab();
+		add_user.onclick = addUsr;
+		modify_user.onclick = modifyUsr;
+		del_user.onclick = delUsr;
+
+		$(TAG_ALERT)
+		$(TAG_MAINPAGE)
+		getUsrInfo();	 
+	}
+	function initUsrTab()
+	{
+		var myColumns = [
+			["User ID", "25%", "center"],
+			["User Name", "40%", "center"],
+			["Network Privilege", "35%", "left"]
+		];
+		rowSelEnable = 1;
+		dataTabObj = LWC.getElement('datagrid',document);
+	    dataTabObj.setColumns(myColumns);
+	    
+	    dataTabObj.init('dataTabObj',user_list);
+	}
+	function addUsr()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_CONFUSR_ERR1);
+		}else if(parseInt(rowSel.cells[0].innerHTML) == 2){
+			alert(lang.LANG_CONFUSR_ERR2);
+		} else {
+			sel_index = parseInt(rowSel.cells[0].innerHTML); 
+			sel_name = rowSel.cells[1].innerHTML; 	
+			if(sel_name == '~')
+				sel_name = '';
+				
+			sel_priv = GetSubString(aryUserAccess[sel_index-1],3,0);
+			if (aryusername[sel_index-1] != "<NULL>" || sel_index == 1) {
+				if (confirm(lang.LANG_CONFUSR_ERR3)) {
+					sel_priv = GetSubString(aryUserAccess[sel_index-1],3,0);
+					parameters = "&usr_id=" + sel_index +
+					              "&usr_name=" + sel_name + 
+					              "&usr_priv=" + sel_priv;
+					location.href = usrModPage + parameters;
+				}
+			} else {
+				parameters = "&usr_id=" + sel_index;
+				location.href= usrAddPage+parameters;
+			}
+		}
+	}
+	function modifyUsr()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_CONFUSR_ERR4);
+		} else {
+			sel_index = parseInt(rowSel.cells[0].innerHTML);
+			sel_name = rowSel.cells[1].innerHTML;			
+			if(sel_name == '~')
+				sel_name = '';
+				
+			sel_priv = GetSubString(aryUserAccess[sel_index-1],3,0);
+			
+			if (aryusername[sel_index-1] == "<NULL>" && sel_index != 1) {
+				if (confirm(lang.LANG_COMMON_ADD_USER)) {
+					parameters = "&usr_id=" + sel_index;
+					location.href= usrAddPage + parameters;
+				}
+			} else {
+				parameters = "&usr_id=" + sel_index +
+							  "&usr_name=" + sel_name + 
+							  "&usr_priv=" + sel_priv ;
+				location.href= usrModPage + parameters;
+			}
+		}
+	}
+	function delUsr()
+	{
+		if(rowSel == null){
+			alert(lang.LANG_CONFUSR_ERR5);			
+		} else if(parseInt(rowSel.cells[0].innerHTML) == 2){
+			alert(lang.LANG_CONFUSR_ERR2);
+		} else {
+			sel_index = parseInt(rowSel.cells[0].innerHTML);
+			sel_name = rowSel.cells[1].innerHTML;
+			if ( (sel_index == 1) || (sel_index ==2) ) {
+				alert(lang.LANG_CONFUSR_ERR7);
+			} else {
+				if (aryusername[sel_index-1] == "<NULL>") {
+					alert(lang.LANG_CONFUSR_ERR7);
+				} else {
+					if (confirm(lang.LANG_CONFUSR_ERR8)) 
+					{
+						Loading(true);
+						var url = '/cgi/config_user.cgi';
+						var pars = 	'username=' + '' +
+									'&original_username=' + (sel_index-1);
+									
+						var myAjax = new Ajax.Request(
+					                 url,
+					                 {method: 'post',parameters:pars, onComplete: delUserIsDone}//reigister callback function
+					                 ); 
+					}
+				}
+			}
+		}
+	}
+	function delUserIsDone(originalRequest)
+	{
+		alert(lang.LANG_COMMON_DEL_USER);
+		location.href= usrPage;
+	}
+	function getUsrInfo()
+	{
+		Loading(true);
+		var url = '/cgi/ipmi.cgi';
+		var pars = 'CONFIG_INFO.XML=(0,0)&time_stamp='+(new Date()) ;
+		var myAjax = new Ajax.Request(
+	                 url,
+	                 {method: 'post',parameters:pars, onComplete: showUsrInfo}//reigister callback function
+	                 ); 
+	}
+	function showUsrInfo(originalRequest)
+	{
+		Loading(false);
+		if (originalRequest.readyState == 4 && originalRequest.status == 200){
+			var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+			var xmldoc=GetResponseXML(response);
+			if(xmldoc == null)
+			{
+				SessionTimeout();
+				return;
+			}	
+			var root=xmldoc.documentElement;
+			var config_elm=root.getElementsByTagName("CONFIG_INFO");
+			var total_num=config_elm[0].getElementsByTagName('TOTAL_NUMBER'); 
+			var user=config_elm[0].getElementsByTagName('USER');
+			var usernum = parseInt(total_num[0].getAttribute("USER"),16);
+
+			aryusername[0] = "Anonymous";
+			aryUserAccess[0] = parseInt(user[0].getAttribute("USER_ACCESS"), 16);
+			for(i=1;i<usernum;i++)
+			{
+				if(user[i].getAttribute("NAME") == "                " || user[i].getAttribute("NAME") == ""  )
+					aryusername[i] = "<NULL>" ;
+				else
+					aryusername[i] = user[i].getAttribute("NAME");
+				aryUserAccess[i] = parseInt(user[i].getAttribute("USER_ACCESS"), 16);
+			}
+			var user_count = 0;
+			var myData = [];
+			var usr_access;
+			for (i=0;i<usernum;i++) {
+				user_name = (aryusername[i] == "<NULL>")?"~":aryusername[i];
+					user_access = Privilege(aryUserAccess[i]);
+
+					user_count++;
+				myData.push([i+1,
+							i+1,
+							user_name,
+							user_access]
+							);
+				
+			}
+			dataTabObj.show(myData);
+			
+			user_list_info.innerHTML = lang.LANG_CONFUSR_COUNT +
+			                           user_count +
+			                           lang.LANG_COMMON_SPACE;	
+		}
+	
+	}
+	function Privilege(priv)
+	{
+		return eval('lang.LANG_USER_PRIVILEG_' + IntegerToHexString(priv));
+	}	
+	</script>
+</head>
+<body onload="PageInit()">	
+	<span class="LoadingStyle" id="loading"></span>
+    <table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+            <td>
+            	<div class="mtitle">
+	        	<script>document.writeln(lang.LANG_CONFUSER_CAPTION)</script>
+	        	</div>      	
+        	</td>      	
+        </tr>
+        <tr><td><br></td><td><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection"><tr><td><div class="textA">
+                	<script>document.writeln(lang.LANG_CONFUSER_DESC)</script></div></td><tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+        	<td><br></td>
+        	<td colspan="3"><br><span class="TableInfo" id="text_user_list_info"></span></td>
+        </tr>
+        <tr><td></td>
+        	  <td>        	  	
+        	  	<div id="div_user_list"></div>
+        	  <!-- below area is needed to modify by yourself -->
+        	  <br>
+        	  <input type="button" class="btnStyle" id="btn_add" $(TAG_DISABLE)>
+			  <input type="button" class="btnStyle" id="btn_modify" $(TAG_DISABLE)> 
+        	  <input type="button" class="btnStyle" id="btn_del"  $(TAG_DISABLE)>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>

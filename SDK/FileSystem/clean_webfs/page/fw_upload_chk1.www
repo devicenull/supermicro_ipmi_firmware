@@ -1,0 +1,21 @@
+<html>
+<head>
+	<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+	<META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+	<script src="../js/utils.js"></script>
+	<script type="text/javascript">
+	function PageInit()
+	{
+		alert('Warning!\n' +
+		      'Other user is upgrading!\n' +
+		      'Please wait for system restart!');
+		EraseCookie('upg_key');
+		location.href = "/cgi/logout.cgi";
+	}
+	</script> 
+</head> 
+<body onload= 'PageInit()'>
+</body>
+</html>

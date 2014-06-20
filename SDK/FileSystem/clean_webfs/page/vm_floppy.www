@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no_cache">
+    <META NAME="ATEN International Co Ltd." CONTENT="(c) ATEN International Co Ltd. 2010">
+	<title></title>
+    <!-- common css -->
+    <link rel="stylesheet" href="../css/basic.css" type="text/css">
+    <link rel="stylesheet" href="../css/grid/listgrid.css" type="text/css">
+    <!--common javascipt library -->
+    <script type="text/javascript">document.write("<script type=\"text/javascript\", src = \"../js/lang/" + top.lang_setting + "/lang_str.js\"><\/script>");</script>
+    <script language="javascript" src="../js/grid/LWbase.js"></script>
+    <script language="javascript" src="../js/grid/LWfactory.js"></script>
+    <script language="javascript" src="../js/grid/LWdatagrid.js"></script>
+    <script language="javascript" src="../js/utils.js"></script>
+
+
+    <script type="text/javascript">
+
+//declare all global variables
+var mainPage = "../cgi/url_redirect.cgi?url_name=vmedia";
+
+function PageInit()
+{
+    var_upload_btn=document.getElementById("upload_btn");
+    var_upload_btn.setAttribute("value", lang.LANG_VM_FLOPPY_UPLOAD);
+    var_umount_btn=document.getElementById("umount_btn");
+    var_umount_btn.setAttribute("value", lang.LANG_VM_FLOPPY_UMOUNT);
+    var_refresh_stat_btn = document.getElementById("refresh_stat_btn");
+    var_refresh_stat_btn.setAttribute("value", lang.LANG_VM_FLOPPY_REFRESH);
+
+    dev1_status = document.getElementById("dev1_stat");
+    dev2_status = document.getElementById("dev2_stat");
+
+    upload_floppy_str=document.getElementById("upload_floppy_string");
+    img_file=document.getElementById("img_file");
+
+    $(TAG_ALERT)
+    $(TAG_MAINPAGE)
+     GetUSBStatus();
+
+    upload_floppy_str.innerHTML = "Floppy Image File";
+
+    var_upload_btn.onclick=UploadTask;
+    var_umount_btn.onclick=UmountTask;
+    var_refresh_stat_btn.onclick=GetUSBStatus;
+    img_file.focus();
+}
+
+function GetUSBStatus()
+{
+    Loading(true);
+    var ajax_url = '/cgi/vmstatus.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+    var ajax_req = new Ajax.Request(
+                                    ajax_url,
+                                    {method: 'post',parameters:ajax_param, onComplete: USBStatusResp}//reigister callback function
+                                 );
+}
+
+function USBStatusResp(originalRequest)
+{
+  Loading(false);
+  if (originalRequest.readyState == 4 && originalRequest.status == 200)
+  {
+    var response = originalRequest.responseText.replace(/^\s+|\s+$/g,"");
+    var xml_obj=GetResponseXML(response);
+    var IPMIRoot=xml_obj.documentElement;
+    var err=IPMIRoot.getElementsByTagName("CODE")[0].getAttribute("NO");
+    if(err == '1')
+    {
+        var dev1 = parseInt(IPMIRoot.getElementsByTagName("DEVICE")[0].getAttribute("STATUS"), 10);
+        var dev2 = parseInt(IPMIRoot.getElementsByTagName("DEVICE")[1].getAttribute("STATUS"), 10);
+
+        if(dev1 == 0xff)
+        {
+            Dev1_Status = lang.LANG_VM_FLOPPY_NO_DISK;
+            if($(TAG_ADMIN_ACTION))
+            {
+                var_upload_btn.disabled = false;
+                var_umount_btn.disabled = true;
+            }
+        }
+        else
+        {
+            Dev1_Status = lang.LANG_VM_FLOPPY_HAS_DISK;
+            if($(TAG_ADMIN_ACTION))
+            {
+                var_upload_btn.disabled = true;
+                var_umount_btn.disabled = false;
+            }
+        }
+
+        if(dev2 == 0xff)
+            Dev2_Status = lang.LANG_VM_FLOPPY_NO_DISK;
+        else
+            Dev2_Status = lang.LANG_VM_FLOPPY_HAS_DISK;
+    }
+    else
+    {
+        alert(lang.LANG_VM_FLOPPY_ERR1);
+        Dev1_Status = 'unknow';
+        Dev2_Status = 'unknow';
+        if($(TAG_ADMIN_ACTION))
+        {
+            img_file.disabled = true;
+            var_umount_btn.disabled = true;
+        }
+    }
+
+    dev1_status.innerHTML = Dev1_Status;
+    dev2_status.innerHTML = Dev2_Status;
+  }
+}
+
+function UmountTask()
+{
+    Loading(true);
+    var ajax_url = '/cgi/uimapout.cgi';
+    var ajax_param = 'time_stamp='+(new Date()) ;    //(0,0) ask for privilege
+    var ajax_req = new Ajax.Request(
+                                    ajax_url,
+                                    {method: 'post',parameters:ajax_param, onComplete: GetUSBStatus}//reigister callback function
+                                 );
+    alert(lang.LANG_VM_FLOPPY_CONFIRM1);
+}
+function UploadTask()
+{
+    var fimgpath = new String(img_file.value);
+    if(Trim(fimgpath) == "")
+    {
+        alert(lang.LANG_VM_FLOPPY_ERR2);
+        img_file.focus();
+        return;
+    }
+    else
+    {
+        /* check file name */
+        if( !CheckExtName(fimgpath, ".img") && !CheckExtName(fimgpath, ".IMG") && !CheckExtName(fimgpath, ".ima") && !CheckExtName(fimgpath, ".IMA"))
+        {
+            alert(lang.LANG_VM_FLOPPY_ERR3);
+            img_file.focus();
+            return;
+        }
+    }
+
+    var_upload_btn.disabled = true;
+    var_umount_btn.disabled = false;
+
+    img_file.setAttribute('NAME', fimgpath);
+    img_file.name = fimgpath;
+    var form = document.forms[0];
+    if(form.tagName=='FORM'){
+        form.action = '/cgi/uimapin.cgi';
+        alert(lang.LANG_VM_FLOPPY_SUCC);
+        form.submit();
+        alert(lang.LANG_VM_FLOPPY_CONFIRM2);
+    }
+    //location.href = "/page/virtual_media_floppy.html";
+}
+	</script>
+
+</head>
+<body onload='PageInit()'>
+	<span class="LoadingStyle" id="loading"></span>    
+	<table border="0" cellpadding="0" cellspacing="0" class="mtable" style="width: 100%">
+        <tr><td width="20px"><img src="../images/arrow_red.gif" border="0" class="redarrow"></td>
+        	<td><div class="mtitle"><script>document.writeln(lang.LANG_VM_FLOPPY_CAPTION)</script></div></td>
+		</tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr>
+        	  <td></td>
+            <td colspan="3">
+                <table class="boxSection">
+                	<tr><td><div class="textA"><script>document.writeln(lang.LANG_VM_FLOPPY_DESC)</script></div></td><tr></table>
+            </td>
+        </tr>
+        <tr><td><br></td><td colspan="3"><br></td></tr>
+        <tr><td></td>
+        	  <td colspan="3">
+        	  <!-- below area is needed to modify by yourself -->
+			<div>
+			<div>
+				<form method="POST" action="" enctype="multipart/form-data">
+					<table cellspacing="0" cellpadding="3" border="0" width="80%">
+				        <tr>
+					    <td align="left" width="170px" class="labelhead">
+							<script>document.writeln(lang.LANG_VM_DEVICE1);</script>
+						</td>
+						<td><label id="dev1_stat" class="labelhead"></label></td>
+			            </tr>
+
+					    <tr>
+						<td align="left" width="170px" class="labelhead">
+							<script>document.writeln(lang.LANG_VM_DEVICE2);</script>
+						</td>
+				        <td><label id="dev2_stat" class="labelhead"></label></td>
+					    </tr>
+
+						<tr><td><input type="button" class="btnStyle" id="refresh_stat_btn"/></td></tr>
+			            <tr><td colspan="2"><hr></td></tr>
+					    <tr>
+							<td width="170px" class="labelhead"><label id="upload_floppy_string"></label></td>
+							<td><input style="width: 300px" type="file" id="img_file" $(TAG_DISABLE)/></td>
+						</tr>
+						<tr>
+						<td colspan="2">
+			                <input type="button" class="btnStyle" id="upload_btn" $(TAG_DISABLE)/>
+						    <input type="button" class="btnStyle" id="umount_btn" $(TAG_DISABLE)/>
+						</td>
+						</tr>
+			        </table>
+			    </form>
+		    </div>
+			</div>
+        	  <!-- end of this area -->
+        	  </td>
+        <tr>
+    </table>
+</body>
+</html>
