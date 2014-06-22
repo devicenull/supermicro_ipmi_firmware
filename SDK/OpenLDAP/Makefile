@@ -23,7 +23,7 @@ all:
 	$(Q)cd $(LDAP_SRCDIR); \
 	if [ ! -d $(FS_PATH)/lib ]; then mkdir $(FS_PATH)/lib; fi
 	$(call CONDITION_CC1  ,ldap_client.c,-I$(LDAP_SRCDIR)/openldap/include ) 
-	${CC} -shared -o $(LIBPATH)/$(LIBNAME) ldap_client.o \
+	${CC} -shared -o $(FS_PATH)/lib/$(LIBNAME) ldap_client.o \
 	-L$(LDAP_SRCDIR)/openldap/libraries/libldap/.libs -lldap \
 	-L$(LDAP_SRCDIR)/openldap/libraries/liblber/.libs -llber
 	$(CROSS_COMPILE)strip $(FS_PATH)/lib/$(LIBNAME)

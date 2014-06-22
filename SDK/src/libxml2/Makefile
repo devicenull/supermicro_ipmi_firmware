@@ -30,8 +30,8 @@ all:
 	./configure $(XML2_CFG) ; \
 	make; make install; make install-strip;\
 	fi
-	$(Q)cp $(LIBXML2_DIR)/../local/lib/*.so $(PRJ_PATH)/lib
-	$(Q)cd $(PRJ_PATH)/lib/;ln -s libxml2.so libxml2.so.2;cd -
+	$(Q)cp $(LIBXML2_DIR)/../local/lib/*.so $(FS_PATH)/lib
+	$(Q)cd $(FS_PATH)/lib/;ln -s libxml2.so libxml2.so.2;cd -
 	$(Q)if [ ! -d  $(TC_LOCAL)/lib/pkgconfig ];then mkdir  $(TC_LOCAL)/lib/pkgconfig;fi 
 	$(Q)cp $(LIBXML2_DIR)/../local/lib/pkgconfig/*  $(TC_LOCAL)/lib/pkgconfig
 
